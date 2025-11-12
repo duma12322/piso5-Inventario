@@ -1,0 +1,295 @@
+/* ===========================
+   TIPOGRAFÍA Y RESETEO
+=========================== */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+/* ===========================
+   FONDO GLOBAL
+=========================== */
+body {
+  min-height: 100vh;
+  overflow-x: hidden;
+  background: linear-gradient(135deg, #001f4d, #000428);
+  color: #fff;
+}
+
+/* Sección principal con imagen de fondo */
+.home {
+  position: relative;
+  height: 100vh;
+  width: 100%;
+  background: 
+    linear-gradient(180deg, rgba(10, 10, 10, 0.438), rgba(31, 31, 31, 0.349)),
+    url("../fonts/Gobernacion-del-estado-Lara.jpg") center/cover no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 80px;
+}
+
+
+/* Efecto de transición suave del fondo */
+@keyframes bgFade {
+  0% {
+    background-position: center top;
+  }
+  100% {
+    background-position: center bottom;
+  }
+}
+
+/* ===========================
+   ENCABEZADO (HEADER)
+=========================== */
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 80px;
+  background: rgba(0, 50, 100, 0.7);
+  backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+  transition: background 0.3s ease;
+}
+
+.header:hover {
+  background: rgba(0, 60, 120, 0.9);
+}
+
+.nav_logo {
+  color: #fff;
+  font-size: 28px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  text-shadow: 0 0 12px rgba(0, 180, 255, 0.7);
+  animation: floatText 4s ease-in-out infinite alternate;
+}
+
+/* Animación del logo */
+@keyframes floatText {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+/* ===========================
+   FORMULARIO PRINCIPAL
+=========================== */
+.form_container {
+  position: relative;
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(18px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  width: 100%;
+  max-width: 420px;
+  padding: 42px 34px;
+  border-radius: 20px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.45);
+  z-index: 2;
+  animation: fadeIn 1.2s ease forwards;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form_container:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 50px rgba(0, 191, 255, 0.25);
+}
+
+/* Animación de entrada */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Título */
+.form_container h2 {
+  font-size: 26px;
+  font-weight: 600;
+  text-align: center;
+  color: #fff;
+  margin-bottom: 24px;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+  letter-spacing: 1px;
+}
+
+/* ===========================
+   CAMPOS DE ENTRADA
+=========================== */
+.input_box {
+  position: relative;
+  margin-top: 25px;
+}
+
+.input_box input {
+  width: 100%;
+  height: 48px;
+  border: none;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.35);
+  background-color: transparent;
+  color: #fff;
+  font-size: 15px;
+  padding: 0 38px;
+  transition: all 0.3s ease;
+  border-radius: 6px;
+}
+
+.input_box input::placeholder {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.input_box input:focus {
+  border-color: #00bfff;
+  background: rgba(255, 255, 255, 0.08);
+  outline: none;
+  box-shadow: 0 4px 12px rgba(0, 191, 255, 0.25);
+}
+
+.input_box i {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #cce4ff;
+  font-size: 18px;
+}
+
+.input_box i.email,
+.input_box i.password {
+  left: 10px;
+}
+
+.input_box i.pw_hide {
+  right: 10px;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.input_box i.pw_hide:hover {
+  color: #00bfff;
+}
+
+/* ===========================
+   OPCIONES Y BOTONES
+=========================== */
+.option_field {
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 13px;
+  color: #e0e0e0;
+}
+
+.checkbox {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.checkbox input {
+  accent-color: #00bfff;
+  transform: scale(1.1);
+}
+
+.form_container a {
+  color: #00bfff;
+  transition: color 0.3s ease;
+}
+
+.form_container a:hover {
+  color: #fff;
+}
+
+/* Botón principal */
+.form_container .button {
+  width: 100%;
+  margin-top: 28px;
+  padding: 13px 0;
+  font-size: 16px;
+  font-weight: 600;
+  border: none;
+  border-radius: 12px;
+  color: #fff;
+  background: linear-gradient(90deg, #0072ff, #00c6ff);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 6px 20px rgba(0, 114, 255, 0.4);
+}
+
+.form_container .button:hover {
+  background: linear-gradient(90deg, #00c6ff, #0072ff);
+  box-shadow: 0 8px 24px rgba(0, 114, 255, 0.6);
+  transform: translateY(-3px);
+}
+
+/* Texto inferior */
+.login_signup {
+  font-size: 13px;
+  text-align: center;
+  margin-top: 22px;
+  color: #cfd9df;
+}
+
+.login_signup a {
+  color: #00bfff;
+  font-weight: 500;
+}
+
+.login_signup a:hover {
+  color: #fff;
+  text-decoration: underline;
+}
+
+/* ===========================
+   RESPONSIVE DESIGN
+=========================== */
+@media (max-width: 768px) {
+  .form_container {
+    max-width: 90%;
+    padding: 32px;
+  }
+
+  .header {
+    height: 70px;
+  }
+
+  .nav_logo {
+    font-size: 22px;
+  }
+
+  .form_container h2 {
+    font-size: 22px;
+  }
+}
+
+@media (max-width: 480px) {
+  .form_container {
+    padding: 25px;
+    border-radius: 14px;
+  }
+
+  .input_box input {
+    font-size: 14px;
+  }
+}

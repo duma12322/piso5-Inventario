@@ -1,39 +1,68 @@
-{{-- resources/views/login/index.blade.php --}}
 @extends('layouts.app')
-
+<link rel="stylesheet" href="{{ asset('css/login.css') }}">
 @section('content')
-<div class="container">
-    <div class="row justify-content-center mt-5">
-        <div class="col-md-4">
-            <div class="card shadow">
-                <div class="card-header text-center">
-                    <h4>Iniciar Sesión</h4>
-                </div>
-                <div class="card-body">
-                    {{-- Mensaje de error --}}
-                    @if(session('error'))
-                    <div class="alert alert-danger">
-                        {{ session('error') }}
-                    </div>
-                    @endif
+<!-- Header -->
+<header class="header">
+  <nav class="nav">
+    <a href="#" class="nav_logo">Gobernacion del Estado Lara</a>
+    <!-- <ul class="nav_items">
+      <li class="nav_item">
+        <a href="#" class="nav_link">Inicio</a>
+        <a href="#" class="nav_link">Servicios</a>
+        <a href="#" class="nav_link">Contacto</a>
+      </li>
+    </ul> -->
+  </nav>
+</header>
 
-                    <form method="POST" action="{{ route('login.autenticar') }}">
-                        @csrf {{-- Token CSRF obligatorio en Laravel --}}
-                        <div class="form-group">
-                            <label>Usuario</label>
-                            <input type="text" name="usuario" class="form-control" value="{{ old('usuario') }}" required autofocus>
-                        </div>
+<!-- Sección principal -->
+<section class="home">
+  <div class="form_container">
+    {{-- Botón cerrar (si luego usas JS modal) --}}
+    <i class="uil uil-times form_close"></i>
 
-                        <div class="form-group mt-2">
-                            <label>Contraseña</label>
-                            <input type="password" name="password" class="form-control" required>
-                        </div>
+    {{-- Formulario de Login --}}
+    <div class="form login_form">
+      <form method="POST" action="{{ route('login.autenticar') }}">
+        @csrf
 
-                        <button type="submit" class="btn btn-primary btn-block mt-3">Ingresar</button>
-                    </form>
-                </div>
-            </div>
+        <h2>Iniciar Sesión</h2>
+
+        {{-- Mostrar error si existe --}}
+        @if(session('error'))
+          <div class="alert alert-danger mt-2 text-center">
+            {{ session('error') }}
+          </div>
+        @endif
+
+        {{-- Usuario --}}
+        <div class="input_box">
+          <input type="text" name="usuario" placeholder="Usuario" value="{{ old('usuario') }}" required autofocus>
+          <i class="uil uil-user email"></i>
         </div>
+
+        {{-- Contraseña --}}
+        <div class="input_box">
+          <input type="password" name="password" placeholder="Contraseña" required>
+          <i class="uil uil-lock password"></i>
+          <i class="uil uil-eye-slash pw_hide"></i>
+        </div>
+
+        <!-- <div class="option_field">
+          <span class="checkbox">
+            <input type="checkbox" id="remember" />
+            <label for="remember">Recordarme</label>
+          </span>
+          <a href="#" class="forgot_pw">¿Olvidaste tu contraseña?</a>
+        </div> -->
+
+        <button type="submit" class="button">Ingresar</button>
+
+        <!-- <div class="login_signup">
+          ¿No tienes una cuenta? <a href="#">Regístrate</a> -->
+        </div>
+      </form>
     </div>
-</div>
+  </div>
+</section>
 @endsection
