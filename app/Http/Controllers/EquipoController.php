@@ -231,7 +231,6 @@ class EquipoController extends Controller
         return redirect()->route('equipos.index')->with('success', 'Equipo actualizado correctamente.');
     }
 
-
     // Eliminar (Logico) equipo y todo lo relacionado
     public function destroy($id)
     {

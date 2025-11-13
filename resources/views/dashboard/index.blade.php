@@ -6,23 +6,32 @@
     <p>Bienvenido, {{ $usuario->name ?? $usuario->usuario }}.</p>
 
     {{-- Fila de totales generales --}}
-    <div class="row mb-4">
-        <div class="col-md-3">
-            <div class="card text-center p-3 mb-3">
+    <div class="row mb-4 justify-content-center">
+        <div class="col-md-3 col-sm-6 mb-3">
+            <div class="card text-center p-3">
                 <h5>Usuarios</h5>
                 <p>{{ $totalUsuarios }}</p>
                 <a href="{{ route('usuarios.index') }}" class="btn btn-primary btn-sm">Ver</a>
             </div>
         </div>
 
-        <div class="col-md-3">
-            <div class="card text-center p-3 mb-3">
+        <div class="col-md-3 col-sm-6 mb-3">
+            <div class="card text-center p-3">
                 <h5>Equipos</h5>
                 <p>{{ $totalEquipos }}</p>
                 <a href="{{ route('equipos.index') }}" class="btn btn-primary btn-sm">Ver</a>
             </div>
         </div>
+
+        <div class="col-md-3 col-sm-6 mb-3">
+            <div class="card text-center p-3">
+                <h5>Direcciones</h5>
+                <p>{{ $totalDirecciones }}</p>
+                <a href="{{ route('direcciones.index') }}" class="btn btn-primary btn-sm">Ver</a>
+            </div>
+        </div>
     </div>
+
 
     {{-- Fila de estados --}}
     <div class="row">

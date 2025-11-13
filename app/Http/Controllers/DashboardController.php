@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Equipo;
 use App\Models\Usuario;
+use App\Models\Direccion;
 use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
@@ -19,10 +20,12 @@ class DashboardController extends Controller
 
         // Traemos todos los equipos activos como colección
         $equiposActivos = Equipo::where('estado', 'Activo')->get();
+        $direccionesActivos = Direccion::where('estado', 'Activo')->get();
 
         // Conteos generales
         $totalEquipos = $equiposActivos->count();
         $totalUsuarios = Usuario::count();
+        $totalDirecciones = $direccionesActivos->count();
 
         // Estado funcional de los equipos
         $estadoFuncional = [
@@ -53,6 +56,7 @@ class DashboardController extends Controller
             'usuario',
             'totalEquipos',
             'totalUsuarios',
+            'totalDirecciones',
             'estadoFuncional',
             'estadoTecnologico',
             'estadoGabinete'
