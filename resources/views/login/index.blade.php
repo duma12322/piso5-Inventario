@@ -3,17 +3,14 @@
 @section('content')
 <!-- Header -->
 <header class="header">
-  <nav class="nav">
-    <a href="#" class="nav_logo">Gobernacion del Estado Lara</a>
-    <!-- <ul class="nav_items">
-      <li class="nav_item">
-        <a href="#" class="nav_link">Inicio</a>
-        <a href="#" class="nav_link">Servicios</a>
-        <a href="#" class="nav_link">Contacto</a>
-      </li>
-    </ul> -->
-  </nav>
+  <div class="header-images">
+    <img src="{{ asset('fonts/gdl.png') }}" alt="Escudo Lara" class="left">
+ <!--    <img src="img/sello-central.png" alt="Decoración" class="center"> -->
+    <img src="{{ asset('fonts/laraban.svg') }}" alt="Bandera Venezuela" class="right">
+  </div>
+  <h1 class="nav_logo">Gobernación del Estado Lara</h1>
 </header>
+
 
 <!-- Sección principal -->
 <section class="home">
