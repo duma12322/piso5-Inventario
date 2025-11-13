@@ -97,77 +97,61 @@ class Equipo extends Model
      */
     public function calcularEstadoTecnologico()
     {
-        // Traer solo componentes activos
         $componentes = $this->componentes()->where('estadoElim', 'Activo')->get();
         $anioActual = Carbon::now()->year;
 
         if ($componentes->isEmpty()) {
             $this->estado_tecnologico = 'Nuevo';
             $this->save();
-            return ['estado' => 'Nuevo'];
+            return ['estado' => 'Nuevo', 'detalle' => 'No hay componentes activos'];
         }
 
         $puntajeTotal = 0;
         $pesoTotal = 0;
-
-        // Obtener la fecha de instalación de la tarjeta madre si existe
-        $tarjetaMadre = $componentes->firstWhere('tipo_componente', 'Tarjeta Madre');
-        $anioInstalacionEquipo = $tarjetaMadre && !empty($tarjetaMadre->fecha_instalacion)
-            ? (int) Carbon::parse($tarjetaMadre->fecha_instalacion)->year
-            : null;
+        $explicacion = '';
 
         foreach ($componentes as $componente) {
-            // Determinar la tabla de tecnología
-            $tipoTabla = strtolower($componente->tipo_componente) === 'procesador'
-                ? 'Socket CPU'
-                : $componente->tipo_componente;
+            $tipoComp = strtolower($componente->tipo_componente);
 
-            // Valor a buscar en la tabla de tecnología
-            $valorBuscar = $componente->socket ?: $componente->tipo ?: null;
-            $valorBuscarNormalizado = $valorBuscar ? strtolower(str_replace(' ', '', $valorBuscar)) : null;
+            if (!in_array($tipoComp, ['tarjeta madre', 'memoria ram'])) continue;
 
-            // Obtener componente en la tabla de tecnología
-            $compTecnologia = DB::table('componentes_tecnologia')
-                ->where('tipo_componente', $tipoTabla)
-                ->where(function ($q) use ($valorBuscarNormalizado) {
-                    if ($valorBuscarNormalizado) {
-                        $q->whereRaw('REPLACE(LOWER(tipo), " ", "") LIKE ?', ["%$valorBuscarNormalizado%"]);
-                    }
-                    $q->orWhereNull('tipo');
-                })
-                ->first();
+            if ($tipoComp === 'tarjeta madre') {
+                $compTecnologia = DB::table('componentes_tecnologia')
+                    ->where('tipo_componente', 'Socket CPU')
+                    ->where('tipo', $componente->socket)
+                    ->first();
 
-            $vidaUtil = $compTecnologia->vida_util_anios ?? ($tipoTabla === 'Socket CPU' ? 10 : 8);
-            $peso = $compTecnologia->peso_importancia ?? 1;
-            $anioLanzamiento = $compTecnologia->anio_lanzamiento ?? $anioActual;
+                $vidaUtil = $compTecnologia->vida_util_anios ?? 10;
+                $peso = $compTecnologia->peso_importancia ?? 4;
+                $socket = $componente->socket ?? 'N/A';
+                $anioLanzamiento = $compTecnologia->anio_lanzamiento ?? $anioActual;
+                $anioInstalacion = $componente->fecha_instalacion
+                    ? (int) $componente->fecha_instalacion
+                    : $anioActual;
+            } else { // Memoria RAM
+                $compTecnologia = DB::table('componentes_tecnologia')
+                    ->where('tipo_componente', 'Memoria RAM')
+                    ->where('tipo', 'LIKE', "%{$componente->tipo}%")
+                    ->first();
 
-            // Validar fecha de instalación: ignorar años imposibles
-            if ($tipoTabla === 'Tarjeta Madre' && $anioInstalacionEquipo) {
-                // Si el año de instalación es menor que el año de lanzamiento o mayor que el actual, usar el lanzamiento
-                if ($anioInstalacionEquipo < $anioLanzamiento || $anioInstalacionEquipo > $anioActual) {
-                    $anioReferencia = $anioLanzamiento;
-                } else {
-                    $anioReferencia = $anioInstalacionEquipo;
-                }
-            } else {
-                $anioReferencia = $anioLanzamiento;
+                $vidaUtil = $compTecnologia->vida_util_anios ?? 8;
+                $peso = $compTecnologia->peso_importancia ?? 2;
+                $socket = $componente->tipo ?? 'N/A';
+                $anioLanzamiento = $compTecnologia->anio_lanzamiento ?? $anioActual;
+                $anioInstalacion = $anioLanzamiento; // usamos solo año de lanzamiento
             }
 
-            // Edad del componente
-            $edad = max(0, $anioActual - $anioReferencia);
-
-            // Puntaje ponderado del componente
+            $edad = max(0, $anioActual - $anioInstalacion);
             $puntajeComponente = max(0, 1 - ($edad / $vidaUtil)) * $peso;
 
-            // Sumar totales
             $puntajeTotal += $puntajeComponente;
             $pesoTotal += $peso;
+
+            $explicacion .= "- {$componente->tipo_componente} ({$componente->marca} {$componente->modelo}, Socket/Tipo: {$socket}): instalada en {$anioInstalacion}, tecnología lanzada en {$anioLanzamiento}, edad considerada {$edad} años, vida útil {$vidaUtil}, peso {$peso}<br>";
         }
 
-        // Calcular ratio ponderado
         $ratio = $pesoTotal ? $puntajeTotal / $pesoTotal : 1;
 
-        // Determinar estado final
         if ($ratio >= 0.75) {
             $estado = 'Nuevo';
         } elseif ($ratio >= 0.4) {
@@ -176,11 +160,13 @@ class Equipo extends Model
             $estado = 'Obsoleto';
         }
 
-        // Guardar estado en el equipo
         $this->estado_tecnologico = $estado;
         $this->save();
 
-        return ['estado' => $estado];
+        return [
+            'estado' => $estado,
+            'detalle' => $explicacion
+        ];
     }
 
     /**

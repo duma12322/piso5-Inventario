@@ -11,6 +11,10 @@ use App\Http\Controllers\LogController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\AjaxController;
 use App\Http\Controllers\UsuarioController;
+use App\Http\Controllers\EquipoPdfController;
+use App\Http\Controllers\EstadoFuncionalPdfController;
+use App\Http\Controllers\EstadoTecnologicoPdfController;
+use App\Http\Controllers\EstadoGabinetePdfController;
 
 // Rutas públicas
 // Ruta principal
@@ -91,4 +95,16 @@ Route::middleware(['auth'])->group(function () {
     // Logs
     Route::get('logs', [LogController::class, 'index'])->name('logs.index');
     Route::delete('logs/{id}', [LogController::class, 'destroy'])->name('logs.destroy');
+
+    //PDF
+    Route::get('/equipos/{id}/pdf', [EquipoPdfController::class, 'generarPDF'])->name('equipos.pdf');
+
+    Route::get('/estado-tecnologico/pdf', [EstadoTecnologicoPdfController::class, 'generarPDF'])
+        ->name('estado-tecnologico.pdf');
+
+    Route::get('/estado-funcional/pdf', [EstadoFuncionalPdfController::class, 'generarPDF'])
+        ->name('estado-funcional.pdf');
+
+    Route::get('/estado-gabinete/pdf', [EstadoGabinetePdfController::class, 'generarPDF'])
+        ->name('estado-gabinete.pdf');
 });

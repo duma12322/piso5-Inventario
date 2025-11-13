@@ -82,7 +82,7 @@
         <div class="form-group">
             <label>Estado Gabinete</label>
             <select name="estado_gabinete" class="form-control">
-                @foreach (['Nuevo','Semi nuevo','Deteriorado','Dañado'] as $estado)
+                @foreach (['Nuevo','Deteriorado','Dañado'] as $estado)
                 <option value="{{ $estado }}" {{ old('estado_gabinete') == $estado ? 'selected' : '' }}>{{ $estado }}</option>
                 @endforeach
             </select>

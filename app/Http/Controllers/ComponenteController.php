@@ -341,13 +341,7 @@ class ComponenteController extends Controller
                 ->where('id_componente', '!=', $id)
                 ->activos()
                 ->sum('capacidad');
-            // 🔹 DEBUG
-            dd([
-                'memoriaMaxima' => $memoriaMaxima,
-                'capacidadIngresada' => $capacidadIngresada,
-                'ramExistente' => $ramExistente,
-                'ramDisponible' => $memoriaMaxima - ($ramExistente + $capacidadIngresada)
-            ]);
+
             if (($ramExistente + $capacidadIngresada) > $memoriaMaxima) {
                 return back()->withInput()->withErrors([
                     'capacidad' => "La RAM total excede la capacidad máxima de la tarjeta madre ({$memoriaMaxima} GB)."
@@ -494,7 +488,6 @@ class ComponenteController extends Controller
         // Campos numéricos
         $camposNumericos = [
             'frecuencia',
-            'velocidad',
             'potencia',
             'voltajes_fuente',
             'nucleos',

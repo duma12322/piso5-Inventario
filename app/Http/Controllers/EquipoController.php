@@ -171,44 +171,66 @@ class EquipoController extends Controller
 
 
     // Actualizar equipo + software
+    // Actualizar equipo + software
     public function update(Request $request, $id)
     {
-        $usuario = Usuario::findOrFail($id);
+        $equipo = Equipo::with('softwareItems')->findOrFail($id);
 
+        // Validación básica
         $request->validate([
-            'usuario' => 'required|string|max:255|unique:usuarios,usuario,' . $id . ',id_usuario',
-            'rol' => 'required|string|max:50',
-            'password_actual' => 'required|string', // contraseña actual obligatoria
-            'password' => 'nullable|string|min:4',
+            'marca' => 'required|string|max:255',
+            'modelo' => 'required|string|max:255',
+            'serial' => 'nullable|string|max:255',
+            'numero_bien' => 'nullable|string|max:255',
+            'tipo_gabinete' => 'nullable|string|max:255',
+            'estado_gabinete' => 'nullable|in:Nuevo,Deteriorado,Dañado',
+            'estado_funcional' => 'nullable|in:Buen Funcionamiento,Operativo,Sin Funcionar',
+            'estado_tecnologico' => 'nullable|in:Nuevo,Actualizable,Obsoleto',
+            'id_direccion' => 'nullable|exists:direcciones,id_direccion',
+            'id_division' => 'nullable|exists:divisiones,id_division',
+            'id_coordinacion' => 'nullable|exists:coordinaciones,id_coordinacion',
         ]);
 
-        // Validar la contraseña actual con MD5
-        if (md5($request->password_actual) !== $usuario->password) {
-            return back()->withErrors(['password_actual' => 'La contraseña actual no es correcta.'])->withInput();
+        // Actualizar datos del equipo
+        $equipo->update([
+            'marca' => $request->marca,
+            'modelo' => $request->modelo,
+            'serial' => $request->serial,
+            'numero_bien' => $request->numero_bien,
+            'tipo_gabinete' => $request->tipo_gabinete,
+            'estado_gabinete' => $request->estado_gabinete,
+            'estado_funcional' => $request->estado_funcional,
+            'estado_tecnologico' => $request->estado_tecnologico,
+            'id_direccion' => $request->id_direccion,
+            'id_division' => $request->id_division,
+            'id_coordinacion' => $request->id_coordinacion,
+        ]);
+
+        // Actualizar software
+        $nuevoSoftware = $this->buildSoftwareArray($request);
+
+        // Eliminar software anterior
+        $equipo->softwareItems()->delete();
+
+        // Crear nuevo software
+        foreach ($nuevoSoftware as $s) {
+            $s['id_equipo'] = $equipo->id_equipo;
+            Software::create($s);
         }
 
-        // Si llega aquí, la contraseña actual es válida
-        $usuario->actualizarUsuario([
-            'usuario' => $request->usuario,
-            'password' => $request->password,
-            'rol' => $request->rol,
-        ]);
+        // Registrar log
+        $usuario = Auth::check() ? Auth::user()->usuario : 'Sistema';
+        $equipoInfo = $equipo->marca . ' ' . $equipo->modelo;
 
-        // Usuario que realiza la acción
-        $usuarioAuth = Auth::check() ? Auth::user()->usuario : 'Sistema';
-
-        // Información legible del usuario actualizado
-        $usuarioInfo = $usuario->usuario . ' (ID: ' . $usuario->id_usuario . ')';
-
-        // Guardar log
         LogModel::create([
-            'usuario' => $usuarioAuth,
-            'accion' => "Actualizó usuario: $usuarioInfo",
+            'usuario' => $usuario,
+            'accion' => "Actualizó equipo: $equipoInfo",
             'fecha' => now()
         ]);
 
-        return redirect()->route('usuarios.index')->with('success', 'Usuario actualizado correctamente.');
+        return redirect()->route('equipos.index')->with('success', 'Equipo actualizado correctamente.');
     }
+
 
     // Eliminar (Logico) equipo y todo lo relacionado
     public function destroy($id)

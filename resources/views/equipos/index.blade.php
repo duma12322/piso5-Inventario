@@ -41,7 +41,7 @@
                     </form>
 
                     <a href="{{ route('componentes.porEquipo', $e->id_equipo) }}" class="btn btn-info btn-sm">Ver Componentes</a>
-
+                    <a href="{{ route('equipos.pdf', $e->id_equipo) }}" class="btn btn-warning btn-sm">PDF</a>
                 </td>
             </tr>
             @empty

@@ -24,7 +24,6 @@ class Componente extends Model
         'arquitectura',
         'tipo',
         'frecuencia',
-        'velocidad',
         'capacidad',
         'estado',
         'ubicacion',

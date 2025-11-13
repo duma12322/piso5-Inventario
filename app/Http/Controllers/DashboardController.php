@@ -45,7 +45,6 @@ class DashboardController extends Controller
 
         $estadoGabinete = [
             'Nuevo' => $gabinetesActivos->where('estado_gabinete', 'Nuevo')->count(),
-            'Semi nuevo' => $gabinetesActivos->where('estado_gabinete', 'Semi nuevo')->count(),
             'Deteriorado' => $gabinetesActivos->where('estado_gabinete', 'Deteriorado')->count(),
             'Dañado' => $gabinetesActivos->where('estado_gabinete', 'Dañado')->count(),
         ];
