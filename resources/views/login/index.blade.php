@@ -5,8 +5,8 @@
 <header class="header">
   <div class="header-images">
     <img src="{{ asset('fonts/gdl.png') }}" alt="Escudo Lara" class="left">
- <!--    <img src="img/sello-central.png" alt="Decoración" class="center"> -->
-    <img src="{{ asset('fonts/laraban.svg') }}" alt="Bandera Venezuela" class="right">
+    <img src="{{ asset('fonts/laraban.svg') }}" alt="Decoración" class="center">
+    <!-- <img src="{{ asset('fonts/laraban.svg') }}" alt="Bandera Venezuela" class="right"> -->
   </div>
   <h1 class="nav_logo">Gobernación del Estado Lara</h1>
 </header>
