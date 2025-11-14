@@ -15,7 +15,8 @@
     <form method="GET" action="{{ route('equipos.inactivos') }}" class="mb-4 row g-3">
         <div class="col-md-3">
             <label for="id_direccion" class="form-label">Dirección</label>
-            <select name="id_direccion" id="id_direccion" class="form-select">
+            <select name="id_direccion" id="id_direccion" class="form-select"
+                data-selected="{{ request('id_direccion') }}">
                 <option value="">Todas</option>
                 @foreach ($direcciones as $direccion)
                 <option value="{{ $direccion->id_direccion }}"
@@ -28,14 +29,16 @@
 
         <div class="col-md-3">
             <label for="id_division" class="form-label">División</label>
-            <select name="id_division" id="id_division" class="form-select" disabled>
+            <select name="id_division" id="id_division" class="form-select" disabled
+                data-selected="{{ request('id_division') }}">
                 <option value="">Todas</option>
             </select>
         </div>
 
         <div class="col-md-3">
             <label for="id_coordinacion" class="form-label">Coordinación</label>
-            <select name="id_coordinacion" id="id_coordinacion" class="form-select" disabled>
+            <select name="id_coordinacion" id="id_coordinacion" class="form-select" disabled
+                data-selected="{{ request('id_coordinacion') }}">
                 <option value="">Todas</option>
             </select>
         </div>

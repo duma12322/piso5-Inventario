@@ -35,31 +35,23 @@ class PdfInactivosController extends Controller
         // ---------------------------------------------------------
         // CONSULTA BASE + RELACIONES
         // ---------------------------------------------------------
-        $query = Equipo::with(['direccion', 'division', 'coordinacion']);
+        $query = Equipo::where('estado', 'Activo'); // 🔹 Solo equipos activos
 
-        // Si NO hay filtros → mostrar TODOS
-        if ($idDireccion || $idDivision || $idCoordinacion) {
-
-            if ($idDireccion) {
-                $query->where('id_direccion', $idDireccion);
-            }
-
-            if ($idDivision) {
-                $query->where('id_division', $idDivision);
-            }
-
-            if ($idCoordinacion) {
-                $query->where('id_coordinacion', $idCoordinacion);
-            }
+        // Aplicar filtros
+        if ($request->filled('id_direccion')) {
+            $query->where('id_direccion', $request->id_direccion);
+        }
+        if ($request->filled('id_division')) {
+            $query->where('id_division', $request->id_division);
+        }
+        if ($request->filled('id_coordinacion')) {
+            $query->where('id_coordinacion', $request->id_coordinacion);
         }
 
         $equipos = $query->get();
 
-        // ---------------------------------------------------------
-        // CARGAR COMPONENTES INACTIVOS
-        // ---------------------------------------------------------
-        foreach ($equipos as $equipo) {
-
+        // Agregar componentes y opcionales inactivos
+        $equipos->transform(function ($equipo) {
             $equipo->componentes_inactivos = Componente::where('id_equipo', $equipo->id_equipo)
                 ->where(function ($q) {
                     $q->where('estado', 'Inactivo')
@@ -70,7 +62,9 @@ class PdfInactivosController extends Controller
             $equipo->opcionales_inactivos = ComponenteOpcional::where('id_equipo', $equipo->id_equipo)
                 ->where('estadoElim', 'Inactivo')
                 ->get();
-        }
+
+            return $equipo;
+        });
 
         // ---------------------------------------------------------
         // PDF TCPDF

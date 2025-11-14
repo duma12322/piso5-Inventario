@@ -123,7 +123,7 @@
             <select name="id_coordinacion" id="coordinacion" class="form-control">
                 <option value="">Seleccione</option>
                 @foreach ($coordinaciones as $c)
-                <option value="{{ $c->id_coordinacion }}">{{ $c->nombre_coordinacion }}</option>
+                <option value="{{ $c['id_coordinacion'] }}">{{ $c['nombre_coordinacion'] }}</option>
                 @endforeach
             </select>
         </div>
@@ -146,5 +146,4 @@
 
 @section('scripts')
 <script src="{{ asset('js/equipos.js') }}"></script>
-<script src="{{ asset('js/software.js') }}"></script>
 @endsection

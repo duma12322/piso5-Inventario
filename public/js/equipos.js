@@ -39,10 +39,10 @@ document.addEventListener("DOMContentLoaded", () => {
       const div = document.createElement("div");
       div.className = "d-flex mb-1";
       div.innerHTML = `
-                <input type="text" name="software_nombre_extra[]" class="form-control mr-2" placeholder="Nombre">
-                <input type="text" name="software_version_extra[]" class="form-control" placeholder="Versión">
-                <button type="button" class="btn btn-danger btn-sm ml-2 remove-software">Eliminar</button>
-            `;
+        <input type="text" name="software_nombre_extra[]" class="form-control mr-2" placeholder="Nombre">
+        <input type="text" name="software_version_extra[]" class="form-control" placeholder="Versión">
+        <button type="button" class="btn btn-danger btn-sm ml-2 remove-software">Eliminar</button>
+      `;
       otrosSoftwares.appendChild(div);
       div
         .querySelector(".remove-software")
@@ -64,9 +64,11 @@ document.addEventListener("DOMContentLoaded", () => {
     coordinacionSelect.addEventListener("change", () => {
       const coordId = parseInt(coordinacionSelect.value);
       const coordObj = coordinaciones.find(c => c.id_coordinacion === coordId);
+
       if (coordObj) {
-        divisionSelect.value = coordObj.id_division;
-        direccionSelect.value = coordObj.id_direccion;
+        // Para que funcione, la estructura de coordinaciones debe incluir id_division y id_direccion
+        divisionSelect.value = coordObj.id_division || "";
+        direccionSelect.value = coordObj.id_direccion || "";
       } else {
         divisionSelect.value = "";
         direccionSelect.value = "";

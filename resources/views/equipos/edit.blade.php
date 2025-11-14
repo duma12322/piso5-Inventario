@@ -114,7 +114,7 @@
         <!-- Direcciones, divisiones y coordinaciones -->
         <div class="form-group nivel direccion">
             <label>Dirección</label>
-            <select name="id_direccion" id="direccion" class="form-control" required>
+            <select name="id_direccion" id="direccion" class="form-control">
                 <option value="">Seleccione</option>
                 @foreach ($direcciones as $d)
                 <option value="{{ $d->id_direccion }}" {{ ($equipo->id_direccion == $d->id_direccion) ? 'selected' : '' }}>
@@ -135,14 +135,13 @@
                 @endforeach
             </select>
         </div>
-
         <div class="form-group nivel coordinacion">
             <label>Coordinación</label>
             <select name="id_coordinacion" id="coordinacion" class="form-control">
                 <option value="">Seleccione</option>
                 @foreach ($coordinaciones as $c)
-                <option value="{{ $c->id_coordinacion }}" {{ ($equipo->id_coordinacion == $c->id_coordinacion) ? 'selected' : '' }}>
-                    {{ $c->nombre_coordinacion }}
+                <option value="{{ $c['id_coordinacion'] }}" {{ (isset($equipo) && $equipo->id_coordinacion == $c['id_coordinacion']) ? 'selected' : '' }}>
+                    {{ $c['nombre_coordinacion'] }}
                 </option>
                 @endforeach
             </select>
@@ -176,5 +175,4 @@
 
 @section('scripts')
 <script src="{{ asset('js/equipos.js') }}"></script>
-<script src="{{ asset('js/software.js') }}"></script>
 @endsection
