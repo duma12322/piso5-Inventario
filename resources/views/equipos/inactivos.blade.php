@@ -43,6 +43,7 @@
         <div class="col-md-3 align-self-end">
             <button type="submit" class="btn btn-danger w-100">🔍 Filtrar</button>
         </div>
+
     </form>
 
     {{-- Tabla --}}
@@ -67,40 +68,43 @@
                     <td>{{ $equipo->division->nombre_division ?? '—' }}</td>
                     <td>{{ $equipo->coordinacion->nombre_coordinacion ?? '—' }}</td>
                     <td>
+                        <a href="{{ route('pdf.equipos.inactivos') }}" class="btn btn-danger mb-3">
+                            📄 Exportar PDF
+                        </a>
+                        {{-- Botón Componentes Principales --}}
                         <button class="btn btn-sm btn-outline-danger mb-2 toggle-btn"
                             type="button"
                             data-target="comp{{ $equipo->id_equipo }}">
                             Ver Componentes
                         </button>
 
-                        <div class="componentes d-none" id="comp{{ $equipo->id_equipo }}">
+                        {{-- Botón Componentes Opcionales --}}
+                        <button class="btn btn-sm btn-outline-warning mb-2 toggle-btn"
+                            type="button"
+                            data-target="opc{{ $equipo->id_equipo }}">
+                            Ver Componentes Opcionales
+                        </button>
 
-                            {{-- COMPONENTES PRINCIPALES --}}
+                        {{-- Lista Componentes Principales --}}
+                        <div class="componentes d-none" id="comp{{ $equipo->id_equipo }}">
                             <ul class="mb-1">
-                                @foreach ($equipo->componentes as $comp)
-                                @if ($comp->estado === 'Inactivo' || $comp->estadoElim === 'Inactivo')
+                                @foreach ($equipo->componentes_inactivos as $comp)
                                 <li>🧩 {{ $comp->tipo_componente }} ({{ $comp->marca }}) - Inactivo</li>
-                                @endif
                                 @endforeach
                             </ul>
+                        </div>
 
-                            {{-- OPCIONALES --}}
+                        {{-- Lista Componentes Opcionales --}}
+                        <div class="componentes d-none" id="opc{{ $equipo->id_equipo }}">
                             <strong>Componentes Opcionales:</strong>
                             <ul>
-                                @foreach ($equipo->componentes as $comp)
-                                @foreach ($comp->componentesOpcionales as $op)
-                                @if ($op->estadoElim === 'Inactivo')
-                                <li>
-                                    ⚙️ {{ $op->tipo_opcional }}
-                                    ({{ $op->marca }} {{ $op->modelo }})
-                                    - Inactivo
-                                </li>
-                                @endif
-                                @endforeach
+                                @foreach ($equipo->opcionales_inactivos as $op)
+                                <li>⚙️ {{ $op->tipo_opcional }} ({{ $op->marca }} {{ $op->modelo }}) - Inactivo</li>
                                 @endforeach
                             </ul>
-
                         </div>
+
+
                     </td>
                 </tr>
                 @empty

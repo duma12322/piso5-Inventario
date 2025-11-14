@@ -15,6 +15,7 @@ use App\Http\Controllers\EquipoPdfController;
 use App\Http\Controllers\EstadoFuncionalPdfController;
 use App\Http\Controllers\EstadoTecnologicoPdfController;
 use App\Http\Controllers\EstadoGabinetePdfController;
+use App\Http\Controllers\PdfInactivosController;
 
 // Rutas públicas
 // Ruta principal
@@ -111,4 +112,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/estado-gabinete/pdf', [EstadoGabinetePdfController::class, 'generarPDF'])
         ->name('estado-gabinete.pdf');
+
+    Route::get('/pdf/equipos-inactivos', [PdfInactivosController::class, 'exportar'])
+        ->name('pdf.equipos.inactivos');
 });

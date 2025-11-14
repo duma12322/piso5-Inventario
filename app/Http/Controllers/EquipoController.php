@@ -8,7 +8,8 @@ use App\Models\Software;
 use App\Models\Direccion;
 use App\Models\Division;
 use App\Models\Coordinacion;
-use App\Models\Usuario;
+use App\Models\Componente;
+use App\Models\ComponenteOpcional;
 use App\Models\Log as LogModel;
 use Illuminate\Support\Facades\Auth;
 
@@ -310,31 +311,9 @@ class EquipoController extends Controller
         $divisiones = Division::orderBy('nombre_division', 'asc')->get();
         $coordinaciones = Coordinacion::orderBy('nombre_coordinacion', 'asc')->get();
 
-        // Consulta base
-        $query = Equipo::with([
-            'direccion',
-            'division',
-            'coordinacion',
-            'componentes.componentesOpcionales'
-        ])
-            ->where(function ($q) {
+        // Traer equipos filtrados por dirección, división y coordinación
+        $query = Equipo::query();
 
-                // 1️⃣ Equipo inactivo
-                $q->where('estado', 'Inactivo')
-
-                    // 2️⃣ Algún componente inactivo / eliminado
-                    ->orWhereHas('componentes', function ($qc) {
-                        $qc->where('estado', 'Inactivo')
-                            ->orWhere('estadoElim', 'Inactivo')
-
-                            // 3️⃣ Algún componente opcional eliminado (estadoElim)
-                            ->orWhereHas('componentesOpcionales', function ($qo) {
-                                $qo->where('estadoElim', 'Inactivo');   // ← CORREGIDO
-                            });
-                    });
-            });
-
-        // FILTROS
         if ($request->filled('id_direccion')) {
             $query->where('id_direccion', $request->id_direccion);
         }
@@ -347,29 +326,25 @@ class EquipoController extends Controller
             $query->where('id_coordinacion', $request->id_coordinacion);
         }
 
-        // Obtener resultados (ya filtrados)
-        $equipos = $query->get()->filter(function ($equipo) {
+        $equipos = $query->get();
 
-            // Equipo inactivo
-            if ($equipo->estado === 'Inactivo') {
-                return true;
-            }
+        // Agregar componentes y opcionales inactivos a cada equipo
+        $equipos->transform(function ($equipo) {
 
-            // Componentes inactivos o eliminados
-            foreach ($equipo->componentes as $comp) {
-                if ($comp->estado === 'Inactivo' || $comp->estadoElim === 'Inactivo') {
-                    return true;
-                }
+            // Componentes principales inactivos o eliminados
+            $equipo->componentes_inactivos = Componente::where('id_equipo', $equipo->id_equipo)
+                ->where(function ($q) {
+                    $q->where('estado', 'Inactivo')
+                        ->orWhere('estadoElim', 'Inactivo');
+                })
+                ->get();
 
-                // Opcionales eliminados
-                foreach ($comp->componentesOpcionales as $op) {
-                    if ($op->estadoElim === 'Inactivo') {
-                        return true;
-                    }
-                }
-            }
+            // Componentes opcionales inactivos
+            $equipo->opcionales_inactivos = ComponenteOpcional::where('id_equipo', $equipo->id_equipo)
+                ->where('estadoElim', 'Inactivo')
+                ->get();
 
-            return false;
+            return $equipo;
         });
 
         return view('equipos.inactivos', compact(
