@@ -28,16 +28,12 @@
                 <a href="{{ route('componentes.index') }}" class="list-group-item list-group-item-action">🔌 Componentes</a>
                 <a href="{{ route('componentesOpcionales.index') }}" class="list-group-item list-group-item-action text-info fw-bold">⚙️ Componentes Opcionales</a>
 
-                {{-- Enlace nuevo para equipos inactivos (solo Administrador) --}}
-                @if(Auth::user() && Auth::user()->rol === 'Administrador')
-                <a href="{{ route('equipos.inactivos') }}" class="list-group-item list-group-item-action text-danger fw-bold">💀 Equipos Inactivos</a>
-                @endif
-
                 {{-- Solo el ADMIN puede ver estas opciones --}}
                 @if(Auth::user() && Auth::user()->rol === 'Administrador')
                 <a href="{{ route('direcciones.index') }}" class="list-group-item list-group-item-action">🏢 Direcciones</a>
                 <a href="{{ route('divisiones.index') }}" class="list-group-item list-group-item-action">📂 Divisiones</a>
                 <a href="{{ route('coordinaciones.index') }}" class="list-group-item list-group-item-action">🗂 Coordinaciones</a>
+                <a href="{{ route('equipos.inactivos') }}" class="list-group-item list-group-item-action text-danger fw-bold">💀 Equipos Inactivos</a>
                 <a href="{{ route('usuarios.index') }}" class="list-group-item list-group-item-action">👤 Usuarios</a>
                 <a href="{{ route('logs.index') }}" class="list-group-item list-group-item-action text-warning fw-bold">📜 Logs</a>
                 @endif
