@@ -43,8 +43,18 @@
         <div class="col-md-3 align-self-end">
             <button type="submit" class="btn btn-danger w-100">🔍 Filtrar</button>
         </div>
-
     </form>
+
+    {{-- BOTÓN PDF UNA SOLA VEZ --}}
+    <div class="mb-3">
+        <a href="{{ route('pdf.equipos.inactivos', [
+            'id_direccion' => request('id_direccion'),
+            'id_division' => request('id_division'),
+            'id_coordinacion' => request('id_coordinacion')
+        ]) }}" class="btn btn-danger">
+            📄 Exportar PDF
+        </a>
+    </div>
 
     {{-- Tabla --}}
     <div class="table-responsive">
@@ -68,9 +78,6 @@
                     <td>{{ $equipo->division->nombre_division ?? '—' }}</td>
                     <td>{{ $equipo->coordinacion->nombre_coordinacion ?? '—' }}</td>
                     <td>
-                        <a href="{{ route('pdf.equipos.inactivos') }}" class="btn btn-danger mb-3">
-                            📄 Exportar PDF
-                        </a>
                         {{-- Botón Componentes Principales --}}
                         <button class="btn btn-sm btn-outline-danger mb-2 toggle-btn"
                             type="button"
@@ -103,7 +110,6 @@
                                 @endforeach
                             </ul>
                         </div>
-
 
                     </td>
                 </tr>

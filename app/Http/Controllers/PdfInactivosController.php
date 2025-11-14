@@ -6,56 +6,85 @@ use Illuminate\Http\Request;
 use App\Models\Equipo;
 use App\Models\Componente;
 use App\Models\ComponenteOpcional;
-use App\Models\Direccion;
-use App\Models\Division;
-use App\Models\Coordinacion;
 use TCPDF;
 
 class PdfInactivosController extends Controller
 {
     public function exportar(Request $request)
     {
-        // Consulta equipos filtrados
-        $query = Equipo::query();
+        $idDireccion = $request->id_direccion;
+        $idDivision = $request->id_division;
+        $idCoordinacion = $request->id_coordinacion;
 
-        if ($request->filled('id_direccion')) {
-            $query->where('id_direccion', $request->id_direccion);
+        // ---------------------------------------------------------
+        // VALIDACIONES DE SENTIDO LÓGICO
+        // ---------------------------------------------------------
+
+        if (!$idDireccion && $idDivision) {
+            return back()->with('error', 'Debe seleccionar primero la Dirección.');
         }
-        if ($request->filled('id_division')) {
-            $query->where('id_division', $request->id_division);
+
+        if (!$idDireccion && $idCoordinacion) {
+            return back()->with('error', 'Debe seleccionar primero la Dirección.');
         }
-        if ($request->filled('id_coordinacion')) {
-            $query->where('id_coordinacion', $request->id_coordinacion);
+
+        if ($idDireccion && !$idDivision && $idCoordinacion) {
+            return back()->with('error', 'Debe seleccionar la División antes de la Coordinación.');
+        }
+
+        // ---------------------------------------------------------
+        // CONSULTA BASE + RELACIONES
+        // ---------------------------------------------------------
+        $query = Equipo::with(['direccion', 'division', 'coordinacion']);
+
+        // Si NO hay filtros → mostrar TODOS
+        if ($idDireccion || $idDivision || $idCoordinacion) {
+
+            if ($idDireccion) {
+                $query->where('id_direccion', $idDireccion);
+            }
+
+            if ($idDivision) {
+                $query->where('id_division', $idDivision);
+            }
+
+            if ($idCoordinacion) {
+                $query->where('id_coordinacion', $idCoordinacion);
+            }
         }
 
         $equipos = $query->get();
 
-        // Cargar componentes y opcionales inactivos
-        $equipos->transform(function ($equipo) {
+        // ---------------------------------------------------------
+        // CARGAR COMPONENTES INACTIVOS
+        // ---------------------------------------------------------
+        foreach ($equipos as $equipo) {
+
             $equipo->componentes_inactivos = Componente::where('id_equipo', $equipo->id_equipo)
                 ->where(function ($q) {
                     $q->where('estado', 'Inactivo')
                         ->orWhere('estadoElim', 'Inactivo');
-                })->get();
+                })
+                ->get();
 
             $equipo->opcionales_inactivos = ComponenteOpcional::where('id_equipo', $equipo->id_equipo)
-                ->where('estadoElim', 'Inactivo')->get();
+                ->where('estadoElim', 'Inactivo')
+                ->get();
+        }
 
-            return $equipo;
-        });
-
-        // Crear PDF
-        $pdf = new TCPDF('L', PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+        // ---------------------------------------------------------
+        // PDF TCPDF
+        // ---------------------------------------------------------
+        $pdf = new TCPDF('L', 'mm', 'A4', true, 'UTF-8', false);
         $pdf->SetTitle('Equipos con Componentes Inactivos');
         $pdf->SetMargins(10, 10, 10);
-        $pdf->SetAutoPageBreak(TRUE, 10);
         $pdf->AddPage();
 
-        // Construir HTML del PDF
-        $html = '<h2>💀 Equipos con Componentes Inactivos</h2>';
+        $html = '<h2>Equipos con Componentes Inactivos</h2>';
+
         $html .= '<table border="1" cellpadding="5">
                     <thead>
-                        <tr style="background-color:#cccccc;">
+                        <tr bgcolor="#cccccc">
                             <th>ID</th>
                             <th>Equipo</th>
                             <th>Dirección</th>
@@ -66,41 +95,35 @@ class PdfInactivosController extends Controller
                     </thead>
                     <tbody>';
 
-        foreach ($equipos as $equipo) {
+        foreach ($equipos as $e) {
+
+            $comp = '';
+
+            foreach ($e->componentes_inactivos as $c) {
+                $comp .= "{$c->tipo_componente} ({$c->marca}) - Inactivo<br>";
+            }
+
+            foreach ($e->opcionales_inactivos as $o) {
+                $comp .= "{$o->tipo_opcional} ({$o->marca} {$o->modelo}) - Inactivo<br>";
+            }
+
+            if ($comp === '') {
+                $comp = '—';
+            }
+
             $html .= '<tr>';
-            $html .= '<td>' . $equipo->id_equipo . '</td>';
-            $html .= '<td>' . $equipo->marca . ' ' . $equipo->modelo . '</td>';
-            $html .= '<td>' . ($equipo->direccion->nombre_direccion ?? 'N/A') . '</td>';
-            $html .= '<td>' . ($equipo->division->nombre_division ?? 'N/A') . '</td>';
-            $html .= '<td>' . ($equipo->coordinacion->nombre_coordinacion ?? 'N/A') . '</td>';
-
-            // Componentes principales y opcionales
-            $compHtml = '';
-
-            if ($equipo->componentes_inactivos->count()) {
-                $compHtml .= "<strong>Componentes Principales:</strong><br>";
-                foreach ($equipo->componentes_inactivos as $comp) {
-                    $compHtml .= "🧩 {$comp->tipo_componente} ({$comp->marca}) - Inactivo<br>";
-                }
-            }
-
-            if ($equipo->opcionales_inactivos->count()) {
-                $compHtml .= "<strong>Componentes Opcionales:</strong><br>";
-                foreach ($equipo->opcionales_inactivos as $op) {
-                    $compHtml .= "⚙️ {$op->tipo_opcional} ({$op->marca} {$op->modelo}) - Inactivo<br>";
-                }
-            }
-
-            $html .= '<td>' . $compHtml . '</td>';
+            $html .= '<td>' . $e->id_equipo . '</td>';
+            $html .= '<td>' . $e->marca . ' ' . $e->modelo . '</td>';
+            $html .= '<td>' . ($e->direccion->nombre_direccion ?? '—') . '</td>';
+            $html .= '<td>' . ($e->division->nombre_division ?? '—') . '</td>';
+            $html .= '<td>' . ($e->coordinacion->nombre_coordinacion ?? '—') . '</td>';
+            $html .= '<td>' . $comp . '</td>';
             $html .= '</tr>';
         }
 
         $html .= '</tbody></table>';
 
-        // Escribir HTML en PDF
-        $pdf->writeHTML($html, true, false, true, false, '');
-
-        // Retornar PDF al navegador
+        $pdf->writeHTML($html);
         return $pdf->Output('equipos_inactivos.pdf', 'I');
     }
 }
