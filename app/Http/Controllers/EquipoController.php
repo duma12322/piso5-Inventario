@@ -302,4 +302,81 @@ class EquipoController extends Controller
 
         return $software;
     }
+
+    public function indexInactivos(Request $request)
+    {
+        // Listas para los filtros
+        $direcciones = Direccion::orderBy('nombre_direccion', 'asc')->get();
+        $divisiones = Division::orderBy('nombre_division', 'asc')->get();
+        $coordinaciones = Coordinacion::orderBy('nombre_coordinacion', 'asc')->get();
+
+        // Consulta base
+        $query = Equipo::with([
+            'direccion',
+            'division',
+            'coordinacion',
+            'componentes.componentesOpcionales'
+        ])
+            ->where(function ($q) {
+
+                // 1️⃣ Equipo inactivo
+                $q->where('estado', 'Inactivo')
+
+                    // 2️⃣ Algún componente inactivo / eliminado
+                    ->orWhereHas('componentes', function ($qc) {
+                        $qc->where('estado', 'Inactivo')
+                            ->orWhere('estadoElim', 'Inactivo')
+
+                            // 3️⃣ Algún componente opcional eliminado (estadoElim)
+                            ->orWhereHas('componentesOpcionales', function ($qo) {
+                                $qo->where('estadoElim', 'Inactivo');   // ← CORREGIDO
+                            });
+                    });
+            });
+
+        // FILTROS
+        if ($request->filled('id_direccion')) {
+            $query->where('id_direccion', $request->id_direccion);
+        }
+
+        if ($request->filled('id_division')) {
+            $query->where('id_division', $request->id_division);
+        }
+
+        if ($request->filled('id_coordinacion')) {
+            $query->where('id_coordinacion', $request->id_coordinacion);
+        }
+
+        // Obtener resultados (ya filtrados)
+        $equipos = $query->get()->filter(function ($equipo) {
+
+            // Equipo inactivo
+            if ($equipo->estado === 'Inactivo') {
+                return true;
+            }
+
+            // Componentes inactivos o eliminados
+            foreach ($equipo->componentes as $comp) {
+                if ($comp->estado === 'Inactivo' || $comp->estadoElim === 'Inactivo') {
+                    return true;
+                }
+
+                // Opcionales eliminados
+                foreach ($comp->componentesOpcionales as $op) {
+                    if ($op->estadoElim === 'Inactivo') {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        });
+
+        return view('equipos.inactivos', compact(
+            'equipos',
+            'direcciones',
+            'divisiones',
+            'coordinaciones'
+        ));
+    }
 }

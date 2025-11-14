@@ -55,6 +55,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('equipos/by-coordinacion/{id_coordinacion}', [EquipoController::class, 'getByCoordinacionAjax'])
         ->name('equipos.byCoordinacion');
 
+    Route::get('/equipos/inactivos', [App\Http\Controllers\EquipoController::class, 'indexInactivos'])
+        ->name('equipos.inactivos')
+        ->middleware('auth');
+
     // Componentes CRUD
     Route::resource('componentes', ComponenteController::class)->except(['show']);
 

@@ -6,37 +6,41 @@
     <p>Bienvenido, {{ $usuario->name ?? $usuario->usuario }}.</p>
 
     {{-- Fila de totales generales --}}
-    <div class="row mb-4 justify-content-center">
+    <div class="row mb-4 justify-content-center text-center">
+        {{-- Usuarios --}}
         <div class="col-md-3 col-sm-6 mb-3">
-            <div class="card text-center p-3">
+            <div class="card shadow-sm p-3">
                 <h5>Usuarios</h5>
-                <p>{{ $totalUsuarios }}</p>
+                <p class="fs-4 fw-bold">{{ $totalUsuarios }}</p>
                 <a href="{{ route('usuarios.index') }}" class="btn btn-primary btn-sm">Ver</a>
             </div>
         </div>
 
+        {{-- Equipos --}}
         <div class="col-md-3 col-sm-6 mb-3">
-            <div class="card text-center p-3">
+            <div class="card shadow-sm p-3">
                 <h5>Equipos</h5>
-                <p>{{ $totalEquipos }}</p>
+                <p class="fs-4 fw-bold">{{ $totalEquipos }}</p>
                 <a href="{{ route('equipos.index') }}" class="btn btn-primary btn-sm">Ver</a>
             </div>
         </div>
 
+        {{-- Direcciones - Solo visible para administradores --}}
+        @if(Auth::user()->rol === 'Administrador')
         <div class="col-md-3 col-sm-6 mb-3">
-            <div class="card text-center p-3">
+            <div class="card shadow-sm p-3">
                 <h5>Direcciones</h5>
-                <p>{{ $totalDirecciones }}</p>
+                <p class="fs-4 fw-bold">{{ $totalDirecciones }}</p>
                 <a href="{{ route('direcciones.index') }}" class="btn btn-primary btn-sm">Ver</a>
             </div>
         </div>
+        @endif
     </div>
 
-
     {{-- Fila de estados --}}
-    <div class="row">
+    <div class="row justify-content-center">
         <div class="col-md-4">
-            <div class="card p-3 mb-3">
+            <div class="card p-3 mb-3 shadow-sm">
                 <h5>Estado Funcional de Equipos</h5>
                 <ul class="list-group mb-2">
                     @foreach($estadoFuncional as $estado => $count)
@@ -53,7 +57,7 @@
         </div>
 
         <div class="col-md-4">
-            <div class="card p-3 mb-3">
+            <div class="card p-3 mb-3 shadow-sm">
                 <h5>Estado Tecnológico de Equipos</h5>
                 <ul class="list-group mb-2">
                     @foreach($estadoTecnologico as $estado => $count)
@@ -70,7 +74,7 @@
         </div>
 
         <div class="col-md-4">
-            <div class="card p-3 mb-3">
+            <div class="card p-3 mb-3 shadow-sm">
                 <h5>Estado Físico de Gabinetes</h5>
                 <ul class="list-group mb-2">
                     @foreach($estadoGabinete as $estado => $count)
