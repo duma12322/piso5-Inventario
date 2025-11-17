@@ -12,8 +12,8 @@ class EstadoTecnologicoPdfController extends Controller
     {
         $anioActual = Carbon::now()->year;
 
-        // Obtener todos los equipos
-        $equipos = Equipo::all();
+        // Obtener solo los equipos activos
+        $equipos = Equipo::where('estado', 'Activo')->get();
 
         // Contar estado tecnológico
         $estadoTecnologico = [
@@ -23,11 +23,9 @@ class EstadoTecnologicoPdfController extends Controller
         ];
 
         foreach ($equipos as $equipo) {
-            // Si ya tiene estado tecnológico calculado
             if (!empty($equipo->estado_tecnologico)) {
                 $estadoTecnologico[$equipo->estado_tecnologico] = ($estadoTecnologico[$equipo->estado_tecnologico] ?? 0) + 1;
             } else {
-                // Aquí podrías calcularlo dinámicamente si no está guardado
                 $estadoTecnologico['Obsoleto']++;
             }
         }
@@ -41,53 +39,56 @@ class EstadoTecnologicoPdfController extends Controller
         $pdf->setPrintFooter(false);
         $pdf->AddPage();
 
-        $html = '<h2 style="text-align:center;">Estado Tecnológico de Equipos</h2><br>';
+        $html = '<h2 style="text-align:center;">Estado Tecnológico de Equipos Activos</h2><br>';
 
         $html .= '<table border="1" cellpadding="6">
-            <thead>
-                <tr style="background-color:#f2f2f2;">
-                    <th>Estado</th>
-                    <th>Cantidad de Equipos</th>
-                </tr>
-            </thead>
-            <tbody>';
+        <thead>
+            <tr style="background-color:#f2f2f2;">
+                <th>Estado</th>
+                <th>Cantidad de Equipos</th>
+            </tr>
+        </thead>
+        <tbody>';
 
         foreach ($estadoTecnologico as $estado => $count) {
             $html .= '<tr>
-                <td>' . e($estado) . '</td>
-                <td>' . e($count) . '</td>
-            </tr>';
+            <td>' . e($estado) . '</td>
+            <td>' . e($count) . '</td>
+        </tr>';
         }
 
         $html .= '</tbody></table><br><br>';
 
-        // Opcional: agregar listado de equipos por estado
+        // Listado de equipos por estado (solo activos)
         foreach ($estadoTecnologico as $estado => $count) {
+            $equiposPorEstado = $equipos->where('estado_tecnologico', $estado);
+            if ($equiposPorEstado->isEmpty()) continue; // Saltar si no hay equipos activos en este estado
+
             $html .= '<h4>' . e($estado) . ' (' . e($count) . ' equipos)</h4>';
             $html .= '<table border="1" cellpadding="4">
-                <thead>
-                    <tr style="background-color:#f9f9f9;">
-                        <th>Marca</th>
-                        <th>Modelo</th>
-                        <th>Estado Funcional</th>
-                        <th>Estado Gabinete</th>
-                    </tr>
-                </thead>
-                <tbody>';
+            <thead>
+                <tr style="background-color:#f9f9f9;">
+                    <th>Marca</th>
+                    <th>Modelo</th>
+                    <th>Estado Funcional</th>
+                    <th>Estado Gabinete</th>
+                </tr>
+            </thead>
+            <tbody>';
 
-            foreach ($equipos->where('estado_tecnologico', $estado) as $equipoItem) {
+            foreach ($equiposPorEstado as $equipoItem) {
                 $html .= '<tr>
-                    <td>' . e($equipoItem->marca ?? 'N/A') . '</td>
-                    <td>' . e($equipoItem->modelo ?? 'N/A') . '</td>
-                    <td>' . e($equipoItem->estado_funcional ?? 'Desconocido') . '</td>
-                    <td>' . e($equipoItem->estado_gabinete ?? 'Desconocido') . '</td>
-                </tr>';
+                <td>' . e($equipoItem->marca ?? 'N/A') . '</td>
+                <td>' . e($equipoItem->modelo ?? 'N/A') . '</td>
+                <td>' . e($equipoItem->estado_funcional ?? 'Desconocido') . '</td>
+                <td>' . e($equipoItem->estado_gabinete ?? 'Desconocido') . '</td>
+            </tr>';
             }
 
             $html .= '</tbody></table><br>';
         }
 
         $pdf->writeHTML($html, true, false, true, false, '');
-        $pdf->Output('estado_tecnologico_' . $anioActual . '.pdf', 'I');
+        $pdf->Output('estado_tecnologico_activos_' . $anioActual . '.pdf', 'I');
     }
 }

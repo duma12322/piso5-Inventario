@@ -17,9 +17,29 @@ class ComponenteController extends Controller
     }
 
     // Lista todos los componentes activos
-    public function index()
+    public function index(Request $request)
     {
-        $componentes = Componente::activos()->with('equipo')->get();
+        $query = Componente::activos()->with('equipo');
+
+        // Buscador
+        if ($request->has('search') && $request->search != '') {
+            $search = $request->search;
+            $query->where(function ($q) use ($search) {
+                $q->where('tipo_componente', 'like', "%{$search}%")
+                    ->orWhere('marca', 'like', "%{$search}%")
+                    ->orWhere('modelo', 'like', "%{$search}%")
+                    ->orWhere('estado', 'like', "%{$search}%")
+                    ->orWhere('capacidad', 'like', "%{$search}%")
+                    ->orWhereHas('equipo', function ($qe) use ($search) {
+                        $qe->where('marca', 'like', "%{$search}%")
+                            ->orWhere('modelo', 'like', "%{$search}%");
+                    });
+            });
+        }
+
+        // Paginación 10 por página
+        $componentes = $query->paginate(10)->withQueryString();
+
         return view('componentes.index', compact('componentes'));
     }
 

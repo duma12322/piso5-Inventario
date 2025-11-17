@@ -18,9 +18,18 @@ class DireccionController extends Controller
     /**
      * Mostrar todas las direcciones activas.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $direcciones = Direccion::activos()->get();
+        $query = Direccion::activos();
+
+        // Buscador por nombre_direccion
+        if ($request->filled('search')) {
+            $query->where('nombre_direccion', 'like', "%{$request->search}%");
+        }
+
+        // Paginación 10 por página
+        $direcciones = $query->orderBy('nombre_direccion', 'asc')->paginate(10)->withQueryString();
+
         return view('direcciones.index', compact('direcciones'));
     }
 

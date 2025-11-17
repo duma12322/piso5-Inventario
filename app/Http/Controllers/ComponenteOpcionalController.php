@@ -19,9 +19,26 @@ class ComponenteOpcionalController extends Controller
     /**
      * Muestra la lista de componentes opcionales.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $opcionales = ComponenteOpcional::activos()->with('equipo')->get();
+        $query = ComponenteOpcional::with('equipo');
+
+        if ($search = $request->input('search')) {
+            $query->where(function ($q) use ($search) {
+                $q->where('tipo_opcional', 'like', "%{$search}%")
+                    ->orWhere('marca', 'like', "%{$search}%")
+                    ->orWhere('modelo', 'like', "%{$search}%")
+                    ->orWhere('capacidad', 'like', "%{$search}%")
+                    ->orWhere('estado', 'like', "%{$search}%")
+                    ->orWhereHas('equipo', function ($eq) use ($search) {
+                        $eq->where('marca', 'like', "%{$search}%")
+                            ->orWhere('modelo', 'like', "%{$search}%");
+                    });
+            });
+        }
+
+        $opcionales = $query->orderBy('id_opcional', 'desc')->paginate(10)->withQueryString();
+
         return view('componentesOpcionales.index', compact('opcionales'));
     }
 

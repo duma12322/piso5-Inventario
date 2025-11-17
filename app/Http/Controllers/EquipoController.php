@@ -21,19 +21,35 @@ class EquipoController extends Controller
     }
 
     // Listado de equipos activos
-    public function index()
+    public function index(Request $request)
     {
+        $search = $request->input('search');
+
         $equipos = Equipo::with(['direccion', 'division', 'coordinacion'])
-            ->activos()
-            ->get();
+            ->where('estado', 'Activo')
+            ->when($search, function ($query) use ($search) {
+                $query->where(function ($q) use ($search) {
+                    $q->where('marca', 'LIKE', "%{$search}%")
+                        ->orWhere('modelo', 'LIKE', "%{$search}%")
+                        ->orWhere('estado_funcional', 'LIKE', "%{$search}%")
+                        ->orWhere('estado_tecnologico', 'LIKE', "%{$search}%")
+                        ->orWhere('estado_gabinete', 'LIKE', "%{$search}%")
+                        ->orWhereHas('direccion', function ($sub) use ($search) {
+                            $sub->where('nombre_direccion', 'LIKE', "%{$search}%");
+                        })
+                        ->orWhereHas('division', function ($sub) use ($search) {
+                            $sub->where('nombre_division', 'LIKE', "%{$search}%");
+                        })
+                        ->orWhereHas('coordinacion', function ($sub) use ($search) {
+                            $sub->where('nombre_coordinacion', 'LIKE', "%{$search}%");
+                        });
+                });
+            })
+            ->orderBy('id_equipo', 'desc')
+            ->paginate(10)
+            ->withQueryString();
 
-        foreach ($equipos as $e) {
-            $resultado = $e->calcularEstadoTecnologico();
-            $e->estado = $resultado['estado'];
-            $e->mensajes = $resultado['mensajes'] ?? [];
-        }
-
-        return view('equipos.index', compact('equipos'));
+        return view('equipos.index', compact('equipos', 'search'));
     }
 
     // Crear equipo
@@ -319,28 +335,15 @@ class EquipoController extends Controller
 
     public function indexInactivos(Request $request)
     {
-        // Listas para los filtros
         $direcciones = Direccion::orderBy('nombre_direccion', 'asc')->get();
         $divisiones = Division::orderBy('nombre_division', 'asc')->get();
         $coordinaciones = Coordinacion::orderBy('nombre_coordinacion', 'asc')->get();
 
-        // Traer equipos filtrados por dirección, división y coordinación
-        $query = Equipo::query();
+        // Traer equipos activos
+        $query = Equipo::where('estado', 'Activo')
+            ->with(['direccion', 'division', 'coordinacion']);
 
-        if ($request->filled('id_direccion')) {
-            $query->where('id_direccion', $request->id_direccion);
-        }
-
-        if ($request->filled('id_division')) {
-            $query->where('id_division', $request->id_division);
-        }
-
-        if ($request->filled('id_coordinacion')) {
-            $query->where('id_coordinacion', $request->id_coordinacion);
-        }
-        $query = Equipo::where('estado', 'Activo'); // 🔹 Solo equipos activos
-
-        // Aplicar filtros
+        // Filtros select
         if ($request->filled('id_direccion')) {
             $query->where('id_direccion', $request->id_direccion);
         }
@@ -351,7 +354,16 @@ class EquipoController extends Controller
             $query->where('id_coordinacion', $request->id_coordinacion);
         }
 
-        $equipos = $query->get();
+        // Buscador solo por equipo (marca o modelo)
+        if ($search = $request->input('search')) {
+            $query->where(function ($q) use ($search) {
+                $q->where('marca', 'like', "%{$search}%")
+                    ->orWhere('modelo', 'like', "%{$search}%");
+            });
+        }
+
+        // Paginación 10 por página
+        $equipos = $query->paginate(10)->withQueryString(); // 🔹 importante: paginate(), no get()
 
         // Agregar componentes y opcionales inactivos
         $equipos->transform(function ($equipo) {
@@ -359,8 +371,7 @@ class EquipoController extends Controller
                 ->where(function ($q) {
                     $q->where('estado', 'Inactivo')
                         ->orWhere('estadoElim', 'Inactivo');
-                })
-                ->get();
+                })->get();
 
             $equipo->opcionales_inactivos = ComponenteOpcional::where('id_equipo', $equipo->id_equipo)
                 ->where('estadoElim', 'Inactivo')

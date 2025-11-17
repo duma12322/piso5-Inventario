@@ -12,9 +12,17 @@ class UsuarioController extends Controller
     /**
      * Listar todos los usuarios
      */
-    public function index()
+    public function index(Request $request)
     {
-        $usuarios = Usuario::all();
+        $query = Usuario::query();
+
+        if ($search = $request->input('search')) {
+            $query->where('usuario', 'like', "%{$search}%")
+                ->orWhere('rol', 'like', "%{$search}%");
+        }
+
+        $usuarios = $query->orderBy('usuario')->paginate(10)->withQueryString();
+
         return view('usuarios.index', compact('usuarios'));
     }
 

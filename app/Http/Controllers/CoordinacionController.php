@@ -19,12 +19,24 @@ class CoordinacionController extends Controller
     /**
      * Mostrar todas las coordinaciones activas con su división.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $coordinaciones = Coordinacion::activos()->with('division')->get();
+        $query = Coordinacion::activos()->with('division');
+
+        // Buscador por nombre_coordinacion o nombre_division
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where('nombre_coordinacion', 'like', "%{$search}%")
+                ->orWhereHas('division', function ($q) use ($search) {
+                    $q->where('nombre_division', 'like', "%{$search}%");
+                });
+        }
+
+        // Paginación 10 por página
+        $coordinaciones = $query->orderBy('nombre_coordinacion', 'asc')->paginate(10)->withQueryString();
+
         return view('coordinaciones.index', compact('coordinaciones'));
     }
-
 
     /**
      * Obtener coordinaciones activas por división (AJAX)

@@ -12,6 +12,9 @@ class EstadoGabinetePdfController extends Controller
     {
         $anioActual = Carbon::now()->year;
 
+        // Obtener solo equipos activos
+        $equipos = Equipo::where('estado', 'Activo')->get();
+
         // Valores posibles del enum de gabinetes
         $estadosGabinete = [
             'Nuevo',
@@ -21,9 +24,8 @@ class EstadoGabinetePdfController extends Controller
 
         // Inicializar conteo por estado
         $estadoGabineteCount = array_fill_keys($estadosGabinete, 0);
-        $equipos = Equipo::all();
 
-        // Contar equipos por estado de gabinete
+        // Contar equipos por estado de gabinete (solo activos)
         foreach ($equipos as $equipo) {
             $estado = in_array($equipo->estado_gabinete, $estadosGabinete)
                 ? $equipo->estado_gabinete
@@ -38,12 +40,12 @@ class EstadoGabinetePdfController extends Controller
         $pdf = new TCPDF('P', 'mm', 'A4', true, 'UTF-8', false);
         $pdf->SetCreator('Laravel TCPDF');
         $pdf->SetAuthor('Sistema de Inventario');
-        $pdf->SetTitle('Estado Físico de Gabinetes');
+        $pdf->SetTitle('Estado Físico de Gabinetes Activos');
         $pdf->setPrintHeader(false);
         $pdf->setPrintFooter(false);
         $pdf->AddPage();
 
-        $html = '<h2 style="text-align:center;">Estado Físico de Gabinetes</h2><br>';
+        $html = '<h2 style="text-align:center;">Estado Físico de Gabinetes Activos</h2><br>';
 
         // Tabla resumen por estado
         $html .= '<table border="1" cellpadding="6">
@@ -56,16 +58,22 @@ class EstadoGabinetePdfController extends Controller
             <tbody>';
 
         foreach ($estadoGabineteCount as $estado => $count) {
-            $html .= '<tr>
-                <td>' . e($estado) . '</td>
-                <td>' . e($count) . '</td>
-            </tr>';
+            if ($count > 0) { // Mostrar solo si hay equipos activos
+                $html .= '<tr>
+                    <td>' . e($estado) . '</td>
+                    <td>' . e($count) . '</td>
+                </tr>';
+            }
         }
 
         $html .= '</tbody></table><br><br>';
 
         // Detalle de equipos por estado
         foreach ($estadoGabineteCount as $estado => $count) {
+            $equiposPorEstado = $equipos->where('estado_gabinete', $estado);
+
+            if ($equiposPorEstado->isEmpty()) continue; // Saltar si no hay equipos activos
+
             $html .= '<h4>' . e($estado) . ' (' . e($count) . ' equipos)</h4>';
             $html .= '<table border="1" cellpadding="4">
                 <thead>
@@ -78,27 +86,19 @@ class EstadoGabinetePdfController extends Controller
                 </thead>
                 <tbody>';
 
-            $equiposPorEstado = $equipos->where('estado_gabinete', $estado);
-
-            if ($equiposPorEstado->isEmpty()) {
+            foreach ($equiposPorEstado as $equipoItem) {
                 $html .= '<tr>
-                    <td colspan="5" style="text-align:center;">No hay equipos</td>
+                    <td>' . e($equipoItem->marca ?? 'N/A') . '</td>
+                    <td>' . e($equipoItem->modelo ?? 'N/A') . '</td>
+                    <td>' . e($equipoItem->estado_funcional ?? 'Desconocido') . '</td>
+                    <td>' . e($equipoItem->estado_gabinete ?? 'Desconocido') . '</td>
                 </tr>';
-            } else {
-                foreach ($equiposPorEstado as $equipoItem) {
-                    $html .= '<tr>
-                        <td>' . e($equipoItem->marca ?? 'N/A') . '</td>
-                        <td>' . e($equipoItem->modelo ?? 'N/A') . '</td>
-                        <td>' . e($equipoItem->estado_funcional ?? 'Desconocido') . '</td>
-                        <td>' . e($equipoItem->estado_gabinete ?? 'Desconocido') . '</td>
-                    </tr>';
-                }
             }
 
             $html .= '</tbody></table><br>';
         }
 
         $pdf->writeHTML($html, true, false, true, false, '');
-        $pdf->Output('estado_gabinete_' . $anioActual . '.pdf', 'I');
+        $pdf->Output('estado_gabinete_activos_' . $anioActual . '.pdf', 'I');
     }
 }
