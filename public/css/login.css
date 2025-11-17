@@ -82,9 +82,10 @@ body {
 
 /* Imagen pequeña alineada a la izquierda */
 .header img {
-  height: 40px;
-  width: auto;
-  margin-right: 15px;
+  height: 70px;
+  display: flexible;
+  width: 1360px;
+  margin-right: 0px;
 }
 
 /* Texto del encabezado */
@@ -265,7 +266,7 @@ body {
   background: linear-gradient(90deg, #ff0000, #7e0000);
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 6px 20px rgba(0, 114, 255, 0.4);
+  box-shadow: 0 6px 20px rgba(255, 0, 0, 0.4);
 }
 
 .form_container .button:hover {

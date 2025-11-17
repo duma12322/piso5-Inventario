@@ -4,11 +4,11 @@
 <!-- Header -->
 <header class="header">
   <div class="header-images">
-    <img src="{{ asset('fonts/gdl.png') }}" alt="Escudo Lara" class="left">
-    <img src="{{ asset('fonts/laraban.svg') }}" alt="Decoración" class="center">
-    <!-- <img src="{{ asset('fonts/laraban.svg') }}" alt="Bandera Venezuela" class="right"> -->
+    <img src="{{ asset('fonts/LOGOS.png') }}" alt="Escudo Lara" class="left">
+    <!-- <img src="{{ asset('fonts/Gobernacion-del-estado-Lara.jpg') }}" alt="Decoración" class="center">
+    <img src="{{ asset('fonts/OFICINA12.jpg') }}" alt="Bandera Venezuela" class="right"> -->
   </div>
-  <h1 class="nav_logo">Gobernación del Estado Lara</h1>
+  <!-- <h1 class="nav_logo">Gobernación del Estado Lara</h1> -->
 </header>
 
 
