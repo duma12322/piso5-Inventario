@@ -1,0 +1,92 @@
+/* ============================
+   ESTILO GENERAL
+============================ */
+body {
+    background: #f8f9fa;
+}
+
+.card {
+    border-radius: 15px;
+    border: none;
+}
+
+.total-card {
+    background: linear-gradient(135deg, #e60000, #ff4d4d);
+    color: white;
+}
+
+.total-card a {
+    background: white !important;
+    color: #e60000 !important;
+    font-weight: bold;
+}
+
+/* ============================
+   DONUT CHART
+============================ */
+.donut-chart {
+    --p1: 40;
+    --p2: 30;
+    --p3: 30;
+
+    width: 180px;
+    height: 180px;
+    margin: auto;
+    border-radius: 50%;
+    background:
+        conic-gradient(
+            #28a745 calc(var(--p1) * 1%),
+            #ffc107 calc(var(--p1) * 1%) calc((var(--p1) + var(--p2)) * 1%),
+            #dc3545 calc((var(--p1) + var(--p2)) * 1%)
+        );
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    animation: appear 1.5s ease-out;
+    position: relative;
+}
+
+@keyframes appear {
+    from { transform: scale(0.5); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+.center-text {
+    position: absolute;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+/* ============================
+   LEYENDAS
+============================ */
+.legend p {
+    margin: 5px 0;
+    font-size: 14px;
+}
+
+.legend-box {
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+    margin-right: 8px;
+    border-radius: 4px;
+}
+
+/* Colores funcionales */
+.operativo   { background: #28a745; }
+.regular     { background: #ffc107; }
+.inoperativo { background: #dc3545; }
+
+/* Colores tecnológicos */
+.actualizado { background: #007bff; }
+.obsoleto    { background: #6c757d; }
+.intermedio  { background: #ffc107; }
+
+/* Colores gabinete */
+.bueno       { background: #28a745; }
+.regular     { background: #ffc107; }
+.danado      { background: #dc3545; }
+
