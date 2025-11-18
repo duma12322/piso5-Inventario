@@ -8,7 +8,7 @@
     <a href="{{ route('componentes.create') }}" class="btn btn-success mb-2">Agregar Componente</a>
 
     <table class="table table-bordered table-hover">
-        <thead class="thead-dark">
+        <thead class="table-danger">
             <tr>
                 <th>ID</th>
                 <th>Equipo</th>

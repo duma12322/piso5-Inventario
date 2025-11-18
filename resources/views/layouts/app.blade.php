@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>{{ config('app.name', 'Piso 5 Inventario') }}</title>
-    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/sidebar.css') }}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
 </head>
 
