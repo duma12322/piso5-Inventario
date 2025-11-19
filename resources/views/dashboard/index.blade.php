@@ -6,7 +6,7 @@
 
     {{-- Header con animación --}}
     <div class="dashboard-header text-center mb-5">
-        <h1 class="welcome-title">🏠 Bienvenido a tu Dashboard</h1>
+        <h1 class="welcome-title"> Bienvenido a tu Dashboard</h1>
         <p class="welcome-subtitle">Hola, <span class="user-name">{{ $usuario->name ?? $usuario->usuario }}</span> 👋</p>
     </div>
 

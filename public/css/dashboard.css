@@ -1,28 +1,28 @@
 /* Variables de colores */
 :root {
-    --primary-color: #4361ee;
-    --secondary-color: #3a0ca3;
-    --success-color: #4cc9f0;
+    --primary-color: #ee4343;
+    --secondary-color: #000000;
+    --success-color: #000000;
     --warning-color: #f72585;
     --info-color: #7209b7;
     --light-bg: #f8f9fa;
-    --dark-text: #2b2d42;
-    --card-shadow: 0 10px 30px rgba(0,0,0,0.1);
-    --gradient-primary: linear-gradient(135deg, #4361ee, #3a0ca3);
-    --gradient-success: linear-gradient(135deg, #4cc9f0, #4895ef);
-    --gradient-warning: linear-gradient(135deg, #f72585, #b5179e);
+    --dark-text: #000000;
+    --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    --gradient-primary: linear-gradient(135deg, #f70000, #660303);
+    --gradient-success: linear-gradient(135deg, #000000, #000000);
+    --gradient-warning: linear-gradient(135deg, #f72525, #b51717);
 }
 
 /* Estilos generales */
 .dashboard-container {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #000000 0%, #000000 100%);
     min-height: 100vh;
     padding: 20px 0;
 }
 
 /* Header con animación */
 .dashboard-header {
-    animation: slideDown 1s ease-out;
+    animation: slideDown 1.5s ease-out;
 }
 
 .welcome-title {
@@ -37,7 +37,7 @@
 
 .welcome-subtitle {
     font-size: 1.2rem;
-    color: #6c757d;
+    color: #494c4e;
 }
 
 .user-name {
@@ -79,15 +79,15 @@
 }
 
 .card-1 {
-    border-bottom: 4px solid #4361ee;
+    border-bottom: 4px solid #ff00009a;
 }
 
 .card-2 {
-    border-bottom: 4px solid #4cc9f0;
+    border-bottom: 4px solid #ff00009a;
 }
 
 .card-3 {
-    border-bottom: 4px solid #f72585;
+    border-bottom: 4px solid #ff00009a;
 }
 
 .card-icon {
@@ -101,7 +101,7 @@
     font-weight: 800;
     margin: 1rem 0;
     color: var(--dark-text);
-    background: linear-gradient(135deg, #4361ee, #3a0ca3);
+    background: linear-gradient(135deg, #000000, #020000);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -118,7 +118,7 @@
 
 .card-btn:hover {
     transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(67, 97, 238, 0.4);
+    box-shadow: 0 5px 15px rgba(2, 2, 2, 0.4);
 }
 
 /* Sección de gráficas */
