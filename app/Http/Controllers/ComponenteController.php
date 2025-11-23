@@ -43,6 +43,7 @@ class ComponenteController extends Controller
         return view('componentes.index', compact('componentes'));
     }
 
+
     // Mostrar formulario de creación
     public function create()
     {
@@ -464,13 +465,6 @@ class ComponenteController extends Controller
     private function procesarDatos(array $data)
     {
 
-        // 🔹 Convertir cualquier array en string (para evitar errores "Array to string conversion")
-        foreach ($data as $key => $value) {
-            if (is_array($value)) {
-                $data[$key] = implode(', ', $value);
-            }
-        }
-
         // Campos de texto
         $camposTexto = [
             'marca',
@@ -516,6 +510,13 @@ class ComponenteController extends Controller
             'consumo_electrico',
             'cantidad_slot_memoria'
         ];
+
+        // Convertir cualquier array a string separando por comas
+        foreach ($data as $key => $value) {
+            if (is_array($value)) {
+                $data[$key] = implode(',', $value);
+            }
+        }
 
         // Campos ENUM
         $camposEnum = ['estado', 'compatibilidad'];
@@ -664,13 +665,14 @@ class ComponenteController extends Controller
             case 'Tarjeta Red':
                 $data['marca'] = $data['marca_tarjeta_red'] ?? $data['marca'];
                 $data['modelo'] = $data['modelo_tarjeta_red'] ?? $data['modelo'];
-                if (!empty($data['tipo_tarjeta_red']) && is_array($data['tipo_tarjeta_red'])) {
-                    $data['tipo'] = implode(', ', $data['tipo_tarjeta_red']);
-                } elseif (!empty($data['tipo_tarjeta_red'])) {
-                    // Por si llega como string (no debería, pero prevenimos error)
-                    $data['tipo'] = $data['tipo_tarjeta_red'];
+                if (!empty($data['tipo_tarjeta_red'])) {
+                    if (is_array($data['tipo_tarjeta_red'])) {
+                        $data['tipo'] = implode(', ', $data['tipo_tarjeta_red']);
+                    } else {
+                        $data['tipo'] = (string) $data['tipo_tarjeta_red'];
+                    }
                 } else {
-                    $data['tipo'] = $data['tipo'] ?? null;
+                    $data['tipo'] = null;
                 }
                 $data['velocidad_transferencia'] = $data['velocidad_transferencia'] ?? $data['velocidad_transferencia'];
                 $data['estado'] = $data['estado_tarjeta_red'] ?? $data['estado'];
@@ -681,7 +683,7 @@ class ComponenteController extends Controller
                 $data['marca'] = $data['marca_unidad'] ?? $data['marca'];
                 $data['tipo'] = $data['tipo_unidad'] ?? $data['tipo'];
                 if (isset($data['tipos_discos']) && is_array($data['tipos_discos'])) {
-                    $data['tipos_discos'] = implode(', ', $data['tipos_discos']);
+                    $data['tipos_discos'] = implode(',', $data['tipos_discos']);
                 } else {
                     $data['tipos_discos'] = null;
                 }
@@ -697,6 +699,10 @@ class ComponenteController extends Controller
                 $data['estado'] = $data['estado_fan'] ?? $data['estado'];
                 $data['detalles'] = $data['detalles_fan'] ?? $data['detalles'] ?? null;
                 break;
+        }
+
+        if (($data['tipo_componente'] ?? '') !== 'Unidad Optica') {
+            $data['tipos_discos'] = null;
         }
 
         // Estado activo por defecto
