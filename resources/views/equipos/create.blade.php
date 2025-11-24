@@ -1,5 +1,6 @@
 @extends('layouts.app')
-
+@extends('layouts.app')
+<link rel="stylesheet" href="{{ asset('css/crearnuevoequipo.css') }}">
 @section('content')
 <div class="container mt-4">
 

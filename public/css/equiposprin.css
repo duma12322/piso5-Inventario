@@ -1,0 +1,260 @@
+/* Variables de colores */
+:root {
+    --primary-color: #3498db;
+    --secondary-color: #2c3e50;
+    --success-color: #2ecc71;
+    --warning-color: #f39c12;
+    --danger-color: #f30909;
+    --info-color: #1abc9c;
+    --light-color: #ecf0f1;
+    --dark-color: #34495e;
+    --gray-light: #f8f9fa;
+    --gray-medium: #e9ecef;
+    --gray-dark: #000000;
+    --red-color: #920909;
+    --border-radius: 8px;
+    --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --transition: all 0.3s ease;
+}
+
+/* Estilos generales */
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 60px;
+}
+
+/* Encabezado */
+.header-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid var(--gray-medium);
+}
+
+.page-title {
+    color: var(--gray-dark--);
+    font-weight: 700;
+    margin: 0;
+    font-size: 1.8rem;
+}
+
+/* Botón principal */
+.btn-primary {
+    background-color: var(--danger-color--);
+    color: rgb(255, 255, 255);
+    border: none;
+    padding: 10px 20px;
+    border-radius: var(--border-radius);
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: var(--transition);
+    box-shadow: var(--box-shadow);
+}
+
+.btn-primary:hover {
+    background-color: #b92929;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Contenedor de tabla */
+.table-container {
+    background-color: white;
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow: var(--box-shadow);
+}
+
+/* Tabla */
+.equipos-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.8rem;
+}
+
+.equipos-table thead {
+    background-color: var(--red-color);
+    color: white;
+}
+
+.equipos-table th {
+    padding: 15px 12px;
+    text-align: left;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 0.5px;
+}
+
+.equipos-table tbody tr {
+    border-bottom: 1px solid var(--gray-medium);
+    transition: var(--transition);
+}
+
+.equipos-table tbody tr:hover {
+    background-color: rgba(109, 101, 101, 0.05);
+}
+
+.equipos-table td {
+    padding: 15px 12px;
+    vertical-align: middle;
+}
+
+/* ID del equipo */
+.equipo-id {
+    font-weight: 600;
+    color: var(--gray-dark);
+}
+
+/* Badges de estado */
+.status-badge {
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: capitalize;
+}
+
+.status-activo, 
+.status-funcional, 
+.status-operativo,
+.status-bueno {
+    background-color: rgba(46, 204, 113, 0.2);
+    color: #27ae60;
+}
+
+.status-inactivo,
+.status-no-funcional,
+.status-regular {
+    background-color: rgba(243, 156, 18, 0.2);
+    color: #d35400;
+}
+
+.status-desconocido,
+.status-pendiente {
+    background-color: rgba(149, 165, 166, 0.2);
+    color: #7f8c8d;
+}
+
+.status-malo,
+.status-obsoleto {
+    background-color: rgba(231, 76, 60, 0.2);
+    color: #c0392b;
+}
+
+/* Botones de acción */
+.action-buttons {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+}
+
+.btn-action {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    text-decoration: none;
+    transition: var(--transition);
+    border: none;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+
+.btn-edit {
+    background-color: rgba(52, 152, 219, 0.1);
+    color: var(--primary-color);
+}
+
+.btn-edit:hover {
+    background-color: var(--primary-color);
+    color: white;
+    transform: scale(1.1);
+}
+
+.btn-view {
+    background-color: rgba(26, 188, 156, 0.1);
+    color: var(--info-color);
+}
+
+.btn-view:hover {
+    background-color: var(--info-color);
+    color: white;
+    transform: scale(1.1);
+}
+
+.btn-pdf {
+    background-color: rgba(231, 76, 60, 0.1);
+    color: var(--danger-color);
+}
+
+.btn-pdf:hover {
+    background-color: var(--danger-color);
+    color: white;
+    transform: scale(1.1);
+}
+
+.btn-delete {
+    background-color: rgba(231, 76, 60, 0.1);
+    color: var(--danger-color);
+}
+
+.btn-delete:hover {
+    background-color: var(--danger-color);
+    color: white;
+    transform: scale(1.1);
+}
+
+.delete-form {
+    display: inline;
+}
+
+/* Sin datos */
+.no-data {
+    text-align: center;
+    padding: 40px !important;
+    color: var(--gray-dark);
+    font-style: italic;
+}
+
+.no-data i {
+    margin-right: 8px;
+    font-size: 1.2rem;
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+    .table-container {
+        overflow-x: auto;
+    }
+    
+    .equipos-table {
+        min-width: 1000px;
+    }
+}
+
+@media (max-width: 768px) {
+    .header-section {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+    
+    .page-title {
+        font-size: 1.5rem;
+    }
+    
+    .action-buttons {
+        flex-wrap: wrap;
+        justify-content: flex-start;
+    }
+}
