@@ -6,7 +6,7 @@
     <div class="components-header">
         <div class="header-content">
             <div class="title-section">
-                <i class="fas fa-microchip header-icon"></i>
+                <!-- <i class="fas fa-microchip header-icon"></i> -->
                 <h1>Listado de Componentes</h1>
                 <p>Gestión de componentes del sistema</p>
             </div>
@@ -31,27 +31,21 @@
             <thead>
                 <tr>
                     <th class="column-id">
-                        <i class="fas fa-hashtag"></i>
                         ID
                     </th>
                     <th class="column-equipo">
-                        <i class="fas fa-desktop"></i>
                         Equipo
                     </th>
                     <th class="column-type">
-                        <i class="fas fa-shapes"></i>
                         Tipo
                     </th>
                     <th class="column-brand">
-                        <i class="fas fa-tag"></i>
                         Marca
                     </th>
                     <th class="column-model">
-                        <i class="fas fa-cube"></i>
                         Modelo
                     </th>
                     <th class="column-status">
-                        <i class="fas fa-power-off"></i>
                         Estado
                     </th>
                     <th class="column-actions">
@@ -86,7 +80,7 @@
                     </td>
                     <td class="component-status">
                         <span class="status-badge status-{{ Str::slug($componente->estado) }}">
-                            <i class="fas {{ getStatusIcon($componente->estado) }}"></i>
+                            <i class="fas {{($componente->estado) }}"></i>
                             {{ trim($componente->estado) ?: 'Desconocido' }}
                         </span>
                     </td>
@@ -111,11 +105,11 @@
                                 </button>
                             </form>
                             
-                            <button class="btn-action btn-info" title="Ver detalles" onclick="showComponentDetails({{ $componente->id_componente }})">
+                            <!-- <button class="btn-action btn-info" title="Ver detalles" onclick="showComponentDetails({{ $componente->id_componente }})">
                                 <i class="fas fa-info-circle"></i>
                                 <span class="tooltip">Detalles</span>
                             </button>
-                        </div>
+                        </div> -->
                     </td>
                 </tr>
                 @empty
@@ -159,6 +153,7 @@
 </div>
 
 <!-- Helper PHP functions (deberías agregar esto en tu AppServiceProvider o helper) -->
+
 @php
     function getComponentIcon($type) {
         $icons = [
@@ -187,6 +182,7 @@
         $icons = [
             'Activo' => 'fa-check-circle',
             'Operativo' => 'fa-play-circle',
+            'Buen funcionamiento'=> 'fa-play-circle',
             'Inactivo' => 'fa-pause-circle',
             'Dañado' => 'fa-times-circle',
             'Mantenimiento' => 'fa-tools',

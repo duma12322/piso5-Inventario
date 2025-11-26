@@ -3,19 +3,19 @@
     --primary: #667eea;
     --primary-dark: #5a6fd8;
     --secondary: #764ba2;
-    --success: #4cd964;
+    --success: #05ec2c;
+    --Blanco: #f7f8f7;
+    --gris: #696d6a;
     --warning: #ff9500;
-    --danger: #ff3b30;
-    --info: #5ac8fa;
+     --green: #009213;
+    --danger: #f71307;
+    --info: #088efc;
     --purple: #af52de;
     --orange: #ff9500;
-    --teal: #5ac8fa;
-    --pink: #ff2d55;
+    --teal: #5a6afa;
+    --pink: #fa0707;
     
-    --bg-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    --card-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-    --success-gradient: linear-gradient(135deg, #4cd964 0%, #5ac8fa 100%);
-    --warning-gradient: linear-gradient(135deg, #ff9500 0%, #ffcc00 100%);
+    --bg-gradient: linear-gradient(135deg, #e21111 0%, #8f0000 100%);
     
     --text-dark: #2c3e50;
     --text-light: #6c757d;
@@ -31,7 +31,7 @@
 
 /* Estilos generales */
 * {
-    box-sizing: border-box;
+    box-shadow: border-box;
 }
 
 body {
@@ -52,7 +52,7 @@ body {
     background: var(--bg-gradient);
     border-radius: var(--border-radius);
     padding: 30px;
-    margin-bottom: 30px;
+    margin-bottom: 25px;
     color: white;
     box-shadow: var(--shadow-lg);
     position: relative;
@@ -91,16 +91,16 @@ body {
     opacity: 0.9;
     font-size: 1.1rem;
 }
-
+/* 
 .header-icon {
     font-size: 2.5rem;
     margin-bottom: 15px;
     display: block;
 }
-
+ */
 .header-stats {
     display: flex;
-    gap: 20px;
+    gap: 200px;
 }
 
 .stat-card {
@@ -180,7 +180,7 @@ body {
     color: white;
     font-weight: 600;
     text-transform: uppercase;
-    font-size: 0.85rem;
+    font-size: 1rem;
     letter-spacing: 0.5px;
     border-bottom: 3px solid rgba(255, 255, 255, 0.2);
 }
@@ -242,18 +242,21 @@ body {
 }
 
 .type-cpu, .type-procesador, .type-tarjeta-madre {
-    background: linear-gradient(135deg, var(--primary), var(--secondary));
-    color: white;
+    background: linear-gradient(135deg, var(--Blanco), var(--Blanco));
+    color: rgb(0, 0, 0);
 }
-
-.type-ram, .type-memoria {
-    background: linear-gradient(135deg, var(--success), var(--teal));
-    color: white;
+.type-cpu, .type-procesador, .type-Tarjeta-Grafica {
+    background: linear-gradient(135deg, var(--Blanco), var(--Blanco));
+    color: rgb(0, 0, 0);
+}
+.type-ram, .type-memoria-ram {
+    background: linear-gradient(135deg, var(--Blanco), var(--Blanco));
+    color: rgb(0, 0, 0);
 }
 
 .type-disco-duro, .type-almacenamiento {
-    background: linear-gradient(135deg, var(--warning), var(--orange));
-    color: white;
+    background: linear-gradient(135deg, var(--Blanco), var(--Blanco));
+    color: rgb(0, 0, 0);
 }
 
 .type-monitor, .type-pantalla {
@@ -278,7 +281,11 @@ body {
 }
 
 .status-activo, .status-operativo, .status-bueno {
-    background: linear-gradient(135deg, var(--success), #34c759);
+    background: linear-gradient(135deg, var(--gris), #575656);
+    color: white;
+}
+.status-activo, .status-buen-funcionamiento, .status-bueno {
+    background: linear-gradient(135deg, var(--green), #028a02);
     color: white;
 }
 
@@ -360,7 +367,7 @@ body {
     box-shadow: 0 4px 12px rgba(255, 59, 48, 0.4);
 }
 
-.btn-info {
+/* .btn-info {
     background: linear-gradient(135deg, var(--purple), var(--pink));
     color: white;
 }
@@ -369,12 +376,12 @@ body {
     transform: scale(1.1);
     box-shadow: 0 4px 12px rgba(175, 82, 222, 0.4);
 }
-
+ */
 /* Estado vacío */
-.no-components td {
+/* .no-components td {
     padding: 0 !important;
 }
-
+ */
 .empty-state {
     text-align: center;
     padding: 60px 20px;
