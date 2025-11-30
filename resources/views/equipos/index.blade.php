@@ -7,6 +7,9 @@
         <a href="{{ route('equipos.create') }}" class="btn btn-primary">
             <i class="fas fa-plus"></i> Agregar Equipo
         </a>
+        <a href="{{ route('equipos.pdfGlobal', request()->query()) }}" class="btn btn-warning mt-2" target="_blank">
+            Exportar PDF
+        </a>
     </div>
 
     <div class="table-container">
@@ -40,7 +43,7 @@
                     </td>
                     <td>
                         @php
-                            $estadoTec = is_array($e->estado_tecnologico) ? ($e->estado_tecnologico['estado'] ?? 'Desconocido') : ($e->estado_tecnologico ?: 'Desconocido');
+                        $estadoTec = is_array($e->estado_tecnologico) ? ($e->estado_tecnologico['estado'] ?? 'Desconocido') : ($e->estado_tecnologico ?: 'Desconocido');
                         @endphp
                         <span class="status-badge status-{{ strtolower($estadoTec) }}">
                             {{ $estadoTec }}
@@ -51,15 +54,15 @@
                             <a href="{{ route('equipos.edit', $e->id_equipo) }}" class="btn-action btn-edit" title="Editar">
                                 <i class="fas fa-edit"></i>
                             </a>
-                            
+
                             <a href="{{ route('componentes.porEquipo', $e->id_equipo) }}" class="btn-action btn-view" title="Ver Componentes">
                                 <i class="fas fa-list"></i>
                             </a>
-                            
+
                             <a href="{{ route('equipos.pdf', $e->id_equipo) }}" class="btn-action btn-pdf" title="Generar PDF">
                                 <i class="fas fa-file-pdf"></i>
                             </a>
-                            
+
                             <form action="{{ route('equipos.destroy', $e->id_equipo) }}" method="POST" class="delete-form">
                                 @csrf
                                 @method('DELETE')

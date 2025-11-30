@@ -28,22 +28,31 @@ class EquipoController extends Controller
         $equipos = Equipo::with(['direccion', 'division', 'coordinacion'])
             ->where('estado', 'Activo')
             ->when($search, function ($query) use ($search) {
-                $query->where(function ($q) use ($search) {
-                    $q->where('marca', 'LIKE', "%{$search}%")
-                        ->orWhere('modelo', 'LIKE', "%{$search}%")
-                        ->orWhere('estado_funcional', 'LIKE', "%{$search}%")
-                        ->orWhere('estado_tecnologico', 'LIKE', "%{$search}%")
-                        ->orWhere('estado_gabinete', 'LIKE', "%{$search}%")
-                        ->orWhereHas('direccion', function ($sub) use ($search) {
-                            $sub->where('nombre_direccion', 'LIKE', "%{$search}%");
-                        })
-                        ->orWhereHas('division', function ($sub) use ($search) {
-                            $sub->where('nombre_division', 'LIKE', "%{$search}%");
-                        })
-                        ->orWhereHas('coordinacion', function ($sub) use ($search) {
-                            $sub->where('nombre_coordinacion', 'LIKE', "%{$search}%");
-                        });
-                });
+
+                // 1. Reemplazar comas y caracteres extra por espacios
+                $cleanSearch = preg_replace('/[^\wñÑáéíóúÁÉÍÓÚ ]+/u', ' ', $search);
+
+                // 2. Dividir en palabras
+                $terms = array_filter(explode(' ', $cleanSearch));
+
+                foreach ($terms as $term) {
+                    $query->where(function ($q) use ($term) {
+                        $q->where('marca', 'LIKE', "%{$term}%")
+                            ->orWhere('modelo', 'LIKE', "%{$term}%")
+                            ->orWhere('estado_funcional', 'LIKE', "%{$term}%")
+                            ->orWhere('estado_tecnologico', 'LIKE', "%{$term}%")
+                            ->orWhere('estado_gabinete', 'LIKE', "%{$term}%")
+                            ->orWhereHas('direccion', function ($sub) use ($term) {
+                                $sub->where('nombre_direccion', 'LIKE', "%{$term}%");
+                            })
+                            ->orWhereHas('division', function ($sub) use ($term) {
+                                $sub->where('nombre_division', 'LIKE', "%{$term}%");
+                            })
+                            ->orWhereHas('coordinacion', function ($sub) use ($term) {
+                                $sub->where('nombre_coordinacion', 'LIKE', "%{$term}%");
+                            });
+                    });
+                }
             })
             ->orderBy('id_equipo', 'desc')
             ->paginate(10)
@@ -51,6 +60,7 @@ class EquipoController extends Controller
 
         return view('equipos.index', compact('equipos', 'search'));
     }
+
 
     // Crear equipo
     public function create()
