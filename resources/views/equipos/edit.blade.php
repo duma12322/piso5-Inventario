@@ -231,7 +231,24 @@
                 <div class="checkbox-group">
                     <div class="form-check-container">
                         @php
-                        $puertosExternos = ['HDMI', 'DisplayPort', 'Mini DisplayPort', 'DVI', 'VGA', 'USB 2.0', 'USB 3.0/3.1 Gen1', 'USB 3.2 Gen2', 'USB-C', 'RJ-45 Ethernet', 'RJ-11', 'Jack 3.5 mm (Sonido)', 'Jack 3.5 mm (Audio)', 'S/PDIF', 'PS/2', 'Thunderbolt 3/4', 'eSATA', 'FireWire', 'Puerto Serie', 'Puerto Paralelo'];
+                        $puertosExternos = [
+                        'HDMI',
+                        'DisplayPort',
+                        'Mini DisplayPort',
+                        'DVI',
+                        'VGA',
+                        'USB 2.0',
+                        'USB 3.0/3.1',
+                        'USB 3.2',
+                        'USB-C',
+                        'RJ-45 Ethernet',
+                        'RJ-11',
+                        'Jack 3.5 mm (Sonido)',
+                        'Jack 3.5 mm (Audio)',
+                        'S/PDIF',
+                        'PS/2 (Teclado)',
+                        'PS/2 (Mouse)',
+                        'Thunderbolt 3/4', 'eSATA', 'FireWire', 'Puerto Serie', 'Puerto Paralelo'];
 
                         $valorExt = old('puertos_externos', $componente->puertos_externos ?? '');
                         $seleccionadosExt = is_array($valorExt) ? $valorExt : explode(',', $valorExt);
