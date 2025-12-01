@@ -64,7 +64,7 @@ class ComponenteOpcionalController extends Controller
      * Guardar un nuevo componente opcional.
      */
 
-    public function store(Request $request)
+     public function store(Request $request)
     {
         $id_equipo = $request->input('id_equipo');
         $tipoOpcional = $request->input('tipo_opcional');
@@ -138,13 +138,15 @@ class ComponenteOpcionalController extends Controller
 
                 if (!in_array($ramData['slot_memoria'], $slotsValidos)) {
                     return redirect()->back()
-                        ->with('error', "El {$ramData['slot_memoria']} no es válido para esta tarjeta madre.")
+                        ->withErrors(['slot_memoria' => "El {$ramData['slot_memoria']} no es válido para esta tarjeta madre."])
                         ->withInput();
                 }
 
                 if (!in_array($ramData['slot_memoria'], $slotsLibres)) {
                     return redirect()->back()
-                        ->with('error', "El {$ramData['slot_memoria']} ya está ocupado.")
+                        ->withErrors([
+                            'slot_memoria' => "El {$ramData['slot_memoria']} ya está ocupado."
+                        ])
                         ->withInput();
                 }
 
@@ -155,7 +157,9 @@ class ComponenteOpcionalController extends Controller
 
                     if ($tipoMother !== $tipoRAM) {
                         return redirect()->back()
-                            ->with('error', "El tipo de RAM ({$ramData['tipo']}) no es compatible con la tarjeta madre ({$tarjetaMadre->tipo}).")
+                            ->withErrors([
+                                'tipo_ram' => "El tipo de RAM ({$ramData['tipo']}) no es compatible con la tarjeta madre ({$tarjetaMadre->tipo})."
+                            ])
                             ->withInput();
                     }
                 }
