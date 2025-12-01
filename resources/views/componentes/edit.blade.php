@@ -182,7 +182,7 @@
                 <div class="checkbox-group">
                     <div class="form-check-container">
                         @php
-                         $puertosInternos = [
+                        $puertosInternos = [
                         'SATA',
                         'M.2',
                         'U.2',
@@ -197,9 +197,8 @@
                         'Serial (COM)',
                         'FireWire (IEEE 1394)',
                         'Game/MIDI',
-                        'Chassis Intrusion',
+                        'Chassis Intrusion (Detector)',
                         'Thunderbolt header',
-                        'Audio frontal (AC’97/HD Audio)',
                         'Panel frontal (power/reset/LEDs)'
                         ];
                         $valorAnterior = old('puertos_internos', $componente->puertos_internos ?? '');
