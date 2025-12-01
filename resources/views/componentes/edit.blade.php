@@ -2,11 +2,6 @@
 
 @section('title', 'Editar Componente')
 
-@section('styles')
-<link rel="stylesheet" href="{{ asset('css/sidebar.css') }}">
-<link rel="stylesheet" href="{{ asset('css/componentes.edit.css') }}">
-@endsection
-
 @section('content')
 <div class="container mt-4">
     <h3>Editar Componente</h3>
@@ -187,7 +182,7 @@
                 <div class="checkbox-group">
                     <div class="form-check-container">
                         @php
-                        $puertosInternos = [
+                         $puertosInternos = [
                         'SATA',
                         'M.2',
                         'U.2',
@@ -244,11 +239,8 @@
                         'RJ-45 Ethernet',
                         'RJ-11',
                         'Jack 3.5 mm (Sonido)',
-                        'Jack 3.5 mm (Audio)',
-                        'S/PDIF',
-                        'PS/2 (Teclado)',
-                        'PS/2 (Mouse)',
-                        'Thunderbolt 3/4', 'eSATA', 'FireWire', 'Puerto Serie', 'Puerto Paralelo'];
+                        'Jack 3.5 mm (Audio)', 'S/PDIF', 'PS/2 (Teclado)',
+                        'PS/2 (Mouse)', 'Thunderbolt 3/4', 'eSATA', 'FireWire', 'Puerto Serie', 'Puerto Paralelo'];
 
                         $valorExt = old('puertos_externos', $componente->puertos_externos ?? '');
                         $seleccionadosExt = is_array($valorExt) ? $valorExt : explode(',', $valorExt);
@@ -919,6 +911,4 @@
 <script src="{{ asset('js/unicos.js') }}"></script>
 <script src="{{ asset('js/unidad.js') }}"></script>
 <script src="{{ asset('js/tipoRam.js') }}"></script>
-<script src="{{ asset('js/sidebar.js') }}"></script>
-<script src="{{ asset('js/checkbox.js') }}"></script>
 @endsection
