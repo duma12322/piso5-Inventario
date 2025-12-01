@@ -2,6 +2,11 @@
 
 @section('title', 'Editar Componente')
 
+@section('styles')
+<link rel="stylesheet" href="{{ asset('css/sidebar.css') }}">
+<link rel="stylesheet" href="{{ asset('css/componentes.edit.css') }}">
+@endsection
+
 @section('content')
 <div class="container mt-4">
     <h3>Editar Componente</h3>
@@ -187,7 +192,6 @@
                         'M.2',
                         'U.2',
                         'IDE (PATA)',
-                        'PCIe x1/x4/x16',
                         'USB 2.0 header',
                         'USB 3.0 header',
                         'Audio HD header',
@@ -199,7 +203,9 @@
                         'FireWire (IEEE 1394)',
                         'Game/MIDI',
                         'Chassis Intrusion',
-                        'Thunderbolt header'
+                        'Thunderbolt header',
+                        'Audio frontal (AC’97/HD Audio)',
+                        'Panel frontal (power/reset/LEDs)'
                         ];
                         $valorAnterior = old('puertos_internos', $componente->puertos_internos ?? '');
                         if (is_array($valorAnterior)) {
@@ -225,7 +231,24 @@
                 <div class="checkbox-group">
                     <div class="form-check-container">
                         @php
-                        $puertosExternos = ['HDMI', 'DisplayPort', 'Mini DisplayPort', 'DVI', 'VGA', 'USB 2.0', 'USB 3.0/3.1 Gen1', 'USB 3.2 Gen2', 'USB-C', 'RJ-45 Ethernet', 'RJ-11', 'Jack 3.5 mm', 'S/PDIF', 'PS/2', 'Thunderbolt 3/4', 'eSATA', 'FireWire'];
+                        $puertosExternos = [
+                        'HDMI',
+                        'DisplayPort',
+                        'Mini DisplayPort',
+                        'DVI',
+                        'VGA',
+                        'USB 2.0',
+                        'USB 3.0/3.1',
+                        'USB 3.2',
+                        'USB-C',
+                        'RJ-45 Ethernet',
+                        'RJ-11',
+                        'Jack 3.5 mm (Sonido)',
+                        'Jack 3.5 mm (Audio)',
+                        'S/PDIF',
+                        'PS/2 (Teclado)',
+                        'PS/2 (Mouse)',
+                        'Thunderbolt 3/4', 'eSATA', 'FireWire', 'Puerto Serie', 'Puerto Paralelo'];
 
                         $valorExt = old('puertos_externos', $componente->puertos_externos ?? '');
                         $seleccionadosExt = is_array($valorExt) ? $valorExt : explode(',', $valorExt);
@@ -896,4 +919,6 @@
 <script src="{{ asset('js/unicos.js') }}"></script>
 <script src="{{ asset('js/unidad.js') }}"></script>
 <script src="{{ asset('js/tipoRam.js') }}"></script>
+<script src="{{ asset('js/sidebar.js') }}"></script>
+<script src="{{ asset('js/checkbox.js') }}"></script>
 @endsection
