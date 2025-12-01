@@ -264,7 +264,7 @@
                 <div class="checkbox-group">
                     <div class="form-check-container">
                         @php
-                        $puertosExternos = [
+                         $puertosExternos = [
                         'HDMI',
                         'DisplayPort',
                         'Mini DisplayPort',
@@ -278,7 +278,12 @@
                         'RJ-11',
                         'Jack 3.5 mm (Sonido)',
                         'Jack 3.5 mm (Audio)', 'S/PDIF', 'PS/2 (Teclado)',
-                        'PS/2 (Mouse)', 'Thunderbolt 3/4', 'eSATA', 'FireWire', 'Puerto Serie', 'Puerto Paralelo'];
+                        'PS/2 (Mouse)', 
+                        'Thunderbolt 3/4',
+                         'eSATA', 
+                         'FireWire', 
+                         'Puerto Serie', 
+                         'Puerto Paralelo'];
                         $seleccionadosExt = old('puertos_externos', []);
                         @endphp
                         @foreach ($puertosExternos as $p)
