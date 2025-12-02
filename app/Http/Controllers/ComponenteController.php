@@ -120,7 +120,7 @@ class ComponenteController extends Controller
                 ]);
             }
 
-            // 🔹 Validación de tipo RAM
+            // Validación de tipo RAM
             if ($tarjetaMadre->tipo) {
                 $tipoMother = $this->normalizarTipoRAM($tarjetaMadre->tipo);
                 $tipoRAM = $this->normalizarTipoRAM($data['tipo']);
@@ -260,7 +260,7 @@ class ComponenteController extends Controller
         $componente = Componente::findOrFail($id);
         $data = $this->procesarDatos($request->all());
 
-        // 🔹 VALIDACIÓN DE SOCKET
+        // VALIDACIÓN DE SOCKET
         if ($data['tipo_componente'] === 'Procesador') {
             $tarjetaMadre = Componente::where('id_equipo', $data['id_equipo'])
                 ->where('tipo_componente', 'Tarjeta Madre')
@@ -297,7 +297,7 @@ class ComponenteController extends Controller
             }
         }
 
-        // 🔹 VALIDACIÓN DE TIPO DE RAM
+        // VALIDACIÓN DE TIPO DE RAM
         if ($data['tipo_componente'] === 'Memoria RAM') {
             $tarjetaMadre = Componente::where('id_equipo', $data['id_equipo'])
                 ->where('tipo_componente', 'Tarjeta Madre')
@@ -310,7 +310,7 @@ class ComponenteController extends Controller
                 ]);
             }
 
-            // 🔹 Normalizamos slot ingresado
+            // Normalizamos slot ingresado
             $slot = $data['slot_memoria'] ?? null;
             if (!$slot) {
                 return back()->withInput()->withErrors([
@@ -388,10 +388,10 @@ class ComponenteController extends Controller
             unset($data['slot_memoria']); // Para otros componentes no usamos slot
         }
 
-        // 🔹 ACTUALIZAR COMPONENTE
+        // ACTUALIZAR COMPONENTE
         $componente->update($data);
 
-        // 🔹 GUARDAR LOG
+        // GUARDAR LOG
         $usuario = Auth::check() ? Auth::user()->usuario : 'Sistema';
         try {
             LogModel::create([
@@ -404,7 +404,7 @@ class ComponenteController extends Controller
             \Illuminate\Support\Facades\Log::error('Error guardando log: ' . $e->getMessage());
         }
 
-        // 🔹 REDIRECCIÓN
+        // REDIRECCIÓN
         if ($request->input('porEquipo')) {
             return redirect()->route('componentes.porEquipo', $request->input('id_equipo'))
                 ->with('success', 'Componente actualizado correctamente.');
@@ -630,10 +630,16 @@ class ComponenteController extends Controller
                 $data['modelo'] = $data['modelo_fuente'] ?? $data['modelo'];
                 $data['potencia'] = $data['potencia'] ?? $data['potencia'];
                 if (!empty($data['voltajes_fuente'])) {
-                    $voltajes = $data['voltajes_fuente'];
+
+                    // normalizar a array si viene como string
+                    $voltajes = is_array($data['voltajes_fuente'])
+                        ? $data['voltajes_fuente']
+                        : explode(',', $data['voltajes_fuente']);
+
                     if (!empty($data['voltaje_otro'])) {
                         $voltajes[] = $data['voltaje_otro'];
                     }
+
                     $data['voltajes_fuente'] = implode(',', $voltajes);
                 } else {
                     $data['voltajes_fuente'] = !empty($data['voltaje_otro']) ? $data['voltaje_otro'] : null;
@@ -703,6 +709,10 @@ class ComponenteController extends Controller
 
         if (($data['tipo_componente'] ?? '') !== 'Unidad Optica') {
             $data['tipos_discos'] = null;
+        }
+
+        if (($data['tipo_componente'] ?? '') !== 'Tarjeta Grafica') {
+            $data['salidas_video'] = null;
         }
 
         // Estado activo por defecto
