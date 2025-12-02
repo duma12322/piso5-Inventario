@@ -58,6 +58,11 @@ class EquipoController extends Controller
             ->paginate(10)
             ->withQueryString();
 
+        foreach ($equipos as $equipo) {
+            $equipo->calcularEstadoTecnologico(); // Esto actualiza estado_tecnologico
+        }
+
+
         return view('equipos.index', compact('equipos', 'search'));
     }
 
@@ -80,7 +85,7 @@ class EquipoController extends Controller
         $tiposSoftware = [
             'Sistema Operativo' => ['Windows', 'Linux', 'MacOS'],
             'Ofimática' => ['Microsoft Office', 'LibreOffice', 'OnlyOffice', 'WPS Office', 'Otro'],
-            'Navegador' => ['Chrome', 'Firefox', 'Edge', 'Opera', 'Internet Explore'],
+            'Navegador' => ['Chrome', 'Firefox', 'Edge', 'Opera', 'Internet Explore', 'Brave'],
             'Otro' => ['Antivirus', 'Editor', 'Otro']
         ];
 
@@ -161,7 +166,7 @@ class EquipoController extends Controller
         $tiposSoftware = [
             'Sistema Operativo' => ['Windows', 'Linux', 'MacOS'],
             'Ofimática' => ['Microsoft Office', 'LibreOffice', 'OnlyOffice', 'WPS Office', 'Otro'],
-            'Navegador' => ['Chrome', 'Firefox', 'Edge', 'Opera', 'Internet Explore'],
+            'Navegador' => ['Chrome', 'Firefox', 'Edge', 'Opera', 'Internet Explore', 'Brave'],
             'Otro' => ['Antivirus', 'Editor', 'Otro']
         ];
 
@@ -223,7 +228,7 @@ class EquipoController extends Controller
             'serial' => 'nullable|string|max:255',
             'numero_bien' => 'nullable|string|max:255',
             'tipo_gabinete' => 'nullable|string|max:255',
-            'estado_gabinete' => 'nullable|in:Nuevo,Deteriorado,Dañado',
+            'estado_gabinete' => 'nullable|in:Nuevo,Deteriorado,Dañado,Buen Estado',
             'estado_funcional' => 'nullable|in:Buen Funcionamiento,Operativo,Sin Funcionar',
             'estado_tecnologico' => 'nullable|in:Nuevo,Actualizable,Obsoleto',
             'id_direccion' => 'nullable|exists:direcciones,id_direccion',
