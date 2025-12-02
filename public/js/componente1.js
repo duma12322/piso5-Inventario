@@ -14,6 +14,16 @@ document.addEventListener("DOMContentLoaded", () => {
   ];
 
   const mostrarCampos = tipo => {
+    // Si no hay tipo seleccionado, ocultar todo y salir
+    if (!tipo) {
+      secciones.forEach(id => {
+        const elem = document.getElementById(id);
+        if (elem) elem.style.display = "none";
+      });
+      return;
+    }
+
+    // Ocultar todo
     secciones.forEach(id => {
       const elem = document.getElementById(id);
       if (elem) elem.style.display = "none";
@@ -45,10 +55,12 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   };
 
-  // Ejecutar al cargar la página (editar)
-  mostrarCampos(tipoSelect.value);
+  // Ejecutar al cargar (solo si hay valor)
+  if (tipoSelect.value) {
+    mostrarCampos(tipoSelect.value);
+  }
 
-  // Ejecutar cuando cambie el select
+  // Ejecutar cuando cambie
   tipoSelect.addEventListener("change", e => mostrarCampos(e.target.value));
 
   console.log("JS unificado cargado");
