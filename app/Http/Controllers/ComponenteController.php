@@ -164,6 +164,22 @@ class ComponenteController extends Controller
             }
 
             $data['slot_memoria'] = $slot; // asignamos formato correcto
+
+            // Validación frecuencia
+            if ($tarjetaMadre->frecuencias_memoria) {
+                // Obtenemos las frecuencias válidas como array de números limpios
+                $frecuenciasPermitidas = array_map('trim', explode(',', $tarjetaMadre->frecuencias_memoria));
+
+                // Quitamos posibles unidades en $data['frecuencia'] y lo comparamos como número
+                $frecuenciaSeleccionada = (int) $data['frecuencia'];
+
+                if (!in_array($frecuenciaSeleccionada, $frecuenciasPermitidas)) {
+                    $frecuenciasFormateadas = implode(', ', $frecuenciasPermitidas);
+                    return back()->withInput()->withErrors([
+                        'frecuencia' => "La frecuencia ingresada ({$frecuenciaSeleccionada} MHz) no es compatible con la tarjeta madre. Frecuencias válidas: {$frecuenciasFormateadas} MHz."
+                    ]);
+                }
+            }
         }
 
         // CREAR EL COMPONENTE
