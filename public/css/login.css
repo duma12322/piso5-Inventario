@@ -27,11 +27,12 @@ body {
   width: 102%;
   background: 
     linear-gradient(180deg, rgba(235, 230, 230, 0.555), rgba(31, 31, 31, 0.349)),
-    url("../fonts/Gobernacion-del-estado-Lara.jpg") center/cover no-repeat;
+    url("../fonts/nvfondo.png") center/cover no-repeat;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding-top: 80px;         
+  padding-top: 40px; 
+  height: 700px;       
   margin-left: -25px;
 }
 

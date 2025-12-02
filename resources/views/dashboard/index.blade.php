@@ -6,8 +6,8 @@
 
     {{-- Header con animación --}}
     <div class="dashboard-header text-center mb-5">
-        <h1 class="welcome-title"> Bienvenido a tu Dashboard</h1>
-        <p class="welcome-subtitle">Hola, <span class="user-name">{{ $usuario->name ?? $usuario->usuario }}</span> 👋</p>
+        <h1 class="welcome-title"> Bienvenido</h1>
+        <p class="welcome-subtitle"> Que nuevo tenemos hoy? <span class="user-name">{{ $usuario->name ?? $usuario->usuario }}</span> </p>
     </div>
 
     {{-- Tarjetas de Totales con animaciones --}}
@@ -54,7 +54,7 @@
             <div class="col-lg-4 col-md-6 mb-4">
                 <div class="chart-card animate-card">
                     <div class="chart-header">
-                        <h5>🔄 Estado Funcional</h5>
+                        <h5> Estado Funcional</h5>
                     </div>
                     
                     @php
@@ -112,7 +112,7 @@
             <div class="col-lg-4 col-md-6 mb-4">
                 <div class="chart-card animate-card">
                     <div class="chart-header">
-                        <h5>🚀 Estado Tecnológico</h5>
+                        <h5> Estado Tecnológico</h5>
                     </div>
                     
                     @php
@@ -170,7 +170,7 @@
             <div class="col-lg-4 col-md-6 mb-4">
                 <div class="chart-card animate-card">
                     <div class="chart-header">
-                        <h5>🏛️ Estado Físico de Gabinetes</h5>
+                        <h5> Estado Físico de Gabinetes</h5>
                     </div>
                     
                     @php
