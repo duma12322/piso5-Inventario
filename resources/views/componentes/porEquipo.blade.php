@@ -24,7 +24,6 @@
                 <th>Estado</th>
                 <th>Ranuras</th>
                 <th>Puertos E/S</th>
-                <th>Bios/Uefi</th>
                 <th>Conectores de alimentación</th>
                 <th>Acciones</th> <!-- Nueva columna -->
             </tr>
@@ -59,7 +58,6 @@
                     Sin info
                     @endforelse
                 </td>
-                <td>{{ $c->bios_uefi ?? 'Sin info' }}</td>
                 <td>
                     @php $conectores = !empty($c->conectores_alimentacion) ? explode(',', $c->conectores_alimentacion) : []; @endphp
                     @forelse($conectores as $conector)
@@ -106,7 +104,6 @@
         <table class="table table-bordered table-striped">
             <thead>
                 <tr>
-                    <th>ID</th>
                     <th>Tipo</th>
                     <th>Marca</th>
                     <th>Modelo</th>
@@ -122,7 +119,6 @@
             <tbody>
                 @forelse ($opcionales as $o)
                 <tr>
-                    <td>{{ trim($o->id_opcional) ?: 'Sin ID' }}</td>
                     <td>{{ trim($o->tipo_opcional) ?: 'Sin tipo' }}</td>
                     <td>{{ trim($o->marca) ?: 'Sin marca' }}</td>
                     <td>{{ trim($o->modelo) ?: 'Sin modelo' }}</td>

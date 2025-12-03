@@ -84,6 +84,11 @@
                     <label>Tipo RAM</label>
                     <input type="text" name="tipo_tarjeta_madre" class="form-control"
                         value="{{ old('tipo_tarjeta_madre', $componente->tipo) }}">
+                    @if($errors->has('tipo'))
+                    <div class="alert alert-danger mt-2">
+                        {{ $errors->first('tipo') }}
+                    </div>
+                    @endif
                 </div>
             </div>
 
@@ -117,10 +122,9 @@
                                 </div>
                                 @endforeach
                             </div>
-
-                            @if($errors->has('frecuencias_memoria'))
+                            @if($errors->has('frecuencia'))
                             <div class="alert alert-danger mt-2">
-                                {{ $errors->first('frecuencias_memoria') }}
+                                {{ $errors->first('frecuencia') }}
                             </div>
                             @endif
                         </div>

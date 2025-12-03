@@ -43,7 +43,7 @@
 
     <form method="POST" action="{{ route('componentes.store') }}" class="component-form" id="componentForm" enctype="multipart/form-data">
         @csrf
-        
+
         @if(isset($porEquipo) && $porEquipo)
         <input type="hidden" name="porEquipo" value="1">
         <input type="hidden" name="id_equipo" value="{{ $equipoSeleccionado->id_equipo ?? '' }}">
@@ -79,7 +79,7 @@
                     <p>Seleccione el equipo y tipo de componente</p>
                 </div>
             </div>
-            
+
             <div class="form-grid">
                 <!-- Selección del equipo -->
                 <div class="form-group">
@@ -238,6 +238,11 @@
                                 <i class="fas fa-bolt"></i> Tipo RAM
                             </label>
                             <input type="text" name="tipo_ram" class="form-input" placeholder="Ej. DDR3, DDR2" value="{{ old('tipo_ram') }}">
+                            @if($errors->has('tipo'))
+                            <div class="alert alert-danger mt-2">
+                                {{ $errors->first('tipo') }}
+                            </div>
+                            @endif
                         </div>
                     </div>
 
@@ -249,13 +254,13 @@
                         <div class="checkbox-grid" id="frecuencias-container">
                             @php
                             $opcionesFrecuencias = [
-                                'DDR' => [200, 266, 333, 400],
-                                'DDR2' => [400, 533, 667, 800, 1066],
-                                'DDR3' => [800, 1066, 1333, 1600, 1866, 2133, 2400],
-                                'DDR4' => [2133, 2400, 2666, 2800, 2933, 3000, 3200, 3466, 3600, 3733, 4000, 4266],
-                                'DDR5' => [4800, 5200, 5600, 6000, 6400, 6800, 7200, 7600, 8000, 8400]
+                            'DDR' => [200, 266, 333, 400],
+                            'DDR2' => [400, 533, 667, 800, 1066],
+                            'DDR3' => [800, 1066, 1333, 1600, 1866, 2133, 2400],
+                            'DDR4' => [2133, 2400, 2666, 2800, 2933, 3000, 3200, 3466, 3600, 3733, 4000, 4266],
+                            'DDR5' => [4800, 5200, 5600, 6000, 6400, 6800, 7200, 7600, 8000, 8400]
                             ];
-                            
+
                             $seleccionadasFreq = old('frecuencias_memoria', []);
                             @endphp
 
@@ -275,11 +280,11 @@
                             </div>
                             @endforeach
                         </div>
-                        @error('frecuencias_memoria')
-                        <div class="error-message">
-                            <i class="fas fa-exclamation-circle"></i> {{ $message }}
+                        @if($errors->has('frecuencia'))
+                        <div class="alert alert-danger mt-2">
+                            {{ $errors->first('frecuencia') }}
                         </div>
-                        @enderror
+                        @endif
                     </div>
 
                     <!-- Ranuras de expansión -->
@@ -290,9 +295,9 @@
                         <div class="checkbox-grid compact">
                             @php
                             $opcionesRanuras = [
-                                'ISA', 'AGP', 'PCI', 'PCI-X', 'AMR/CNR', 'PCIe x1', 'PCIe x2', 'PCIe x4', 
-                                'PCIe x8', 'PCIe x12', 'PCIe x16', 'PCIe x32', 'Mini PCIe', 'M.2 (Key M)', 
-                                'M.2 (Key E)', 'Thunderbolt header', 'OCP', 'CXL'
+                            'ISA', 'AGP', 'PCI', 'PCI-X', 'AMR/CNR', 'PCIe x1', 'PCIe x2', 'PCIe x4',
+                            'PCIe x8', 'PCIe x12', 'PCIe x16', 'PCIe x32', 'Mini PCIe', 'M.2 (Key M)',
+                            'M.2 (Key E)', 'Thunderbolt header', 'OCP', 'CXL'
                             ];
                             $seleccionadas = old('ranuras_expansion', []);
                             @endphp
@@ -540,90 +545,90 @@
 
 @section('scripts')
 <script>
-// Variables globales
-let currentStep = 1;
+    // Variables globales
+    let currentStep = 1;
 
-function showStep(step) {
-    // Ocultar todos los pasos
-    document.querySelectorAll('.form-step').forEach(stepEl => {
-        stepEl.classList.remove('active');
-    });
-    
-    // Mostrar paso seleccionado
-    document.getElementById(`step${step}`).classList.add('active');
-    currentStep = step;
-    
-    // Actualizar pasos de progreso
-    document.querySelectorAll('.step').forEach(stepEl => {
-        const stepNumber = parseInt(stepEl.dataset.step);
-        if (stepNumber <= step) {
-            stepEl.classList.add('active');
-        } else {
+    function showStep(step) {
+        // Ocultar todos los pasos
+        document.querySelectorAll('.form-step').forEach(stepEl => {
             stepEl.classList.remove('active');
-        }
-    });
-    
-    // Actualizar conectores
-    document.querySelectorAll('.step-connector').forEach(connector => {
-        if (step >= 2) {
-            connector.classList.add('active');
-        } else {
-            connector.classList.remove('active');
-        }
-    });
-    
-    // Mostrar campos según tipo de componente
-    updateComponentFields();
-}
+        });
 
-function validateStep(step) {
-    let isValid = true;
-    const stepElement = document.getElementById(`step${step}`);
-    const requiredFields = stepElement.querySelectorAll('[required]');
-    
-    requiredFields.forEach(field => {
-        if (!field.value.trim()) {
-            field.classList.add('error');
-            showFieldError(field, 'Este campo es requerido');
-            isValid = false;
-        } else {
-            field.classList.remove('error');
-            hideFieldError(field);
-        }
-    });
-    
-    if (isValid && step === 1) {
-        showStep(2);
+        // Mostrar paso seleccionado
+        document.getElementById(`step${step}`).classList.add('active');
+        currentStep = step;
+
+        // Actualizar pasos de progreso
+        document.querySelectorAll('.step').forEach(stepEl => {
+            const stepNumber = parseInt(stepEl.dataset.step);
+            if (stepNumber <= step) {
+                stepEl.classList.add('active');
+            } else {
+                stepEl.classList.remove('active');
+            }
+        });
+
+        // Actualizar conectores
+        document.querySelectorAll('.step-connector').forEach(connector => {
+            if (step >= 2) {
+                connector.classList.add('active');
+            } else {
+                connector.classList.remove('active');
+            }
+        });
+
+        // Mostrar campos según tipo de componente
+        updateComponentFields();
     }
-    
-    return isValid;
-}
 
-function showFieldError(field, message) {
-    let errorDiv = field.parentElement.querySelector('.field-error');
-    if (!errorDiv) {
-        errorDiv = document.createElement('div');
-        errorDiv.className = 'field-error';
-        field.parentElement.appendChild(errorDiv);
+    function validateStep(step) {
+        let isValid = true;
+        const stepElement = document.getElementById(`step${step}`);
+        const requiredFields = stepElement.querySelectorAll('[required]');
+
+        requiredFields.forEach(field => {
+            if (!field.value.trim()) {
+                field.classList.add('error');
+                showFieldError(field, 'Este campo es requerido');
+                isValid = false;
+            } else {
+                field.classList.remove('error');
+                hideFieldError(field);
+            }
+        });
+
+        if (isValid && step === 1) {
+            showStep(2);
+        }
+
+        return isValid;
     }
-    errorDiv.innerHTML = `<i class="fas fa-exclamation-circle"></i> ${message}`;
-}
 
-function hideFieldError(field) {
-    const errorDiv = field.parentElement.querySelector('.field-error');
-    if (errorDiv) {
-        errorDiv.remove();
+    function showFieldError(field, message) {
+        let errorDiv = field.parentElement.querySelector('.field-error');
+        if (!errorDiv) {
+            errorDiv = document.createElement('div');
+            errorDiv.className = 'field-error';
+            field.parentElement.appendChild(errorDiv);
+        }
+        errorDiv.innerHTML = `<i class="fas fa-exclamation-circle"></i> ${message}`;
     }
-}
 
-function updateComponentPreview() {
-    const select = document.getElementById('tipo_componente');
-    const selectedOption = select.options[select.selectedIndex];
-    const preview = document.getElementById('componentPreview');
-    
-    if (selectedOption.value) {
-        const icon = selectedOption.getAttribute('data-icon');
-        preview.innerHTML = `
+    function hideFieldError(field) {
+        const errorDiv = field.parentElement.querySelector('.field-error');
+        if (errorDiv) {
+            errorDiv.remove();
+        }
+    }
+
+    function updateComponentPreview() {
+        const select = document.getElementById('tipo_componente');
+        const selectedOption = select.options[select.selectedIndex];
+        const preview = document.getElementById('componentPreview');
+
+        if (selectedOption.value) {
+            const icon = selectedOption.getAttribute('data-icon');
+            preview.innerHTML = `
             <div class="preview-icon">
                 <i class="fas ${icon}"></i>
             </div>
@@ -632,9 +637,9 @@ function updateComponentPreview() {
                 <p>Complete los detalles específicos del ${selectedOption.text.toLowerCase()}</p>
             </div>
         `;
-        preview.classList.add('has-selection');
-    } else {
-        preview.innerHTML = `
+            preview.classList.add('has-selection');
+        } else {
+            preview.innerHTML = `
             <div class="preview-icon">
                 <i class="fas fa-microchip"></i>
             </div>
@@ -643,99 +648,99 @@ function updateComponentPreview() {
                 <p>Elija un tipo de componente en el paso anterior para ver los campos específicos</p>
             </div>
         `;
-        preview.classList.remove('has-selection');
-    }
-    
-    // Actualizar campos del componente
-    updateComponentFields();
-}
-
-function updateComponentFields() {
-    // Ocultar todas las secciones
-    document.querySelectorAll('.component-section').forEach(section => {
-        section.style.display = 'none';
-    });
-    
-    // Mostrar sección correspondiente
-    const tipo = document.getElementById('tipo_componente').value;
-    if (tipo) {
-        const sectionId = tipo.toLowerCase().replace(/ /g, '_') + '_campos';
-        const section = document.getElementById(sectionId);
-        if (section) {
-            section.style.display = 'block';
-            section.style.animation = 'fadeIn 0.5s ease-out';
+            preview.classList.remove('has-selection');
         }
+
+        // Actualizar campos del componente
+        updateComponentFields();
     }
-}
 
-function closeModal() {
-    document.getElementById('successModal').style.display = 'none';
-    // Redirigir después de cerrar modal
-    setTimeout(() => {
-        @if(isset($porEquipo) && $porEquipo && isset($equipoSeleccionado))
-        window.location.href = "{{ route('componentes.porEquipo', $equipoSeleccionado->id_equipo) }}";
-        @else
-        window.location.href = "{{ route('componentes.index') }}";
-        @endif
-    }, 500);
-}
+    function updateComponentFields() {
+        // Ocultar todas las secciones
+        document.querySelectorAll('.component-section').forEach(section => {
+            section.style.display = 'none';
+        });
 
-// Inicializar
-document.addEventListener('DOMContentLoaded', function() {
-    // Inicializar select de tipo de componente
-    const tipoComponente = document.getElementById('tipo_componente');
-    tipoComponente.addEventListener('change', updateComponentPreview);
-    updateComponentPreview();
-    
-    // Manejar envío del formulario
-    document.getElementById('componentForm').addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        if (!validateStep(1) || !validateStep(2)) {
-            showStep(1); // Regresar al primer paso si hay errores
-            return;
-        }
-        
-        // Enviar formulario
-        const formData = new FormData(this);
-        
-        fetch(this.action, {
-            method: 'POST',
-            body: formData,
-            headers: {
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-                'Accept': 'application/json'
+        // Mostrar sección correspondiente
+        const tipo = document.getElementById('tipo_componente').value;
+        if (tipo) {
+            const sectionId = tipo.toLowerCase().replace(/ /g, '_') + '_campos';
+            const section = document.getElementById(sectionId);
+            if (section) {
+                section.style.display = 'block';
+                section.style.animation = 'fadeIn 0.5s ease-out';
             }
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                document.getElementById('successModal').style.display = 'flex';
-            } else {
-                // Mostrar errores
-                if (data.errors) {
-                    Object.keys(data.errors).forEach(field => {
-                        const input = document.querySelector(`[name="${field}"]`);
-                        if (input) {
-                            showFieldError(input, data.errors[field][0]);
+        }
+    }
+
+    function closeModal() {
+        document.getElementById('successModal').style.display = 'none';
+        // Redirigir después de cerrar modal
+        setTimeout(() => {
+            @if(isset($porEquipo) && $porEquipo && isset($equipoSeleccionado))
+            window.location.href = "{{ route('componentes.porEquipo', $equipoSeleccionado->id_equipo) }}";
+            @else
+            window.location.href = "{{ route('componentes.index') }}";
+            @endif
+        }, 500);
+    }
+
+    // Inicializar
+    document.addEventListener('DOMContentLoaded', function() {
+        // Inicializar select de tipo de componente
+        const tipoComponente = document.getElementById('tipo_componente');
+        tipoComponente.addEventListener('change', updateComponentPreview);
+        updateComponentPreview();
+
+        // Manejar envío del formulario
+        document.getElementById('componentForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            if (!validateStep(1) || !validateStep(2)) {
+                showStep(1); // Regresar al primer paso si hay errores
+                return;
+            }
+
+            // Enviar formulario
+            const formData = new FormData(this);
+
+            fetch(this.action, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                        'Accept': 'application/json'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        document.getElementById('successModal').style.display = 'flex';
+                    } else {
+                        // Mostrar errores
+                        if (data.errors) {
+                            Object.keys(data.errors).forEach(field => {
+                                const input = document.querySelector(`[name="${field}"]`);
+                                if (input) {
+                                    showFieldError(input, data.errors[field][0]);
+                                }
+                            });
                         }
-                    });
-                }
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            alert('Error al guardar el componente');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Error al guardar el componente');
+                });
+        });
+
+        // Limpiar errores al escribir
+        document.querySelectorAll('.form-input, .form-select, .form-textarea').forEach(input => {
+            input.addEventListener('input', function() {
+                this.classList.remove('error');
+                hideFieldError(this);
+            });
         });
     });
-    
-    // Limpiar errores al escribir
-    document.querySelectorAll('.form-input, .form-select, .form-textarea').forEach(input => {
-        input.addEventListener('input', function() {
-            this.classList.remove('error');
-            hideFieldError(this);
-        });
-    });
-});
 </script>
 @endsection

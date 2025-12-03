@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 12-11-2025 a las 14:58:01
+-- Tiempo de generación: 03-12-2025 a las 02:41:32
 -- Versión del servidor: 10.4.28-MariaDB
 -- Versión de PHP: 8.4.14
 
@@ -33,18 +33,17 @@ CREATE TABLE `componentes` (
   `tipo_componente` varchar(50) NOT NULL,
   `marca` varchar(50) DEFAULT NULL,
   `modelo` varchar(100) DEFAULT NULL,
-  `arquitectura` varchar(10) DEFAULT NULL,
+  `arquitectura` varchar(50) DEFAULT NULL,
   `estado` enum('Buen Funcionamiento','Operativo','Sin Funcionar') DEFAULT 'Buen Funcionamiento',
   `fecha_instalacion` year(4) DEFAULT NULL,
   `ubicacion` varchar(100) DEFAULT NULL,
   `tipo` varchar(50) DEFAULT NULL,
   `frecuencia` varchar(50) DEFAULT NULL,
-  `velocidad` varchar(50) DEFAULT NULL,
   `capacidad` varchar(50) DEFAULT NULL,
   `consumo` varchar(50) DEFAULT NULL,
   `rgb_led` varchar(50) DEFAULT NULL,
-  `ranuras_expansion` varchar(100) DEFAULT NULL,
-  `conectores_alimentacion` varchar(100) DEFAULT NULL,
+  `ranuras_expansion` varchar(500) DEFAULT NULL,
+  `conectores_alimentacion` varchar(500) DEFAULT NULL,
   `bios_uefi` varchar(100) DEFAULT NULL,
   `potencia` varchar(50) DEFAULT NULL,
   `voltajes_fuente` varchar(255) DEFAULT NULL,
@@ -68,8 +67,8 @@ CREATE TABLE `componentes` (
   `consumo_electrico` varchar(50) DEFAULT NULL,
   `detalles` text CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
   `estadoElim` enum('Activo','Inactivo') NOT NULL DEFAULT 'Activo',
-  `puertos_internos` varchar(150) DEFAULT NULL,
-  `puertos_externos` varchar(150) DEFAULT NULL,
+  `puertos_internos` varchar(500) DEFAULT NULL,
+  `puertos_externos` varchar(500) DEFAULT NULL,
   `cantidad_slot_memoria` int(11) DEFAULT NULL,
   `slot_memoria` varchar(20) DEFAULT NULL,
   `memoria_maxima` varchar(25) DEFAULT NULL COMMENT 'Capacidad máxima de RAM que soporta la placa (en GB)',
@@ -80,16 +79,71 @@ CREATE TABLE `componentes` (
 -- Volcado de datos para la tabla `componentes`
 --
 
-INSERT INTO `componentes` (`id_componente`, `id_equipo`, `tipo_componente`, `marca`, `modelo`, `arquitectura`, `estado`, `fecha_instalacion`, `ubicacion`, `tipo`, `frecuencia`, `velocidad`, `capacidad`, `consumo`, `rgb_led`, `ranuras_expansion`, `conectores_alimentacion`, `bios_uefi`, `potencia`, `voltajes_fuente`, `nucleos`, `socket`, `soporte_memoria`, `tipo_conector`, `conectividad_soporte`, `salidas_video`, `soporte_apis`, `fabricante_controlador`, `modelo_red`, `velocidad_transferencia`, `tipo_conector_fisico`, `mac_address`, `drivers_sistema`, `compatibilidad_sistema`, `tipos_discos`, `interfaz_conexion`, `tipo_cooler`, `consumo_electrico`, `detalles`, `estadoElim`, `puertos_internos`, `puertos_externos`, `cantidad_slot_memoria`, `slot_memoria`, `memoria_maxima`, `frecuencias_memoria`) VALUES
-(33, 12, 'Procesador', 'intel', 'Corei7', 'x64', 'Operativo', NULL, NULL, NULL, '3.6GHz', NULL, NULL, '125w', NULL, NULL, NULL, NULL, NULL, NULL, 4, 'LGA1150', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'CD', NULL, NULL, NULL, NULL, 'Inactivo', NULL, NULL, NULL, NULL, NULL, NULL),
-(36, 12, 'Tarjeta Madre', 'Intel', '18E9', NULL, 'Buen Funcionamiento', '2018', NULL, 'DDR3', NULL, NULL, NULL, NULL, NULL, 'ISA, PCI, PCIe x1, PCIe x4, PCIe x8', '24 pines, 6 pines PCIe', 'UEFI', NULL, NULL, NULL, 'LGA 1150', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'CD', NULL, NULL, NULL, NULL, 'Inactivo', 'SATA, IDE (PATA)', 'HDMI, VGA, USB 2.0, USB 3.0/3.1 Gen1, USB 3.2 Gen2, Jack 3.5 mm, PS/2', 2, NULL, NULL, NULL),
-(37, 12, 'Disco Duro', 'Wester Digital', NULL, NULL, 'Operativo', NULL, NULL, 'SSD', NULL, NULL, '512 GB', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'CD', NULL, NULL, NULL, NULL, 'Activo', NULL, NULL, NULL, NULL, NULL, NULL),
-(38, 12, 'Tarjeta Grafica', 'AMD', 'AMD 750', NULL, 'Operativo', NULL, NULL, NULL, NULL, NULL, '2GB', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'VGA, DVI', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'CD', NULL, NULL, NULL, NULL, 'Activo', NULL, NULL, NULL, NULL, NULL, NULL),
-(39, 12, 'Memoria RAM', 'ADATA', NULL, NULL, 'Operativo', NULL, NULL, 'DDR3', '3200MHZ', NULL, '8GB', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'CD', NULL, NULL, NULL, NULL, 'Inactivo', NULL, NULL, NULL, 'Slot 2', NULL, NULL),
-(40, 12, 'Memoria RAM', 'ADATA', NULL, NULL, 'Operativo', NULL, NULL, 'DDR3', '3200MHZ', NULL, '8GB', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'CD', NULL, NULL, NULL, NULL, 'Inactivo', NULL, NULL, NULL, 'Slot 1', NULL, NULL),
-(41, 12, 'Tarjeta Madre', 'Intel', '18E9', NULL, 'Buen Funcionamiento', '2015', NULL, 'DDR3', NULL, NULL, NULL, NULL, NULL, 'ISA, PCIe x1, PCIe x2, PCIe x4', 'ATX 24 pines, EPS 4 pines, SATA Power', 'UEFI', NULL, NULL, NULL, 'LGA 1150', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'CD', NULL, NULL, NULL, NULL, 'Activo', 'SATA, USB 2.0 header, USB 3.0 header', 'HDMI, DisplayPort, DVI, VGA, USB 2.0, USB 3.0/3.1 Gen1, USB 3.2 Gen2, RJ-45 Ethernet', 2, NULL, '8GB', '800, 1066'),
-(42, 12, 'Memoria RAM', 'ADATA', NULL, NULL, 'Operativo', NULL, NULL, 'DDR3', '1066MHZ', NULL, '4GB', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'CD', NULL, NULL, NULL, NULL, 'Inactivo', NULL, NULL, NULL, 'Slot 1', NULL, NULL),
-(43, 12, 'Memoria RAM', 'Corsai', NULL, NULL, 'Operativo', NULL, NULL, 'DDR3', '1066MHZ', NULL, '4GB', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'CD', NULL, NULL, NULL, NULL, 'Activo', NULL, NULL, NULL, 'Slot 1', NULL, NULL);
+INSERT INTO `componentes` (`id_componente`, `id_equipo`, `tipo_componente`, `marca`, `modelo`, `arquitectura`, `estado`, `fecha_instalacion`, `ubicacion`, `tipo`, `frecuencia`, `capacidad`, `consumo`, `rgb_led`, `ranuras_expansion`, `conectores_alimentacion`, `bios_uefi`, `potencia`, `voltajes_fuente`, `nucleos`, `socket`, `soporte_memoria`, `tipo_conector`, `conectividad_soporte`, `salidas_video`, `soporte_apis`, `fabricante_controlador`, `modelo_red`, `velocidad_transferencia`, `tipo_conector_fisico`, `mac_address`, `drivers_sistema`, `compatibilidad_sistema`, `tipos_discos`, `interfaz_conexion`, `tipo_cooler`, `consumo_electrico`, `detalles`, `estadoElim`, `puertos_internos`, `puertos_externos`, `cantidad_slot_memoria`, `slot_memoria`, `memoria_maxima`, `frecuencias_memoria`) VALUES
+(51, 18, 'Tarjeta Madre', 'HEWLETT-PACKARD', '2820h', NULL, 'Operativo', '2008', NULL, 'DDR2', NULL, NULL, NULL, NULL, 'PCI,PCIe x1,PCIe x16', 'ATX 24 pines,EPS 4 pines,4 pines Molex,SATA Power,Berg (Floppy)', 'HEWLETT-PACKARD', NULL, NULL, NULL, 'LGA 775', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'LENTA', 'Activo', 'SATA,IDE (PATA),USB 2.0 header,Audio HD header,Fan header (3/4 pines),Paralelo (LPT),Serial (COM),Panel frontal (power/reset/LEDs)', 'VGA,USB 2.0,RJ-45 Ethernet,Jack 3.5 mm (Sonido),Jack 3.5 mm (Audio),PS/2 (Teclado),PS/2 (Mouse),Puerto Serie,Puerto Paralelo', 4, NULL, '4GB', '667,800,800,800'),
+(52, 18, 'Procesador', 'INTEL', 'CORE 2 DUO E7200', 'X86', 'Operativo', NULL, NULL, NULL, '2.53GHZ', NULL, '65W', NULL, NULL, NULL, NULL, NULL, NULL, 2, 'LGA775', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Lento', 'Activo', NULL, NULL, NULL, NULL, NULL, NULL),
+(53, 18, 'Memoria RAM', 'MICRON TECHNOLOGY', NULL, NULL, 'Operativo', NULL, NULL, 'DDR2', '800MHZ', '1GB', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'LENTA', 'Activo', NULL, NULL, NULL, 'Slot 1', NULL, NULL),
+(55, 18, 'Fuente de Poder', 'HP', 'PS-6241-7', NULL, 'Operativo', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '240W', '+12V,+5V,+3.3V,-12V,+5VSB', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Activo', NULL, NULL, NULL, NULL, NULL, NULL),
+(56, 18, 'Disco Duro', 'WESTER DIGITAL', NULL, NULL, 'Operativo', NULL, NULL, 'HDD', NULL, '256GB', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Activo', NULL, NULL, NULL, NULL, NULL, NULL),
+(57, 18, 'Tarjeta Grafica', 'INTEL', 'INTEL(R) Q33 EXPRESS CHIPSET', NULL, 'Buen Funcionamiento', NULL, NULL, NULL, NULL, '256MB', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'VGA', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Activo', NULL, NULL, NULL, NULL, NULL, NULL),
+(58, 18, 'Tarjeta Red', 'INTEL', '82566 DM-2', NULL, 'Buen Funcionamiento', NULL, NULL, 'Ethernet (LAN)', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '1000Mbs', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Activo', NULL, NULL, NULL, NULL, NULL, NULL),
+(59, 18, 'Unidad Optica', 'LIGHTSCRIBE', NULL, NULL, 'Operativo', NULL, NULL, 'DVD-RW', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'DESCONECTADO', 'Activo', NULL, NULL, NULL, NULL, NULL, NULL),
+(60, 18, 'Fan Cooler', 'MASTER COOLER', NULL, NULL, 'Buen Funcionamiento', NULL, 'SOBRE EL PROCESADOR', 'DISIPADOR DE CALOR', NULL, NULL, '2W', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Activo', NULL, NULL, NULL, NULL, NULL, NULL),
+(61, 20, 'Tarjeta Madre', 'DELL', '05XGC8', NULL, 'Buen Funcionamiento', '2017', NULL, 'DDR3L', NULL, NULL, NULL, NULL, 'PCIe x1,PCIe x16', 'ATX 24 pines,EPS 4 pines,4 pines Molex,SATA Power,Berg (Floppy)', 'DELL', NULL, NULL, NULL, 'LGA 1151', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Activo', 'SATA,USB 2.0 header,USB 3.0 header,Audio HD header,TPM header,Fan header (3/4 pines),Panel frontal (power/reset/LEDs)', 'HDMI,DisplayPort,USB 2.0,USB 3.0/3.1,RJ-45 Ethernet,Jack 3.5 mm (Sonido),Jack 3.5 mm (Audio)', 2, NULL, '16GB', '1600,1600'),
+(62, 20, 'Memoria RAM', 'SAMSUNG', NULL, NULL, 'Buen Funcionamiento', NULL, NULL, 'DDR3L', '1600MHZ', '2GB', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Activo', NULL, NULL, NULL, 'Slot 1', NULL, NULL),
+(63, 19, 'Tarjeta Madre', 'VIT', 'M2100', NULL, 'Buen Funcionamiento', '2016', NULL, 'DDR3L', NULL, NULL, NULL, NULL, NULL, 'Adaptador externo 19V', 'AMERICAN MEGRATRENDC', NULL, NULL, NULL, 'BGA1170', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Activo', 'SATA,Fan header (3/4 pines),Panel frontal (power/reset/LEDs)', 'HDMI,VGA,USB 2.0,USB 3.0/3.1,RJ-45 Ethernet,Jack 3.5 mm (Sonido),Jack 3.5 mm (Audio)', 2, NULL, '8GB', '1600,1600'),
+(64, 19, 'Procesador', 'INTEL', 'PENTIUM N3710', 'x64 (BRASWELL, 14NM)', 'Buen Funcionamiento', NULL, NULL, NULL, '1.60GHZ', NULL, '6W', NULL, NULL, NULL, NULL, NULL, NULL, 4, 'BGA1170', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Activo', NULL, NULL, NULL, NULL, NULL, NULL),
+(65, 19, 'Memoria RAM', 'UNIC SEMI', NULL, NULL, 'Buen Funcionamiento', NULL, NULL, 'DDR3', '1660MHZ', '2GB', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Inactivo', NULL, NULL, NULL, 'Slot 1', NULL, NULL),
+(66, 19, 'Memoria RAM', 'UNIC SEMI', NULL, NULL, 'Buen Funcionamiento', NULL, NULL, 'DDR3L', '3200MHZ', '2GB', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Inactivo', NULL, NULL, NULL, 'Slot 1', NULL, NULL),
+(67, 19, 'Memoria RAM', 'UNIC SEMI', NULL, NULL, 'Buen Funcionamiento', NULL, NULL, 'DDR3L', '1600MHZ', '2GB', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Activo', NULL, NULL, NULL, 'Slot 1', NULL, NULL),
+(68, 19, 'Disco Duro', 'WESTER DIGITAL', NULL, NULL, 'Buen Funcionamiento', NULL, NULL, 'HDD', NULL, '500GB', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Activo', NULL, NULL, NULL, NULL, NULL, NULL),
+(69, 19, 'Fuente de Poder', 'VIT', 'HKA03619021-8C', NULL, 'Buen Funcionamiento', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '19.0V', '19V DC', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Activo', NULL, NULL, NULL, NULL, NULL, NULL),
+(70, 19, 'Tarjeta Grafica', 'INTEL', 'HD GRAPHICS 405', NULL, 'Buen Funcionamiento', NULL, NULL, NULL, NULL, '128MB', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'VGA,HDMI', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Activo', NULL, NULL, NULL, NULL, NULL, NULL),
+(71, 19, 'Tarjeta Red', 'REALTEK', 'PCIe GbE', NULL, 'Buen Funcionamiento', NULL, NULL, 'Ethernet (LAN)', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '1 GBPS', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Activo', NULL, NULL, NULL, NULL, NULL, NULL),
+(72, 19, 'Fan Cooler', 'VIT (OEM GENERICO)', NULL, NULL, 'Buen Funcionamiento', NULL, 'SOBRE EL PROCESADOR', 'DISIPADOR DE CALOR', NULL, NULL, '6W', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Activo', NULL, NULL, NULL, NULL, NULL, NULL),
+(73, 21, 'Tarjeta Madre', 'LENOVO', '948IAD6', NULL, 'Operativo', '2008', NULL, 'DDR2', NULL, NULL, NULL, NULL, 'PCI,PCIe x1,PCIe x16', 'ATX 24 pines,EPS 4 pines,4 pines Molex,SATA Power,Berg (Floppy)', '51KT37AU5', NULL, NULL, NULL, 'LGA 775', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Activo', 'SATA,IDE (PATA),USB 2.0 header,Audio HD header,Fan header (3/4 pines),Paralelo (LPT),Serial (COM),Chassis Intrusion (Detector),Panel frontal (power/reset/LEDs)', 'VGA,USB 2.0,RJ-45 Ethernet,Jack 3.5 mm (Sonido),Jack 3.5 mm (Audio),PS/2 (Teclado),PS/2 (Mouse),Puerto Serie,Puerto Paralelo', 4, NULL, '4GB', '533,667'),
+(74, 21, 'Procesador', 'INTEL', 'CORE 2 DUO E4600', 'INTEL CORE (CONROE)', 'Operativo', NULL, NULL, NULL, '2.4GHz', NULL, '65W', NULL, NULL, NULL, NULL, NULL, NULL, 2, 'LGA775', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Activo', NULL, NULL, NULL, NULL, NULL, NULL),
+(75, 21, 'Memoria RAM', 'HP', NULL, NULL, 'Operativo', NULL, NULL, 'DDR2', '667MHz', '1GB', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Activo', NULL, NULL, NULL, 'Slot 1', NULL, NULL),
+(76, 21, 'Disco Duro', 'HITACHI', NULL, NULL, 'Operativo', NULL, NULL, 'HDD', NULL, '80GB', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Activo', NULL, NULL, NULL, NULL, NULL, NULL),
+(77, 21, 'Fuente de Poder', 'AcBel', 'API5PC58', NULL, 'Buen Funcionamiento', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '240W', '+12V,+5V,+3.3V,-12V,+5VSB', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Activo', NULL, NULL, NULL, NULL, NULL, NULL),
+(78, 21, 'Tarjeta Grafica', 'INTEL', 'GMA 3000 GRAPHICS', NULL, 'Operativo', NULL, NULL, NULL, NULL, '256MB', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'VGA', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Activo', NULL, NULL, NULL, NULL, NULL, NULL),
+(79, 21, 'Tarjeta Red', 'MARVELL YUKON', '88E8056', NULL, 'Operativo', NULL, NULL, 'Ethernet (LAN)', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '100Mbs', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Activo', NULL, NULL, NULL, NULL, NULL, NULL),
+(80, 21, 'Unidad Optica', 'HP', NULL, NULL, 'Sin Funcionar', NULL, NULL, 'DVD-ROM', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'DESCONECTADA', 'Activo', NULL, NULL, NULL, NULL, NULL, NULL),
+(81, 21, 'Fan Cooler', 'FRU', NULL, NULL, 'Buen Funcionamiento', NULL, 'SOBRE EL PROCESADOR', 'DISIPADOR DE CALOR', NULL, NULL, '3W', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Activo', NULL, NULL, NULL, NULL, NULL, NULL),
+(82, 22, 'Tarjeta Madre', 'HEWLETT', '18E9', NULL, 'Buen Funcionamiento', '2014', NULL, 'DDR3', NULL, NULL, NULL, NULL, 'PCIe x1,PCIe x16', 'ATX 24 pines,EPS 4 pines,4 pines Molex,SATA Power,Berg (Floppy)', 'HEWLETT', NULL, NULL, NULL, 'LGA 1150', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Activo', 'SATA,USB 2.0 header,USB 3.0 header,Audio HD header,Fan header (3/4 pines),Chassis Intrusion (Detector),Panel frontal (power/reset/LEDs)', 'DVI,VGA,USB 2.0,USB 3.0/3.1,RJ-45 Ethernet,Jack 3.5 mm (Sonido),Jack 3.5 mm (Audio),PS/2 (Teclado),PS/2 (Mouse)', 2, NULL, '8GB', '1333,1600'),
+(83, 22, 'Memoria RAM', 'MICRON TECHNOLOGY', NULL, NULL, 'Buen Funcionamiento', NULL, NULL, 'DDR3', '1600MHz', '4GB', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Activo', NULL, NULL, NULL, 'Slot 1', NULL, NULL),
+(84, 22, 'Procesador', 'INTEL', 'I3-4130', 'X64 (Haswell)', 'Buen Funcionamiento', NULL, NULL, NULL, '3.40GHz', NULL, '54W', NULL, NULL, NULL, NULL, NULL, NULL, 2, 'LGA1150', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Activo', NULL, NULL, NULL, NULL, NULL, NULL),
+(85, 22, 'Disco Duro', 'PNY', NULL, NULL, 'Buen Funcionamiento', NULL, NULL, 'SSD', NULL, '1TB', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Activo', NULL, NULL, NULL, NULL, NULL, NULL),
+(86, 22, 'Fuente de Poder', 'HP', 'D12-240P3B', NULL, 'Buen Funcionamiento', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '240W', '+12V,+5V,+3.3V,-12V,+5VSB', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Activo', NULL, NULL, NULL, NULL, NULL, NULL),
+(87, 22, 'Tarjeta Grafica', 'INTEL', 'HD GRAPHICS 4400', NULL, 'Buen Funcionamiento', NULL, NULL, NULL, NULL, '112MB', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'VGA,DVI', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Activo', NULL, NULL, NULL, NULL, NULL, NULL),
+(88, 22, 'Tarjeta Red', 'REALTEK', 'PCIe GbE', NULL, 'Buen Funcionamiento', NULL, NULL, 'Ethernet (LAN)', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '1000Mbs', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Activo', NULL, NULL, NULL, NULL, NULL, NULL),
+(89, 22, 'Unidad Optica', 'HP', NULL, NULL, 'Sin Funcionar', NULL, NULL, 'DVD-ROM', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'DESCONECTADA', 'Activo', NULL, NULL, NULL, NULL, NULL, NULL),
+(90, 22, 'Fan Cooler', 'HP', NULL, NULL, 'Buen Funcionamiento', NULL, 'SOBRE EL PROCESADOR', 'DISIPADOR DE CALOR DE ALUMINIO', NULL, NULL, '3.6W', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Activo', NULL, NULL, NULL, NULL, NULL, NULL),
+(91, 20, 'Procesador', 'INTEL', 'CORE I3-6130', 'x64 (Skylake, 14 nm)', 'Buen Funcionamiento', NULL, NULL, NULL, '3.70GHz', NULL, '51W', NULL, NULL, NULL, NULL, NULL, NULL, 2, 'LGA1151', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Activo', NULL, NULL, NULL, NULL, NULL, NULL),
+(92, 20, 'Disco Duro', 'KINGSTON', NULL, NULL, 'Buen Funcionamiento', NULL, NULL, 'SSD', NULL, '500GB', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Activo', NULL, NULL, NULL, NULL, NULL, NULL),
+(93, 20, 'Fuente de Poder', 'DELL', 'H180AS-00', NULL, 'Buen Funcionamiento', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '180W', '+12V,+5V,+3.3V,-12V,+5VSB', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Activo', NULL, NULL, NULL, NULL, NULL, NULL),
+(94, 20, 'Tarjeta Red', 'REALTEK', 'PCIe GbE', NULL, 'Buen Funcionamiento', NULL, NULL, 'Ethernet (LAN)', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '1000Mbs', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Activo', NULL, NULL, NULL, NULL, NULL, NULL),
+(95, 20, 'Tarjeta Grafica', 'INTEL', 'HD GRAPHICS 530', NULL, 'Buen Funcionamiento', NULL, NULL, NULL, NULL, '128MB', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'VGA,HDMI,DisplayPort', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Activo', NULL, NULL, NULL, NULL, NULL, NULL),
+(96, 20, 'Unidad Optica', 'KINGTON', NULL, NULL, 'Buen Funcionamiento', NULL, NULL, 'DVD-ROM', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Activo', NULL, NULL, NULL, NULL, NULL, NULL),
+(97, 20, 'Fan Cooler', 'OEM', NULL, NULL, 'Buen Funcionamiento', NULL, 'SOBRE EL PROCESADOR', 'DISIPADOR DE CALOR', NULL, NULL, '2.5W', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Activo', NULL, NULL, NULL, NULL, NULL, NULL),
+(98, 23, 'Tarjeta Madre', 'HEWLETT', '18E9', NULL, 'Buen Funcionamiento', '2014', NULL, 'DDR3', NULL, NULL, NULL, NULL, 'PCIe x1,PCIe x16', 'ATX 24 pines,EPS 4 pines,4 pines Molex,SATA Power,Berg (Floppy)', 'HEWLETT', NULL, NULL, NULL, 'LGA 1150', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Activo', 'SATA,USB 2.0 header,USB 3.0 header,Audio HD header,Fan header (3/4 pines),Chassis Intrusion (Detector),Panel frontal (power/reset/LEDs)', 'DVI,VGA,USB 2.0,USB 3.0/3.1,RJ-45 Ethernet,Jack 3.5 mm (Sonido),Jack 3.5 mm (Audio),PS/2 (Teclado),PS/2 (Mouse)', 2, NULL, '8GB', '1600'),
+(99, 23, 'Memoria RAM', 'MICRON TECHNOLOGY', NULL, NULL, 'Buen Funcionamiento', NULL, NULL, 'DDR3', '1600MHZ', '4GB', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Activo', NULL, NULL, NULL, 'Slot 1', NULL, NULL),
+(100, 23, 'Procesador', 'INTEL', 'CORE I3-4130', 'x64 (Haswell)', 'Buen Funcionamiento', NULL, NULL, NULL, '3.4GHz', NULL, '54W', NULL, NULL, NULL, NULL, NULL, NULL, 2, 'LGA1150', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Activo', NULL, NULL, NULL, NULL, NULL, NULL),
+(101, 23, 'Disco Duro', 'KINGSTON', NULL, NULL, 'Buen Funcionamiento', NULL, NULL, 'SSD', NULL, '500GB', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Activo', NULL, NULL, NULL, NULL, NULL, NULL),
+(102, 23, 'Fuente de Poder', 'HP', 'D12-240P3B', NULL, 'Buen Funcionamiento', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '240W', '+12V,+5V,+3.3V,-12V,+5VSB', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Activo', NULL, NULL, NULL, NULL, NULL, NULL),
+(103, 23, 'Tarjeta Grafica', 'INTEL', 'HD GRAPHICS 4400', NULL, 'Buen Funcionamiento', NULL, NULL, NULL, NULL, '112MB', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'VGA,DVI', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Activo', NULL, NULL, NULL, NULL, NULL, NULL),
+(104, 23, 'Tarjeta Red', 'REALTEK', 'PCIe GbE', NULL, 'Buen Funcionamiento', NULL, NULL, 'Ethernet (LAN)', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '1000Mbs', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Activo', NULL, NULL, NULL, NULL, NULL, NULL),
+(105, 23, 'Unidad Optica', 'HP', NULL, NULL, 'Buen Funcionamiento', NULL, NULL, 'DVD-ROM', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Activo', NULL, NULL, NULL, NULL, NULL, NULL),
+(106, 23, 'Fan Cooler', 'HP', NULL, NULL, 'Buen Funcionamiento', NULL, 'SOBRE EL PROCESADOR', 'DISIPADOR DE CALOR DE ALUMINIO', NULL, NULL, '3.6W', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Activo', NULL, NULL, NULL, NULL, NULL, NULL),
+(107, 24, 'Tarjeta Madre', 'HEWLETT-PACKARD', '2820h', NULL, 'Operativo', '2008', NULL, 'DDR2', NULL, NULL, NULL, NULL, 'PCI,PCIe x1,PCIe x16', 'ATX 24 pines,EPS 4 pines,4 pines Molex,SATA Power,Berg (Floppy)', 'HEWLETT-PACKARD', NULL, NULL, NULL, 'LGA 775', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Activo', 'SATA,IDE (PATA),USB 2.0 header,Audio HD header,Fan header (3/4 pines),Paralelo (LPT),Serial (COM),Panel frontal (power/reset/LEDs)', 'DVI,VGA,USB 2.0,RJ-45 Ethernet,Jack 3.5 mm (Sonido),Jack 3.5 mm (Audio),PS/2 (Teclado),PS/2 (Mouse),Puerto Serie,Puerto Paralelo', 4, NULL, '4GB', '667,800,800,800'),
+(108, 24, 'Memoria RAM', 'SAMSUNG', NULL, NULL, 'Operativo', NULL, NULL, 'DDR2', '800MHZ', '1GB', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Activo', NULL, NULL, NULL, 'Slot 1', NULL, NULL),
+(109, 24, 'Procesador', 'INTEL', 'CORE 2 DUO E7200', 'X86', 'Operativo', NULL, NULL, NULL, '2.53GHZ', NULL, '65W', NULL, NULL, NULL, NULL, NULL, NULL, 2, 'LGA775', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Activo', NULL, NULL, NULL, NULL, NULL, NULL),
+(110, 24, 'Disco Duro', 'WESTER DIGITAL', NULL, NULL, 'Operativo', NULL, NULL, 'HDD', NULL, '500GB', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Activo', NULL, NULL, NULL, NULL, NULL, NULL),
+(111, 24, 'Fuente de Poder', 'HP', 'PS-6241-7', NULL, 'Operativo', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '240W', '+12V,+5V,+3.3V,-12V,+5VSB', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Activo', NULL, NULL, NULL, NULL, NULL, NULL),
+(112, 24, 'Tarjeta Grafica', 'INTEL', 'INTEL(R) Q33 EXPRESS CHIPSET', NULL, 'Operativo', NULL, NULL, NULL, NULL, '256MB', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'VGA', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Activo', NULL, NULL, NULL, NULL, NULL, NULL),
+(113, 24, 'Tarjeta Red', 'INTEL', '82566 DM-2', NULL, 'Operativo', NULL, NULL, 'Ethernet (LAN)', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '1000Mbs', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Activo', NULL, NULL, NULL, NULL, NULL, NULL),
+(114, 24, 'Unidad Optica', 'HITASHI D.L DATA STORAGE', NULL, NULL, 'Sin Funcionar', NULL, NULL, 'DVD-ROM', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'DESCONECTADA', 'Activo', NULL, NULL, NULL, NULL, NULL, NULL),
+(115, 24, 'Fan Cooler', 'HP', NULL, NULL, 'Operativo', NULL, 'SOBRE EL PROCESADOR', 'DISIPADOR DE CALOR DE ALUMINIO', NULL, NULL, '3.6W', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Activo', NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -130,11 +184,10 @@ CREATE TABLE `componentes_opcionales` (
 --
 
 INSERT INTO `componentes_opcionales` (`id_opcional`, `id_equipo`, `tipo_opcional`, `marca`, `modelo`, `capacidad`, `frecuencia`, `tipo`, `consumo`, `ubicacion`, `salidas_video`, `salidas_audio`, `vrm`, `drivers`, `compatibilidad`, `velocidad`, `seguridad`, `bluetooth`, `protocolos`, `canales`, `resolucion_audio`, `estado`, `detalles`, `estadoElim`, `slot_memoria`) VALUES
-(18, 12, 'Tarjeta WiFi', 'TP-LINK', 'TP-LINK', '', '2400MHz', 'USB', '', NULL, '', '', NULL, 'Windows 10', 'Si', '100Mbs', 'WEP, WPA, WPA2-PSK, WPA2-Enterprise', 'Sí', NULL, '', NULL, 'Operativo', '', 'Activo', NULL),
-(22, 12, 'Tarjeta WiFi', 'TP-LINK', 'TP-LINK', '', '2400MHz', 'USB', '', NULL, '', '', NULL, 'Windows 10', 'Si', '100Mbs', 'WEP, WPA, WPA2-PSK', 'No', NULL, '', NULL, 'Operativo', '', 'Inactivo', ''),
-(28, 12, 'Tarjeta de Sonido', 'Realtek', 'Xonar', '', '', '', '', NULL, '', 'Jack 3.5mm (analógico), RCA', NULL, 'Windows 7', 'Si', '', '', NULL, NULL, 'Estéreo (2.0), Surround 7.1 (8 canales)', '16-bit / 44.1 kHz (CD)', 'Operativo', '', 'Activo', ''),
-(29, 12, 'Memoria Ram', 'Kington', '', '8GB', '3200MHZ', 'DDR3', '', NULL, '', '', NULL, NULL, '', '', '', NULL, NULL, '', NULL, 'Operativo', '', 'Inactivo', 'Slot 1'),
-(30, 12, 'Memoria Ram', 'Kington', '', '4 GB', '800MHZ', 'DDR3', '', NULL, '', '', NULL, NULL, '', '', '', NULL, NULL, '', NULL, 'Operativo', '', 'Activo', 'Slot 2');
+(39, 18, 'Memoria Ram', 'MICRON TECHNOLOGY', NULL, '1 GB', '800MHZ', 'DDR2', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Operativo', NULL, 'Activo', 'Slot 2'),
+(40, 18, 'Memoria Ram', 'SAMSUNG', NULL, '1 GB', '800MHZ', 'DDR2', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Buen Funcionamiento', NULL, 'Activo', 'Slot 3'),
+(41, 19, 'Tarjeta WiFi', 'MICROSOFT WIFI', 'WIFI 802.11 G/N', '', '2.4GHz', 'Mini PCIe', '', '', '', '', NULL, 'https://www.vit.gob.ve/controladores', 'Si', '150Mbps', 'WEP, WPA, WPA2-PSK', 'No', NULL, '', NULL, 'Operativo', '', 'Activo', ''),
+(42, 20, 'Memoria Ram', 'MICRON TECHNOLOGY', NULL, '2 GB', '1600MHZ', 'DDR3L', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Buen Funcionamiento', NULL, 'Activo', 'Slot 2');
 
 -- --------------------------------------------------------
 
@@ -158,10 +211,12 @@ INSERT INTO `componentes_tecnologia` (`tipo_componente`, `tipo`, `vida_util_anio
 ('Memoria RAM', 'DDR', 12, 2, 2000),
 ('Memoria RAM', 'DDR2', 10, 2, 2003),
 ('Memoria RAM', 'DDR3', 8, 2, 2007),
+('Memoria RAM', 'DDR3L', 8, 2, 2013),
 ('Memoria RAM', 'DDR4', 10, 2, 2014),
 ('Memoria RAM', 'DDR5', 12, 2, 2020),
 ('Memoria RAM', 'DDR6', 14, 2, 2025),
 ('Socket CPU', 'AM1', 8, 4, 2014),
+('Socket CPU', 'BGA1170', 6, 3, 2015),
 ('Socket CPU', 'BGA1440', 6, 3, 2013),
 ('Socket CPU', 'BGA1526', 6, 3, 2015),
 ('Socket CPU', 'FM1', 8, 4, 2011),
@@ -215,15 +270,6 @@ CREATE TABLE `coordinaciones` (
   `estado` enum('Activo','Inactivo') NOT NULL DEFAULT 'Activo'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Volcado de datos para la tabla `coordinaciones`
---
-
-INSERT INTO `coordinaciones` (`id_coordinacion`, `id_division`, `nombre_coordinacion`, `estado`) VALUES
-(1, 4, 'Coordinación 1 de División 2', 'Activo'),
-(2, 4, 'Coordinación 2 de División 3', 'Activo'),
-(3, 1, 'Coordinación 4', 'Activo');
-
 -- --------------------------------------------------------
 
 --
@@ -241,7 +287,9 @@ CREATE TABLE `direcciones` (
 --
 
 INSERT INTO `direcciones` (`id_direccion`, `nombre_direccion`, `estado`) VALUES
-(1, 'Dirección General de la Oficina de Ti y Telecomunicaciones', 'Activo');
+(3, 'Direccion de Soporte al Usuario', 'Activo'),
+(4, 'Dirección General de la Oficina de Tecnologia de Informacion y Telecomunicaciones', 'Activo'),
+(5, 'Dirección de Telecomunicaciones', 'Activo');
 
 -- --------------------------------------------------------
 
@@ -261,10 +309,9 @@ CREATE TABLE `divisiones` (
 --
 
 INSERT INTO `divisiones` (`id_division`, `id_direccion`, `nombre_division`, `estado`) VALUES
-(1, 1, 'Division 1', 'Activo'),
-(2, 1, 'Division 2', 'Activo'),
-(3, 1, 'Dirección 2', 'Activo'),
-(4, 1, 'Dirección 5', 'Activo');
+(5, 3, 'Division de soluciones e innovaciones electronicas', 'Activo'),
+(6, 3, 'Division de Soporte de Hardware y Software', 'Activo'),
+(7, 5, 'Division de Infraestructura de Red', 'Activo');
 
 -- --------------------------------------------------------
 
@@ -284,7 +331,7 @@ CREATE TABLE `equipos` (
   `id_coordinacion` int(11) DEFAULT NULL,
   `estado_funcional` enum('Buen Funcionamiento','Operativo','Sin Funcionar') DEFAULT 'Buen Funcionamiento',
   `estado_tecnologico` enum('Nuevo','Actualizable','Obsoleto') DEFAULT 'Nuevo',
-  `estado_gabinete` enum('Nuevo','Semi nuevo','Deteriorado','Dañado') DEFAULT 'Nuevo',
+  `estado_gabinete` enum('Nuevo','Deteriorado','Dañado','Buen Estado') DEFAULT 'Nuevo',
   `estado` enum('Activo','Inactivo') NOT NULL DEFAULT 'Activo'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -293,7 +340,13 @@ CREATE TABLE `equipos` (
 --
 
 INSERT INTO `equipos` (`id_equipo`, `marca`, `modelo`, `serial`, `numero_bien`, `tipo_gabinete`, `id_direccion`, `id_division`, `id_coordinacion`, `estado_funcional`, `estado_tecnologico`, `estado_gabinete`, `estado`) VALUES
-(12, 'LENOVO', 'LM753', 'N456', '232343', 'De acero', 1, NULL, NULL, 'Buen Funcionamiento', 'Actualizable', 'Semi nuevo', 'Activo');
+(18, 'HP', 'Compaq dc5800 small', 'MXJ848025L', '98487', 'METAL COLOR GRIS Y PLASTICO COLOR NEGRO', 3, 5, NULL, 'Operativo', 'Obsoleto', 'Buen Estado', 'Activo'),
+(19, 'MINI VIT', 'M2100-01-01', 'A001246424', '108391', 'PLASTICO COLOR NEGRO', 3, 6, NULL, 'Operativo', 'Obsoleto', 'Nuevo', 'Activo'),
+(20, 'DELL', 'OPTIPLEX 3040', '1PGBJH', '113837', 'METAL COLOR NEGRO', 3, 6, NULL, 'Operativo', 'Obsoleto', 'Buen Estado', 'Activo'),
+(21, 'LENOVO', 'THINKPAKCENTRE M55', '45R6681', '99212', 'METAL COLOR GRIS Y PLASTICO COLOR NEGRO', 4, NULL, NULL, 'Operativo', 'Obsoleto', 'Buen Estado', 'Activo'),
+(22, 'HP', 'PRODESK 400G1', 'MXL4371MQB', '105835', 'METAL COLOR NEGRO', 5, 7, NULL, 'Buen Funcionamiento', 'Obsoleto', 'Nuevo', 'Activo'),
+(23, 'HP', 'PRODESK 400G1', 'MXL4371MPF', '105795', 'METAL COLOR NEGRO', 5, NULL, NULL, 'Buen Funcionamiento', 'Obsoleto', 'Nuevo', 'Activo'),
+(24, 'HP', 'Compaq dc5800 small', 'MXJ8480253', '98491', 'METAL COLOR GRIS Y PLASTICO COLOR NEGRO', 4, NULL, NULL, 'Operativo', 'Obsoleto', 'Deteriorado', 'Activo');
 
 -- --------------------------------------------------------
 
@@ -329,294 +382,107 @@ CREATE TABLE `logs` (
 --
 
 INSERT INTO `logs` (`id_log`, `usuario`, `accion`, `fecha`) VALUES
-(72, 'admin', 'Acción sobre componente ID: 9', '2025-11-03 23:58:23'),
-(73, 'admin', 'Acción sobre componente ID: 9', '2025-11-03 23:59:03'),
-(74, 'admin', 'Agregado componente opcional ID: ', '2025-11-04 00:10:18'),
-(75, 'admin', 'Actualizado componente opcional ID: 1', '2025-11-04 00:46:01'),
-(76, 'admin', 'Editó división ID: 1', '2025-11-04 01:10:32'),
-(77, 'admin', 'Editó coordinación ID: 1', '2025-11-04 01:44:34'),
-(78, 'admin', 'Editó coordinación ID: 1', '2025-11-04 01:50:13'),
-(79, 'admin', 'Actualizado el equipo ID: ', '2025-11-05 02:32:58'),
-(80, 'admin', 'Agregado el equipo ID: ', '2025-11-05 21:00:49'),
-(81, 'admin', 'Agregado el equipo ID: ', '2025-11-05 21:01:41'),
-(82, 'admin', 'Actualizado el equipo ID: ', '2025-11-05 21:01:59'),
-(83, 'admin', 'Actualizado el equipo ID: ', '2025-11-05 21:02:06'),
-(84, 'admin', 'Eliminado el equipo ID: ', '2025-11-05 21:07:56'),
-(85, 'admin', 'Eliminado el equipo ID: 6', '2025-11-05 21:08:46'),
-(86, 'admin', 'Agregado el equipo ID: 8', '2025-11-05 21:10:08'),
-(87, 'admin', 'Actualizado el equipo ID: 8', '2025-11-05 21:45:28'),
-(88, 'admin', 'Creado el componente ID: 13', '2025-11-05 22:01:31'),
-(89, 'admin', 'Eliminado el componente ID: 5', '2025-11-05 22:01:35'),
-(90, 'admin', 'Eliminado el componente ID: 9', '2025-11-05 22:01:38'),
-(91, 'admin', 'Agregado componente opcional ID: 3', '2025-11-05 22:22:55'),
-(92, 'admin', 'Eliminado componente opcional ID: 3', '2025-11-05 22:23:37'),
-(93, 'admin', 'Agregado componente opcional ID: 4', '2025-11-05 22:23:52'),
-(94, 'admin', 'Eliminado componente opcional ID: 4', '2025-11-05 22:24:49'),
-(95, 'admin', 'Agregado componente opcional ID: 5', '2025-11-05 22:25:11'),
-(96, 'admin', 'Eliminado componente opcional ID: 5', '2025-11-05 22:29:10'),
-(97, 'admin', 'Agregado componente opcional ID: 6', '2025-11-05 22:29:20'),
-(98, 'admin', 'Editó dirección ID: 1', '2025-11-05 22:32:33'),
-(99, 'admin', 'Editó división ID: 1', '2025-11-05 22:32:44'),
-(100, 'admin', 'Editó división ID: 2', '2025-11-05 22:32:52'),
-(101, 'admin', 'Editó coordinación ID: 1', '2025-11-05 22:33:02'),
-(102, 'admin', 'Eliminado el componente ID: 7', '2025-11-05 22:33:15'),
-(103, 'admin', 'Agregado componente opcional ID: 7', '2025-11-05 22:47:02'),
-(104, 'admin', 'Creado el componente ID: 14', '2025-11-05 23:03:29'),
-(105, 'admin', 'Eliminado el componente ID: 14', '2025-11-05 23:13:01'),
-(106, 'admin', 'Creado el componente ID: 15', '2025-11-05 23:13:21'),
-(107, 'admin', 'Actualziado el componente ID: 15', '2025-11-05 23:19:00'),
-(108, 'admin', 'Actualziado el componente ID: 15', '2025-11-05 23:22:20'),
-(109, 'admin', 'Actualziado el componente ID: 15', '2025-11-05 23:22:31'),
-(110, 'admin', 'Actualziado el componente ID: 15', '2025-11-05 23:25:50'),
-(111, 'admin', 'Actualziado el componente ID: 15', '2025-11-05 23:27:43'),
-(112, 'admin', 'Actualziado el componente ID: 15', '2025-11-05 23:31:53'),
-(113, 'admin', 'Actualziado el componente ID: 15', '2025-11-05 23:32:24'),
-(114, 'admin', 'Actualziado el componente ID: 15', '2025-11-05 23:41:10'),
-(115, 'admin', 'Actualziado el componente ID: 15', '2025-11-05 23:42:18'),
-(116, 'admin', 'Creado el componente ID: 16', '2025-11-05 23:52:41'),
-(117, 'admin', 'Actualizado componente opcional ID: 7', '2025-11-06 00:10:57'),
-(118, 'sistema', 'Editó usuario ID: 4', '2025-11-06 00:12:38'),
-(119, 'sistema', 'Editó usuario ID: 4', '2025-11-06 00:12:57'),
-(120, 'sistema', 'Editó usuario ID: 4', '2025-11-06 00:13:15'),
-(121, 'usuario', 'Creado el componente ID: 17', '2025-11-06 00:27:29'),
-(122, 'usuario', 'Eliminado el componente ID: 17', '2025-11-06 00:32:07'),
-(123, 'usuario', 'Creado el componente ID: 18', '2025-11-06 00:35:18'),
-(124, 'usuario', 'Actualziado el componente ID: 18', '2025-11-06 00:50:00'),
-(125, 'usuario', 'Actualziado el componente ID: 18', '2025-11-06 01:28:54'),
-(126, 'usuario', 'Actualziado el componente ID: 18', '2025-11-06 01:31:23'),
-(127, 'usuario', 'Actualziado el componente ID: 18', '2025-11-06 01:31:38'),
-(128, 'usuario', 'Creado el componente ID: 19', '2025-11-06 01:52:59'),
-(129, 'usuario', 'Eliminado el componente ID: 19', '2025-11-06 02:04:17'),
-(130, 'usuario', 'Creado el componente ID: 20', '2025-11-06 02:04:53'),
-(131, 'usuario', 'Actualziado el componente ID: 20', '2025-11-06 02:05:15'),
-(132, 'usuario', 'Actualziado el componente ID: 20', '2025-11-06 02:05:20'),
-(133, 'usuario', 'Actualziado el componente ID: 20', '2025-11-06 02:10:20'),
-(134, 'usuario', 'Creado el componente ID: 21', '2025-11-06 02:11:21'),
-(135, 'usuario', 'Actualziado el componente ID: 18', '2025-11-06 02:11:48'),
-(136, 'usuario', 'Actualziado el componente ID: 13', '2025-11-06 02:13:35'),
-(137, 'usuario', 'Actualziado el componente ID: 18', '2025-11-06 02:16:05'),
-(138, 'usuario', 'Actualziado el componente ID: 18', '2025-11-06 02:17:56'),
-(139, 'admin', 'Actualziado el componente ID: 13', '2025-11-06 13:07:33'),
-(140, 'admin', 'Actualziado el componente ID: 20', '2025-11-06 13:08:02'),
-(141, 'admin', 'Actualziado el componente ID: 18', '2025-11-06 13:09:11'),
-(142, 'admin', 'Actualziado el componente ID: 13', '2025-11-06 13:21:00'),
-(143, 'admin', 'Actualziado el componente ID: 20', '2025-11-06 13:22:06'),
-(144, 'admin', 'Actualziado el componente ID: 18', '2025-11-06 13:22:32'),
-(145, 'admin', 'Actualziado el componente ID: 20', '2025-11-06 13:25:18'),
-(146, 'admin', 'Actualziado el componente ID: 13', '2025-11-06 15:01:53'),
-(147, 'admin', 'Actualizado componente opcional ID: 6', '2025-11-06 15:05:34'),
-(148, 'admin', 'Actualizado componente opcional ID: 6', '2025-11-06 15:06:36'),
-(149, 'admin', 'Actualziado el componente ID: 13', '2025-11-06 15:11:06'),
-(150, 'admin', 'Actualizado componente opcional ID: 6', '2025-11-06 15:14:09'),
-(151, 'admin', 'Actualziado el componente ID: 13', '2025-11-06 15:16:58'),
-(152, 'admin', 'Actualizado componente opcional ID: 6', '2025-11-06 15:17:17'),
-(153, 'admin', 'Actualizado componente opcional ID: 6', '2025-11-06 15:17:30'),
-(154, 'admin', 'Actualizado componente opcional ID: 6', '2025-11-06 15:18:26'),
-(155, 'admin', 'Actualizado componente opcional ID: 6', '2025-11-06 15:36:03'),
-(156, 'admin', 'Actualizado componente opcional ID: 6', '2025-11-06 15:53:23'),
-(157, 'admin', 'Actualziado el componente ID: 13', '2025-11-06 15:53:34'),
-(158, 'admin', 'Actualziado el componente ID: 13', '2025-11-06 15:53:47'),
-(159, 'admin', 'Actualizado componente opcional ID: 6', '2025-11-06 15:54:08'),
-(160, 'admin', 'Actualziado el componente ID: 18', '2025-11-06 15:57:28'),
-(161, 'admin', 'Actualziado el componente ID: 18', '2025-11-06 16:04:45'),
-(162, 'admin', 'Actualziado el componente ID: 18', '2025-11-06 16:19:36'),
-(163, 'admin', 'Actualizado componente opcional ID: 6', '2025-11-06 16:22:10'),
-(164, 'admin', 'Actualizado componente opcional ID: 6', '2025-11-06 16:26:40'),
-(165, 'admin', 'Actualizado componente opcional ID: 6', '2025-11-06 16:26:54'),
-(166, 'admin', 'Actualizado componente opcional ID: 6', '2025-11-06 16:28:05'),
-(167, 'admin', 'Actualizado componente opcional ID: 6', '2025-11-06 16:28:10'),
-(168, 'admin', 'Actualizado componente opcional ID: 6', '2025-11-06 16:29:58'),
-(169, 'admin', 'Actualizado componente opcional ID: 6', '2025-11-06 16:30:03'),
-(170, 'admin', 'Actualizado componente opcional ID: 6', '2025-11-06 16:31:08'),
-(171, 'admin', 'Actualizado componente opcional ID: 6', '2025-11-06 16:31:22'),
-(172, 'admin', 'Actualizado componente opcional ID: 6', '2025-11-06 16:38:43'),
-(173, 'admin', 'Actualizado componente opcional ID: 6', '2025-11-06 16:38:52'),
-(174, 'admin', 'Actualizado componente opcional ID: 6', '2025-11-06 16:40:23'),
-(175, 'admin', 'Actualizado componente opcional ID: 6', '2025-11-06 16:40:35'),
-(176, 'admin', 'Actualizado componente opcional ID: 6', '2025-11-06 16:44:33'),
-(177, 'admin', 'Actualizado componente opcional ID: 6', '2025-11-06 16:46:19'),
-(178, 'admin', 'Actualizado componente opcional ID: 6', '2025-11-06 16:46:28'),
-(179, 'admin', 'Actualizado componente opcional ID: 6', '2025-11-06 16:46:45'),
-(180, 'admin', 'Actualizado componente opcional ID: 6', '2025-11-06 16:49:54'),
-(181, 'admin', 'Actualziado el componente ID: 18', '2025-11-06 16:50:05'),
-(182, 'admin', 'Actualizado componente opcional ID: 6', '2025-11-06 16:50:25'),
-(183, 'admin', 'Actualizado componente opcional ID: 6', '2025-11-06 16:50:38'),
-(184, 'admin', 'Creado el componente ID: 22', '2025-11-06 16:51:18'),
-(185, 'admin', 'Eliminado el componente ID: 22', '2025-11-06 16:52:57'),
-(186, 'admin', 'Actualizado componente opcional ID: 6', '2025-11-06 16:53:37'),
-(187, 'admin', 'Actualizado componente opcional ID: 6', '2025-11-06 16:56:31'),
-(188, 'admin', 'Agregado RAM opcional para equipo ID: 3', '2025-11-06 17:11:06'),
-(189, 'admin', 'Eliminado componente opcional ID: 8', '2025-11-06 17:12:59'),
-(190, 'admin', 'Agregado RAM opcional para equipo ID: 3', '2025-11-06 17:14:17'),
-(191, 'admin', 'Eliminado el componente ID: 20', '2025-11-06 18:13:17'),
-(192, 'admin', 'Creado el componente ID: 23', '2025-11-06 18:14:00'),
-(193, 'admin', 'Eliminado el componente ID: 10', '2025-11-06 18:17:36'),
-(194, 'admin', 'Creado el componente ID: 24', '2025-11-06 18:17:55'),
-(195, 'admin', 'Actualziado el componente ID: 23', '2025-11-06 19:23:50'),
-(196, 'admin', 'Actualziado el componente ID: 18', '2025-11-06 19:24:11'),
-(197, 'admin', 'Creado el componente ID: 25', '2025-11-06 19:33:03'),
-(198, 'admin', 'Actualizado el equipo ID: 3', '2025-11-06 20:43:47'),
-(199, 'admin', 'Actualizado equipo ID: 3', '2025-11-06 20:57:32'),
-(200, 'admin', 'Actualizado equipo ID: 3', '2025-11-06 20:59:03'),
-(201, 'admin', 'Actualizado equipo ID: 3', '2025-11-06 21:01:35'),
-(202, 'admin', 'Creado equipo ID: 9', '2025-11-06 21:02:29'),
-(203, 'admin', 'Actualizado equipo ID: 3', '2025-11-06 21:05:43'),
-(204, 'admin', 'Actualizado equipo ID: 9', '2025-11-06 21:05:55'),
-(205, 'admin', 'Eliminado equipo ID: 7', '2025-11-06 21:16:25'),
-(206, 'admin', 'Eliminado equipo ID: 7', '2025-11-06 21:25:55'),
-(207, 'admin', 'Actualziado el componente ID: 23', '2025-11-06 21:37:18'),
-(208, 'admin', 'Actualziado el componente ID: 23', '2025-11-06 21:37:29'),
-(209, 'admin', 'Actualizado el componente ID: 23', '2025-11-06 21:43:37'),
-(210, 'admin', 'Actualizado el componente ID: 13', '2025-11-06 22:29:06'),
-(211, 'admin', 'Actualizado el componente ID: 13', '2025-11-06 22:32:24'),
-(212, 'admin', 'Actualizado el componente ID: 18', '2025-11-07 02:01:11'),
-(213, 'admin', 'Actualizado el componente ID: 18', '2025-11-07 02:17:31'),
-(214, 'admin', 'Actualizado el componente ID: 18', '2025-11-07 02:18:02'),
-(215, 'admin', 'Actualizado el componente ID: 18', '2025-11-07 02:53:49'),
-(216, 'admin', 'Actualizado el componente ID: 21', '2025-11-07 18:44:19'),
-(217, 'admin', 'Actualizado el componente ID: 21', '2025-11-07 18:44:26'),
-(218, 'admin', 'Creado el componente ID: 26', '2025-11-07 18:44:53'),
-(219, 'admin', 'Actualizado componente opcional ID: 6', '2025-11-07 19:01:41'),
-(220, 'admin', 'Actualizado componente opcional ID: 7', '2025-11-07 19:08:05'),
-(221, 'admin', 'Actualizado componente opcional ID: 7', '2025-11-07 19:08:43'),
-(222, 'admin', 'Actualizado componente opcional ID: 9', '2025-11-07 19:08:50'),
-(223, 'admin', 'Actualizado componente opcional ID: 9', '2025-11-07 19:09:01'),
-(224, 'admin', 'Actualizado componente opcional ID: 6', '2025-11-07 19:11:16'),
-(225, 'admin', 'Actualizado el componente ID: 16', '2025-11-07 19:21:51'),
-(226, 'admin', 'Eliminado el componente ID: 16', '2025-11-07 19:24:27'),
-(227, 'admin', 'Creado el componente ID: 27', '2025-11-07 19:36:01'),
-(228, 'admin', 'Actualizado el componente ID: 18', '2025-11-07 19:51:03'),
-(229, 'admin', 'Actualizado el componente ID: 15', '2025-11-07 21:31:15'),
-(230, 'admin', 'Creado el componente ID: 28', '2025-11-07 23:45:39'),
-(231, 'admin', 'Eliminado el componente ID: 28', '2025-11-07 23:45:53'),
-(232, 'admin', 'Creado el componente ID: 29', '2025-11-07 23:46:15'),
-(233, 'admin', 'Eliminado el componente ID: 25', '2025-11-08 00:08:57'),
-(234, 'admin', 'Creado el componente ID: 30', '2025-11-08 00:09:10'),
-(235, 'admin', 'Agregado componente opcional: Tarjeta Grafica para equipo ID: 3', '2025-11-08 00:22:10'),
-(236, 'admin', 'Eliminado componente opcional ID: 10', '2025-11-08 00:33:59'),
-(237, 'admin', 'Agregado componente opcional: Tarjeta Grafica para equipo ID: 3', '2025-11-08 00:34:16'),
-(238, 'admin', 'Eliminado componente opcional ID: 11', '2025-11-08 00:45:56'),
-(239, 'admin', 'Agregado componente opcional: Tarjeta Grafica para equipo ID: 3', '2025-11-08 00:49:04'),
-(240, 'admin', 'Actualizado componente opcional ID: 12', '2025-11-08 00:49:20'),
-(241, 'admin', 'Actualizado componente opcional ID: 12', '2025-11-08 00:49:27'),
-(242, 'admin', 'Actualizado componente opcional ID: 12', '2025-11-08 00:49:31'),
-(243, 'admin', 'Eliminado el componente ID: 29', '2025-11-08 01:06:05'),
-(244, 'admin', 'Creado el componente ID: 31', '2025-11-08 01:12:00'),
-(245, 'admin', 'Agregado componente opcional: Tarjeta WiFi para equipo ID: 3', '2025-11-08 01:34:26'),
-(246, 'admin', 'Eliminado componente opcional ID: 13', '2025-11-08 01:39:06'),
-(247, 'admin', 'Agregado componente opcional: Tarjeta WiFi para equipo ID: 3', '2025-11-08 01:39:33'),
-(248, 'admin', 'Eliminado componente opcional ID: 14', '2025-11-08 01:42:28'),
-(249, 'admin', 'Agregado componente opcional: Tarjeta WiFi para equipo ID: 3', '2025-11-08 01:43:10'),
-(250, 'admin', 'Actualizado componente opcional ID: 15', '2025-11-08 01:43:23'),
-(251, 'admin', 'Eliminado componente opcional ID: 15', '2025-11-08 01:44:27'),
-(252, 'admin', 'Agregado componente opcional: Tarjeta WiFi para equipo ID: 3', '2025-11-08 01:45:34'),
-(253, 'admin', 'Creado equipo ID: 10', '2025-11-08 01:57:28'),
-(254, 'admin', 'Actualizado equipo ID: 10', '2025-11-08 01:58:26'),
-(255, 'admin', 'Eliminado equipo ID: 10', '2025-11-08 02:01:44'),
-(256, 'admin', 'Creado equipo ID: 11', '2025-11-08 02:02:24'),
-(257, 'admin', 'Actualizado equipo ID: 11', '2025-11-08 02:04:07'),
-(258, 'admin', 'Actualizado equipo ID: 11', '2025-11-08 02:04:15'),
-(259, 'admin', 'Agregado componente opcional: Tarjeta de Sonido para equipo ID: 3', '2025-11-08 14:31:22'),
-(260, 'sistema', 'Editó usuario ID: 3', '2025-11-08 16:21:57'),
-(261, 'sistema', 'Editó usuario ID: 3', '2025-11-08 16:22:46'),
-(262, 'sistema', 'Editó usuario ID: 3', '2025-11-08 16:24:41'),
-(263, 'sistema', 'Editó usuario ID: 3', '2025-11-08 16:26:44'),
-(264, 'sistema', 'Agregó usuario: tecnico', '2025-11-08 16:27:41'),
-(265, 'admin', 'Eliminado componente opcional ID: 1', '2025-11-08 16:44:13'),
-(266, 'admin', 'Eliminado componente opcional ID: 2', '2025-11-08 16:44:16'),
-(267, 'admin', 'Agregó coordinación ID: 3', '2025-11-08 17:29:47'),
-(268, 'admin', 'Editó coordinación ID: 3', '2025-11-08 17:29:54'),
-(269, 'admin', 'Creado equipo ID: 12', '2025-11-08 18:28:52'),
-(270, 'admin', 'Creado el componente ID: 32', '2025-11-08 18:43:18'),
-(271, 'admin', 'Creado el componente ID: 33', '2025-11-08 18:48:54'),
-(272, 'admin', 'Actualizado el componente ID: 32', '2025-11-08 18:53:17'),
-(273, 'admin', 'Actualizado el componente ID: 32', '2025-11-08 19:04:27'),
-(274, 'admin', 'Actualizado el componente ID: 32', '2025-11-08 19:06:08'),
-(275, 'admin', 'Actualizado el componente ID: 32', '2025-11-08 19:08:53'),
-(276, 'admin', 'Actualizado el componente ID: 32', '2025-11-08 19:11:21'),
-(277, 'admin', 'Actualizado el componente ID: 32', '2025-11-08 19:12:46'),
-(278, 'admin', 'Actualizado el componente ID: 32', '2025-11-08 19:18:51'),
-(279, 'admin', 'Actualizado el componente ID: 32', '2025-11-08 19:22:18'),
-(280, 'admin', 'Actualizado el componente ID: 32', '2025-11-08 19:23:01'),
-(281, 'admin', 'Actualizado el componente ID: 32', '2025-11-08 19:27:56'),
-(282, 'admin', 'Actualizado el componente ID: 32', '2025-11-08 19:28:04'),
-(283, 'admin', 'Agregado componente opcional: Tarjeta WiFi para equipo ID: 12', '2025-11-08 19:50:24'),
-(284, 'admin', 'Agregado componente opcional: Tarjeta WiFi para equipo ID: 12', '2025-11-08 19:54:09'),
-(285, 'admin', 'Agregado componente opcional: Tarjeta WiFi para equipo ID: 12', '2025-11-08 19:56:34'),
-(286, 'admin', 'Agregado componente opcional: Tarjeta WiFi para equipo ID: 12', '2025-11-08 20:04:46'),
-(287, 'admin', 'Agregado componente opcional: Tarjeta WiFi para equipo ID: 12', '2025-11-08 20:07:06'),
-(288, 'admin', 'Creado el componente ID: 34', '2025-11-08 20:11:02'),
-(289, 'admin', 'Actualizado el componente ID: 32', '2025-11-08 20:17:02'),
-(290, 'admin', 'Eliminado componente opcional ID: 18', '2025-11-08 20:17:22'),
-(291, 'admin', 'Eliminado componente opcional ID: 19', '2025-11-08 20:17:37'),
-(292, 'admin', 'Eliminado componente opcional ID: 22', '2025-11-08 20:17:42'),
-(293, 'admin', 'Eliminado componente opcional ID: 21', '2025-11-08 20:17:44'),
-(294, 'admin', 'Agregado componente opcional: Tarjeta de Sonido para equipo ID: 12', '2025-11-08 20:20:02'),
-(295, 'admin', 'Eliminado componente opcional ID: 23', '2025-11-08 20:24:39'),
-(296, 'admin', 'Agregado componente opcional: Tarjeta de Sonido para equipo ID: 12', '2025-11-08 20:25:00'),
-(297, 'admin', 'Agregado componente opcional: Tarjeta de Sonido para equipo ID: 12', '2025-11-08 20:35:05'),
-(298, 'admin', 'Eliminado componente opcional ID: 25', '2025-11-08 20:36:17'),
-(299, 'admin', 'Eliminado componente opcional ID: 24', '2025-11-08 20:36:21'),
-(300, 'admin', 'Agregado componente opcional: Tarjeta de Sonido para equipo ID: 12', '2025-11-08 20:39:43'),
-(301, 'admin', 'Agregado componente opcional: Tarjeta de Sonido para equipo ID: 12', '2025-11-08 20:46:49'),
-(302, 'admin', 'Eliminado componente opcional ID: 27', '2025-11-08 21:01:07'),
-(303, 'admin', 'Actualizado componente opcional ID: 26', '2025-11-08 21:01:25'),
-(304, 'admin', 'Actualizado componente opcional ID: 26', '2025-11-08 21:01:48'),
-(305, 'admin', 'Eliminado componente opcional ID: 27', '2025-11-08 21:02:41'),
-(306, 'admin', 'Eliminado componente opcional ID: 26', '2025-11-08 21:02:50'),
-(307, 'admin', 'Agregado componente opcional: Tarjeta de Sonido para equipo ID: 12', '2025-11-08 21:03:49'),
-(308, 'admin', 'Actualizado componente opcional ID: 28', '2025-11-08 21:03:58'),
-(309, 'admin', 'Actualizado componente opcional ID: 28', '2025-11-08 21:08:21'),
-(310, 'admin', 'Actualizado componente opcional ID: 28', '2025-11-08 21:08:29'),
-(311, 'admin', 'Eliminado componente opcional ID: 20', '2025-11-08 21:49:47'),
-(312, 'admin', 'Eliminado componente opcional ID: 18', '2025-11-08 21:52:35'),
-(313, 'admin', 'Eliminado componente opcional ID: 18', '2025-11-08 21:53:29'),
-(314, 'admin', 'Eliminado el componente ID: 34', '2025-11-08 21:55:45'),
-(315, 'admin', 'Eliminado el componente ID: 32', '2025-11-08 21:55:52'),
-(316, 'admin', 'Creado el componente ID: 35', '2025-11-08 21:56:28'),
-(317, 'admin', 'Eliminado el componente ID: 35', '2025-11-08 21:56:36'),
-(318, 'admin', 'Creado el componente ID: 36', '2025-11-08 22:07:41'),
-(319, 'admin', 'Creado el componente ID: 37', '2025-11-08 22:14:05'),
-(320, 'admin', 'Creado el componente ID: 38', '2025-11-08 22:40:32'),
-(321, 'admin', 'Eliminado el componente ID: 34', '2025-11-08 22:53:48'),
-(322, 'admin', 'Creado el componente ID: 39', '2025-11-08 23:37:17'),
-(323, 'admin', 'Creado el componente ID: 40', '2025-11-08 23:56:57'),
-(324, 'admin', 'Actualizado el componente ID: 40', '2025-11-08 23:57:06'),
-(325, 'admin', 'Actualizado el componente ID: 40', '2025-11-09 00:03:18'),
-(326, 'admin', 'Actualizado el componente ID: 39', '2025-11-09 00:06:48'),
-(327, 'admin', 'Eliminado el componente ID: 40', '2025-11-09 00:12:35'),
-(328, 'admin', 'Actualizado el componente ID: 39', '2025-11-09 00:12:44'),
-(329, 'admin', 'Agregado RAM opcional para equipo ID: 12', '2025-11-09 00:17:27'),
-(330, 'admin', 'Actualizado componente opcional ID: 29', '2025-11-09 00:30:48'),
-(331, 'admin', 'Actualizado componente opcional ID: 29', '2025-11-09 00:31:10'),
-(332, 'admin', 'Actualizado componente opcional ID: 29', '2025-11-09 00:33:52'),
-(333, 'admin', 'Eliminado el componente ID: 36', '2025-11-10 23:37:24'),
-(334, 'admin', 'Actualizado componente opcional ID: 18', '2025-11-11 00:19:27'),
-(335, 'admin', 'Actualizado componente opcional ID: 18', '2025-11-11 00:21:17'),
-(336, 'admin', 'Actualizado componente opcional ID: 18', '2025-11-11 00:21:25'),
-(337, 'admin', 'Eliminado el componente ID: 39', '2025-11-11 00:23:25'),
-(338, 'admin', 'Eliminado el componente ID: 33', '2025-11-11 00:23:41'),
-(339, 'admin', 'Eliminado componente opcional ID: 29', '2025-11-11 00:26:06'),
-(340, 'admin', 'Creado el componente ID: 41', '2025-11-11 00:27:28'),
-(341, 'admin', 'Actualizado el componente ID: 41', '2025-11-11 00:29:54'),
-(342, 'admin', 'Actualizado el componente ID: 41', '2025-11-11 00:30:47'),
-(343, 'admin', 'Actualizado el componente ID: 41', '2025-11-11 00:30:58'),
-(344, 'admin', 'Actualizado componente opcional ID: 28', '2025-11-11 00:32:08'),
-(345, 'admin', 'Actualizado componente opcional ID: 28', '2025-11-11 00:32:16'),
-(346, 'admin', 'Actualizado el componente ID: 41', '2025-11-11 00:36:45'),
-(347, 'admin', 'Actualizado el componente ID: 41', '2025-11-11 01:13:12'),
-(348, 'admin', 'Creado el componente ID: 42', '2025-11-11 01:27:06'),
-(349, 'admin', 'Actualizado el componente ID: 42', '2025-11-11 01:59:47'),
-(350, 'admin', 'Actualizado el componente ID: 42', '2025-11-11 22:05:12'),
-(351, 'admin', 'Eliminado el componente ID: 42', '2025-11-11 22:55:27'),
-(352, 'admin', 'Creado el componente ID: 43', '2025-11-11 22:55:42'),
-(353, 'admin', 'Agregado RAM opcional para equipo ID: 12', '2025-11-11 23:31:38'),
-(354, 'admin', 'Actualizado componente opcional ID: 30', '2025-11-11 23:34:44'),
-(355, 'admin', 'Actualizado componente opcional ID: 30', '2025-11-11 23:37:55'),
-(356, 'admin', 'Actualizado componente opcional: Memoria Ram', '2025-11-11 23:39:40'),
-(357, 'admin', 'Editó dirección ID: 1', '2025-11-11 23:48:42'),
-(358, 'admin', 'Editó dirección ID: Dirección General de la Oficina de Ti y Telecomunicaciones', '2025-11-11 23:49:15'),
-(359, 'admin', 'Editó división: Dirección 5', '2025-11-12 00:43:33');
+(425, 'admin', 'Agregó dirección: Direccion de Soporte al Usuario', '2025-12-01 13:06:52'),
+(426, 'admin', 'Agregó división: Division de soluciones e innovaciones electronicas', '2025-12-01 13:07:35'),
+(427, 'admin', 'Creado equipo: HP dc5800 small', '2025-12-01 13:11:48'),
+(429, 'admin', 'Creado el componente ID: Tarjeta Madre', '2025-12-01 14:12:44'),
+(430, 'admin', 'Creado el componente ID: Procesador', '2025-12-01 14:30:25'),
+(431, 'admin', 'Actualizó equipo: HP dc5800 small', '2025-12-01 14:33:23'),
+(432, 'admin', 'Creado el componente ID: Memoria RAM', '2025-12-01 14:39:31'),
+(433, 'admin', 'Creado el componente ID: Fuente de Poder', '2025-12-01 15:32:09'),
+(434, 'admin', 'Creado el componente ID: Fuente de Poder', '2025-12-01 15:37:17'),
+(435, 'admin', 'Creado el componente ID: Disco Duro', '2025-12-01 15:39:46'),
+(436, 'admin', 'Creado el componente ID: Tarjeta Grafica', '2025-12-01 15:40:48'),
+(437, 'admin', 'Creado el componente ID: Tarjeta Red', '2025-12-01 15:41:18'),
+(438, 'admin', 'Creado el componente ID: Unidad Optica', '2025-12-01 15:42:56'),
+(439, 'admin', 'Creado el componente ID: Fan Cooler', '2025-12-01 15:44:36'),
+(440, 'admin', 'Agregó división: Division de Soporte de Hardware y Software', '2025-12-01 18:07:29'),
+(441, 'admin', 'Creado equipo: MINI VIT M2100-01-01', '2025-12-01 18:08:57'),
+(442, 'admin', 'Creado equipo: DELL OPTIPLEX 3040', '2025-12-01 18:20:29'),
+(443, 'admin', 'Creado el componente ID: Tarjeta Madre', '2025-12-01 18:35:08'),
+(444, 'admin', 'Creado el componente ID: Memoria RAM', '2025-12-01 18:35:47'),
+(445, 'admin', 'Agregado RAM opcional para equipo: HP dc5800 small', '2025-12-01 21:24:58'),
+(446, 'admin', 'Agregado RAM opcional para equipo: HP dc5800 small', '2025-12-01 21:25:40'),
+(447, 'admin', 'Creado el componente ID: Tarjeta Madre', '2025-12-01 23:04:10'),
+(448, 'admin', 'Creado el componente ID: Procesador', '2025-12-01 23:13:55'),
+(449, 'admin', 'Creado el componente ID: Memoria RAM', '2025-12-02 12:59:27'),
+(450, 'admin', 'Eliminado el componente ID: Memoria RAM', '2025-12-02 13:01:02'),
+(451, 'admin', 'Actualizado el componente ID: Tarjeta Madre', '2025-12-02 14:12:32'),
+(452, 'admin', 'Creado el componente ID: Memoria RAM', '2025-12-02 14:12:52'),
+(453, 'admin', 'Eliminado el componente ID: Memoria RAM', '2025-12-02 14:14:22'),
+(454, 'admin', 'Creado el componente ID: Memoria RAM', '2025-12-02 14:14:55'),
+(455, 'admin', 'Creado el componente ID: Disco Duro', '2025-12-02 14:27:46'),
+(456, 'admin', 'Creado el componente ID: Fuente de Poder', '2025-12-02 14:29:59'),
+(457, 'admin', 'Creado el componente ID: Tarjeta Grafica', '2025-12-02 14:33:40'),
+(458, 'admin', 'Creado el componente ID: Tarjeta Red', '2025-12-02 14:50:04'),
+(459, 'admin', 'Creado el componente ID: Fan Cooler', '2025-12-02 14:51:43'),
+(460, 'admin', 'Agregado componente opcional: Tarjeta WiFi para equipo: MINI VIT M2100-01-01', '2025-12-02 15:23:52'),
+(461, 'admin', 'Agregó dirección: Dirección General de la Oficina de Tecnologia de Informacion y Telecomunicaciones', '2025-12-02 15:40:21'),
+(462, 'admin', 'Creado equipo: LENOVO THINKPAKCENTRE M55', '2025-12-02 15:41:39'),
+(463, 'admin', 'Creado el componente ID: Tarjeta Madre', '2025-12-02 17:03:24'),
+(464, 'admin', 'Actualizó equipo: LENOVO THINKPAKCENTRE M55', '2025-12-02 17:07:46'),
+(465, 'admin', 'Creado el componente ID: Procesador', '2025-12-02 17:16:13'),
+(466, 'admin', 'Creado el componente ID: Memoria RAM', '2025-12-02 17:24:00'),
+(467, 'admin', 'Creado el componente ID: Disco Duro', '2025-12-02 17:27:30'),
+(468, 'admin', 'Creado el componente ID: Fuente de Poder', '2025-12-02 17:28:34'),
+(469, 'admin', 'Creado el componente ID: Tarjeta Grafica', '2025-12-02 17:29:11'),
+(470, 'admin', 'Creado el componente ID: Tarjeta Red', '2025-12-02 17:30:18'),
+(471, 'admin', 'Creado el componente ID: Unidad Optica', '2025-12-02 17:31:43'),
+(472, 'admin', 'Creado el componente ID: Fan Cooler', '2025-12-02 17:32:51'),
+(473, 'admin', 'Agregó dirección: Dirección de Telecomunicaciones', '2025-12-02 17:44:07'),
+(474, 'admin', 'Agregó división: Division de Infraestructura de Red', '2025-12-02 17:44:55'),
+(475, 'admin', 'Creado equipo: HP PRODESK 400G1', '2025-12-02 17:46:22'),
+(476, 'admin', 'Creado el componente ID: Tarjeta Madre', '2025-12-02 17:52:31'),
+(477, 'admin', 'Creado el componente ID: Memoria RAM', '2025-12-02 17:54:05'),
+(478, 'admin', 'Creado el componente ID: Procesador', '2025-12-02 17:57:59'),
+(479, 'admin', 'Actualizado el componente ID: Procesador', '2025-12-02 17:58:58'),
+(480, 'admin', 'Creado el componente ID: Disco Duro', '2025-12-02 18:00:45'),
+(481, 'admin', 'Creado el componente ID: Fuente de Poder', '2025-12-02 18:02:34'),
+(482, 'admin', 'Creado el componente ID: Tarjeta Grafica', '2025-12-02 18:05:22'),
+(483, 'admin', 'Creado el componente ID: Tarjeta Red', '2025-12-02 18:06:23'),
+(484, 'admin', 'Creado el componente ID: Unidad Optica', '2025-12-02 18:07:21'),
+(485, 'admin', 'Creado el componente ID: Fan Cooler', '2025-12-02 18:07:56'),
+(486, 'admin', 'Creado el componente ID: Procesador', '2025-12-02 18:12:28'),
+(487, 'admin', 'Actualizado el componente ID: Tarjeta Madre', '2025-12-02 18:15:59'),
+(488, 'admin', 'Actualizado el componente ID: Memoria RAM', '2025-12-02 18:16:08'),
+(489, 'admin', 'Actualizado el componente ID: Memoria RAM', '2025-12-02 18:16:18'),
+(490, 'admin', 'Creado el componente ID: Disco Duro', '2025-12-02 18:16:48'),
+(491, 'admin', 'Creado el componente ID: Fuente de Poder', '2025-12-02 18:17:52'),
+(492, 'admin', 'Creado el componente ID: Tarjeta Red', '2025-12-02 18:19:20'),
+(493, 'admin', 'Creado el componente ID: Tarjeta Grafica', '2025-12-02 18:19:53'),
+(494, 'admin', 'Creado el componente ID: Unidad Optica', '2025-12-02 18:20:16'),
+(495, 'admin', 'Creado el componente ID: Fan Cooler', '2025-12-02 18:20:45'),
+(496, 'admin', 'Creado equipo: HP PRODESK 400G1', '2025-12-02 18:40:11'),
+(497, 'admin', 'Creado el componente ID: Tarjeta Madre', '2025-12-02 18:44:36'),
+(498, 'admin', 'Agregado RAM opcional para equipo: DELL OPTIPLEX 3040', '2025-12-02 18:45:28'),
+(499, 'admin', 'Creado el componente ID: Memoria RAM', '2025-12-02 18:48:39'),
+(500, 'admin', 'Creado el componente ID: Procesador', '2025-12-02 18:55:40'),
+(501, 'admin', 'Creado el componente ID: Disco Duro', '2025-12-02 18:57:08'),
+(502, 'admin', 'Creado el componente ID: Fuente de Poder', '2025-12-02 18:58:44'),
+(503, 'admin', 'Creado el componente ID: Tarjeta Grafica', '2025-12-02 18:59:25'),
+(504, 'admin', 'Actualizado el componente ID: Tarjeta Grafica', '2025-12-02 18:59:42'),
+(505, 'admin', 'Creado el componente ID: Tarjeta Red', '2025-12-02 19:00:48'),
+(506, 'admin', 'Creado el componente ID: Unidad Optica', '2025-12-02 19:01:35'),
+(507, 'admin', 'Creado el componente ID: Fan Cooler', '2025-12-02 19:01:59'),
+(508, 'admin', 'Actualizó equipo: HP Compaq dc5800 small', '2025-12-02 19:06:01'),
+(509, 'admin', 'Creado equipo: HP Compaq dc5800 small', '2025-12-02 19:07:28'),
+(510, 'admin', 'Creado el componente ID: Tarjeta Madre', '2025-12-02 19:14:49'),
+(511, 'admin', 'Actualizado el componente ID: Tarjeta Madre', '2025-12-02 19:15:39'),
+(512, 'admin', 'Actualizado el componente ID: Tarjeta Madre', '2025-12-02 19:15:50'),
+(513, 'admin', 'Actualizado el componente ID: Tarjeta Madre', '2025-12-02 19:16:10'),
+(514, 'admin', 'Creado el componente ID: Memoria RAM', '2025-12-02 19:17:44'),
+(515, 'admin', 'Creado el componente ID: Procesador', '2025-12-02 19:18:30'),
+(516, 'admin', 'Creado el componente ID: Disco Duro', '2025-12-02 19:19:10'),
+(517, 'admin', 'Creado el componente ID: Fuente de Poder', '2025-12-02 19:19:29'),
+(518, 'admin', 'Creado el componente ID: Tarjeta Grafica', '2025-12-02 19:19:54'),
+(519, 'admin', 'Creado el componente ID: Tarjeta Red', '2025-12-02 19:20:23'),
+(520, 'admin', 'Actualizado el componente ID: Tarjeta Grafica', '2025-12-02 19:20:30'),
+(521, 'admin', 'Actualizado el componente ID: Fuente de Poder', '2025-12-02 19:20:38'),
+(522, 'admin', 'Actualizado el componente ID: Disco Duro', '2025-12-02 19:20:44'),
+(523, 'admin', 'Actualizado el componente ID: Procesador', '2025-12-02 19:20:51'),
+(524, 'admin', 'Actualizado el componente ID: Memoria RAM', '2025-12-02 19:20:59'),
+(525, 'admin', 'Creado el componente ID: Unidad Optica', '2025-12-02 19:21:45'),
+(526, 'admin', 'Creado el componente ID: Fan Cooler', '2025-12-02 19:22:01');
 
 -- --------------------------------------------------------
 
@@ -630,7 +496,7 @@ CREATE TABLE `software` (
   `nombre` varchar(50) DEFAULT NULL,
   `version` varchar(50) DEFAULT NULL,
   `tipo` varchar(50) DEFAULT NULL,
-  `bits` enum('32','64','','') DEFAULT NULL
+  `bits` varchar(15) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -638,11 +504,38 @@ CREATE TABLE `software` (
 --
 
 INSERT INTO `software` (`id_software`, `id_equipo`, `nombre`, `version`, `tipo`, `bits`) VALUES
-(66, 12, 'Windows', '10', 'Sistema Operativo', '64'),
-(67, 12, 'Microsoft Office', '2016', 'Ofimática', '64'),
-(68, 12, 'Chrome', '', 'Navegador', NULL),
-(69, 12, 'Firefox', '', 'Navegador', NULL),
-(70, 12, 'Edge', '', 'Navegador', NULL);
+(143, 19, 'Windows', '10 PRO', 'Sistema Operativo', '32 BITS'),
+(144, 19, 'Microsoft Office', '2010', 'Ofimática', '32 BITS'),
+(145, 19, 'Chrome', '', 'Navegador', NULL),
+(146, 19, 'Edge', '', 'Navegador', NULL),
+(147, 20, 'Windows', '10', 'Sistema Operativo', '64 BITS'),
+(148, 20, 'Microsoft Office', '2019', 'Ofimática', '64 BITS'),
+(149, 20, 'Chrome', '', 'Navegador', NULL),
+(150, 20, 'Edge', '', 'Navegador', NULL),
+(155, 21, 'Windows', '7 ULTIMATE', 'Sistema Operativo', '32 BITS'),
+(156, 21, 'Microsoft Office', '2007', 'Ofimática', '32 BITS'),
+(157, 21, 'Chrome', '', 'Navegador', NULL),
+(158, 21, 'Internet Explore', '', 'Navegador', NULL),
+(159, 22, 'Windows', '10', 'Sistema Operativo', '64 BITS'),
+(160, 22, 'Microsoft Office', '2016', 'Ofimática', '64 BITS'),
+(161, 22, 'Chrome', '', 'Navegador', NULL),
+(162, 22, 'Firefox', '', 'Navegador', NULL),
+(163, 22, 'Edge', '', 'Navegador', NULL),
+(164, 23, 'Windows', '10', 'Sistema Operativo', '64 BITS'),
+(165, 23, 'Microsoft Office', '2016', 'Ofimática', '64 BITS'),
+(166, 23, 'Chrome', '', 'Navegador', NULL),
+(167, 23, 'Firefox', '', 'Navegador', NULL),
+(168, 23, 'Edge', '', 'Navegador', NULL),
+(169, 18, 'Windows', '10', 'Sistema Operativo', '32 BITS'),
+(170, 18, 'Microsoft Office', '2016', 'Ofimática', '32 BITS'),
+(171, 18, 'Chrome', '', 'Navegador', NULL),
+(172, 18, 'Firefox', '', 'Navegador', NULL),
+(173, 18, 'Internet Explore', '', 'Navegador', NULL),
+(174, 24, 'Windows', '10', 'Sistema Operativo', '32 BITS'),
+(175, 24, 'Microsoft Office', '2016', 'Ofimática', '32 BITS'),
+(176, 24, 'Chrome', '', 'Navegador', NULL),
+(177, 24, 'Firefox', '', 'Navegador', NULL),
+(178, 24, 'Internet Explore', '', 'Navegador', NULL);
 
 -- --------------------------------------------------------
 
@@ -746,13 +639,13 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de la tabla `componentes`
 --
 ALTER TABLE `componentes`
-  MODIFY `id_componente` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
+  MODIFY `id_componente` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=116;
 
 --
 -- AUTO_INCREMENT de la tabla `componentes_opcionales`
 --
 ALTER TABLE `componentes_opcionales`
-  MODIFY `id_opcional` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id_opcional` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
 
 --
 -- AUTO_INCREMENT de la tabla `coordinaciones`
@@ -764,31 +657,31 @@ ALTER TABLE `coordinaciones`
 -- AUTO_INCREMENT de la tabla `direcciones`
 --
 ALTER TABLE `direcciones`
-  MODIFY `id_direccion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_direccion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `divisiones`
 --
 ALTER TABLE `divisiones`
-  MODIFY `id_division` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_division` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `equipos`
 --
 ALTER TABLE `equipos`
-  MODIFY `id_equipo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id_equipo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT de la tabla `logs`
 --
 ALTER TABLE `logs`
-  MODIFY `id_log` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=360;
+  MODIFY `id_log` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=527;
 
 --
 -- AUTO_INCREMENT de la tabla `software`
 --
 ALTER TABLE `software`
-  MODIFY `id_software` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=71;
+  MODIFY `id_software` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=179;
 
 --
 -- AUTO_INCREMENT de la tabla `usuarios`
