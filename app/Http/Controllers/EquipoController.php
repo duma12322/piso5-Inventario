@@ -348,58 +348,71 @@ class EquipoController extends Controller
         return $software;
     }
 
-    public function indexInactivos(Request $request)
-    {
-        $direcciones = Direccion::orderBy('nombre_direccion', 'asc')->get();
-        $divisiones = Division::orderBy('nombre_division', 'asc')->get();
-        $coordinaciones = Coordinacion::orderBy('nombre_coordinacion', 'asc')->get();
+ public function indexInactivos(Request $request)
+{
+    $direcciones = Direccion::orderBy('nombre_direccion', 'asc')->get();
+    $divisiones = Division::orderBy('nombre_division', 'asc')->get();
+    $coordinaciones = Coordinacion::orderBy('nombre_coordinacion', 'asc')->get();
 
-        // Traer equipos activos
-        $query = Equipo::where('estado', 'Activo')
-            ->with(['direccion', 'division', 'coordinacion']);
+    $query = Equipo::where('estado', 'Activo')
+        ->with(['direccion', 'division', 'coordinacion', 'componentes.componentesOpcionales']);
 
-        // Filtros select
-        if ($request->filled('id_direccion')) {
-            $query->where('id_direccion', $request->id_direccion);
-        }
-        if ($request->filled('id_division')) {
-            $query->where('id_division', $request->id_division);
-        }
-        if ($request->filled('id_coordinacion')) {
-            $query->where('id_coordinacion', $request->id_coordinacion);
-        }
-
-        // Buscador solo por equipo (marca o modelo)
-        if ($search = $request->input('search')) {
-            $query->where(function ($q) use ($search) {
-                $q->where('marca', 'like', "%{$search}%")
-                    ->orWhere('modelo', 'like', "%{$search}%");
-            });
-        }
-
-        // Paginación 10 por página
-        $equipos = $query->paginate(10)->withQueryString(); // 🔹 importante: paginate(), no get()
-
-        // Agregar componentes y opcionales inactivos
-        $equipos->transform(function ($equipo) {
-            $equipo->componentes_inactivos = Componente::where('id_equipo', $equipo->id_equipo)
-                ->where(function ($q) {
-                    $q->where('estado', 'Inactivo')
-                        ->orWhere('estadoElim', 'Inactivo');
-                })->get();
-
-            $equipo->opcionales_inactivos = ComponenteOpcional::where('id_equipo', $equipo->id_equipo)
-                ->where('estadoElim', 'Inactivo')
-                ->get();
-
-            return $equipo;
-        });
-
-        return view('equipos.inactivos', compact(
-            'equipos',
-            'direcciones',
-            'divisiones',
-            'coordinaciones'
-        ));
+    if ($request->filled('id_direccion')) {
+        $query->where('id_direccion', $request->id_direccion);
     }
+    if ($request->filled('id_division')) {
+        $query->where('id_division', $request->id_division);
+    }
+    if ($request->filled('id_coordinacion')) {
+        $query->where('id_coordinacion', $request->id_coordinacion);
+    }
+
+    if ($search = $request->input('search')) {
+        $query->where(function ($q) use ($search) {
+            $q->where('marca', 'like', "%{$search}%")
+              ->orWhere('modelo', 'like', "%{$search}%");
+        });
+    }
+
+    // 🔥 Filtrar solo equipos que tengan componentes inactivos o opcionales inactivos
+    $query->whereHas('componentes', function ($c) {
+        $c->where('estado', 'Inactivo')
+          ->orWhere('estadoElim', 'Inactivo')
+          ->orWhereHas('componentesOpcionales', function ($o) {
+              $o->where('estadoElim', 'Inactivo');
+          });
+    });
+
+    $equipos = $query->paginate(10)->withQueryString();
+
+    // Agregar componentes y opcionales inactivos al resultado
+    $equipos->transform(function ($equipo) {
+        // Componentes inactivos
+        $equipo->componentes_inactivos = $equipo->componentes
+            ->filter(function ($c) {
+                return $c->estado === 'Inactivo' || $c->estadoElim === 'Inactivo';
+            });
+
+        // Opcionales inactivos (de cada componente)
+        $opcionales = collect();
+        foreach ($equipo->componentes as $componente) {
+            $opcionales = $opcionales->merge(
+                $componente->componentesOpcionales->filter(function ($o) {
+                    return $o->estadoElim === 'Inactivo';
+                })
+            );
+        }
+        $equipo->opcionales_inactivos = $opcionales;
+
+        return $equipo;
+    });
+
+    return view('equipos.inactivos', compact(
+        'equipos',
+        'direcciones',
+        'divisiones',
+        'coordinaciones'
+    ));
+}
+
 }
