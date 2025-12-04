@@ -17,30 +17,39 @@ class ComponenteController extends Controller
     }
 
     // Lista todos los componentes activos
-    public function index(Request $request)
+     public function index(Request $request)
     {
+        $search = $request->input('search');
+
         $query = Componente::activos()->with('equipo');
 
-        // Buscador
-        if ($request->has('search') && $request->search != '') {
-            $search = $request->search;
-            $query->where(function ($q) use ($search) {
-                $q->where('tipo_componente', 'like', "%{$search}%")
-                    ->orWhere('marca', 'like', "%{$search}%")
-                    ->orWhere('modelo', 'like', "%{$search}%")
-                    ->orWhere('estado', 'like', "%{$search}%")
-                    ->orWhere('capacidad', 'like', "%{$search}%")
-                    ->orWhereHas('equipo', function ($qe) use ($search) {
-                        $qe->where('marca', 'like', "%{$search}%")
-                            ->orWhere('modelo', 'like', "%{$search}%");
-                    });
-            });
+        if ($search) {
+            // 1. Limpiar caracteres extra
+            $cleanSearch = preg_replace('/[^\wñÑáéíóúÁÉÍÓÚ ]+/u', ' ', $search);
+
+            // 2. Dividir en palabras
+            $terms = array_filter(explode(' ', $cleanSearch));
+
+            foreach ($terms as $term) {
+                $query->where(function ($q) use ($term) {
+                    $q->where('tipo_componente', 'like', "%{$term}%")
+                        ->orWhere('marca', 'like', "%{$term}%")
+                        ->orWhere('modelo', 'like', "%{$term}%")
+                        ->orWhere('estado', 'like', "%{$term}%")
+                        ->orWhere('capacidad', 'like', "%{$term}%")
+                        ->orWhereHas('equipo', function ($qe) use ($term) {
+                            $qe->where('marca', 'like', "%{$term}%")
+                                ->orWhere('modelo', 'like', "%{$term}%");
+                        });
+                });
+            }
         }
 
-        // Paginación 10 por página
-        $componentes = $query->paginate(10)->withQueryString();
+        $componentes = $query->orderBy('id_componente', 'desc')
+            ->paginate(10)
+            ->withQueryString();
 
-        return view('componentes.index', compact('componentes'));
+        return view('componentes.index', compact('componentes', 'search'));
     }
 
 
