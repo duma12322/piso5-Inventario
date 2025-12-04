@@ -19,28 +19,39 @@ class ComponenteOpcionalController extends Controller
     /**
      * Muestra la lista de componentes opcionales.
      */
-    public function index(Request $request)
+     public function index(Request $request)
     {
+        $search = $request->input('search');
+
         $query = ComponenteOpcional::activos()->with('equipo');
 
-        if ($search = $request->input('search')) {
-            $query->where(function ($q) use ($search) {
-                $q->where('tipo_opcional', 'like', "%{$search}%")
-                    ->orWhere('marca', 'like', "%{$search}%")
-                    ->orWhere('modelo', 'like', "%{$search}%")
-                    ->orWhere('capacidad', 'like', "%{$search}%")
-                    ->orWhere('estado', 'like', "%{$search}%")
-                    ->orWhereHas('equipo', function ($eq) use ($search) {
-                        $eq->where('marca', 'like', "%{$search}%")
-                            ->orWhere('modelo', 'like', "%{$search}%");
-                    });
-            });
+        if ($search) {
+            // Limpiar caracteres extra y dividir por espacios
+            $cleanSearch = preg_replace('/[^\wñÑáéíóúÁÉÍÓÚ ]+/u', ' ', $search);
+            $terms = array_filter(explode(' ', $cleanSearch));
+
+            foreach ($terms as $term) {
+                $query->where(function ($q) use ($term) {
+                    $q->where('tipo_opcional', 'like', "%{$term}%")
+                        ->orWhere('marca', 'like', "%{$term}%")
+                        ->orWhere('modelo', 'like', "%{$term}%")
+                        ->orWhere('capacidad', 'like', "%{$term}%")
+                        ->orWhere('estado', 'like', "%{$term}%")
+                        ->orWhereHas('equipo', function ($eq) use ($term) {
+                            $eq->where('marca', 'like', "%{$term}%")
+                                ->orWhere('modelo', 'like', "%{$term}%");
+                        });
+                });
+            }
         }
 
-        $opcionales = $query->orderBy('id_opcional', 'desc')->paginate(10)->withQueryString();
+        $opcionales = $query->orderBy('id_opcional', 'desc')
+            ->paginate(10)
+            ->withQueryString();
 
-        return view('componentesOpcionales.index', compact('opcionales'));
+        return view('componentesOpcionales.index', compact('opcionales', 'search'));
     }
+
 
     public function obtenerPorEquipo($id_equipo)
     {
