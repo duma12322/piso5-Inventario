@@ -66,8 +66,8 @@
                             @foreach($estadoFuncional as $estado => $count)
                             @php
                             $percent = $total > 0 ? round(($count / $total) * 100, 1) : 0;
-                            $color = $estado === 'Operativo' ? '#28a745' :
-                            ($estado === 'Regular' ? '#ffc107' : '#dc3545');
+                            $color = $estado === 'Buen Funcionamiento' ? '#04fa3eff' :
+                            ($estado === 'Operativo' ? '#ffc107' : '#dc3545');
                             $delay = $loop->index * 0.3;
                             @endphp
 
@@ -91,8 +91,9 @@
                     <div class="chart-legend">
                         @foreach($estadoFuncional as $estado => $count)
                         @php
-                        $color = $estado === 'Operativo' ? '#28a745' :
-                        ($estado === 'Regular' ? '#ffc107' : '#dc3545');
+                        $color = $estado === 'Buen Funcionamiento' ? '#0aac2fff' :
+                        $color = $estado === 'Operativo' ? '#ffee04ff' :
+                        ($estado === 'Sin Funcionar' ? '#ff0707ff' : '#000000ff');
                         @endphp
                         <div class="legend-item">
                             <span class="legend-color" style="background: {{ $color }}"></span>
@@ -124,8 +125,9 @@
                             @foreach($estadoTecnologico as $estado => $count)
                             @php
                             $percent = $total > 0 ? round(($count / $total) * 100, 1) : 0;
-                            $color = $estado === 'Actualizado' ? '#007bff' :
-                            ($estado === 'Obsoleto' ? '#6c757d' : '#ffc107');
+                            $color = $estado === 'Nuevo' ? '#4bf508ff' :
+                            ($estado === 'Actualizable' ? '#0651f1ff' : '#ffc107');
+                            ($estado === 'Obsoleto' ? '#fa0606ff' : '#30ff07ff');
                             $delay = $loop->index * 0.3;
                             @endphp
 
@@ -149,8 +151,8 @@
                     <div class="chart-legend">
                         @foreach($estadoTecnologico as $estado => $count)
                         @php
-                        $color = $estado === 'Actualizado' ? '#007bff' :
-                        ($estado === 'Obsoleto' ? '#6c757d' : '#ffc107');
+                        $color = $estado === 'Nuevo' ? '#39dd08ff' :
+                        ($estado === 'Actualizable' ? '#3818ecff' : '#ffc107');
                         @endphp
                         <div class="legend-item">
                             <span class="legend-color" style="background: {{ $color }}"></span>
