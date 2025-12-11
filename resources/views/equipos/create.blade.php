@@ -1,11 +1,6 @@
 @extends('layouts.app')
-
-@push('styles')
-    <link rel="stylesheet" href="{{ asset('css/crearnuevoequipo.css') }}">
-    <!-- Font Awesome para iconos -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-@endpush
-
+ <link rel="stylesheet" href="{{ asset('css/crearnuevoequipo.css') }}">
+    
 @section('content')
 <div class="container equipo-form-container mt-4">
     <!-- Contenedor invisible con datos en atributos -->

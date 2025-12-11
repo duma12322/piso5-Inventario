@@ -1,5 +1,5 @@
 @extends('layouts.app')
-
+<link rel="stylesheet" href="{{ asset('css/equiposinactivosblade.css') }}">
 @section('content')
 <div class="container">
     <h1 class="mb-4 text-danger">💀 Equipos con Componentes Inactivos</h1>

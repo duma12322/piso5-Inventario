@@ -16,7 +16,7 @@
 
 .form-title {
     font-weight: 700;
-    color: #2c3e50;
+    color: #dd0a0a;
     font-size: 1.75rem;
 }
 
@@ -29,7 +29,7 @@
 
 .btn-back:hover {
     transform: translateY(-2px);
-    box-shadow: 0 3px 6px rgba(0,0,0,0.12);
+    box-shadow: 0 3px 6px rgba(31, 247, 2, 0.12);
 }
 
 .form-section {
@@ -38,19 +38,19 @@
     border-radius: 12px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.06);
     margin-bottom: 1.8rem;
-    border-left: 4px solid #3498db;
+    border-left: 4px solid #ee0606;
     transition: transform 0.2s ease;
 }
 
 .form-section:hover {
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    box-shadow: 0 4px 12px rgb(177, 175, 175);
 }
 
 .section-title {
     margin-bottom: 1.25rem;
     font-weight: 600;
-    color: #1a5276;
+    color: #dd0202;
     font-size: 1.25rem;
 }
 
@@ -58,18 +58,18 @@
     font-weight: 500;
     margin-bottom: 0.5rem;
     display: block;
-    color: #2c3e50;
+    color: #800404;
 }
 
 .form-control, .form-select {
-    border: 1px solid #ced4da;
+    border: 1px solid #f70101;
     border-radius: 8px;
     padding: 0.6rem 1rem;
     transition: border-color 0.3s, box-shadow 0.3s;
 }
 
 .form-control:focus, .form-select:focus {
-    border-color: #3498db;
+    border-color: #091401;
     box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.15);
 }
 
