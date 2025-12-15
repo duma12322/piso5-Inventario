@@ -228,6 +228,49 @@
                 container.appendChild(particle);
             }
         }
+        public function store(Request $request)
+{
+    // Determinar qué campos usar según el tipo de componente
+    $tipoComponente = $request->tipo_componente;
+    
+    $data = [
+        'id_equipo' => $request->id_equipo,
+        'tipo_componente' => $tipoComponente,
+        'estado' => $request->input('estado_' . strtolower(str_replace(' ', '_', $tipoComponente)), $request->estado),
+        'detalles' => $request->input('detalles_' . strtolower(str_replace(' ', '_', $tipoComponente)), $request->detalles),
+        // ... otros campos según el tipo
+    ];
+    
+    // Lógica para cada tipo de componente
+    switch ($tipoComponente) {
+        case 'Tarjeta Madre':
+            $data['marca'] = $request->marca;
+            $data['modelo'] = $request->modelo;
+            $data['socket'] = $request->socket;
+            break;
+        case 'Memoria RAM':
+            $data['marca'] = $request->marca_ram;
+            $data['tipo_ram'] = $request->tipo_ram;
+            $data['capacidad'] = $request->capacidad;
+            $data['frecuencia'] = $request->frecuencia;
+            break;
+        case 'Procesador':
+            $data['marca'] = $request->marca_procesador;
+            $data['modelo'] = $request->modelo_procesador;
+            $data['arquitectura'] = $request->arquitectura;
+            $data['nucleos'] = $request->nucleos;
+            $data['frecuencia'] = $request->frecuencia_procesador;
+            $data['socket'] = $request->socket_procesador;
+            $data['consumo'] = $request->consumo;
+            break;
+    }
+    
+    // Crear componente
+    Componente::create($data);
+    
+    return redirect()->route('componentes.index')
+        ->with('success', 'Componente agregado correctamente.');
+}
 
         // Tooltips
         const tooltipItems = document.querySelectorAll('[data-tooltip]');
@@ -258,6 +301,7 @@
     </script>
     
     @yield('scripts')
+    
 </body>
 
 </html>

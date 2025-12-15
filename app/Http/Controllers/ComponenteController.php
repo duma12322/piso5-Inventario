@@ -17,7 +17,7 @@ class ComponenteController extends Controller
     }
 
     // Lista todos los componentes activos
-     public function index(Request $request)
+    public function index(Request $request)
     {
         $search = $request->input('search');
 
@@ -51,7 +51,6 @@ class ComponenteController extends Controller
 
         return view('componentes.index', compact('componentes', 'search'));
     }
-
 
     // Mostrar formulario de creación
     public function create()
@@ -855,5 +854,42 @@ class ComponenteController extends Controller
 
         // Devolver solo los libres
         return array_values(array_diff($todosLosSlots, $slotsOcupados));
+    }
+
+    public function buscarPalabras(Request $request)
+    {
+        $term = $request->input('term');
+        if (!$term) return response()->json([]);
+
+        $resultados = Componente::activos()->with('equipo')
+            ->where(function ($q) use ($term) {
+                $q->where('tipo_componente', 'LIKE', "%$term%")
+                    ->orWhere('marca', 'LIKE', "%$term%")
+                    ->orWhere('modelo', 'LIKE', "%$term%")
+                    ->orWhere('estado', 'LIKE', "%$term%")
+                    ->orWhere('capacidad', 'LIKE', "%$term%")
+                    ->orWhereHas('equipo', function ($qe) use ($term) {
+                        $qe->where('marca', 'LIKE', "%$term%")
+                            ->orWhere('modelo', 'LIKE', "%$term%");
+                    });
+            })
+            ->get();
+
+        $palabras = [];
+        foreach ($resultados as $c) {
+            $columnas = ['tipo_componente', 'marca', 'modelo', 'estado', 'capacidad'];
+            foreach ($columnas as $col) {
+                if ($c->$col && stripos($c->$col, $term) !== false) $palabras[] = $c->$col;
+            }
+            if ($c->equipo) {
+                if ($c->equipo->marca && stripos($c->equipo->marca, $term) !== false)
+                    $palabras[] = $c->equipo->marca;
+                if ($c->equipo->modelo && stripos($c->equipo->modelo, $term) !== false)
+                    $palabras[] = $c->equipo->modelo;
+            }
+        }
+
+        $palabras = array_values(array_unique($palabras));
+        return response()->json($palabras);
     }
 }

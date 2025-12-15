@@ -1,8 +1,9 @@
 @extends('layouts.app')
 <link rel="stylesheet" href="{{ asset('css/equiposinactivosblade.css') }}">
+
 @section('content')
 <div class="container">
-    <h1 class="mb-4 text-danger">💀 Equipos con Componentes Inactivos</h1>
+    <h1 class="mb-4 text-danger"> Equipos con Componentes Inactivos</h1>
 
     {{-- Contenedor de datos para JS --}}
     <div id="app-data"
@@ -44,7 +45,7 @@
         </div>
 
         <div class="col-md-3 align-self-end">
-            <button type="submit" class="btn btn-danger w-100">🔍 Filtrar</button>
+            <button type="submit" class="btn btn-danger w-100">  Filtrar</button>
         </div>
     </form>
 
@@ -55,7 +56,7 @@
             'id_division' => request('id_division'),
             'id_coordinacion' => request('id_coordinacion')
         ]) }}" class="btn btn-danger">
-            📄 Exportar PDF
+             Exportar PDF
         </a>
     </div>
 
@@ -99,7 +100,7 @@
                         <div class="componentes d-none" id="comp{{ $equipo->id_equipo }}">
                             <ul class="mb-1">
                                 @foreach ($equipo->componentes_inactivos as $comp)
-                                <li>🧩 {{ $comp->tipo_componente }} ({{ $comp->marca }}) - Inactivo</li>
+                                <li> {{ $comp->tipo_componente }} ({{ $comp->marca }}) - Inactivo</li>
                                 @endforeach
                             </ul>
                         </div>
@@ -109,7 +110,7 @@
                             <strong>Componentes Opcionales:</strong>
                             <ul>
                                 @foreach ($equipo->opcionales_inactivos as $op)
-                                <li>⚙️ {{ $op->tipo_opcional }} ({{ $op->marca }} {{ $op->modelo }}) - Inactivo</li>
+                                <li> {{ $op->tipo_opcional }} ({{ $op->marca }} {{ $op->modelo }}) - Inactivo</li>
                                 @endforeach
                             </ul>
                         </div>
