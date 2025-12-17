@@ -1,10 +1,11 @@
-@extends('layouts.app')
-<link rel="stylesheet" href="{{ asset('css/direccionescreate.css') }}">
+
+@extends('layouts.app') {{-- Extiende tu layout principal --}}
+<!-- <link rel="stylesheet" href="{{ asset('css/direcciones.create.css') }}"> -->
 @section('title', 'Agregar Dirección')
 
 @section('content')
 <div class="container mt-4">
-    <h3>Agregar Direecion</h3>
+    <h3>Agregar Dirección</h3>
 
     {{-- Formulario POST a la ruta resource store --}}
     <form method="POST" action="{{ route('direcciones.store') }}">

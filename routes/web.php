@@ -52,6 +52,11 @@ Route::middleware(['auth'])->group(function () {
     Route::get('coordinaciones/by-division/{id_division}', [CoordinacionController::class, 'getByDivisionAjax'])
         ->name('coordinaciones.byDivision');
 
+        // Coordinaciones CRUD
+    Route::resource('Direcciones', DireccionesController::class)->except(['show']);
+    Route::get('Direcciones/by-division/{id_division}', [DireccionesController::class, 'getByDivisionAjax'])
+        ->name('Direcciones.byDivision');
+
     // Equipos CRUD
     Route::resource('equipos', EquipoController::class)->except(['show']);
     Route::get('equipos/by-coordinacion/{id_coordinacion}', [EquipoController::class, 'getByCoordinacionAjax'])

@@ -3,6 +3,7 @@
 
 @section('content')
 <div class="container">
+    <!-- Sección del encabezado -->
     <div class="header-section">
         <h1 class="page-title">Lista de Equipos</h1>
         <div class="header-buttons">
@@ -15,6 +16,29 @@
         </div>
     </div>
 
+    <!-- BUSCADOR SIMPLE - Solo input y botón -->
+    <div class="simple-search-container">
+        <form action="{{ route('equipos.index') }}" method="GET" class="simple-search-form">
+            <div class="search-wrapper">
+                <input type="text" 
+                       name="search" 
+                       class="search-input" 
+                       placeholder="Buscar equipos..." 
+                       value="{{ request('search') }}"
+                       aria-label="Buscar equipos">
+                <button type="submit" class="search-button">
+                    <i class="fas fa-search"></i>
+                </button>
+                @if(request('search'))
+                <a href="{{ route('equipos.index') }}" class="clear-button" title="Limpiar búsqueda">
+                    <i class="fas fa-times"></i>
+                </a>
+                @endif
+            </div>
+        </form>
+    </div>
+
+    <!-- Contenedor de la tabla -->
     <div class="table-container">
         <table class="equipos-table">
             <thead>
@@ -91,13 +115,25 @@
                 <tr>
                     <td colspan="10" class="no-data">
                         <i class="fas fa-info-circle"></i>
-                        No hay equipos registrados.
+                        @if(request('search'))
+                            No se encontraron equipos para "{{ request('search') }}"
+                        @else
+                            No hay equipos registrados.
+                        @endif
                     </td>
                 </tr>
                 @endforelse
             </tbody>
         </table>
+        
+        <!-- Paginación -->
+        @if($equipos->hasPages())
+        <div class="pagination-wrapper">
+            {{ $equipos->links() }}
+        </div>
+        @endif
     </div>
 </div>
+
 
 @endsection

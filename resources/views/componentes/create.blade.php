@@ -1,746 +1,683 @@
-@extends('layouts.app')
-<link rel="stylesheet" href="{{ asset('css/createagregarcomponente.css') }}">
 
-@section('title', 'Agregar Componente');
+@extends('layouts.app')
+<link rel="stylesheet" href="{{ asset('css/createagregarcomponentes.css') }}">
+@section('content')
+
+@if($errors->has('socket'))
+<div class="alert alert-danger">
+    {{ $errors->first('socket') }}
+</div>
+@endif
+
+@section('title', 'Agregar Componente')
 
 @section('content')
-<div class="component-form-container">
-    <!-- Fondo animado -->
-    <div class="animated-background">
-        <div class="floating-shapes">
-            <div class="shape shape-1"></div>
-            <div class="shape shape-2"></div>
-            <div class="shape shape-3"></div>
-            <div class="shape shape-4"></div>
-            <div class="shape shape-5"></div>
-        </div>
-    </div>
-
-    <!-- Header Section -->
-    <div class="form-header">
-        <div class="header-content">
-            <div class="header-icon-container">
-                <i class="fas fa-microchip header-icon"></i>
-                <div class="icon-pulse"></div>
-            </div>
-            <div class="header-text">
-                <h1>Agregar Nuevo Componente</h1>
-                <p>Complete la información del componente informático</p>
-            </div>
-        </div>
-        <div class="header-actions">
-            @if(isset($porEquipo) && $porEquipo && isset($equipoSeleccionado))
-            <a href="{{ route('componentes.porEquipo', $equipoSeleccionado->id_equipo) }}" class="btn-back">
-                <i class="fas fa-arrow-left"></i> Volver al Equipo
-            </a>
-            @else
-            <a href="{{ route('componentes.index') }}" class="btn-back">
-                <i class="fas fa-arrow-left"></i> Volver a la Lista
-            </a>
-            @endif
-        </div>
-    </div>
-
-    <form method="POST" action="{{ route('componentes.store') }}" class="component-form" id="componentForm" enctype="multipart/form-data">
+<div class="container mt-4">
+    <h3>Agregar Componente</h3>
+    <form method="POST" action="{{ route('componentes.store') }}">
         @csrf
-
-        @if(isset($porEquipo) && $porEquipo)
+        @if($porEquipo ?? false)
         <input type="hidden" name="porEquipo" value="1">
-        <input type="hidden" name="id_equipo" value="{{ $equipoSeleccionado->id_equipo ?? '' }}">
+        <input type="hidden" name="id_equipo" value="{{ $equipoSeleccionado->id_equipo }}">
         @endif
 
-        <!-- Progress Steps -->
-        <div class="progress-steps">
-            <div class="step active" data-step="1">
-                <div class="step-circle">
-                    <span>1</span>
-                    <div class="checkmark">✓</div>
-                </div>
-                <span class="step-label">Información Básica</span>
+        <!-- Selección del equipo -->
+        <div class="form-group">
+            <label>Equipo</label>
+            @if(isset($porEquipo) && $porEquipo)
+            <input type="hidden" name="id_equipo" value="{{ old('id_equipo', $equipoSeleccionado->id_equipo) }}">
+            <input type="text" class="form-control" value="{{ $equipoSeleccionado->marca }} {{ $equipoSeleccionado->modelo }}" readonly>
+            @else
+            <select id="id_equipo" name="id_equipo" class="form-control" required>
+                <option value="">Seleccione</option>
+                @foreach ($equipos as $e)
+                <option value="{{ $e->id_equipo }}"
+                    {{ old('id_equipo', $equipoSeleccionado->id_equipo ?? '') == $e->id_equipo ? 'selected' : '' }}>
+                    {{ $e->marca }} {{ $e->modelo }}
+                </option>
+                @endforeach
+            </select>
+            @endif
+        </div>
+
+        <!-- Tipo de componente -->
+        <div class="form-group">
+            <label>Tipo de Componente</label>
+            <select id="tipo_componente" name="tipo_componente" class="form-control" required>
+                <option value="">Seleccione un tipo</option>
+                @foreach([
+                'Tarjeta Madre',
+                'Memoria RAM',
+                'Procesador',
+                'Fuente de Poder',
+                'Disco Duro',
+                'Tarjeta Grafica',
+                'Tarjeta Red',
+                'Unidad Optica',
+                'Fan Cooler'
+                ] as $tipo)
+                <option value="{{ $tipo }}" {{ old('tipo_componente') == $tipo ? 'selected' : '' }}>{{ $tipo }}</option>
+                @endforeach
+            </select>
+        </div>
+
+
+        {{-- Tarjeta Madre --}}
+        <div id="tarjeta_madre_campos" style="display:none;">
+            <h5 class="text-primary mt-3">🔧 Detalles de la Tarjeta Madre</h5>
+
+            {{-- Marca / Fabricante --}}
+            <div class="form-group">
+                <label>Marca / Fabricante</label>
+                <input type="text" name="marca_tarjeta_madre" class="form-control" placeholder="Ej: Biostar, ASUS, Intel, Zotac, ASRock, MSI" value="{{ old('marca_tarjeta_madre') }}">
             </div>
-            <div class="step-connector"></div>
-            <div class="step" data-step="2">
-                <div class="step-circle">
-                    <span>2</span>
-                    <div class="checkmark">✓</div>
+            <div class="form-group">
+                <label>Modelo</label>
+                <input type="text" name="modelo_tarjeta_madre" class="form-control" placeholder="Ej. HP dc5800 SFF, B450M-A" value="{{ old('modelo_tarjeta_madre') }}">
+            </div>
+            <div class="form-group">
+                <label>Socket</label>
+                <input type="text" name="socket_tarjeta_madre" class="form-control" placeholder="Ej. LGA1700, AM5" value="{{ old('socket_tarjeta_madre') }}">
+            </div>
+            <!-- Cantidad de ranuras -->
+            <div class="form-group">
+                <label>Cantidad de Slot RAM</label>
+                <input type="number" name="cantidad_slot_memoria" id="cantidad_slot_memoria" class="form-control" placeholder="Cantidad de Slot" value="{{ old('cantidad_slot_memoria') }}">
+            </div>
+            <div class="form-group">
+                <label>Tipo RAM</label>
+                <input type="text" name="tipo_tarjeta_madre" class="form-control" placeholder="Ej. DDR3, DDR2" value="{{ old('tipo_tarjeta_madre') }}">
+            </div>
+            <!-- Frecuencias de Memoria -->
+            <div class="form-group">
+                <label for="frecuencias_memoria">💾 Frecuencias de Memoria (MHz)</label><br>
+
+                @php
+                $opcionesFrecuencias = [
+                'DDR' => [200, 266, 333, 400],
+                'DDR2' => [400, 533, 667, 800, 1066],
+                'DDR3' => [800, 1066, 1333, 1600, 1866, 2133, 2400],
+                'DDR4' => [2133, 2400, 2666, 2800, 2933, 3000, 3200, 3466, 3600, 3733, 4000, 4266],
+                'DDR5' => [4800, 5200, 5600, 6000, 6400, 6800, 7200, 7600, 8000, 8400]
+                ];
+
+                $seleccionadasFreq = isset($componente->frecuencias_memoria)
+                ? explode(',', $componente->frecuencias_memoria)
+                : [];
+                @endphp
+
+                @foreach($opcionesFrecuencias as $tipo => $frecs)
+                <div class="frecuencia-grupo" data-tipo="{{ $tipo }}">
+                    <strong>{{ $tipo }}</strong><br>
+                    @foreach($frecs as $freq)
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" name="frecuencias_memoria[]" value="{{ $freq }}"
+                            {{ in_array($freq, $seleccionadasFreq) ? 'checked' : '' }}>
+                        <label class="form-check-label">{{ $freq }} MHz</label>
+                    </div>
+                    @endforeach
+                    <br>
                 </div>
-                <span class="step-label">Detalles del Componente</span>
+                @endforeach
+
+                <!-- Aquí mostramos el error si existe -->
+                @if($errors->has('frecuencias_memoria'))
+                <div class="alert alert-danger mt-2">
+                    {{ $errors->first('frecuencias_memoria') }}
+                </div>
+                @endif
+            </div>
+            <!-- Memoria Máxima -->
+            <div class="form-group mt-3">
+                <label for="memoria_maxima">🖥️ Memoria Máxima (GB)</label>
+                <input type="text" name="memoria_maxima" class="form-control" min="1"
+                    value="{{ old('memoria_maxima', $componente->memoria_maxima ?? '') }}">
+            </div>
+            {{-- Ranuras de expansión --}}
+            <div class="form-group">
+                <label>Ranuras de expansión</label><br>
+                @php
+                $opcionesRanuras = [
+                'ISA',
+                'AGP',
+                'PCI',
+                'PCI-X',
+                'AMR/CNR',
+                'PCIe x1',
+                'PCIe x2',
+                'PCIe x4',
+                'PCIe x8',
+                'PCIe x12',
+                'PCIe x16',
+                'PCIe x32',
+                'Mini PCIe',
+                'M.2 (Key M)',
+                'M.2 (Key E)',
+                'Thunderbolt header',
+                'OCP',
+                'CXL'
+                ];
+                $seleccionadas = old('ranuras_expansion', isset($componente) ? explode(',', $componente->ranuras_expansion) : []);
+                @endphp
+
+                @foreach($opcionesRanuras as $ranura)
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" name="ranuras_expansion[]" value="{{ $ranura }}"
+                        {{ in_array($ranura, $seleccionadas) ? 'checked' : '' }}>
+                    <label class="form-check-label">{{ $ranura }}</label>
+                </div>
+                @endforeach
+            </div>
+            {{-- Conectores de alimentación --}}
+            <div class="form-group">
+                <label>Conectores de alimentación</label>
+                <div>
+                    @php
+                    $conectores = [
+                    'ATX 24 pines',
+                    'ATX 20 pines',
+                    'EPS 4 pines',
+                    'EPS 8 pines',
+                    'EPS 4+4 pines',
+                    '6 pines PCIe',
+                    '8 pines PCIe',
+                    '6+2 pines PCIe',
+                    '12VHPWR (PCIe 5.0)',
+                    '4 pines Molex',
+                    'SATA Power',
+                    'Berg (Floppy)'
+                    ];
+                    $seleccionadosCon = old('conectores_alimentacion', isset($componente) ? explode(',', $componente->conectores_alimentacion) : []);
+                    @endphp
+                    @foreach ($conectores as $c)
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" name="conectores_alimentacion[]" value="{{ $c }}" {{ in_array($c, $seleccionadosCon) ? 'checked' : '' }}>
+                        <label class="form-check-label">{{ $c }}</label>
+                    </div>
+                    @endforeach
+                </div>
+            </div>
+            {{-- Puertos internos --}}
+            <div class="form-group">
+                <label>Puertos internos</label>
+                <div>
+                    @php
+                    $puertosInternos = [
+                    'SATA',
+                    'M.2',
+                    'U.2',
+                    'IDE (PATA)',
+                    'PCIe x1/x4/x16',
+                    'USB 2.0 header',
+                    'USB 3.0 header',
+                    'Audio HD header',
+                    'TPM header',
+                    'Fan header (3/4 pines)',
+                    'RGB/ARGB header',
+                    'Paralelo (LPT)',
+                    'Serial (COM)',
+                    'FireWire (IEEE 1394)',
+                    'Game/MIDI',
+                    'Chassis Intrusion',
+                    'Thunderbolt header'
+                    ];
+                    $seleccionadosInt = old('puertos_internos', []);
+                    @endphp
+                    @foreach ($puertosInternos as $p)
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" name="puertos_internos[]" value="{{ $p }}" {{ in_array($p, $seleccionadosInt) ? 'checked' : '' }}>
+                        <label class="form-check-label">{{ $p }}</label>
+                    </div>
+                    @endforeach
+                </div>
+            </div>
+
+            {{-- Puertos externos (Panel I/O) --}}
+            <div class="form-group">
+                <label>Puertos externos (Panel I/O)</label>
+                <div>
+                    @php
+                    $puertosExternos = ['HDMI', 'DisplayPort', 'Mini DisplayPort', 'DVI', 'VGA', 'USB 2.0', 'USB 3.0/3.1 Gen1', 'USB 3.2 Gen2', 'USB-C', 'RJ-45 Ethernet', 'RJ-11', 'Jack 3.5 mm', 'S/PDIF', 'PS/2', 'Thunderbolt 3/4', 'eSATA', 'FireWire'];
+                    $seleccionadosExt = old('puertos_externos', []);
+                    @endphp
+                    @foreach ($puertosExternos as $p)
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" name="puertos_externos[]" value="{{ $p }}" {{ in_array($p, $seleccionadosExt) ? 'checked' : '' }}>
+                        <label class="form-check-label">{{ $p }}</label>
+                    </div>
+                    @endforeach
+                </div>
+            </div>
+            {{-- BIOS / UEFI --}}
+            <div class="form-group">
+                <label>BIOS / UEFI</label>
+                <input type="text" name="bios_uefi" class="form-control" placeholder="Ej: AMI UEFI" value="{{ old('bios_uefi') }}">
+            </div>
+            {{-- Año de instalación --}}
+            <div class="form-group">
+                <label>Año de instalación</label>
+                <input type="number" name="fecha_instalacion" class="form-control" min="2000" max="{{ date('Y') }}" value="{{ old('fecha_instalacion') }}">
+            </div>
+
+            {{-- Estado --}}
+            <div class="form-group">
+                <label>Estado</label>
+                <select name="estado_tarjeta_madre" class="form-control">
+                    @foreach(['Buen Funcionamiento','Operativo','Sin Funcionar'] as $estado)
+                    <option value="{{ $estado }}" {{ old('estado_tarjeta_madre') == $estado ? 'selected' : '' }}>{{ $estado }}</option>
+                    @endforeach
+                </select>
+            </div>
+
+            {{-- Detalles --}}
+            <div class="form-group">
+                <label>Detalles</label>
+                <textarea name="detalles_tarjeta_madre" class="form-control" rows="5" placeholder="Información adicional del componente">{{ old('detalles_tarjeta_madre') }}</textarea>
             </div>
         </div>
 
-        <!-- Step 1: Información Básica -->
-        <div class="form-step active" id="step1">
-            <div class="step-header">
-                <div class="step-icon">
-                    <i class="fas fa-info-circle"></i>
-                </div>
-                <div class="step-title">
-                    <h3>Información Básica</h3>
-                    <p>Seleccione el equipo y tipo de componente</p>
-                </div>
+        <!-- Memoria Ram -->
+        <div id="memoria_ram_campos" style="display:none;">
+            <h5 class="text-primary mt-3">💾 Memoria RAM</h5>
+            <div class="form-group">
+                <label>Marca</label>
+                <input type="text" name="marca_memoria" class="form-control" placeholder="Ej: Corsair, Kingston, G. Skill, Crucial y ADATA"
+                    value="{{ old('marca_memoria') }}">
             </div>
-
-            <div class="form-grid">
-                <!-- Selección del equipo -->
-                <div class="form-group">
-                    <label class="form-label">
-                        <i class="fas fa-desktop"></i> Equipo
-                    </label>
-                    @if(isset($porEquipo) && $porEquipo && isset($equipoSeleccionado))
-                    <input type="hidden" name="id_equipo" value="{{ old('id_equipo', $equipoSeleccionado->id_equipo) }}">
-                    <div class="selected-equipo">
-                        <div class="equipo-icon">
-                            <i class="fas fa-laptop"></i>
-                        </div>
-                        <div class="equipo-info">
-                            <span class="equipo-name">{{ $equipoSeleccionado->marca ?? '' }} {{ $equipoSeleccionado->modelo ?? '' }}</span>
-                            <span class="equipo-status">Seleccionado</span>
-                        </div>
-                    </div>;
-                    @else
-                    <select id="id_equipo" name="id_equipo" class="form-select" required>
-                        <option value="">Seleccione un equipo</option>
-                        @foreach ($equipos as $e)
-                        <option value="{{ $e->id_equipo }}"
-                            {{ old('id_equipo') == $e->id_equipo ? 'selected' : '' }}>
-                            {{ $e->marca }} {{ $e->modelo }}
-                        </option>
-                        @endforeach
-                    </select>
-                    @endif
-                    @error('id_equipo')
-                    <div class="error-message">
-                        <i class="fas fa-exclamation-circle"></i> {{ $message }}
-                    </div>
-                    @enderror
+            <div class="form-group">
+                <label>Tipo</label>
+                <input type="text" name="tipo_ram" class="form-control"
+                    placeholder="Ej: DDR4, DDR5"
+                    value="{{ old('tipo_ram') }}">
+                @if($errors->has('tipo_ram'))
+                <div class="alert alert-danger mt-2">
+                    {{ $errors->first('tipo_ram') }}
                 </div>
-
-                <!-- Tipo de componente -->
-                <div class="form-group">
-                    <label class="form-label">
-                        <i class="fas fa-shapes"></i> Tipo de Componente
-                    </label>
-                    <select id="tipo_componente" name="tipo_componente" class="form-select" required>
-                        <option value="">Seleccione un tipo</option>
-                        @foreach([
-                        'Tarjeta Madre' => 'fa-microchip',
-                        'Memoria RAM' => 'fa-memory',
-                        'Procesador' => 'fa-brain',
-                        'Fuente de Poder' => 'fa-bolt',
-                        'Disco Duro' => 'fa-hdd',
-                        'Tarjeta Grafica' => 'fa-video',
-                        'Tarjeta Red' => 'fa-network-wired',
-                        'Unidad Optica' => 'fa-compact-disc',
-                        'Fan Cooler' => 'fa-fan'
-                        ] as $tipo => $icon)
-                        <option value="{{ $tipo }}" data-icon="{{ $icon }}" {{ old('tipo_componente') == $tipo ? 'selected' : '' }}>
-                            {{ $tipo }}
-                        </option>
-                        @endforeach
-                    </select>
-                    @error('tipo_componente')
-                    <div class="error-message">
-                        <i class="fas fa-exclamation-circle"></i> {{ $message }}
-                    </div>
-                    @enderror
-                </div>
+                @endif
             </div>
+            <div class="form-group">
+                <label>Slot RAM</label>
+                <input type="text" name="slot_memoria" class="form-control" placeholder="En cuál Slot se ubica la RAM"
+                    value="{{ old('slot_memoria') }}">
 
-            <div class="step-actions">
-                <button type="button" class="btn-next" onclick="validateStep(1)">
-                    <span>Siguiente</span>
-                    <i class="fas fa-arrow-right"></i>
-                </button>
+                @if($errors->has('slot_memoria'))
+                <div class="alert alert-danger mt-2">
+                    {{ $errors->first('slot_memoria') }}
+                </div>
+                @endif
+            </div>
+            <div class="form-group">
+                <label>Capacidad</label>
+                <input type="text" name="capacidad_ram" class="form-control" placeholder="Ej: 8GB, 16GB"
+                    value="{{ old('capacidad_ram') }}">
+            </div>
+            <div class="form-group">
+                <label>Frecuencia</label>
+                <input type="text" name="frecuencia_ram" class="form-control" placeholder="Ej: 3200MHz"
+                    value="{{ old('frecuencia_ram') }}">
+            </div>
+            <div class="form-group">
+                <label>Estado</label>
+                <select name="estado_memoria" class="form-control">
+                    <option value="Buen Funcionamiento" {{ old('estado_memoria') == 'Buen Funcionamiento' ? 'selected' : '' }}>Buen Funcionamiento</option>
+                    <option value="Operativo" {{ old('estado_memoria') == 'Operativo' ? 'selected' : '' }}>Operativo</option>
+                    <option value="Sin Funcionar" {{ old('estado_memoria') == 'Sin Funcionar' ? 'selected' : '' }}>Sin Funcionar</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Detalles</label>
+                <textarea name="detalles_ram" class="form-control" rows="5" placeholder="Información adicional del componente">{{ old('detalles_ram') }}</textarea>
             </div>
         </div>
 
-        <!-- Step 2: Detalles del Componente -->
-        <div class="form-step" id="step2">
-            <div class="step-header">
-                <div class="step-icon">
-                    <i class="fas fa-cogs"></i>
+        <!-- Procesador -->
+        <div id="procesador_campos" style="display:none;">
+            <h5 class="text-primary mt-3">🧠 Procesador</h5>
+            <div class="form-group">
+                <label>Marca</label>
+                <input type="text" name="marca_procesador" class="form-control" placeholder="Ej. Intel, AMD, Apple" value="{{ old('marca_procesador') }}">
+            </div>
+            <div class="form-group">
+                <label>Modelo</label>
+                <input type="text" name="modelo_procesador" class="form-control" placeholder="Ej. Core i7-13700K, Ryzen 5 7600, Apple M3 Max"
+                    value="{{ old('modelo_procesador') }}">
+            </div>
+            <div class="form-group">
+                <label>Aquitectura</label>
+                <input type="text" name="arquitectura_procesador" class="form-control" placeholder="x64 o x86, ARM (32 o 64 bits)"
+                    value="{{ old('arquitectura_procesador') }}">
+            </div>
+            <div class="form-group">
+                <label>Núcleos</label>
+                <input type="number" name="nucleos" class="form-control" placeholder="Ej. 2, 4, 8"
+                    value="{{ old('nucleos') }}">
+            </div>
+            <div class="form-group">
+                <label>Frecuencia (GHz)</label>
+                <input type="text" name="frecuencia_procesador" class="form-control" placeholder="Ej. 1.9, 3.6"
+                    value="{{ old('frecuencia_procesador') }}">
+            </div>
+            <div class="form-group">
+                <label>Socket</label>
+                <input type="text" name="socket_procesador" class="form-control" placeholder="Ej. LGA1700, AM5"
+                    value="{{ old('socket_procesador') }}">
+            </div>
+            <div class="form-group">
+                <label>Consumo eléctrico (W)</label>
+                <input type="text" name="consumo_procesador" class="form-control" placeholder="Ej. 65W, 125W,350W"
+                    value="{{ old('consumo_procesador') }}">
+            </div>
+            <div class="form-group">
+                <label>Estado</label>
+                <select name="estado_procesador" class="form-control">
+                    <option value="Buen Funcionamiento" {{ old('estado_procesador') == 'Buen Funcionamiento' ? 'selected' : '' }}>Buen Funcionamiento</option>
+                    <option value="Operativo" {{ old('estado_procesador') == 'Operativo' ? 'selected' : '' }}>Operativo</option>
+                    <option value="Sin Funcionar" {{ old('estado_procesador') == 'Sin Funcionar' ? 'selected' : '' }}>Sin Funcionar</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Detalles</label>
+                <textarea name="detalles_procesador" class="form-control" rows="5" placeholder="Información adicional del componente">{{ old('detalles_procesador') }}</textarea>
+            </div>
+        </div>
+
+        <!-- Fuente de Poder -->
+        <div id="fuente_poder_campos" style="display:none;">
+            <h5 class="text-primary mt-3">⚡ Fuente de Poder</h5>
+            <div class="form-group">
+                <label>Marca</label>
+                <input type="text" name="marca_fuente" class="form-control" placeholder="Ej: Corsair, Seasonic, Cooler Master, EVGA, MSI y Thermaltake">
+            </div>
+            <div class="form-group">
+                <label>Modelo</label>
+                <input type="text" name="modelo_fuente" class="form-control" placeholder="Ej: Corsair CV550, Cooler Master MWE 500, EVGA SuperNOVA 750 G6">
+            </div>
+            <div class="form-group">
+                <label>Potencia</label>
+                <input type="text" name="potencia" class="form-control" placeholder="Ej: 600W">
+            </div>
+            <div class="form-group">
+                <label>Voltajes de salida</label>
+
+                @php
+                $opcionesVoltajes = [
+                '+12V' => 'voltaje_12v',
+                '+5V' => 'voltaje_5v',
+                '+3.3V' => 'voltaje_3_3v',
+                '-12V' => 'voltaje_neg12v',
+                '+5VSB' => 'voltaje_5vsb',
+                '19V DC' => 'voltaje_19v', // Laptops
+                '12V DC' => 'voltaje_12vmini', // MiniPC
+                '5V' => 'voltaje_5vmini', // MiniPC
+                '+1.8V' => 'voltaje_1_8v',
+                '+3.0V' => 'voltaje_3v',
+                '+1.2V' => 'voltaje_1_2v',
+                '+2.5V' => 'voltaje_2_5v',
+                '+24V' => 'voltaje_24v',
+                ];
+
+                // Voltajes previamente guardados (old input)
+                $voltajes = old('voltajes_fuente', $componente->voltajes_fuente ?? '');
+                $voltajesArray = $voltajes ? explode(',', $voltajes) : [];
+
+                // Separar "otro voltaje"
+                $voltajeOtro = '';
+                foreach ($voltajesArray as $key => $v) {
+                if (!array_key_exists($v, $opcionesVoltajes)) {
+                $voltajeOtro = $v;
+                unset($voltajesArray[$key]);
+                }
+                }
+                @endphp
+
+                @foreach($opcionesVoltajes as $v => $id)
+                <div class="form-check">
+                    <input type="checkbox" name="voltajes_fuente[]" value="{{ $v }}" class="form-check-input" id="{{ $id }}" {{ in_array($v, $voltajesArray) ? 'checked' : '' }}>
+                    <label class="form-check-label" for="{{ $id }}">
+                        {{ $v }}
+                        @if($v == '19V DC') (Laptop)@endif
+                        @if($v == '12V DC' || $v == '5V') (MiniPC)@endif
+                    </label>
                 </div>
-                <div class="step-title">
-                    <h3>Detalles del Componente</h3>
-                    <p id="component-description">Complete los detalles específicos del componente</p>
+                @endforeach
+
+                <div class="form-group mt-2">
+                    <input type="text" name="voltaje_otro" class="form-control" placeholder="Otro voltaje" value="{{ old('voltaje_otro', $voltajeOtro) }}">
                 </div>
             </div>
+            <div class="form-group">
+                <label>Estado</label>
+                <select name="estado_fuente" class="form-control">
+                    <option>Buen Funcionamiento</option>
+                    <option>Operativo</option>
+                    <option>Sin Funcionar</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Detalles</label>
+                <textarea name="detalles_fuente" class="form-control" rows="5" placeholder="Información adicional del componente"></textarea>
+            </div>
+        </div>
 
-            <!-- Component Preview -->
-            <div class="component-preview" id="componentPreview">
-                <div class="preview-icon">
-                    <i class="fas fa-microchip"></i>
-                </div>
-                <div class="preview-content">
-                    <h4>Seleccione un tipo de componente</h4>
-                    <p>Elija un tipo de componente en el paso anterior para ver los campos específicos</p>
-                </div>
+        <!-- Disco Duro -->
+        <div id="disco_duro_campos" style="display:none;">
+            <h5 class="text-primary mt-3">💽 Disco Duro</h5>
+
+            <div class="form-group">
+                <label>Marca</label>
+                <input type="text" name="marca_disco" class="form-control" placeholder="Ej: Western Digital (WD), Seagate, Toshiba">
             </div>
 
-            <div class="component-sections">
-                {{-- Tarjeta Madre --}}
-                <div id="tarjeta_madre_campos" class="component-section" style="display:none;">
-                    <div class="component-header">
-                        <div class="component-icon">
-                            <i class="fas fa-microchip"></i>
-                        </div>
-                        <div class="component-title">
-                            <h4>Tarjeta Madre</h4>
-                            <p>Especificaciones de la placa base</p>
-                        </div>
-                    </div>
-
-                    <div class="form-grid">
-                        <div class="form-group">
-                            <label class="form-label">
-                                <i class="fas fa-tag"></i> Marca / Fabricante
-                            </label>
-                            <input type="text" name="marca" class="form-input" placeholder="Ej: Biostar, ASUS, Intel, Zotac, ASRock, MSI" value="{{ old('marca') }}">
-                            @error('marca')
-                            <div class="error-message">
-                                <i class="fas fa-exclamation-circle"></i> {{ $message }}
-                            </div>
-                            @enderror
-                        </div>
-
-                        <div class="form-group">
-                            <label class="form-label">
-                                <i class="fas fa-cube"></i> Modelo
-                            </label>
-                            <input type="text" name="modelo" class="form-input" placeholder="Ej. HP dc5800 SFF, B450M-A" value="{{ old('modelo') }}">
-                        </div>
-
-                        <div class="form-group">
-                            <label class="form-label">
-                                <i class="fas fa-plug"></i> Socket
-                            </label>
-                            <input type="text" name="socket" class="form-input" placeholder="Ej. LGA1700, AM5" value="{{ old('socket') }}">
-                        </div>
-                    </div>
-
-                    <div class="form-grid">
-                        <div class="form-group">
-                            <label class="form-label">
-                                <i class="fas fa-memory"></i> Cantidad de Slot RAM
-                            </label>
-                            <input type="number" name="cantidad_slot_memoria" id="cantidad_slot_memoria" class="form-input" placeholder="Cantidad de Slot" value="{{ old('cantidad_slot_memoria') }}">
-                        </div>
-
-                        <div class="form-group">
-                            <label class="form-label">
-                                <i class="fas fa-sd-card"></i> Memoria Máxima (GB)
-                            </label>
-                            <input type="number" name="memoria_maxima" class="form-input" min="1" placeholder="Ej: 64" value="{{ old('memoria_maxima') }}">
-                        </div>
-
-                        <div class="form-group">
-                            <label class="form-label">
-                                <i class="fas fa-bolt"></i> Tipo RAM
-                            </label>
-                            <input type="text" name="tipo_ram" class="form-input" placeholder="Ej. DDR3, DDR2" value="{{ old('tipo_ram') }}">
-                            @if($errors->has('tipo'))
-                            <div class="alert alert-danger mt-2">
-                                {{ $errors->first('tipo') }}
-                            </div>
-                            @endif
-                        </div>
-                    </div>
-
-                    <!-- Frecuencias de Memoria -->
-                    <div class="form-group">
-                        <label class="form-label">
-                            <i class="fas fa-tachometer-alt"></i> Frecuencias de Memoria (MHz)
-                        </label>
-                        <div class="checkbox-grid" id="frecuencias-container">
-                            @php
-                            $opcionesFrecuencias = [
-                            'DDR' => [200, 266, 333, 400],
-                            'DDR2' => [400, 533, 667, 800, 1066],
-                            'DDR3' => [800, 1066, 1333, 1600, 1866, 2133, 2400],
-                            'DDR4' => [2133, 2400, 2666, 2800, 2933, 3000, 3200, 3466, 3600, 3733, 4000, 4266],
-                            'DDR5' => [4800, 5200, 5600, 6000, 6400, 6800, 7200, 7600, 8000, 8400]
-                            ];
-
-                            $seleccionadasFreq = old('frecuencias_memoria', []);
-                            @endphp
-
-                            @foreach($opcionesFrecuencias as $tipo => $frecs)
-                            <div class="frecuencia-grupo" data-tipo="{{ $tipo }}">
-                                <strong class="frecuencia-titulo">{{ $tipo }}</strong>
-                                <div class="frecuencia-opciones">
-                                    @foreach($frecs as $freq)
-                                    <label class="checkbox-item">
-                                        <input type="checkbox" class="checkbox-input" name="frecuencias_memoria[]" value="{{ $freq }}"
-                                            {{ in_array($freq, (array)$seleccionadasFreq) ? 'checked' : '' }}>
-                                        <span class="checkbox-custom"></span>
-                                        <span class="checkbox-label">{{ $freq }} MHz</span>
-                                    </label>
-                                    @endforeach
-                                </div>
-                            </div>
-                            @endforeach
-                        </div>
-                        @if($errors->has('frecuencia'))
-                        <div class="alert alert-danger mt-2">
-                            {{ $errors->first('frecuencia') }}
-                        </div>
-                        @endif
-                    </div>
-
-                    <!-- Ranuras de expansión -->
-                    <div class="form-group">
-                        <label class="form-label">
-                            <i class="fas fa-expand-alt"></i> Ranuras de expansión
-                        </label>
-                        <div class="checkbox-grid compact">
-                            @php
-                            $opcionesRanuras = [
-                            'ISA', 'AGP', 'PCI', 'PCI-X', 'AMR/CNR', 'PCIe x1', 'PCIe x2', 'PCIe x4',
-                            'PCIe x8', 'PCIe x12', 'PCIe x16', 'PCIe x32', 'Mini PCIe', 'M.2 (Key M)',
-                            'M.2 (Key E)', 'Thunderbolt header', 'OCP', 'CXL'
-                            ];
-                            $seleccionadas = old('ranuras_expansion', []);
-                            @endphp
-
-                            @foreach($opcionesRanuras as $ranura)
-                            <label class="checkbox-item">
-                                <input class="checkbox-input" type="checkbox" name="ranuras_expansion[]" value="{{ $ranura }}"
-                                    {{ in_array($ranura, (array)$seleccionadas) ? 'checked' : '' }}>
-                                <span class="checkbox-custom"></span>
-                                <span class="checkbox-label">{{ $ranura }}</span>
-                            </label>
-                            @endforeach
-                        </div>
-                    </div>;
-
-                    <!-- Estado -->
-                    <div class="form-group">
-                        <label class="form-label">
-                            <i class="fas fa-power-off"></i> Estado
-                        </label>
-                        <select name="estado" class="form-select" required>
-                            <option value="">Seleccione estado</option>
-                            @foreach(['Buen Funcionamiento' => 'success', 'Operativo' => 'info', 'Sin Funcionar' => 'danger'] as $estado => $color)
-                            <option value="{{ $estado }}" {{ old('estado') == $estado ? 'selected' : '' }} data-color="{{ $color }}">
-                                {{ $estado }}
-                            </option>
-                            @endforeach
-                        </select>
-                        @error('estado')
-                        <div class="error-message">
-                            <i class="fas fa-exclamation-circle"></i> {{ $message }}
-                        </div>
-                        @enderror
-                    </div>
-
-                    <!-- Detalles -->
-                    <div class="form-group">
-                        <label class="form-label">
-                            <i class="fas fa-file-alt"></i> Detalles
-                        </label>
-                        <textarea name="detalles" class="form-textarea" rows="4" placeholder="Información adicional del componente">{{ old('detalles') }}</textarea>
-                    </div>
-                </div>
-
-                <!-- Memoria RAM -->
-                <div id="memoria_ram_campos" class="component-section" style="display:none;">
-                    <div class="component-header">
-                        <div class="component-icon">
-                            <i class="fas fa-memory"></i>
-                        </div>
-                        <div class="component-title">
-                            <h4>Memoria RAM</h4>
-                            <p>Especificaciones de la memoria</p>
-                        </div>
-                    </div>
-
-                    <div class="form-grid">
-                        <div class="form-group">
-                            <label class="form-label">
-                                <i class="fas fa-tag"></i> Marca
-                            </label>
-                            <input type="text" name="marca" class="form-input" placeholder="Ej: Corsair, Kingston, G.Skill, Crucial, ADATA" value="{{ old('marca') }}">
-                        </div>
-
-                        <div class="form-group">
-                            <label class="form-label">
-                                <i class="fas fa-bolt"></i> Tipo
-                            </label>
-                            <select name="tipo_ram" class="form-select">
-                                <option value="">Seleccione tipo</option>
-                                @foreach(['DDR', 'DDR2', 'DDR3', 'DDR4', 'DDR5'] as $tipo)
-                                <option value="{{ $tipo }}" {{ old('tipo_ram') == $tipo ? 'selected' : '' }}>{{ $tipo }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="form-label">
-                                <i class="fas fa-sd-card"></i> Capacidad (GB)
-                            </label>
-                            <input type="number" name="capacidad" class="form-input" placeholder="Ej: 8, 16" value="{{ old('capacidad') }}" min="1">
-                        </div>
-                    </div>
-
-                    <div class="form-grid">
-                        <div class="form-group">
-                            <label class="form-label">
-                                <i class="fas fa-tachometer-alt"></i> Frecuencia (MHz)
-                            </label>
-                            <input type="number" name="frecuencia" class="form-input" placeholder="Ej: 3200" value="{{ old('frecuencia') }}" min="1">
-                        </div>
-
-                        <div class="form-group">
-                            <label class="form-label">
-                                <i class="fas fa-memory"></i> Slot RAM
-                            </label>
-                            <input type="text" name="slot" class="form-input" placeholder="Ej: Slot 1, Slot A1" value="{{ old('slot') }}">
-                        </div>
-
-                        <div class="form-group">
-                            <label class="form-label">
-                                <i class="fas fa-power-off"></i> Estado
-                            </label>
-                            <select name="estado" class="form-select" required>
-                                <option value="">Seleccione estado</option>
-                                @foreach(['Buen Funcionamiento' => 'success', 'Operativo' => 'info', 'Sin Funcionar' => 'danger'] as $estado => $color)
-                                <option value="{{ $estado }}" {{ old('estado') == $estado ? 'selected' : '' }} data-color="{{ $color }}">
-                                    {{ $estado }}
-                                </option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-label">
-                            <i class="fas fa-file-alt"></i> Detalles
-                        </label>
-                        <textarea name="detalles" class="form-textarea" rows="4" placeholder="Información adicional del componente">{{ old('detalles') }}</textarea>
-                    </div>
-                </div>
-
-                <!-- Procesador -->
-                <div id="procesador_campos" class="component-section" style="display:none;">
-                    <div class="component-header">
-                        <div class="component-icon">
-                            <i class="fas fa-brain"></i>
-                        </div>
-                        <div class="component-title">
-                            <h4>Procesador</h4>
-                            <p>Especificaciones del CPU</p>
-                        </div>
-                    </div>
-
-                    <div class="form-grid">
-                        <div class="form-group">
-                            <label class="form-label">
-                                <i class="fas fa-tag"></i> Marca
-                            </label>
-                            <input type="text" name="marca" class="form-input" placeholder="Ej. Intel, AMD, Apple" value="{{ old('marca') }}">
-                        </div>
-
-                        <div class="form-group">
-                            <label class="form-label">
-                                <i class="fas fa-cube"></i> Modelo
-                            </label>
-                            <input type="text" name="modelo" class="form-input" placeholder="Ej. Core i7-13700K, Ryzen 5 7600, Apple M3 Max" value="{{ old('modelo') }}">
-                        </div>
-
-                        <div class="form-group">
-                            <label class="form-label">
-                                <i class="fas fa-archway"></i> Arquitectura
-                            </label>
-                            <select name="arquitectura" class="form-select">
-                                <option value="">Seleccione arquitectura</option>
-                                @foreach(['x86 (32-bit)', 'x64 (64-bit)', 'ARM (32-bit)', 'ARM (64-bit)'] as $arch)
-                                <option value="{{ $arch }}" {{ old('arquitectura') == $arch ? 'selected' : '' }}>{{ $arch }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="form-grid">
-                        <div class="form-group">
-                            <label class="form-label">
-                                <i class="fas fa-microchip"></i> Núcleos
-                            </label>
-                            <input type="number" name="nucleos" class="form-input" placeholder="Ej. 2, 4, 8" value="{{ old('nucleos') }}" min="1">
-                        </div>
-
-                        <div class="form-group">
-                            <label class="form-label">
-                                <i class="fas fa-tachometer-alt"></i> Frecuencia (GHz)
-                            </label>
-                            <input type="number" step="0.1" name="frecuencia" class="form-input" placeholder="Ej. 1.9, 3.6" value="{{ old('frecuencia') }}" min="0.1">
-                        </div>
-
-                        <div class="form-group">
-                            <label class="form-label">
-                                <i class="fas fa-plug"></i> Socket
-                            </label>
-                            <input type="text" name="socket" class="form-input" placeholder="Ej. LGA1700, AM5" value="{{ old('socket') }}">
-                        </div>;
-                    </div>;
-
-                    <div class="form-grid">
-                        <div class="form-group">
-                            <label class="form-label">
-                                <i class="fas fa-bolt"></i> Consumo eléctrico (W)
-                            </label>
-                            <input type="number" name="consumo" class="form-input" placeholder="Ej. 65, 125, 350" value="{{ old('consumo') }}" min="1">
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">
-                                <i class="fas fa-power-off"></i> Estado
-                            </label>
-                            <select name="estado" class="form-select" required>
-                                <option value="">Seleccione estado</option>
-                                @foreach(['Buen Funcionamiento' => 'success', 'Operativo' => 'info', 'Sin Funcionar' => 'danger'] as $estado => $color)
-                                <option value="{{ $estado }}" {{ old('estado') == $estado ? 'selected' : '' }} data-color="{{ $color }}">
-                                    {{ $estado }}
-                                </option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>;
-
-                    <div class="form-group">
-                        <label class="form-label">
-                            <i class="fas fa-file-alt"></i> Detalles
-                        </label>
-                        <textarea name="detalles" class="form-textarea" rows="4" placeholder="Información adicional del componente">{{ old('detalles') }}</textarea>
-                    </div>;
-                </div>
+            <div class="form-group">
+                <label>Tipo</label>
+                <select name="tipo_disco" class="form-control">
+                    <option value="">Seleccione el tipo de disco</option>
+                    <option value="HDD">HDD (Hard Disk Drive)</option>
+                    <option value="SSD">SSD (Solid State Drive)</option>
+                    <option value="SSHD">SSHD (Solid State Hybrid Drive)</option>
+                    <option value="NVMe">NVMe (Non-Volatile Memory Express)</option>
+                </select>
             </div>
 
-            <div class="step-actions">
-                <button type="button" class="btn-prev" onclick="showStep(1)">
-                    <i class="fas fa-arrow-left"></i>
-                    <span>Anterior</span>
-                </button>
-                <button type="submit" class="btn-submit">
-                    <i class="fas fa-save"></i>
-                    <span>Guardar Componente</span>
-                </button>
+            <div class="form-group">
+                <label>Capacidad</label>
+                <input type="text" name="capacidad_disco" class="form-control" placeholder="Ej: 1TB, 512GB">
             </div>
+
+            <div class="form-group">
+                <label>Estado</label>
+                <select name="estado_disco" class="form-control">
+                    <option>Buen Funcionamiento</option>
+                    <option>Operativo</option>
+                    <option>Sin Funcionar</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Detalles</label>
+                <textarea name="detalles_disco" class="form-control" rows="5" placeholder="Información adicional del componente"></textarea>
+            </div>
+        </div>
+
+
+        <!-- Tarjeta Grafica Integarda -->
+        <div id="tarjeta_grafica_campos" style="display:none;">
+            <h5 class="text-primary mt-3">🎮 Tarjeta Gráfica Integrada</h5>
+            <div class="form-group">
+                <label>Marca</label>
+                <input type="text" name="marca_tarjeta_grafica" class="form-control" placeholder="Ej: Intel UHD, AMD Radeon Vega, Apple GPU">
+            </div>
+            <div class="form-group">
+                <label>Modelo</label>
+                <input type="text" name="modelo_tarjeta_grafica" class="form-control" placeholder="Ej: Intel Iris Xe Graphics G7, AMD Radeon Vega 8">
+            </div>
+            <div class="form-group">
+                <label>Capacidad</label>
+                <input type="text" name="capacidad_tarjeta_grafica" class="form-control" placeholder="Ej: 256MB, 8GB, 16GB">
+            </div>
+            <div class="form-group">
+                <label>Salidas de video</label><br>
+                <label><input type="checkbox" name="salidas_video[]" value="VGA"> VGA</label><br>
+                <label><input type="checkbox" name="salidas_video[]" value="HDMI"> HDMI</label><br>
+                <label><input type="checkbox" name="salidas_video[]" value="DVI"> DVI</label><br>
+                <label><input type="checkbox" name="salidas_video[]" value="DisplayPort"> DisplayPort</label><br>
+            </div>
+            <div class="form-group">
+                <label>Estado</label>
+                <select name="estado_tarjeta_grafica" class="form-control">
+                    <option>Buen Funcionamiento</option>
+                    <option>Operativo</option>
+                    <option>Sin Funcionar</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Detalles</label>
+                <textarea name="detalles_tarjeta_grafica" class="form-control" rows="5" placeholder="Información adicional del componente"></textarea>
+            </div>
+        </div>
+
+        <!-- Tarjeta de Red -->
+        <div id="tarjeta_red_campos" style="display:none;">
+            <h5 class="text-primary mt-3">🌐 Tarjeta de Red</h5>
+            <div class="form-group">
+                <label>Marca / Fabricante</label>
+                <input type="text" name="marca_tarjeta_red" class="form-control" placeholder="Ej: TP-Link, ASUS, Intel, Netgear, Cudy, StarTech">
+            </div>
+            <div class="form-group">
+                <label>Modelo</label>
+                <input type="text" name="modelo_tarjeta_red" class="form-control" placeholder="Ej: Intel I219-V, Realtek RTL8111H, Marvell AQtion AQC113C">
+            </div>
+            <div class="form-group">
+                <label>Tipo</label>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="tipo_tarjeta_red[]" value="Ethernet (LAN)" id="tipo_eth">
+                    <label class="form-check-label" for="tipo_eth">Ethernet (LAN)</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="tipo_tarjeta_red[]" value="Wi-Fi" id="tipo_wifi">
+                    <label class="form-check-label" for="tipo_wifi">Wi-Fi</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="tipo_tarjeta_red[]" value="Bluetooth" id="tipo_bluetooth">
+                    <label class="form-check-label" for="tipo_bluetooth">Bluetooth</label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Velocidad de transferencia</label>
+                <input type="text" name="velocidad_transferencia" class="form-control" placeholder="Ej: 1Gbps, 100Mbps">
+            </div>
+            <div class="form-group">
+                <label>Estado</label>
+                <select name="estado_tarjeta_red" class="form-control">
+                    <option>Buen Funcionamiento</option>
+                    <option>Operativo</option>
+                    <option>Sin Funcionar</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Detalles</label>
+                <textarea name="detalles_tarjeta_red" class="form-control" rows="5" placeholder="Información adicional del componente"></textarea>
+            </div>
+        </div>
+
+        <!-- Unidad Optica -->
+        <div id="unidad_optica_campos" style="display:none;">
+            <h5 class="text-primary mt-3">📀 Unidad Óptica</h5>
+            <div class="form-group">
+                <label>Marca / Fabricante</label>
+                <input type="text" name="marca_unidad" class="form-control" placeholder="Ej: LG, ASUS, Pioneer, Lenovo" value="{{ old('marca_unidad', $componente->marca ?? '') }}">
+            </div>
+            <div class="form-group">
+                <label>Tipo de Unidad</label>
+                <select name="tipo_unidad" class="form-control">
+                    @php
+                    $tiposUnidad = ['CD-ROM','CD-RW','DVD-ROM','DVD-RW','Blu-ray ROM','Blu-ray RW'];
+                    $selectedTipo = old('tipo_unidad', $componente->tipo ?? '');
+                    @endphp
+                    @foreach($tiposUnidad as $tipo)
+                    <option value="{{ $tipo }}" @if($tipo==$selectedTipo) selected @endif>{{ $tipo }}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Tipos de discos soportados</label>
+                @php
+                $discos = ['CD','DVD','Blu-ray'];
+                $selectedDiscos = old('tipos_discos', isset($componente->tipos_discos) ? explode(',', $componente->tipos_discos) : []);
+                @endphp
+                <div>
+                    @foreach($discos as $d)
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" name="tipos_discos[]" value="{{ $d }}"
+                            @if(in_array($d, $selectedDiscos)) checked @endif>
+                        <label class="form-check-label">{{ $d }}</label>
+                    </div>
+                    @endforeach
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Estado</label>
+                <select name="estado_unidad" class="form-control">
+                    <option value="Buen Funcionamiento" @if(old('estado_unidad', $componente->estado ?? '') == 'Buen Funcionamiento') selected @endif>Buen Funcionamiento</option>
+                    <option value="Operativo" @if(old('estado_unidad', $componente->estado ?? '') == 'Operativo') selected @endif>Operativo</option>
+                    <option value="Sin Funcionar" @if(old('estado_unidad', $componente->estado ?? '') == 'Sin Funcionar') selected @endif>Sin Funcionamiento</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Detalles</label>
+                <textarea name="detalles_unidad" class="form-control" rows="5" placeholder="Información adicional del componente">{{ old('detalles_unidad', $componente->detalles ?? '') }}</textarea>
+            </div>
+        </div>
+
+        <!-- Fan Cooler -->
+        <div id="fan_cooler_campos" style="display:none;">
+            <h5 class="text-primary mt-3">🌀 Fan Cooler</h5>
+            <div class="form-group">
+                <label>Marca / Fabricante</label>
+                <input type="text" name="marca_fan" class="form-control" placeholder="Ej: LG, ASUS, Pioneer, Lenovo">
+            </div>
+            <div class="form-group">
+                <label>Tipo</label>
+                <input type="text" name="tipo_fan" class="form-control" placeholder="Ej: Aire, Líquido">
+            </div>
+            <div class="form-group">
+                <label>Consumo eléctrico (W)</label>
+                <input type="text" name="consumo_fan" class="form-control" placeholder="Ej: 5W">
+            </div>
+            <div class="form-group">
+                <label>Ubicación</label>
+                <input type="text" name="ubicacion" class="form-control" placeholder="Ej. parte trasera del gabinete, sobre CPU, lateral izquierdo">
+            </div>
+            <div class="form-group">
+                <label>Estado</label>
+                <select name="estado_fan" class="form-control">
+                    <option>Buen Funcionamiento</option>
+                    <option>Operativo</option>
+                    <option>Sin funcionar</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Detalles</label>
+                <textarea name="detalles_fan" class="form-control" rows="5" placeholder="Información adicional del componente"></textarea>
+            </div>
+        </div>
+
+        <div class="form-group mt-3 d-flex justify-content-start gap-2">
+            @if(!empty($porEquipo) && $porEquipo && !empty($id_equipo))
+            <a href="{{ route('componentes.porEquipo', $id_equipo) }}" class="btn btn-secondary mt-2">← Volver</a>
+            @else
+            <a href="{{ route('componentes.index') }}" class="btn btn-secondary mt-2">← Volver</a>
+            @endif
+            <button class="btn btn-primary mt-2">Guardar</button> <!-- o "Actualizar" según corresponda -->
         </div>
     </form>
-</div>;
+</div>
 
-<!-- Success Modal -->
-<div id="successModal" class="modal" style="display: none;">
-    <div class="modal-content success">
-        <div class="modal-icon">
-            <i class="fas fa-check-circle"></i>
-        </div>
-        <h3>¡Componente Agregado!</h3>
-        <p>El componente ha sido registrado exitosamente en el sistema.</p>
-        <div class="modal-actions">
-            <button class="btn-modal" onclick="closeModal()">Continuar</button>
-        </div>
-    </div>
-</div>;
 @endsection
 
 @section('scripts')
-<script>
-    // Variables globales
-    let currentStep = 1;
-
-    function showStep(step) {
-        // Ocultar todos los pasos
-        document.querySelectorAll('.form-step').forEach(stepEl => {
-            stepEl.classList.remove('active');
-        });
-
-        // Mostrar paso seleccionado
-        document.getElementById(`step${step}`).classList.add('active');
-        currentStep = step;
-
-        // Actualizar pasos de progreso
-        document.querySelectorAll('.step').forEach(stepEl => {
-            const stepNumber = parseInt(stepEl.dataset.step);
-            if (stepNumber <= step) {
-                stepEl.classList.add('active');
-            } else {
-                stepEl.classList.remove('active');
-            }
-        });
-
-        // Actualizar conectores
-        document.querySelectorAll('.step-connector').forEach(connector => {
-            if (step >= 2) {
-                connector.classList.add('active');
-            } else {
-                connector.classList.remove('active');
-            }
-        });
-
-        // Mostrar campos según tipo de componente
-        updateComponentFields();
-    }
-
-    function validateStep(step) {
-        let isValid = true;
-        const stepElement = document.getElementById(`step${step}`);
-        const requiredFields = stepElement.querySelectorAll('[required]');
-
-        requiredFields.forEach(field => {
-            if (!field.value.trim()) {
-                field.classList.add('error');
-                showFieldError(field, 'Este campo es requerido');
-                isValid = false;
-            } else {
-                field.classList.remove('error');
-                hideFieldError(field);
-            }
-        });
-
-        if (isValid && step === 1) {
-            showStep(2);
-        }
-
-        return isValid;
-    }
-
-    function showFieldError(field, message) {
-        let errorDiv = field.parentElement.querySelector('.field-error');
-        if (!errorDiv) {
-            errorDiv = document.createElement('div');
-            errorDiv.className = 'field-error';
-            field.parentElement.appendChild(errorDiv);
-        }
-        errorDiv.innerHTML = `<i class="fas fa-exclamation-circle"></i> ${message}`;
-    }
-
-    function hideFieldError(field) {
-        const errorDiv = field.parentElement.querySelector('.field-error');
-        if (errorDiv) {
-            errorDiv.remove();
-        }
-    }
-
-    function updateComponentPreview() {
-        const select = document.getElementById('tipo_componente');
-        const selectedOption = select.options[select.selectedIndex];
-        const preview = document.getElementById('componentPreview');
-
-        if (selectedOption.value) {
-            const icon = selectedOption.getAttribute('data-icon');
-            preview.innerHTML = `
-            <div class="preview-icon">
-                <i class="fas ${icon}"></i>
-            </div>
-            <div class="preview-content">
-                <h4>${selectedOption.text}</h4>
-                <p>Complete los detalles específicos del ${selectedOption.text.toLowerCase()}</p>
-            </div>
-        `;
-            preview.classList.add('has-selection');
-        } else {
-            preview.innerHTML = `
-            <div class="preview-icon">
-                <i class="fas fa-microchip"></i>
-            </div>
-            <div class="preview-content">
-                <h4>Seleccione un tipo de componente</h4>
-                <p>Elija un tipo de componente en el paso anterior para ver los campos específicos</p>
-            </div>
-        `;
-            preview.classList.remove('has-selection');
-        }
-
-        // Actualizar campos del componente
-        updateComponentFields();
-    }
-
-    function updateComponentFields() {
-        // Ocultar todas las secciones
-        document.querySelectorAll('.component-section').forEach(section => {
-            section.style.display = 'none';
-        });
-
-        // Mostrar sección correspondiente
-        const tipo = document.getElementById('tipo_componente').value;
-        if (tipo) {
-            const sectionId = tipo.toLowerCase().replace(/ /g, '_') + '_campos';
-            const section = document.getElementById(sectionId);
-            if (section) {
-                section.style.display = 'block';
-                section.style.animation = 'fadeIn 0.5s ease-out';
-            }
-        }
-    }
-
-    function closeModal() {
-        document.getElementById('successModal').style.display = 'none';
-        // Redirigir después de cerrar modal
-        setTimeout(() => {
-            @if(isset($porEquipo) && $porEquipo && isset($equipoSeleccionado))
-            window.location.href = "{{ route('componentes.porEquipo', $equipoSeleccionado->id_equipo) }}";
-            @else
-            window.location.href = "{{ route('componentes.index') }}";
-            @endif
-        }, 500);
-    }
-
-    // Inicializar
-    document.addEventListener('DOMContentLoaded', function() {
-        // Inicializar select de tipo de componente
-        const tipoComponente = document.getElementById('tipo_componente');
-        tipoComponente.addEventListener('change', updateComponentPreview);
-        updateComponentPreview();
-
-        // Manejar envío del formulario
-        document.getElementById('componentForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-
-            if (!validateStep(1) || !validateStep(2)) {
-                showStep(1); // Regresar al primer paso si hay errores
-                return;
-            }
-
-            // Enviar formulario
-            const formData = new FormData(this);
-
-            fetch(this.action, {
-                    method: 'POST',
-                    body: formData,
-                    headers: {
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-                        'Accept': 'application/json'
-                    }
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        document.getElementById('successModal').style.display = 'flex';
-                    } else {
-                        // Mostrar errores
-                        if (data.errors) {
-                            Object.keys(data.errors).forEach(field => {
-                                const input = document.querySelector(`[name="${field}"]`);
-                                if (input) {
-                                    showFieldError(input, data.errors[field][0]);
-                                }
-                            });
-                        }
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    alert('Error al guardar el componente');
-                });
-        });
-
-        // Limpiar errores al escribir
-        document.querySelectorAll('.form-input, .form-select, .form-textarea').forEach(input => {
-            input.addEventListener('input', function() {
-                this.classList.remove('error');
-                hideFieldError(this);
-            });
-        });
-    });
-</script>
+<script src="{{ asset('js/componente1.js') }}"></script>
+<script src="{{ asset('js/unicos.js') }}"></script>
+<script src="{{ asset('js/unidad.js') }}"></script>
+<script src="{{ asset('js/tipoRam.js') }}"></script>
 @endsection

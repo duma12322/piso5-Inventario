@@ -66,8 +66,8 @@
                             @foreach($estadoFuncional as $estado => $count)
                             @php
                             $percent = $total > 0 ? round(($count / $total) * 100, 1) : 0;
-                            $color = $estado === 'Buen Funcionamiento' ? '#04fa3eff' :
-                            ($estado === 'Operativo' ? '#ffc107' : '#dc3545');
+                            $color = $estado === 'Buen Funcionamiento' ? '#2ed604ff' :
+                            ($estado === 'Operativo' ? '#ffc107' : '#eb071eff');
                             $delay = $loop->index * 0.3;
                             @endphp
 
@@ -91,7 +91,7 @@
                     <div class="chart-legend">
                         @foreach($estadoFuncional as $estado => $count)
                         @php
-                        $color = $estado === 'Buen Funcionamiento' ? '#0aac2fff' :
+                        $color = $estado === 'Buen Funcionamiento' ? '#1ed106ff' :
                         $color = $estado === 'Operativo' ? '#ffee04ff' :
                         ($estado === 'Sin Funcionar' ? '#ff0707ff' : '#000000ff');
                         @endphp
@@ -184,8 +184,8 @@
                             @foreach($estadoGabinete as $estado => $count)
                             @php
                             $percent = $total > 0 ? round(($count / $total) * 100, 1) : 0;
-                            $color = $estado === 'Bueno' ? '#28a745' :
-                            ($estado === 'Dañado' ? '#dc3545' : '#ffc107');
+                            $color = $estado === 'Nuevo' ? '#54f708ff' :
+                            ($estado === 'Dañado' ? '#d40202ff' : '#ffc107');
                             $delay = $loop->index * 0.3;
                             @endphp
 
@@ -209,8 +209,8 @@
                     <div class="chart-legend">
                         @foreach($estadoGabinete as $estado => $count)
                         @php
-                        $color = $estado === 'Bueno' ? '#28a745' :
-                        ($estado === 'Dañado' ? '#dc3545' : '#ffc107');
+                        $color = $estado == 'Nuevo' ? '#28a745' :
+                        ($estado === 'Dañado' ? '#ce0606ff' : '#ffc107');
                         @endphp
                         <div class="legend-item">
                             <span class="legend-color" style="background: {{ $color }}"></span>

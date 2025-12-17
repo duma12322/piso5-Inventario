@@ -20,48 +20,54 @@ class EquipoController extends Controller
         $this->middleware('auth');
     }
 
-    // Listado de equipos activos
+    // Listado de equipos activos con buscador mejorado
     public function index(Request $request)
     {
-        $search = $request->input('search');
-
+        $search = trim($request->input('search'));
+        
         $equipos = Equipo::with(['direccion', 'division', 'coordinacion'])
             ->where('estado', 'Activo')
             ->when($search, function ($query) use ($search) {
-
-                // 1. Reemplazar comas y caracteres extra por espacios
-                $cleanSearch = preg_replace('/[^\wñÑáéíóúÁÉÍÓÚ ]+/u', ' ', $search);
-
-                // 2. Dividir en palabras
-                $terms = array_filter(explode(' ', $cleanSearch));
-
-                foreach ($terms as $term) {
-                    $query->where(function ($q) use ($term) {
-                        $q->where('marca', 'LIKE', "%{$term}%")
-                            ->orWhere('modelo', 'LIKE', "%{$term}%")
-                            ->orWhere('estado_funcional', 'LIKE', "%{$term}%")
-                            ->orWhere('estado_tecnologico', 'LIKE', "%{$term}%")
-                            ->orWhere('estado_gabinete', 'LIKE', "%{$term}%")
-                            ->orWhereHas('direccion', function ($sub) use ($term) {
-                                $sub->where('nombre_direccion', 'LIKE', "%{$term}%");
-                            })
-                            ->orWhereHas('division', function ($sub) use ($term) {
-                                $sub->where('nombre_division', 'LIKE', "%{$term}%");
-                            })
-                            ->orWhereHas('coordinacion', function ($sub) use ($term) {
-                                $sub->where('nombre_coordinacion', 'LIKE', "%{$term}%");
+                // Limpiar y dividir términos
+                $search = preg_replace('/[^\wñÑáéíóúÁÉÍÓÚ@.-]+/u', ' ', $search);
+                $terms = array_filter(explode(' ', $search));
+                
+                $query->where(function ($q) use ($terms) {
+                    foreach ($terms as $term) {
+                        if (strlen($term) > 2) { // Solo buscar términos con más de 2 caracteres
+                            $term = "%{$term}%";
+                            $q->where(function ($subQuery) use ($term) {
+                                // Búsqueda en campos principales del equipo
+                                $subQuery->where('marca', 'LIKE', $term)
+                                    ->orWhere('modelo', 'LIKE', $term)
+                                    ->orWhere('serial', 'LIKE', $term)
+                                    ->orWhere('numero_bien', 'LIKE', $term)
+                                    ->orWhere('estado_funcional', 'LIKE', $term)
+                                    ->orWhere('estado_tecnologico', 'LIKE', $term)
+                                    ->orWhere('estado_gabinete', 'LIKE', $term)
+                                    ->orWhere('tipo_gabinete', 'LIKE', $term)
+                                    // Búsqueda en relaciones
+                                    ->orWhereHas('direccion', function ($dirQuery) use ($term) {
+                                        $dirQuery->where('nombre_direccion', 'LIKE', $term);
+                                    })
+                                    ->orWhereHas('division', function ($divQuery) use ($term) {
+                                        $divQuery->where('nombre_division', 'LIKE', $term);
+                                    })
+                                    ->orWhereHas('coordinacion', function ($coordQuery) use ($term) {
+                                        $coordQuery->where('nombre_coordinacion', 'LIKE', $term);
+                                    });
                             });
-                    });
-                }
+                        }
+                    }
+                });
             })
             ->orderBy('id_equipo', 'desc')
             ->paginate(10)
             ->withQueryString();
 
         foreach ($equipos as $equipo) {
-            $equipo->calcularEstadoTecnologico(); // Esto actualiza estado_tecnologico
+            $equipo->calcularEstadoTecnologico();
         }
-
 
         return view('equipos.index', compact('equipos', 'search'));
     }

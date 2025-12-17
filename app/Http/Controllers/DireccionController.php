@@ -39,7 +39,7 @@ class DireccionController extends Controller
     public function create()
     {
         $direcciones = Direccion::activos()->get(); // traer direcciones activas
-        return view('coordinaciones.create', compact('direcciones'));
+        return view('direcciones.create', compact('direcciones'));
     }
 
     /**
