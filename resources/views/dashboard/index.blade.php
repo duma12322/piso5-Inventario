@@ -59,20 +59,38 @@
                     
                     @php
                     $total = array_sum($estadoFuncional);
+                    $accumulatedPercent = 0;
+                    $segmentCount = count($estadoFuncional);
+                    $index = 0;
                     @endphp
 
                     <div class="chart-wrapper">
                         <div class="donut-chart">
                             @foreach($estadoFuncional as $estado => $count)
                             @php
-                            $percent = $total > 0 ? round(($count / $total) * 100, 1) : 0;
+                            $index++;
+                            // Calcular porcentaje exacto sin redondear primero
+                            $percentExact = $total > 0 ? ($count / $total) * 100 : 0;
+                            
+                            // Si es el último segmento, asegurar que llegue a 100%
+                            if ($index === $segmentCount) {
+                                $percent = 100 - $accumulatedPercent;
+                            } else {
+                                $percent = round($percentExact, 1);
+                            }
+                            
+                            $startPercent = $accumulatedPercent;
+                            $endPercent = $accumulatedPercent + $percent;
+                            $accumulatedPercent = $endPercent;
                             $color = $estado === 'Buen Funcionamiento' ? '#2ed604ff' :
                             ($estado === 'Operativo' ? '#ffc107' : '#eb071eff');
                             $delay = $loop->index * 0.3;
                             @endphp
 
                             <div class="donut-segment" 
-                                 style="--percent: {{ $percent }}; 
+                                 style="--start-percent: {{ $startPercent }}; 
+                                        --end-percent: {{ $endPercent }};
+                                        --percent: {{ $percent }}; 
                                         --color: {{ $color }};
                                         --delay: {{ $delay }}s;"
                                  data-percent="{{ $percent }}"
@@ -118,13 +136,29 @@
                     
                     @php
                     $total = array_sum($estadoTecnologico);
+                    $accumulatedPercent = 0;
+                    $segmentCount = count($estadoTecnologico);
+                    $index = 0;
                     @endphp
 
                     <div class="chart-wrapper">
                         <div class="donut-chart">
                             @foreach($estadoTecnologico as $estado => $count)
                             @php
-                            $percent = $total > 0 ? round(($count / $total) * 100, 1) : 0;
+                            $index++;
+                            // Calcular porcentaje exacto sin redondear primero
+                            $percentExact = $total > 0 ? ($count / $total) * 100 : 0;
+                            
+                            // Si es el último segmento, asegurar que llegue a 100%
+                            if ($index === $segmentCount) {
+                                $percent = 100 - $accumulatedPercent;
+                            } else {
+                                $percent = round($percentExact, 1);
+                            }
+                            
+                            $startPercent = $accumulatedPercent;
+                            $endPercent = $accumulatedPercent + $percent;
+                            $accumulatedPercent = $endPercent;
                             $color = $estado === 'Nuevo' ? '#4bf508ff' :
                             ($estado === 'Actualizable' ? '#0651f1ff' : '#ffc107');
                             ($estado === 'Obsoleto' ? '#fa0606ff' : '#30ff07ff');
@@ -132,7 +166,9 @@
                             @endphp
 
                             <div class="donut-segment" 
-                                 style="--percent: {{ $percent }}; 
+                                 style="--start-percent: {{ $startPercent }}; 
+                                        --end-percent: {{ $endPercent }};
+                                        --percent: {{ $percent }}; 
                                         --color: {{ $color }};
                                         --delay: {{ $delay }}s;"
                                  data-percent="{{ $percent }}"
@@ -177,20 +213,38 @@
                     
                     @php
                     $total = array_sum($estadoGabinete);
+                    $accumulatedPercent = 0;
+                    $segmentCount = count($estadoGabinete);
+                    $index = 0;
                     @endphp
 
                     <div class="chart-wrapper">
                         <div class="donut-chart">
                             @foreach($estadoGabinete as $estado => $count)
                             @php
-                            $percent = $total > 0 ? round(($count / $total) * 100, 1) : 0;
+                            $index++;
+                            // Calcular porcentaje exacto sin redondear primero
+                            $percentExact = $total > 0 ? ($count / $total) * 100 : 0;
+                            
+                            // Si es el último segmento, asegurar que llegue a 100%
+                            if ($index === $segmentCount) {
+                                $percent = 100 - $accumulatedPercent;
+                            } else {
+                                $percent = round($percentExact, 1);
+                            }
+                            
+                            $startPercent = $accumulatedPercent;
+                            $endPercent = $accumulatedPercent + $percent;
+                            $accumulatedPercent = $endPercent;
                             $color = $estado === 'Nuevo' ? '#54f708ff' :
                             ($estado === 'Dañado' ? '#d40202ff' : '#ffc107');
                             $delay = $loop->index * 0.3;
                             @endphp
 
                             <div class="donut-segment" 
-                                 style="--percent: {{ $percent }}; 
+                                 style="--start-percent: {{ $startPercent }}; 
+                                        --end-percent: {{ $endPercent }};
+                                        --percent: {{ $percent }}; 
                                         --color: {{ $color }};
                                         --delay: {{ $delay }}s;"
                                  data-percent="{{ $percent }}"

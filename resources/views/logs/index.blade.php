@@ -1,12 +1,12 @@
 @extends('layouts.app')
-
+<link rel="stylesheet" href="{{ asset('css/logins.css') }}">
 @section('content')
 <div class="container mt-4">
     <h3 class="mb-0">
         <span class="material-symbols-outlined">
-            receipt_long
+            Registro
         </span>
-        Registro de Logs
+        de Logs
     </h3>
 
     <!-- BUSCADOR -->
