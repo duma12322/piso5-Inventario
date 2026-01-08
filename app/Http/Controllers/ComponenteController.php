@@ -17,7 +17,7 @@ class ComponenteController extends Controller
     }
 
     // Lista todos los componentes activos
-     public function index(Request $request)
+    public function index(Request $request)
     {
         $search = $request->input('search');
 
@@ -550,10 +550,14 @@ class ComponenteController extends Controller
         $camposFecha = ['fecha_instalacion'];
 
         // Inicializar
-        foreach ($camposTexto as $c) $data[$c] = $data[$c] ?? null;
-        foreach ($camposNumericos as $c) $data[$c] = isset($data[$c]) && $data[$c] !== '' ? $data[$c] : null;
-        foreach ($camposFecha as $c) $data[$c] = !empty($data[$c]) ? $data[$c] : null;
-        foreach ($camposEnum as $c) $data[$c] = in_array($data[$c] ?? '', ['Operativo', 'Medio dañado', 'Dañado', 'Sí', 'Parcialmente', 'No']) ? $data[$c] : null;
+        foreach ($camposTexto as $c)
+            $data[$c] = $data[$c] ?? null;
+        foreach ($camposNumericos as $c)
+            $data[$c] = isset($data[$c]) && $data[$c] !== '' ? $data[$c] : null;
+        foreach ($camposFecha as $c)
+            $data[$c] = !empty($data[$c]) ? $data[$c] : null;
+        foreach ($camposEnum as $c)
+            $data[$c] = in_array($data[$c] ?? '', ['Operativo', 'Medio dañado', 'Dañado', 'Sí', 'Parcialmente', 'No']) ? $data[$c] : null;
 
         // Campos según tipo de componente
         switch ($data['tipo_componente'] ?? '') {
@@ -741,7 +745,8 @@ class ComponenteController extends Controller
         }
 
         // Estado activo por defecto
-        if (empty($data['estadoElim'])) $data['estadoElim'] = 'Activo';
+        if (empty($data['estadoElim']))
+            $data['estadoElim'] = 'Activo';
 
         return $data;
     }
@@ -824,7 +829,8 @@ class ComponenteController extends Controller
             ->where('tipo_componente', 'Tarjeta Madre')
             ->first();
 
-        if (!$tarjetaMadre) return [];
+        if (!$tarjetaMadre)
+            return [];
 
         $cantidadSlots = (int) $tarjetaMadre->cantidad_slot_memoria;
 

@@ -24,23 +24,45 @@
 
 /* Animaciones */
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 @keyframes slideIn {
-    from { transform: translateX(-20px); opacity: 0; }
-    to { transform: translateX(0); opacity: 1; }
+    from {
+        transform: translateX(-20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
 }
 
 @keyframes pulse {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.5); }
+    0%,
+    100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.5);
+    }
 }
 
 @keyframes float {
-    0%, 100% { transform: translateY(0px); }
-    50% { transform: translateY(-10px); }
+    0%,
+    100% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
 }
 
 /* Estilos Generales */
@@ -54,7 +76,11 @@
 
 /* Header */
 .direcciones-header {
-    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    background: linear-gradient(
+        135deg,
+        var(--primary-color) 0%,
+        var(--secondary-color) 100%
+    );
     border-radius: var(--border-radius);
     padding: 30px;
     margin-bottom: 30px;
@@ -149,7 +175,11 @@
 .stat-icon {
     width: 60px;
     height: 60px;
-    background: linear-gradient(135deg, var(--primary-color) 0%, var(--info-color) 100%);
+    background: linear-gradient(
+        135deg,
+        var(--primary-color) 0%,
+        var(--info-color) 100%
+    );
     border-radius: 15px;
     display: flex;
     align-items: center;
@@ -187,7 +217,11 @@
 }
 
 .direcciones-table thead {
-    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    background: linear-gradient(
+        135deg,
+        var(--primary-color) 0%,
+        var(--secondary-color) 100%
+    );
 }
 
 .direcciones-table thead th {
@@ -251,7 +285,11 @@
 .direccion-icon {
     width: 50px;
     height: 50px;
-    background: linear-gradient(135deg, var(--primary-color) 0%, var(--info-color) 100%);
+    background: linear-gradient(
+        135deg,
+        var(--primary-color) 0%,
+        var(--info-color) 100%
+    );
     border-radius: 12px;
     display: flex;
     align-items: center;
@@ -388,6 +426,7 @@
 }
 
 /* Paginación */
+/* Paginación - Delegated to indexcomponentes.css via .pagination-container class
 .pagination-wrapper {
     padding: 20px;
     background: var(--gray-100);
@@ -419,6 +458,7 @@
     color: white;
     box-shadow: 0 4px 12px rgba(67, 97, 238, 0.3);
 }
+*/
 
 /* Modal */
 .modal {
@@ -484,7 +524,8 @@
     border-top: 1px solid var(--gray-200);
 }
 
-.btn-cancel, .btn-confirm {
+.btn-cancel,
+.btn-confirm {
     padding: 10px 24px;
     border-radius: 8px;
     font-weight: 600;
@@ -531,7 +572,7 @@
 }
 
 .tooltip::after {
-    content: '';
+    content: "";
     position: absolute;
     bottom: -5px;
     left: 50%;
@@ -552,31 +593,31 @@
     .direcciones-container {
         padding: 15px;
     }
-    
+
     .direcciones-header {
         flex-direction: column;
         text-align: center;
         gap: 20px;
         padding: 20px;
     }
-    
+
     .header-content {
         flex-direction: column;
         gap: 15px;
     }
-    
+
     .header-text h1 {
         font-size: 24px;
     }
-    
+
     .stats-container {
         grid-template-columns: 1fr;
     }
-    
+
     .direcciones-table thead {
         display: none;
     }
-    
+
     .direcciones-table tbody tr {
         display: block;
         margin-bottom: 20px;
@@ -584,7 +625,7 @@
         border-radius: 10px;
         padding: 15px;
     }
-    
+
     .direcciones-table tbody td {
         display: block;
         padding: 10px 0;
@@ -592,7 +633,7 @@
         text-align: left;
         position: relative;
     }
-    
+
     .direcciones-table tbody td::before {
         content: attr(data-label);
         font-weight: 600;
@@ -602,17 +643,25 @@
         font-size: 14px;
         color: var(--gray-500);
     }
-    
+
     /* Añadir data-labels dinámicamente con JS o agregar clases */
-    .direcciones-table td:nth-child(1):before { content: "ID:"; }
-    .direcciones-table td:nth-child(2):before { content: "Nombre:"; }
-    .direcciones-table td:nth-child(3):before { content: "Estado:"; }
-    .direcciones-table td:nth-child(4):before { content: "Acciones:"; }
-    
+    .direcciones-table td:nth-child(1):before {
+        content: "ID:";
+    }
+    .direcciones-table td:nth-child(2):before {
+        content: "Nombre:";
+    }
+    .direcciones-table td:nth-child(3):before {
+        content: "Estado:";
+    }
+    .direcciones-table td:nth-child(4):before {
+        content: "Acciones:";
+    }
+
     .btn-group {
         justify-content: flex-start;
     }
-    
+
     .modal-content {
         width: 95%;
         margin: 20px;
@@ -626,12 +675,12 @@
         text-align: center;
         gap: 10px;
     }
-    
+
     .btn-group {
         flex-direction: column;
         align-items: stretch;
     }
-    
+
     .btn-action {
         width: 100%;
         margin-bottom: 5px;

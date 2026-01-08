@@ -97,9 +97,25 @@ class EquiposGlobalPdfController extends Controller
         $pdf->SetTitle('Listado de Equipos Activos');
         $pdf->setPrintHeader(false);
         $pdf->setPrintFooter(false);
+        $pdf->SetMargins(15, 15, 15); // Márgenes estándar
+        $pdf->SetAutoPageBreak(TRUE, 15);
         $pdf->AddPage();
 
-        $html = '<h2 style="text-align:center;">Listado de Equipos Activos ' . ($estadoTecnologico ?: '') . '</h2><br>';
+        // Insertar imagen de encabezado
+        $imagePath = public_path('encabezado.jpeg');
+        if (file_exists($imagePath)) {
+            $pdf->SetAlpha(0.3); // Opacidad baja
+            $pdf->Image($imagePath, 0, 0, 297, 27, 'JPEG', '', 'T', false, 300, '', false, false, 0, false, false, false);
+            $pdf->SetAlpha(1);   // Restaurar opacidad
+            $pdf->Ln(30); // Espacio para bajar el contenido
+        }
+
+        $fechaHora = date('d/m/Y h:i A');
+
+        $html = '<div style="background-color: #b91d47; color: white; line-height: 25px; font-size: 14px; font-weight: bold; text-align: center;">
+            LISTADO DE EQUIPOS ACTIVOS ' . ($estadoTecnologico ? strtoupper($estadoTecnologico) : '') . '
+        </div>
+        <div style="text-align: right; font-size: 9px; color: #444; margin-top: 2px;">Generado el: ' . $fechaHora . '</div><br>';
 
         foreach ($equipos as $equipo) {
             $direccion = $equipo->direccion->nombre_direccion ?? 'N/A';
@@ -128,7 +144,7 @@ class EquiposGlobalPdfController extends Controller
                         ->where('tipo_componente', 'Socket CPU')
                         ->where('tipo', $comp->socket)
                         ->first();
-                    $anioInst = $comp->fecha_instalacion ? (int)$comp->fecha_instalacion : $anioActual;
+                    $anioInst = $comp->fecha_instalacion ? (int) $comp->fecha_instalacion : $anioActual;
                     $anioLanz = $tec->anio_lanzamiento ?? $anioActual;
                     $vidaUtil = $tec->vida_util_anios ?? 10;
                     $peso = $tec->peso_importancia ?? 4;
@@ -163,25 +179,41 @@ class EquiposGlobalPdfController extends Controller
             }
 
             $ratio = $pesoTotal ? $puntajeTotal / $pesoTotal : 1;
-            if ($ratio >= 0.75) $estadoTecnologicoEquipo = 'Nuevo';
-            elseif ($ratio >= 0.4) $estadoTecnologicoEquipo = 'Actualizable';
-            else $estadoTecnologicoEquipo = 'Obsoleto';
+            if ($ratio >= 0.75)
+                $estadoTecnologicoEquipo = 'Nuevo';
+            elseif ($ratio >= 0.4)
+                $estadoTecnologicoEquipo = 'Actualizable';
+            else
+                $estadoTecnologicoEquipo = 'Obsoleto';
 
-            $html .= '<h4>Equipo: ' . e($equipo->marca . ' ' . $equipo->modelo) . '</h4>';
-            $html .= '<strong>Dirección:</strong> ' . e($direccion) . '<br>
-                      <strong>División:</strong> ' . e($division) . '<br>
-                      <strong>Coordinación:</strong> ' . e($coordinacion) . '<br>
-                      <strong>Estado Funcional:</strong> ' . e($equipo->estado_funcional ?: 'N/A') . '<br>
-                      <strong>Estado Gabinete:</strong> ' . e($equipo->estado_gabinete ?: 'N/A') . '<br>
-                      <strong>Estado Tecnológico:</strong> ' . e($estadoTecnologicoEquipo) . '<br>
-                      <em>Detalles:<br>' . $explicacion . '</em><br>';
+            $html .= '<h4 style="background-color:#eee; padding:5px; border-left: 5px solid #b91d47;">&nbsp;Equipo: ' . e($equipo->marca . ' ' . $equipo->modelo) . ' (Bien: ' . e($equipo->numero_bien ?? 'N/A') . ')</h4>';
+
+            $html .= '<table border="0" cellpadding="2">
+                <tr>
+                    <td width="15%"><strong>Dirección:</strong></td><td width="35%">' . e($direccion) . '</td>
+                    <td width="15%"><strong>División:</strong></td><td width="35%">' . e($division) . '</td>
+                </tr>
+                <tr>
+                    <td width="15%"><strong>Coordinación:</strong></td><td width="35%">' . e($coordinacion) . '</td>
+                    <td width="15%"><strong>Funcional:</strong></td><td width="35%">' . e($equipo->estado_funcional ?: 'N/A') . '</td>
+                </tr>
+                <tr>
+                    <td width="15%"><strong>Gabinete:</strong></td><td width="35%">' . e($equipo->estado_gabinete ?: 'N/A') . '</td>
+                    <td width="15%"><strong>Tecnológico:</strong></td><td width="35%">' . e($estadoTecnologicoEquipo) . '</td>
+                </tr>
+            </table>
+            <div style="font-size:10px; color:#555; padding-left:5px;"><em>' . $explicacion . '</em></div><br>';
 
             // Tabla de componentes
             if ($componentes->isNotEmpty()) {
-                $html .= '<table border="1" cellpadding="4">
+                $html .= '<table border="1" cellpadding="6" cellspacing="0" style="border-collapse:collapse; page-break-inside:avoid;">
                     <thead>
-                        <tr style="background-color:#f2f2f2;">
-                            <th>Componente</th><th>Marca</th><th>Modelo</th><th>Capacidad/Frecuencia</th><th>Estado</th>
+                        <tr style="background-color:#b91d47; color:#ffffff; font-weight:bold;">
+                            <th width="20%">Componente</th>
+                            <th width="20%">Marca</th>
+                            <th width="25%">Modelo</th>
+                            <th width="20%">Capacidad/Frecuencia</th>
+                            <th width="15%">Estado</th>
                         </tr>
                     </thead>
                     <tbody>';
@@ -200,10 +232,14 @@ class EquiposGlobalPdfController extends Controller
 
             // Componentes opcionales
             if ($componentesOpcionales->isNotEmpty()) {
-                $html .= '<table border="1" cellpadding="4">
+                $html .= '<table border="1" cellpadding="6" cellspacing="0" style="border-collapse:collapse; page-break-inside:avoid;">
                     <thead>
-                        <tr style="background-color:#f2f2f2;">
-                            <th>Componente Opcional</th><th>Marca</th><th>Modelo</th><th>Capacidad/Velocidad</th><th>Estado</th>
+                        <tr style="background-color:#c82333; color:#ffffff; font-weight:bold;">
+                            <th width="20%">Componente Opcional</th>
+                            <th width="20%">Marca</th>
+                            <th width="25%">Modelo</th>
+                            <th width="20%">Capacidad/Velocidad</th>
+                            <th width="15%">Estado</th>
                         </tr>
                     </thead>
                     <tbody>';
@@ -222,6 +258,48 @@ class EquiposGlobalPdfController extends Controller
 
             $html .= '<hr style="border-top:1px solid #999;"><br>';
         }
+
+        // --- FIRMAS ---
+        $html .= '
+        <br><br><br>
+        <table border="0" cellpadding="2" cellspacing="0" style="width: 100%; text-align: center; font-size: 8px;">
+            <tr>
+                <td style="width: 50%;">
+                    _________________________________<br>
+                    <b>' . e(auth()->user()->usuario ?? 'N/A') . '</b><br>
+                    Técnico Div. soporte<br>
+                    Hardware y Software
+                </td>
+                <td style="width: 50%;">
+                    _________________________________<br>
+                    <b>T.S.U Cruz Mario Veliz</b><br>
+                    Jefe de la División de Soporte de Hardware y Software del Sistema<br>
+                    Decreto N° 08857 publicado en la Gaceta Oficial del<br>
+                    Estado Lara Ordinaria N° 25.596 de fecha 03 diciembre del 2025
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" style="height: 30px;">&nbsp;</td> 
+            </tr>
+            <tr>
+                <td style="width: 50%;">
+                    _________________________________<br>
+                    <b>T.S.U Milagros Oropeza</b><br>
+                    Directora de Soporte al usuario<br>
+                    Decreto N° 08857 publicado en la Gaceta Oficial del<br>
+                    Estado Lara Ordinaria N° 25.596 de fecha 03 diciembre del 2025
+                </td>
+                <td style="width: 50%;">
+                    _________________________________<br>
+                    <b>Ing. Arnaldo E. Suárez C.</b><br>
+                    Director General de la Oficina de Tecnología<br>
+                    de Información y Comunicaciones<br>
+                    Decreto N° 0035 publicado en la Gaceta Oficial del Estado Lara Ordinaria N° 25.721 de fecha 26 junio de 2025<br>
+                    y Modificado según Decreto N° 00258 publicado en la Gaceta Oficial del Estado Lara<br>
+                    extraordinaria N° 1739 de fecha 25 de septiembre 2025
+                </td>
+            </tr>
+        </table>';
 
         $pdf->writeHTML($html, true, false, true, false, '');
         $pdf->Output('listado_equipos_activos_' . ($estadoTecnologico ?: 'todos') . '.pdf', 'I');

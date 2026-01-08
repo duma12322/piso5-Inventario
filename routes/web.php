@@ -52,7 +52,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('coordinaciones/by-division/{id_division}', [CoordinacionController::class, 'getByDivisionAjax'])
         ->name('coordinaciones.byDivision');
 
-        // Coordinaciones CRUD
+    // Coordinaciones CRUD
     Route::resource('Direcciones', DireccionesController::class)->except(['show']);
     Route::get('Direcciones/by-division/{id_division}', [DireccionesController::class, 'getByDivisionAjax'])
         ->name('Direcciones.byDivision');
@@ -124,4 +124,12 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/equipos/pdf-global', [EquiposGlobalPdfController::class, 'generarPDFGlobal'])
         ->name('equipos.pdfGlobal');
+
+    // EXCEL
+    Route::get('/excel/equipos-global', [App\Http\Controllers\ReportesExcelController::class, 'equiposGlobal'])->name('excel.equipos.global');
+    Route::get('/excel/equipos/{id}', [App\Http\Controllers\ReportesExcelController::class, 'equipo'])->name('excel.equipos.single');
+    Route::get('/excel/estado-funcional', [App\Http\Controllers\ReportesExcelController::class, 'estadoFuncional'])->name('excel.estado-funcional');
+    Route::get('/excel/estado-tecnologico', [App\Http\Controllers\ReportesExcelController::class, 'estadoTecnologico'])->name('excel.estado-tecnologico');
+    Route::get('/excel/estado-gabinete', [App\Http\Controllers\ReportesExcelController::class, 'estadoGabinete'])->name('excel.estado-gabinete');
+    Route::get('/excel/inactivos', [App\Http\Controllers\ReportesExcelController::class, 'inactivos'])->name('excel.inactivos');
 });

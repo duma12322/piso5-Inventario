@@ -72,14 +72,23 @@ class PdfInactivosController extends Controller
         $pdf = new TCPDF('L', 'mm', 'A4', true, 'UTF-8', false);
         $pdf->SetTitle('Equipos con Componentes Inactivos');
         $pdf->SetMargins(10, 10, 10);
+        $pdf->setPrintHeader(false);
+        $pdf->setPrintFooter(false);
         $pdf->AddPage();
+
+        // Insertar imagen de encabezado
+        $imagePath = public_path('encabezado.jpeg');
+        if (file_exists($imagePath)) {
+            $pdf->Image($imagePath, 0, 0, 297, 27, 'JPEG', '', 'T', false, 300, '', false, false, 0, false, false, false);
+            $pdf->Ln(30);
+        }
 
         $html = '<h2>Equipos con Componentes Inactivos</h2>';
 
         $html .= '<table border="1" cellpadding="5">
                     <thead>
                         <tr bgcolor="#cccccc">
-                            <th>ID</th>
+                            <th>Nº Bien</th>
                             <th>Equipo</th>
                             <th>Dirección</th>
                             <th>División</th>
@@ -106,7 +115,7 @@ class PdfInactivosController extends Controller
             }
 
             $html .= '<tr>';
-            $html .= '<td>' . $e->id_equipo . '</td>';
+            $html .= '<td>' . ($e->numero_bien ?? 'S/I') . '</td>';
             $html .= '<td>' . $e->marca . ' ' . $e->modelo . '</td>';
             $html .= '<td>' . ($e->direccion->nombre_direccion ?? '—') . '</td>';
             $html .= '<td>' . ($e->division->nombre_division ?? '—') . '</td>';

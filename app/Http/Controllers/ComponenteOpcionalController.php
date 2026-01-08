@@ -19,7 +19,7 @@ class ComponenteOpcionalController extends Controller
     /**
      * Muestra la lista de componentes opcionales.
      */
-     public function index(Request $request)
+    public function index(Request $request)
     {
         $search = $request->input('search');
 
@@ -75,7 +75,7 @@ class ComponenteOpcionalController extends Controller
      * Guardar un nuevo componente opcional.
      */
 
-     public function store(Request $request)
+    public function store(Request $request)
     {
         $id_equipo = $request->input('id_equipo');
         $tipoOpcional = $request->input('tipo_opcional');
@@ -112,15 +112,17 @@ class ComponenteOpcionalController extends Controller
             $rams = $request->input('ram');
 
             if (!$rams) {
-                $rams = [[
-                    'marca' => $request->input('marca_ram'),
-                    'tipo' => $request->input('tipo_ram'),
-                    'capacidad' => $request->input('capacidad_ram'),
-                    'frecuencia' => $request->input('frecuencia_ram'),
-                    'estado' => $request->input('estado_ram') ?? 'Operativo',
-                    'detalles' => $request->input('detalles_ram'),
-                    'slot_memoria' => $request->input('slot_memoria'),
-                ]];
+                $rams = [
+                    [
+                        'marca' => $request->input('marca_ram'),
+                        'tipo' => $request->input('tipo_ram'),
+                        'capacidad' => $request->input('capacidad_ram'),
+                        'frecuencia' => $request->input('frecuencia_ram'),
+                        'estado' => $request->input('estado_ram') ?? 'Operativo',
+                        'detalles' => $request->input('detalles_ram'),
+                        'slot_memoria' => $request->input('slot_memoria'),
+                    ]
+                ];
             }
 
             /* ---------------------- SUMA RAM YA INSTALADA --------------------- */
@@ -463,7 +465,7 @@ class ComponenteOpcionalController extends Controller
         try {
             LogModel::create([
                 'usuario' => $usuario,
-                'accion' => 'Eliminado componente opcional ID: ' .  $opcional->tipo_opcional,
+                'accion' => 'Eliminado componente opcional ID: ' . $opcional->tipo_opcional,
                 'fecha' => now()
             ]);
         } catch (\Exception $e) {
@@ -514,7 +516,8 @@ class ComponenteOpcionalController extends Controller
         ];
 
         foreach ($campos as $c) {
-            if (!isset($data[$c])) $data[$c] = '';
+            if (!isset($data[$c]))
+                $data[$c] = null;
         }
 
         switch ($data['tipo_opcional'] ?? '') {
@@ -628,13 +631,14 @@ class ComponenteOpcionalController extends Controller
         }
 
         // Esto asegura que 'estado' siempre sea uno de los permitidos
-        $estadosValidos = ['Operativo', 'Medio dañado', 'Dañado'];
+        $estadosValidos = ['Buen Funcionamiento', 'Operativo', 'Sin Funcionar', 'Medio dañado', 'Dañado'];
         if (!in_array($data['estado'], $estadosValidos)) {
             $data['estado'] = 'Operativo';
         }
 
         // Estado activo por defecto
-        if (empty($data['estadoElim'])) $data['estadoElim'] = 'Activo';
+        if (empty($data['estadoElim']))
+            $data['estadoElim'] = 'Activo';
 
         return $data;
     }
@@ -645,7 +649,8 @@ class ComponenteOpcionalController extends Controller
             ->where('tipo_componente', 'Tarjeta Madre')
             ->first();
 
-        if (!$tarjetaMadre) return [];
+        if (!$tarjetaMadre)
+            return [];
 
         $cantidadSlots = (int) $tarjetaMadre->cantidad_slot_memoria;
 

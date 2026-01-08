@@ -24,44 +24,60 @@ class EquipoController extends Controller
     public function index(Request $request)
     {
         $search = trim($request->input('search'));
-        
+
         $equipos = Equipo::with(['direccion', 'division', 'coordinacion'])
             ->where('estado', 'Activo')
             ->when($search, function ($query) use ($search) {
                 // Limpiar y dividir términos
                 $search = preg_replace('/[^\wñÑáéíóúÁÉÍÓÚ@.-]+/u', ' ', $search);
                 $terms = array_filter(explode(' ', $search));
-                
+
                 $query->where(function ($q) use ($terms) {
                     foreach ($terms as $term) {
-                        if (strlen($term) > 2) { // Solo buscar términos con más de 2 caracteres
-                            $term = "%{$term}%";
-                            $q->where(function ($subQuery) use ($term) {
-                                // Búsqueda en campos principales del equipo
-                                $subQuery->where('marca', 'LIKE', $term)
-                                    ->orWhere('modelo', 'LIKE', $term)
-                                    ->orWhere('serial', 'LIKE', $term)
-                                    ->orWhere('numero_bien', 'LIKE', $term)
-                                    ->orWhere('estado_funcional', 'LIKE', $term)
-                                    ->orWhere('estado_tecnologico', 'LIKE', $term)
-                                    ->orWhere('estado_gabinete', 'LIKE', $term)
-                                    ->orWhere('tipo_gabinete', 'LIKE', $term)
-                                    // Búsqueda en relaciones
-                                    ->orWhereHas('direccion', function ($dirQuery) use ($term) {
-                                        $dirQuery->where('nombre_direccion', 'LIKE', $term);
-                                    })
-                                    ->orWhereHas('division', function ($divQuery) use ($term) {
-                                        $divQuery->where('nombre_division', 'LIKE', $term);
-                                    })
-                                    ->orWhereHas('coordinacion', function ($coordQuery) use ($term) {
-                                        $coordQuery->where('nombre_coordinacion', 'LIKE', $term);
-                                    });
+                        $term = "%{$term}%";
+                        $q->where(function ($subQuery) use ($term) {
+                            // Búsqueda en campos principales del equipo
+                            $subQuery->where('marca', 'LIKE', $term)
+                                ->orWhere('modelo', 'LIKE', $term)
+                                ->orWhere('serial', 'LIKE', $term)
+                                ->orWhere('numero_bien', 'LIKE', $term)
+                                ->orWhere('estado_funcional', 'LIKE', $term)
+                                ->orWhere('estado_tecnologico', 'LIKE', $term)
+                                ->orWhere('estado_gabinete', 'LIKE', $term)
+                                ->orWhere('tipo_gabinete', 'LIKE', $term)
+                                // Búsqueda en relaciones
+                                ->orWhereHas('direccion', function ($dirQuery) use ($term) {
+                                $dirQuery->where('nombre_direccion', 'LIKE', $term);
+                            })
+                                ->orWhereHas('division', function ($divQuery) use ($term) {
+                                $divQuery->where('nombre_division', 'LIKE', $term);
+                            })
+                                ->orWhereHas('coordinacion', function ($coordQuery) use ($term) {
+                                $coordQuery->where('nombre_coordinacion', 'LIKE', $term);
                             });
-                        }
+                        });
                     }
                 });
             })
-            ->orderBy('id_equipo', 'desc')
+
+            ->when($request->filled('sort_by'), function ($q) use ($request) {
+                $sortBy = $request->input('sort_by');
+                $order = $request->input('order', 'desc');
+
+                // Mapeo seguro de campos válidos para ordenar
+                $validSorts = [
+                    'modelo' => 'modelo',
+                    'estado_funcional' => 'estado_funcional',
+                    'estado_tecnologico' => 'estado_tecnologico'
+                ];
+
+                if (array_key_exists($sortBy, $validSorts)) {
+                    $q->orderBy($validSorts[$sortBy], $order);
+                }
+            }, function ($q) {
+                // Orden por defecto si no se selecciona nada
+                $q->orderBy('id_equipo', 'desc');
+            })
             ->paginate(10)
             ->withQueryString();
 
@@ -354,71 +370,96 @@ class EquipoController extends Controller
         return $software;
     }
 
- public function indexInactivos(Request $request)
-{
-    $direcciones = Direccion::orderBy('nombre_direccion', 'asc')->get();
-    $divisiones = Division::orderBy('nombre_division', 'asc')->get();
-    $coordinaciones = Coordinacion::orderBy('nombre_coordinacion', 'asc')->get();
+    public function indexInactivos(Request $request)
+    {
+        $direcciones = Direccion::orderBy('nombre_direccion', 'asc')->get();
+        $divisiones = Division::orderBy('nombre_division', 'asc')->get();
+        $coordinaciones = Coordinacion::orderBy('nombre_coordinacion', 'asc')->get();
 
-    $query = Equipo::where('estado', 'Activo')
-        ->with(['direccion', 'division', 'coordinacion', 'componentes.componentesOpcionales']);
+        $query = Equipo::where('estado', 'Activo')
+            ->with(['direccion', 'division', 'coordinacion', 'componentes.componentesOpcionales']);
 
-    if ($request->filled('id_direccion')) {
-        $query->where('id_direccion', $request->id_direccion);
-    }
-    if ($request->filled('id_division')) {
-        $query->where('id_division', $request->id_division);
-    }
-    if ($request->filled('id_coordinacion')) {
-        $query->where('id_coordinacion', $request->id_coordinacion);
-    }
-
-    if ($search = $request->input('search')) {
-        $query->where(function ($q) use ($search) {
-            $q->where('marca', 'like', "%{$search}%")
-              ->orWhere('modelo', 'like', "%{$search}%");
-        });
-    }
-
-    // 🔥 Filtrar solo equipos que tengan componentes inactivos o opcionales inactivos
-    $query->whereHas('componentes', function ($c) {
-        $c->where('estado', 'Inactivo')
-          ->orWhere('estadoElim', 'Inactivo')
-          ->orWhereHas('componentesOpcionales', function ($o) {
-              $o->where('estadoElim', 'Inactivo');
-          });
-    });
-
-    $equipos = $query->paginate(10)->withQueryString();
-
-    // Agregar componentes y opcionales inactivos al resultado
-    $equipos->transform(function ($equipo) {
-        // Componentes inactivos
-        $equipo->componentes_inactivos = $equipo->componentes
-            ->filter(function ($c) {
-                return $c->estado === 'Inactivo' || $c->estadoElim === 'Inactivo';
-            });
-
-        // Opcionales inactivos (de cada componente)
-        $opcionales = collect();
-        foreach ($equipo->componentes as $componente) {
-            $opcionales = $opcionales->merge(
-                $componente->componentesOpcionales->filter(function ($o) {
-                    return $o->estadoElim === 'Inactivo';
-                })
-            );
+        if ($request->filled('id_direccion')) {
+            $query->where('id_direccion', $request->id_direccion);
         }
-        $equipo->opcionales_inactivos = $opcionales;
+        if ($request->filled('id_division')) {
+            $query->where('id_division', $request->id_division);
+        }
+        if ($request->filled('id_coordinacion')) {
+            $query->where('id_coordinacion', $request->id_coordinacion);
+        }
 
-        return $equipo;
-    });
+        $search = trim($request->input('search'));
+        if ($search) {
+            // Limpiar y dividir términos
+            $search = preg_replace('/[^\wñÑáéíóúÁÉÍÓÚ@.-]+/u', ' ', $search);
+            $terms = array_filter(explode(' ', $search));
 
-    return view('equipos.inactivos', compact(
-        'equipos',
-        'direcciones',
-        'divisiones',
-        'coordinaciones'
-    ));
-}
+            $query->where(function ($q) use ($terms) {
+                foreach ($terms as $term) {
+                    $term = "%{$term}%";
+                    $q->where(function ($subQuery) use ($term) {
+                        $subQuery->where('marca', 'LIKE', $term)
+                            ->orWhere('modelo', 'LIKE', $term)
+                            ->orWhere('serial', 'LIKE', $term)
+                            ->orWhere('numero_bien', 'LIKE', $term)
+                            ->orWhere('estado_funcional', 'LIKE', $term)
+                            ->orWhere('estado_tecnologico', 'LIKE', $term)
+                            ->orWhere('estado_gabinete', 'LIKE', $term)
+                            ->orWhere('tipo_gabinete', 'LIKE', $term)
+                            ->orWhereHas('direccion', function ($dirQuery) use ($term) {
+                                $dirQuery->where('nombre_direccion', 'LIKE', $term);
+                            })
+                            ->orWhereHas('division', function ($divQuery) use ($term) {
+                                $divQuery->where('nombre_division', 'LIKE', $term);
+                            })
+                            ->orWhereHas('coordinacion', function ($coordQuery) use ($term) {
+                                $coordQuery->where('nombre_coordinacion', 'LIKE', $term);
+                            });
+                    });
+                }
+            });
+        }
+
+        // 🔥 Filtrar solo equipos que tengan componentes inactivos o opcionales inactivos
+        $query->whereHas('componentes', function ($c) {
+            $c->where('estado', 'Inactivo')
+                ->orWhere('estadoElim', 'Inactivo')
+                ->orWhereHas('componentesOpcionales', function ($o) {
+                    $o->where('estadoElim', 'Inactivo');
+                });
+        });
+
+        $equipos = $query->paginate(10)->withQueryString();
+
+        // Agregar componentes y opcionales inactivos al resultado
+        $equipos->transform(function ($equipo) {
+            // Componentes inactivos
+            $equipo->componentes_inactivos = $equipo->componentes
+                ->filter(function ($c) {
+                    return $c->estado === 'Inactivo' || $c->estadoElim === 'Inactivo';
+                });
+
+            // Opcionales inactivos (de cada componente)
+            $opcionales = collect();
+            foreach ($equipo->componentes as $componente) {
+                $opcionales = $opcionales->merge(
+                    $componente->componentesOpcionales->filter(function ($o) {
+                        return $o->estadoElim === 'Inactivo';
+                    })
+                );
+            }
+            $equipo->opcionales_inactivos = $opcionales;
+
+            return $equipo;
+        });
+
+        return view('equipos.inactivos', compact(
+            'equipos',
+            'direcciones',
+            'divisiones',
+            'coordinaciones'
+        ));
+    }
 
 }

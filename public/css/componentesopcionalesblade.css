@@ -14,7 +14,7 @@
 
 body {
     background-color: #0375e7;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .container {
@@ -34,7 +34,11 @@ body {
 
 /* Header */
 .header-container {
-    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    background: linear-gradient(
+        135deg,
+        var(--primary-color),
+        var(--secondary-color)
+    );
     padding: 1.5rem;
     border-radius: var(--border-radius);
     margin-bottom: 2rem;
@@ -146,7 +150,8 @@ body {
     justify-content: center;
 }
 
-.btn-edit, .btn-delete {
+.btn-edit,
+.btn-delete {
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
@@ -231,33 +236,33 @@ body {
         gap: 1rem;
         text-align: center;
     }
-    
+
     .table-responsive {
         border-radius: var(--border-radius);
     }
-    
+
     .action-buttons {
         flex-direction: column;
     }
-    
+
     .table thead {
         display: none;
     }
-    
+
     .table tbody tr {
         display: block;
         margin-bottom: 1rem;
         border: 1px solid #2ef307;
         border-radius: var(--border-radius);
     }
-    
+
     .table tbody td {
         display: block;
         text-align: right;
         position: relative;
         padding-left: 50%;
     }
-    
+
     .table tbody td::before {
         content: attr(data-label);
         position: absolute;

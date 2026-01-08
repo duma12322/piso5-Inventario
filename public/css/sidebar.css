@@ -20,19 +20,19 @@
     --gray-700: #495057;
     --gray-800: #343a40;
     --gray-900: #292121;
-    
+
     --gradient-primary: linear-gradient(135deg, #fd0202 0%, #720808 100%);
     --gradient-sidebar: linear-gradient(180deg, #c20909 0%, #920000 100%);
     --gradient-accent: linear-gradient(135deg, #860606 0%, #4b0202 100%);
-    
-    --shadow-sm: 0 2px 4px rgba(0,0,0,0.1);
-    --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
-    --shadow-lg: 0 10px 15px rgba(0,0,0,0.2);
-    --shadow-xl: 0 20px 25px rgba(0,0,0,0.3);
-    
+
+    --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.1);
+    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.2);
+    --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.3);
+
     --border-radius: 12px;
     --border-radius-lg: 16px;
-    
+
     --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     --transition-slow: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
@@ -44,7 +44,8 @@
 }
 
 body {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+        sans-serif;
     background-color: var(--light);
     overflow-x: hidden;
 }
@@ -71,7 +72,7 @@ body {
 }
 
 .sidebar::before {
-    content: '';
+    content: "";
     position: absolute;
     top: 0;
     left: 0;
@@ -117,8 +118,13 @@ body {
 }
 
 @keyframes pulse {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.05); }
+    0%,
+    100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
 }
 
 .logo-text {
@@ -233,7 +239,11 @@ body {
 }
 
 .nav-item.featured {
-    background: linear-gradient(90deg, rgba(114, 9, 183, 0.2) 0%, transparent 100%);
+    background: linear-gradient(
+        90deg,
+        rgba(114, 9, 183, 0.2) 0%,
+        transparent 100%
+    );
     border-left-color: var(--secondary);
 }
 
@@ -266,7 +276,7 @@ body {
     transition: var(--transition);
     flex: 1;
     white-space: nowrap;
-} */
+}
 
 .sidebar.collapsed .nav-text {
     opacity: 0;
@@ -274,7 +284,7 @@ body {
     overflow: hidden;
 }
 
- .nav-badge {
+.nav-badge {
     background: var(--warning);
     color: white;
     font-size: 0.8rem;
@@ -285,8 +295,13 @@ body {
 }
 
 @keyframes bounce {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-2px); }
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-2px);
+    }
 }
 /* ===== tamaño de donde esta selecionado circulo===== */
 .nav-indicator {
@@ -297,7 +312,7 @@ body {
     opacity: 0;
     transform: scale(0);
     transition: var(--transition);
-} 
+}
 
 /* ===== FOOTER DEL SIDEBAR ===== */
 .sidebar-footer {
@@ -495,7 +510,7 @@ body {
 }
 
 .sidebar-tooltip::before {
-    content: '';
+    content: "";
     position: absolute;
     left: -5px;
     top: 50%;
@@ -516,32 +531,87 @@ body {
     }
 }
 
+/* ===== BOTÓN MÓVIL Y OVERLAY ===== */
+.mobile-menu-btn {
+    position: fixed;
+    top: 1rem;
+    left: 1rem;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--gradient-primary);
+    color: white;
+    border: none;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    cursor: pointer;
+    z-index: 99;
+    box-shadow: var(--shadow-lg);
+    transition: var(--transition);
+}
+
+.mobile-menu-btn:hover {
+    transform: scale(1.1);
+}
+
+.mobile-menu-btn:active {
+    transform: scale(0.9);
+}
+
+.sidebar-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+    opacity: 0;
+    visibility: hidden;
+    transition: var(--transition);
+    backdrop-filter: blur(2px);
+}
+
+.sidebar-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
 /* ===== RESPONSIVE ===== */
 @media (max-width: 768px) {
     .sidebar {
         transform: translateX(-100%);
     }
-    
+
     .sidebar.mobile-open {
         transform: translateX(0);
     }
-    
+
     .main-content {
         margin-left: 0;
         width: 100%;
     }
-    
+
     .main-content.expanded {
         margin-left: 0;
         width: 100%;
     }
-    
+
     .content-wrapper {
         padding: 1rem;
+        padding-top: 4rem; /* Espacio para el botón móvil */
     }
-    
+
+    .mobile-menu-btn {
+        display: flex;
+    }
+
+    /* Ocultar toggle interno en móvil porque tenemos el botón externo */
+    /* Pero podemos dejarlo para cerrar el menú desde dentro también */
     .sidebar-toggle {
-        display: none;
+        display: flex;
     }
 }
 

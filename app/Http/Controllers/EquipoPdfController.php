@@ -103,35 +103,67 @@ class EquipoPdfController extends Controller
         $pdf->setPrintFooter(false);
         $pdf->AddPage();
 
+        // Insertar imagen de encabezado
+        $imagePath = public_path('encabezado.jpeg');
+        if (file_exists($imagePath)) {
+            $pdf->SetAlpha(0.3); // Opacidad baja para marca de agua
+            $pdf->Image($imagePath, 0, 0, 297, 27, 'JPEG', '', 'T', false, 300, '', false, false, 0, false, false, false);
+            $pdf->SetAlpha(1);   // Restaurar opacidad
+            $pdf->Ln(30); // Espacio para bajar el contenido
+        }
+
+        $fechaHora = date('d/m/Y h:i A');
+
         $direccion = $equipo->direccion->nombre_direccion ?? 'N/A';
         $division = $equipo->division->nombre_division ?? 'N/A';
         $coordinacion = $equipo->coordinacion->nombre_coordinacion ?? 'N/A';
 
         $html = '
-        <h2 style="text-align:center;">Ficha del Equipo</h2>
+        <div style="background-color: #b91d47; color: white; line-height: 25px; font-size: 14px; font-weight: bold; text-align: center;">
+            FICHA DEL EQUIPO
+        </div>
+        <div style="text-align: right; font-size: 9px; color: #444; margin-top: 2px;">Generado el: ' . $fechaHora . '</div>
+        <br><br>
+        <table border="0" cellpadding="4">
+            <tr>
+                <td width="50%"><strong>Número de Bien:</strong> ' . e($equipo->numero_bien ?? 'N/A') . '</td>
+                <td width="50%"><strong>Marca:</strong> ' . e($equipo->marca ?? 'N/A') . '</td>
+            </tr>
+            <tr>
+                <td width="50%"><strong>Modelo:</strong> ' . e($equipo->modelo ?? 'N/A') . '</td>
+                <td width="50%"><strong>Dirección:</strong> ' . e($direccion) . '</td>
+            </tr>
+            <tr>
+                <td width="50%"><strong>División:</strong> ' . e($division) . '</td>
+                <td width="50%"><strong>Coordinación:</strong> ' . e($coordinacion) . '</td>
+            </tr>
+            <tr>
+                <td width="50%"><strong>Estado Funcional:</strong> ' . e($equipo->estado_funcional ?? 'N/A') . '</td>
+                <td width="50%"><strong>Estado Gabinete:</strong> ' . e($equipo->estado_gabinete ?? 'N/A') . '</td>
+            </tr>
+            <tr>
+                <td width="50%"><strong>Estado Tecnológico:</strong> ' . e($estadoTecnologico) . '</td>
+                <td width="50%"></td>
+            </tr>
+        </table>
         <br>
-        <strong>Marca:</strong> ' . e($equipo->marca ?? 'N/A') . '<br>
-        <strong>Modelo:</strong> ' . e($equipo->modelo ?? 'N/A') . '<br>
-        <strong>Dirección:</strong> ' . e($direccion) . '<br>
-        <strong>División:</strong> ' . e($division) . '<br>
-        <strong>Coordinación:</strong> ' . e($coordinacion) . '<br>
-        <strong>Estado Funcional:</strong> ' . e($equipo->estado_funcional ?? 'N/A') . '<br>
-        <strong>Estado Gabinete:</strong> ' . e($equipo->estado_gabinete ?? 'N/A') . '<br>
-        <strong>Estado Tecnológico:</strong> ' . e($estadoTecnologico) . '<br>
-        <em>Detalles: <br>' . $explicacion . '</em><br><br>
+        <div style="background-color: #f2f2f2; padding: 5px; border: 1px solid #ddd;">
+            <strong>Detalles Técnicos:</strong><br><br>' . $explicacion . '
+        </div>
+        <br><br>
         ';
 
         // Tabla de TODOS los componentes activos
         $html .= '<h4>Componentes</h4>';
         if ($componentes->isNotEmpty()) {
-            $html .= '<table border="1" cellpadding="6">
+            $html .= '<table border="1" cellpadding="6" cellspacing="0" style="border-collapse:collapse;">
         <thead>
-            <tr style="background-color:#f2f2f2;">
-                <th>Tipo</th>
-                <th>Marca</th>
-                <th>Modelo</th>
-                <th>Capacidad/Frecuencia</th>
-                <th>Estado</th>
+            <tr style="background-color:#b91d47; color:#ffffff; font-weight:bold;">
+                <th width="20%">Tipo</th>
+                <th width="20%">Marca</th>
+                <th width="25%">Modelo</th>
+                <th width="20%">Capacidad/Frecuencia</th>
+                <th width="15%">Estado</th>
             </tr>
         </thead>
         <tbody>';
@@ -159,14 +191,14 @@ class EquipoPdfController extends Controller
         // Componentes opcionales en tabla
         $html .= '<h4>Componentes Opcionales</h4>';
         if ($componentesOpcionales->isNotEmpty()) {
-            $html .= '<table border="1" cellpadding="6">
+            $html .= '<table border="1" cellpadding="6" cellspacing="0" style="border-collapse:collapse;">
         <thead>
-            <tr style="background-color:#f2f2f2;">
-                <th>Tipo</th>
-                <th>Marca</th>
-                <th>Modelo</th>
-                <th>Capacidad/Velocidad</th>
-                <th>Estado</th>
+            <tr style="background-color:#c82333; color:#ffffff; font-weight:bold;">
+                <th width="20%">Componente Opcional</th>
+                <th width="20%">Marca</th>
+                <th width="25%">Modelo</th>
+                <th width="20%">Capacidad/Velocidad</th>
+                <th width="15%">Estado</th>
             </tr>
         </thead>
         <tbody>';
@@ -187,6 +219,48 @@ class EquipoPdfController extends Controller
         } else {
             $html .= '<p>No hay componentes opcionales activos registrados.</p>';
         }
+
+        // --- FIRMAS ---
+        $html .= '
+        <br><br><br>
+        <table border="0" cellpadding="2" cellspacing="0" style="width: 100%; text-align: center; font-size: 8px;">
+            <tr>
+                <td style="width: 50%;">
+                    _________________________________<br>
+                    <b>' . e(auth()->user()->usuario ?? 'N/A') . '</b><br>
+                    Técnico Div. soporte<br>
+                    Hardware y Software
+                </td>
+                <td style="width: 50%;">
+                    _________________________________<br>
+                    <b>T.S.U Cruz Mario Veliz</b><br>
+                    Jefe de la División de Soporte de Hardware y Software del Sistema<br>
+                    Decreto N° 08857 publicado en la Gaceta Oficial del<br>
+                    Estado Lara Ordinaria N° 25.596 de fecha 03 diciembre del 2025
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" style="height: 30px;">&nbsp;</td> 
+            </tr>
+            <tr>
+                <td style="width: 50%;">
+                    _________________________________<br>
+                    <b>T.S.U Milagros Oropeza</b><br>
+                    Directora de Soporte al usuario<br>
+                    Decreto N° 08857 publicado en la Gaceta Oficial del<br>
+                    Estado Lara Ordinaria N° 25.596 de fecha 03 diciembre del 2025
+                </td>
+                <td style="width: 50%;">
+                    _________________________________<br>
+                    <b>Ing. Arnaldo E. Suárez C.</b><br>
+                    Director General de la Oficina de Tecnología<br>
+                    de Información y Comunicaciones<br>
+                    Decreto N° 0035 publicado en la Gaceta Oficial del Estado Lara Ordinaria N° 25.721 de fecha 26 junio de 2025<br>
+                    y Modificado según Decreto N° 00258 publicado en la Gaceta Oficial del Estado Lara<br>
+                    extraordinaria N° 1739 de fecha 25 de septiembre 2025
+                </td>
+            </tr>
+        </table>';
 
         $pdf->writeHTML($html, true, false, true, false, '');
         $pdf->Output('ficha_equipo_' . ($equipo->nombre ?? 'equipo') . '.pdf', 'I');

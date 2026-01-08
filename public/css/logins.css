@@ -21,7 +21,7 @@
 body {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     min-height: 100vh;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
 /* CONTENEDOR PRINCIPAL */
@@ -67,7 +67,11 @@ body {
 
 .icon-title {
     font-size: 2.5rem;
-    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    background: linear-gradient(
+        135deg,
+        var(--primary-color),
+        var(--secondary-color)
+    );
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -158,7 +162,9 @@ body {
 }
 
 .date-input {
-    background: white url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%234361ee' viewBox='0 0 16 16'%3E%3Cpath d='M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z'/%3E%3C/svg%3E") no-repeat right 16px center;
+    background: white
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%234361ee' viewBox='0 0 16 16'%3E%3Cpath d='M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z'/%3E%3C/svg%3E")
+        no-repeat right 16px center;
     padding-right: 45px;
 }
 
@@ -169,7 +175,11 @@ body {
 }
 
 .btn-search {
-    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    background: linear-gradient(
+        135deg,
+        var(--primary-color),
+        var(--secondary-color)
+    );
     color: white;
     border: none;
     padding: 14px 28px;
@@ -280,7 +290,11 @@ body {
 }
 
 .logs-table thead {
-    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    background: linear-gradient(
+        135deg,
+        var(--primary-color),
+        var(--secondary-color)
+    );
 }
 
 .logs-table th {
@@ -323,7 +337,7 @@ body {
 .log-id {
     font-weight: 700;
     color: var(--primary-color);
-    font-family: 'Courier New', monospace;
+    font-family: "Courier New", monospace;
     font-size: 1.1rem;
 }
 
@@ -359,7 +373,7 @@ body {
 .user-ip {
     color: #6c757d;
     font-size: 0.9rem;
-    font-family: 'Courier New', monospace;
+    font-family: "Courier New", monospace;
 }
 
 .action-badge {
@@ -426,7 +440,7 @@ body {
 .date-time {
     color: #6c757d;
     font-size: 0.95rem;
-    font-family: 'Courier New', monospace;
+    font-family: "Courier New", monospace;
 }
 
 .date-ago {
@@ -514,7 +528,11 @@ body {
 }
 
 .page-item.active .page-link {
-    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    background: linear-gradient(
+        135deg,
+        var(--primary-color),
+        var(--secondary-color)
+    );
     color: white;
     border-color: var(--primary-color);
     box-shadow: 0 4px 12px rgba(67, 97, 238, 0.25);
@@ -584,7 +602,11 @@ body {
 }
 
 .modal-header {
-    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    background: linear-gradient(
+        135deg,
+        var(--primary-color),
+        var(--secondary-color)
+    );
     color: white;
     border-radius: 15px 15px 0 0;
     padding: 25px 30px;
@@ -600,7 +622,9 @@ body {
 }
 
 .btn-close {
-    background: transparent url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='white'%3e%3cpath d='M.293.293a1 1 0 0 1 1.414 0L8 6.586 14.293.293a1 1 0 1 1 1.414 1.414L9.414 8l6.293 6.293a1 1 0 0 1-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 0 1-1.414-1.414L6.586 8 .293 1.707a1 1 0 0 1 0-1.414z'/%3e%3c/svg%3e") center/1em auto no-repeat;
+    background: transparent
+        url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='white'%3e%3cpath d='M.293.293a1 1 0 0 1 1.414 0L8 6.586 14.293.293a1 1 0 1 1 1.414 1.414L9.414 8l6.293 6.293a1 1 0 0 1-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 0 1-1.414-1.414L6.586 8 .293 1.707a1 1 0 0 1 0-1.414z'/%3e%3c/svg%3e")
+        center/1em auto no-repeat;
     opacity: 0.8;
 }
 
@@ -624,11 +648,11 @@ body {
     .search-fields {
         grid-template-columns: 1fr;
     }
-    
+
     .form-actions {
         justify-content: flex-start;
     }
-    
+
     .logs-table th,
     .logs-table td {
         padding: 16px 12px;
@@ -640,45 +664,45 @@ body {
         padding: 20px;
         margin: 15px;
     }
-    
+
     .page-title {
         font-size: 1.8rem;
         flex-direction: column;
         text-align: center;
         gap: 10px;
     }
-    
+
     .search-fields {
         gap: 15px;
     }
-    
+
     .form-actions {
         flex-direction: column;
         width: 100%;
     }
-    
+
     .btn-search,
     .btn-clear {
         width: 100%;
         justify-content: center;
     }
-    
+
     .results-info {
         flex-direction: column;
         align-items: flex-start;
         gap: 15px;
     }
-    
+
     .logs-table {
         display: block;
         overflow-x: auto;
     }
-    
+
     .pagination-container {
         flex-direction: column;
         gap: 15px;
     }
-    
+
     .pagination {
         flex-wrap: wrap;
         justify-content: center;
@@ -690,35 +714,35 @@ body {
         padding: 15px;
         margin: 10px;
     }
-    
+
     .page-title {
         font-size: 1.6rem;
     }
-    
+
     .page-subtitle {
         font-size: 1rem;
     }
-    
+
     .search-container {
         padding: 20px;
     }
-    
+
     .logs-table td {
         padding: 12px 8px;
         font-size: 0.95rem;
     }
-    
+
     .user-avatar {
         width: 40px;
         height: 40px;
         font-size: 1.3rem;
     }
-    
+
     .btn-details {
         padding: 6px 12px;
         font-size: 0.9rem;
     }
-    
+
     .pagination-size {
         width: 100%;
         justify-content: center;
