@@ -18,9 +18,23 @@ class DivisionController extends Controller
     /**
      * Mostrar todas las divisiones activas con su dirección.
      */
-    public function index()
+
+    public function index(Request $request)
     {
-        $divisiones = Division::activas()->with('direccion')->get();
+        $query = Division::activas()->with('direccion');
+
+        // Buscador por nombre_division o nombre_direccion
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where('nombre_division', 'like', "%{$search}%")
+                ->orWhereHas('direccion', function ($q) use ($search) {
+                    $q->where('nombre_direccion', 'like', "%{$search}%");
+                });
+        }
+
+        // Paginación 10 por página
+        $divisiones = $query->orderBy('nombre_division', 'asc')->paginate(10)->withQueryString();
+
         return view('divisiones.index', compact('divisiones'));
     }
 

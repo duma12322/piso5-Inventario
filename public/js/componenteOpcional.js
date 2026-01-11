@@ -7,7 +7,7 @@ function mostrarCampos(tipo) {
     "tarjeta_grafica_campos",
     "tarjeta_red_campos",
     "fan_cooler_campos",
-    "tarjeta_sonido_campos"
+    "tarjeta_sonido_campos",
   ];
 
   secciones.forEach(id => {

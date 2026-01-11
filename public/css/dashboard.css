@@ -1,0 +1,580 @@
+/* Variables de colores */
+:root {
+    --primary-color: #ee4343;
+    --secondary-color: #000000;
+    --success-color: #000000;
+    --green-color: #0bf10b;
+    --warning-color: #f72585;
+    --info-color: #7209b7;
+    --light-bg: #f8f9fa;
+    --dark-text: #000000;
+    --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    --gradient-primary: linear-gradient(135deg, #f70000, #660303);
+    --gradient-success: linear-gradient(135deg, rgb(13, 90, 163), #046197);
+    --gradient-warning: linear-gradient(135deg, #f72525, #b51717);
+
+    /* Brand */
+    --brand-red-500: #b51717;
+    --brand-red-600: #991313;
+    --brand-red-700: #7a0e0e;
+
+    /* Neutral */
+    --neutral-0: #ffffff;
+    --neutral-100: #f5f5f5;
+    --neutral-900: #1f1f1f;
+
+    /* UI */
+    --radius-lg: 20px;
+    --radius-full: 999px;
+
+    --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.08);
+    --shadow-md: 0 10px 30px rgba(0, 0, 0, 0.15);
+
+    --transition-base: 0.25s ease;
+}
+
+/* Estilos generales */
+.dashboard-container {
+    background: linear-gradient(135deg, #000000 0%, #000000 100%);
+    min-height: 100vh;
+    padding: 20px 0;
+}
+
+/* Header con animación */
+.dashboard-header {
+    animation: slideDown 1.5s ease-out;
+}
+
+.welcome-title {
+    font-size: 3.5rem;
+    font-weight: 700;
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 0.5rem;
+}
+
+.welcome-subtitle {
+    color: #e0e0e0;
+    letter-spacing: 0.5px;
+}
+
+.user-name {
+    color: var(--green-color);
+    font-weight: 600;
+}
+
+/* Tarjetas de estadísticas */
+.stats-card {
+    position: relative;
+    padding: 2rem 1.75rem;
+    border-radius: var(--radius-lg);
+    background: linear-gradient(
+        145deg,
+        var(--brand-red-500),
+        var(--brand-red-700)
+    );
+    color: var(--neutral-0);
+    box-shadow: var(--shadow-sm);
+    transition: transform var(--transition-base),
+        box-shadow var(--transition-base);
+}
+
+.stats-card::before {
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 150%;
+    height: 100%;
+    transition: left 0.5s;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.stats-card:hover::before {
+    left: 100%;
+}
+
+.stats-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md);
+}
+
+.card-1 {
+    border-bottom: 4px solid #7f817e;
+}
+
+.card-1::before,
+.card-2::before {
+    display: none;
+}
+
+.card-2 {
+    border-bottom: 4px solid #7f817e;
+}
+
+.card-3 {
+    border-bottom: 4px solid #7f817e;
+}
+
+.card-icon-wrapper {
+    width: 60px;
+    height: 60px;
+    margin: 0 auto 1rem;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 2;
+}
+
+.card-icon {
+    font-size: 1.8rem;
+}
+.metric-value {
+    font-size: 3.5rem;
+    font-weight: 900;
+    line-height: 1;
+    color: #ffffff;
+    position: relative;
+    z-index: 2;
+}
+
+.metric-label {
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    opacity: 0.8;
+    position: relative;
+    z-index: 2;
+}
+
+.stats-number {
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin: 1rem 0;
+    color: var(--dark-text);
+    background: linear-gradient(135deg, #f8f8f8, #fcfafa);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.card-btn {
+    background: var(--gradient-success);
+    border: none;
+    border-radius: 0px;
+    padding: 0rem 1.5rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.card-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(2, 2, 2, 0.4);
+}
+
+/* Sección de gráficas */
+.charts-section {
+    margin-top: 3rem;
+}
+
+.section-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--dark-text);
+    animation: fadeIn 1s ease-in;
+}
+
+/* Tarjetas de gráficas */
+.chart-card {
+    background: white;
+    border-radius: 20px;
+    padding: 2rem;
+    box-shadow: var(--card-shadow);
+    border: none;
+    transition: all 0.3s ease;
+    height: 100%;
+}
+
+.chart-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+}
+
+.chart-header {
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.chart-header h5 {
+    font-weight: 700;
+    color: var(--dark-text);
+    font-size: 1.2rem;
+}
+
+/* Contenedor de gráfica circular */
+.chart-wrapper {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    margin: 0 auto 2rem;
+}
+
+.donut-chart-container {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.donut-svg {
+    transform: rotate(0deg); /* Adjust if needed, but dashes are offset */
+}
+
+/* SVG Elements */
+.donut-hole {
+    fill: #ffffff; /* Bg color */
+}
+
+.donut-ring {
+    stroke: #f3f3f3;
+}
+
+.donut-segment-svg {
+    fill: transparent;
+    transition: stroke-width 0.3s, filter 0.3s;
+    cursor: pointer;
+    transform-origin: center;
+}
+
+.donut-segment-svg:hover {
+    stroke-width: 6 !important; /* Visual pop */
+    filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.2));
+    z-index: 100; /* SVG Paint order depends on DOM order, z-index doesn't work on child elements. But stroke-width helps. */
+}
+
+/* Center */
+.donut-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100px; /* Adjusted size */
+    height: 100px;
+    background: white;
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    z-index: 20;
+    pointer-events: none; /* Let clicks pass through if needed, though center covers hole */
+}
+
+.donut-total {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--primary-color);
+    transition: color 0.3s;
+}
+
+.donut-center small {
+    font-size: 0.7rem;
+    color: #6c757d;
+}
+
+@keyframes pulse {
+    0%,
+    100% {
+        transform: translate(-50%, -50%) scale(1);
+    }
+    50% {
+        transform: translate(-50%, -50%) scale(1.05);
+    }
+}
+
+/* Leyenda de la gráfica */
+.chart-legend {
+    margin-top: 1.5rem;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.5rem;
+    padding: 0.5rem;
+    border-radius: 10px;
+    transition: background-color 0.3s ease;
+}
+
+.legend-item:hover {
+    background-color: #f8f9fa;
+}
+
+.legend-color {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    margin-right: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.legend-label {
+    flex: 1;
+    font-weight: 600;
+    color: var(--dark-text);
+}
+
+.legend-count {
+    font-weight: 700;
+    color: var(--primary-color);
+}
+
+/* Botón de descarga */
+.btn-download {
+    display: block;
+    width: 100%;
+    padding: 0.75rem;
+    background: var(--gradient-primary);
+    color: white;
+    text-align: center;
+    border-radius: 15px;
+    text-decoration: none;
+    font-weight: 600;
+    margin-top: 1.5rem;
+    transition: all 0.3s ease;
+    border: none;
+}
+
+.btn-download:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(67, 97, 238, 0.3);
+    color: white;
+    text-decoration: none;
+}
+
+/* Animaciones generales */
+.animate-card {
+    animation: slideUp 0.8s ease-out forwards;
+    animation-play-state: paused;
+}
+
+.card-icon-wrapper svg {
+    width: 50px !important;
+    height: 50px !important;
+}
+
+.stats-card__action {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 1.25rem;
+
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+
+    color: rgba(255, 255, 255, 0.85);
+    text-decoration: none;
+
+    padding: 6px 0;
+    position: relative;
+    z-index: 5;
+
+    transition: all 0.3s ease;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 992px) {
+    .welcome-title {
+        font-size: 2.5rem;
+    }
+
+    .metric-value {
+        font-size: 2.8rem;
+    }
+
+    .chart-wrapper {
+        width: 180px;
+        height: 180px;
+    }
+}
+
+@media (max-width: 768px) {
+    .dashboard-container {
+        padding: 10px 0;
+    }
+
+    .welcome-title {
+        font-size: 2rem;
+        margin-bottom: 0.25rem;
+    }
+
+    .welcome-subtitle {
+        font-size: 0.9rem;
+    }
+
+    /* Ajustar tarjetas de estadísticas */
+    .stats-card {
+        padding: 1.5rem 1rem;
+        margin-bottom: 1rem;
+    }
+
+    .card-icon-wrapper {
+        width: 50px;
+        height: 50px;
+        margin-bottom: 0.75rem;
+    }
+
+    .card-icon {
+        font-size: 1.4rem;
+    }
+
+    .metric-value {
+        font-size: 2.5rem;
+    }
+
+    .metric-label {
+        font-size: 0.8rem;
+    }
+
+    /* Ajustar gráficas */
+    .section-title {
+        font-size: 1.5rem;
+        margin-bottom: 1.5rem !important;
+    }
+
+    .chart-card {
+        padding: 1.5rem;
+    }
+
+    .chart-wrapper {
+        width: 160px;
+        height: 160px;
+        margin-bottom: 1.5rem;
+    }
+
+    .donut-center {
+        width: 60px;
+        height: 60px;
+    }
+
+    .donut-total {
+        font-size: 1.2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .welcome-title {
+        font-size: 1.75rem;
+    }
+
+    .stats-card {
+        padding: 1.25rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .chart-card {
+        padding: 1rem;
+    }
+
+    .chart-header h5 {
+        font-size: 1.1rem;
+    }
+
+    .chart-wrapper {
+        width: 140px;
+        height: 140px;
+    }
+
+    .donut-center {
+        width: 50px;
+        height: 50px;
+    }
+
+    .donut-total {
+        font-size: 1rem;
+    }
+
+    .donut-center small {
+        font-size: 0.6rem;
+    }
+
+    .legend-item {
+        font-size: 0.9rem;
+    }
+
+    .btn-download {
+        font-size: 0.9rem;
+        padding: 0.6rem;
+    }
+}
+
+/* Efectos de carga */
+.loading {
+    position: relative;
+    overflow: hidden;
+}
+
+.loading::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.6),
+        transparent
+    );
+    animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+    0% {
+        left: -100%;
+    }
+    100% {
+        left: 100%;
+    }
+}

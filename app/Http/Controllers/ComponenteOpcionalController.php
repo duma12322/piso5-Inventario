@@ -19,11 +19,39 @@ class ComponenteOpcionalController extends Controller
     /**
      * Muestra la lista de componentes opcionales.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $opcionales = ComponenteOpcional::activos()->with('equipo')->get();
-        return view('componentesOpcionales.index', compact('opcionales'));
+        $search = $request->input('search');
+
+        $query = ComponenteOpcional::activos()->with('equipo');
+
+        if ($search) {
+            // Limpiar caracteres extra y dividir por espacios
+            $cleanSearch = preg_replace('/[^\wñÑáéíóúÁÉÍÓÚ ]+/u', ' ', $search);
+            $terms = array_filter(explode(' ', $cleanSearch));
+
+            foreach ($terms as $term) {
+                $query->where(function ($q) use ($term) {
+                    $q->where('tipo_opcional', 'like', "%{$term}%")
+                        ->orWhere('marca', 'like', "%{$term}%")
+                        ->orWhere('modelo', 'like', "%{$term}%")
+                        ->orWhere('capacidad', 'like', "%{$term}%")
+                        ->orWhere('estado', 'like', "%{$term}%")
+                        ->orWhereHas('equipo', function ($eq) use ($term) {
+                            $eq->where('marca', 'like', "%{$term}%")
+                                ->orWhere('modelo', 'like', "%{$term}%");
+                        });
+                });
+            }
+        }
+
+        $opcionales = $query->orderBy('id_opcional', 'desc')
+            ->paginate(10)
+            ->withQueryString();
+
+        return view('componentesOpcionales.index', compact('opcionales', 'search'));
     }
+
 
     public function obtenerPorEquipo($id_equipo)
     {
@@ -52,8 +80,14 @@ class ComponenteOpcionalController extends Controller
         $id_equipo = $request->input('id_equipo');
         $tipoOpcional = $request->input('tipo_opcional');
 
+        /*
+    |--------------------------------------------------------------------------
+    |   SECCIÓN ESPECIAL DE MEMORIA RAM
+    |--------------------------------------------------------------------------
+    */
         if ($tipoOpcional === 'Memoria Ram') {
-            // Validación de tarjeta madre solo para RAM
+
+            // Buscar tarjeta madre
             $tarjetaMadre = Componente::where('id_equipo', $id_equipo)
                 ->where('tipo_componente', 'Tarjeta Madre')
                 ->where('estadoElim', 'Activo')
@@ -65,6 +99,7 @@ class ComponenteOpcionalController extends Controller
                     ->withInput();
             }
 
+            /* ------------------------- SLOTS VALIDOS ------------------------- */
             $cantidadSlots = (int) $tarjetaMadre->cantidad_slot_memoria;
             $slotsValidos = [];
             for ($i = 1; $i <= $cantidadSlots; $i++) {
@@ -73,110 +108,119 @@ class ComponenteOpcionalController extends Controller
 
             $slotsLibres = $this->obtenerSlotsLibres($id_equipo);
 
+            /* ------------------------- MÚLTIPLES RAM ------------------------- */
             $rams = $request->input('ram');
+
             if (!$rams) {
-                $rams = [[
-                    'marca' => $request->input('marca_ram'),
-                    'tipo' => $request->input('tipo_ram'),
-                    'capacidad' => $request->input('capacidad_ram'),
-                    'frecuencia' => $request->input('frecuencia_ram'),
-                    'estado' => $request->input('estado_ram') ?? 'Operativo',
-                    'detalles' => $request->input('detalles_ram'),
-                    'slot_memoria' => $request->input('slot_memoria'),
-                ]];
+                $rams = [
+                    [
+                        'marca' => $request->input('marca_ram'),
+                        'tipo' => $request->input('tipo_ram'),
+                        'capacidad' => $request->input('capacidad_ram'),
+                        'frecuencia' => $request->input('frecuencia_ram'),
+                        'estado' => $request->input('estado_ram') ?? 'Operativo',
+                        'detalles' => $request->input('detalles_ram'),
+                        'slot_memoria' => $request->input('slot_memoria'),
+                    ]
+                ];
             }
 
+            /* ---------------------- SUMA RAM YA INSTALADA --------------------- */
+            $memoriaMaxima = (int) $tarjetaMadre->memoria_maxima;
+
+            $ramInstalada = Componente::where('id_equipo', $id_equipo)
+                ->where('tipo_componente', 'Memoria RAM')
+                ->where('estadoElim', 'Activo')
+                ->get()
+                ->sum(fn($c) => max(0, intval(preg_replace('/\D/', '', $c->capacidad))));
+
+            $ramOpcionalExistente = ComponenteOpcional::where('id_equipo', $id_equipo)
+                ->where('tipo_opcional', 'Memoria Ram')
+                ->where('estadoElim', 'Activo')
+                ->get()
+                ->sum(fn($c) => max(0, intval(preg_replace('/\D/', '', $c->capacidad))));
+
+            $ramDisponible = $memoriaMaxima - $ramInstalada - $ramOpcionalExistente;
+
+            /* ------------------------- RECORRER RAM ------------------------- */
             foreach ($rams as $ramData) {
+
+                /* ---- normalizar slot ---- */
                 $numeroSlot = (int) filter_var($ramData['slot_memoria'], FILTER_SANITIZE_NUMBER_INT);
                 $ramData['slot_memoria'] = "Slot $numeroSlot";
 
-                // Validación slot
                 if (!in_array($ramData['slot_memoria'], $slotsValidos)) {
                     return redirect()->back()
-                        ->with('error', "El {$ramData['slot_memoria']} no es válido para esta tarjeta madre.")
+                        ->withErrors(['slot_memoria' => "El {$ramData['slot_memoria']} no es válido para esta tarjeta madre."])
                         ->withInput();
                 }
 
                 if (!in_array($ramData['slot_memoria'], $slotsLibres)) {
                     return redirect()->back()
-                        ->with('error', "El {$ramData['slot_memoria']} ya está ocupado.")
+                        ->withErrors([
+                            'slot_memoria' => "El {$ramData['slot_memoria']} ya está ocupado."
+                        ])
                         ->withInput();
                 }
 
-                // Validación de tipo RAM con la tarjeta madre
+                /* ---- validar tipo RAM ---- */
                 if ($tarjetaMadre->tipo) {
                     $tipoMother = $this->normalizarTipoRAM($tarjetaMadre->tipo);
                     $tipoRAM = $this->normalizarTipoRAM($ramData['tipo']);
+
                     if ($tipoMother !== $tipoRAM) {
                         return redirect()->back()
-                            ->with('error', "El tipo de memoria RAM ({$ramData['tipo']}) no es compatible con la tarjeta madre ({$tarjetaMadre->tipo}).")
+                            ->withErrors([
+                                'tipo_ram' => "El tipo de RAM ({$ramData['tipo']}) no es compatible con la tarjeta madre ({$tarjetaMadre->tipo})."
+                            ])
                             ->withInput();
                     }
                 }
 
-                // 🔹 CAPACIDAD MÁXIMA DISPONIBLE
-                $memoriaMaxima = (int) $tarjetaMadre->memoria_maxima;
+                /* ---- validar capacidad ---- */
+                $capacidadIngresada = intval(preg_replace('/\D/', '', $ramData['capacidad']));
 
-                $ramInstalada = Componente::where('id_equipo', $id_equipo)
-                    ->where('tipo_componente', 'Memoria RAM')
-                    ->where('estadoElim', 'Activo')
-                    ->get()
-                    ->sum(fn($c) => max(0, intval(preg_replace('/\D/', '', $c->capacidad))));
-
-                $ramOpcionalExistente = ComponenteOpcional::where('id_equipo', $id_equipo)
-                    ->where('tipo_opcional', 'Memoria Ram')
-                    ->where('estadoElim', 'Activo')
-                    ->get()
-                    ->sum(fn($c) => max(0, intval(preg_replace('/\D/', '', $c->capacidad))));
-
-                $ramDisponible = $memoriaMaxima - $ramInstalada - $ramOpcionalExistente;
-
-                // Validación correcta
-                $capacidadIngresada = intval(preg_replace('/\D/', '', $ramData['capacidad'] ?? '0'));
-
-                // Validación
                 if ($capacidadIngresada <= 0) {
                     return redirect()->back()
-                        ->withInput()
-                        ->withErrors(['capacidad_ram' => "Debe ingresar un valor de RAM válido."]);
+                        ->withErrors(['capacidad_ram' => "Debe ingresar una capacidad válida."])
+                        ->withInput();
                 }
 
                 if ($capacidadIngresada > $ramDisponible) {
                     return redirect()->back()
-                        ->withInput()
                         ->withErrors([
-                            'capacidad_ram' => "La RAM ingresada ({$capacidadIngresada} GB) excede la memoria disponible ({$ramDisponible} GB)."
-                        ]);
+                            'capacidad_ram' => "La RAM ingresada ({$capacidadIngresada} GB) excede la disponible ({$ramDisponible} GB)."
+                        ])
+                        ->withInput();
                 }
 
+                $ramDisponible -= $capacidadIngresada;
 
-                // Asignar capacidad limpia y siempre con "GB"
-                $data['capacidad'] = $capacidadIngresada . ' GB';
+                /* ---- validar frecuencia ---- */
+                $frecuenciasPermitidas = array_map('trim', explode(',', $tarjetaMadre->frecuencias_memoria ?? ''));
 
-                // 🔹 Validación frecuencia máxima
-                $frecuenciaPermitida = array_map('trim', explode(',', $tarjetaMadre->frecuencias_memoria ?? ''));
+                $frecuenciaSel = (int) $ramData['frecuencia'];
 
-                $frecuenciaSeleccionada = (int) $ramData['frecuencia'] ?? 0;
+                if ($frecuenciasPermitidas && !in_array($frecuenciaSel, $frecuenciasPermitidas)) {
+                    $listado = implode(', ', $frecuenciasPermitidas);
 
-                if ($frecuenciaPermitida && !in_array($frecuenciaSeleccionada, $frecuenciaPermitida)) {
-                    $frecuenciasFormateadas = implode(', ', $frecuenciaPermitida);
                     return redirect()->back()
-                        ->withInput()
                         ->withErrors([
-                            'frecuencia_ram' => "La frecuencia ingresada ({$frecuenciaSeleccionada} MHz) no es compatible con la tarjeta madre. Frecuencias válidas: {$frecuenciasFormateadas} MHz."
-                        ]);
+                            'frecuencia_ram' => "La frecuencia ($frecuenciaSel MHz) no es compatible. Válidas: $listado MHz."
+                        ])
+                        ->withInput();
                 }
 
-
+                /* ---- guardar la RAM ---- */
                 ComponenteOpcional::create([
                     'id_equipo' => $id_equipo,
                     'tipo_opcional' => 'Memoria Ram',
-                    'marca' => $ramData['marca'] ?? '',
-                    'tipo' => $ramData['tipo'] ?? '',
-                    'capacidad' => $ramData['capacidad'] ?? '',
-                    'frecuencia' => $ramData['frecuencia'] ?? '',
+                    'marca' => $ramData['marca'],
+                    'tipo' => $ramData['tipo'],
+                    'capacidad' => $capacidadIngresada . ' GB',
+                    'frecuencia' => $ramData['frecuencia'],
                     'estado' => $ramData['estado'] ?? 'Operativo',
-                    'detalles' => $ramData['detalles'] ?? null,
+                    'detalles' => $ramData['detalles'],
                     'slot_memoria' => $ramData['slot_memoria'],
                     'estadoElim' => 'Activo'
                 ]);
@@ -184,10 +228,10 @@ class ComponenteOpcionalController extends Controller
                 $slotsLibres = array_diff($slotsLibres, [$ramData['slot_memoria']]);
             }
 
+            /* ---- LOG RAM ---- */
             $usuario = Auth::check() ? Auth::user()->usuario : 'Sistema';
-            // Obtener el equipo
             $equipo = Equipo::find($id_equipo);
-            $equipoInfo = $equipo ? $equipo->marca . ' ' . $equipo->modelo : "ID: $id_equipo";
+            $equipoInfo = $equipo ? $equipo->marca . ' ' . $equipo->modelo : "ID $id_equipo";
 
             LogModel::create([
                 'usuario' => $usuario,
@@ -195,36 +239,42 @@ class ComponenteOpcionalController extends Controller
                 'detalles' => json_encode($rams),
                 'fecha' => now(),
             ]);
-            // Otros componentes no dependen de tarjeta madre
-            $data = $this->procesarDatos($request->all());
-            $data['id_equipo'] = $id_equipo;
-            $data['tipo_opcional'] = $tipoOpcional;
-            $data['estadoElim'] = 'Activo';
 
-            ComponenteOpcional::create($data);
-
-            $usuario = Auth::check() ? Auth::user()->usuario : 'Sistema';
-
-            // Obtener el equipo
-            $equipo = Equipo::find($id_equipo);
-            $equipoInfo = $equipo ? $equipo->marca . ' ' . $equipo->modelo : "ID: $id_equipo";
-
-            LogModel::create([
-                'usuario' => $usuario,
-                'accion' => "Agregado componente opcional: $tipoOpcional para equipo: $equipoInfo",
-                'detalles' => json_encode($data),
-                'fecha' => now(),
-            ]);
+            /* ---- Redirección tras RAM ---- */
+            return $request->input('porEquipo')
+                ? redirect()->route('componentes.porEquipo', $id_equipo)->with('success', 'RAM agregada correctamente.')
+                : redirect()->route('componentesOpcionales.index')->with('success', 'RAM agregada correctamente.');
         }
 
-        if ($request->input('porEquipo')) {
-            return redirect()->route('componentes.porEquipo', $request->input('id_equipo'))
-                ->with('success', 'Componente opcional agregado correctamente.');
-        } else {
-            return redirect()->route('componentesOpcionales.index')
-                ->with('success', 'Componente opcional agregado correctamente.');
-        }
+        /*
+    |--------------------------------------------------------------------------
+    |   GUARDAR CUALQUIER OTRO COMPONENTE (NO RAM)
+    |--------------------------------------------------------------------------
+    */
+
+        $data = $this->procesarDatos($request->all());
+        $data['id_equipo'] = $id_equipo;
+        $data['tipo_opcional'] = $tipoOpcional;
+        $data['estadoElim'] = 'Activo';
+
+        ComponenteOpcional::create($data);
+
+        $usuario = Auth::check() ? Auth::user()->usuario : 'Sistema';
+        $equipo = Equipo::find($id_equipo);
+        $equipoInfo = $equipo ? $equipo->marca . ' ' . $equipo->modelo : "ID $id_equipo";
+
+        LogModel::create([
+            'usuario' => $usuario,
+            'accion' => "Agregado componente opcional: $tipoOpcional para equipo: $equipoInfo",
+            'detalles' => json_encode($data),
+            'fecha' => now(),
+        ]);
+
+        return $request->input('porEquipo')
+            ? redirect()->route('componentes.porEquipo', $id_equipo)->with('success', 'Componente opcional agregado correctamente.')
+            : redirect()->route('componentesOpcionales.index')->with('success', 'Componente opcional agregado correctamente.');
     }
+
 
     // -----------------------
     // Normalizar tipo de RAM
@@ -320,8 +370,7 @@ class ComponenteOpcionalController extends Controller
 
             $data['slot_memoria'] = "Slot $slotElegido";
 
-            // 🔹 CAPACIDAD MÁXIMA DISPONIBLE
-            // 🔹 CAPACIDAD MÁXIMA DISPONIBLE
+            // CAPACIDAD MÁXIMA DISPONIBLE
             $memoriaMaxima = (int) $tarjetaMadre->memoria_maxima;
 
             // RAM instalada por componentes permanentes
@@ -416,7 +465,7 @@ class ComponenteOpcionalController extends Controller
         try {
             LogModel::create([
                 'usuario' => $usuario,
-                'accion' => 'Eliminado componente opcional ID: ' .  $opcional->tipo_opcional,
+                'accion' => 'Eliminado componente opcional ID: ' . $opcional->tipo_opcional,
                 'fecha' => now()
             ]);
         } catch (\Exception $e) {
@@ -452,6 +501,7 @@ class ComponenteOpcionalController extends Controller
             'capacidad',
             'frecuencia',
             'consumo',
+            'ubicacion',
             'seguridad',
             'estado',
             'salidas_video',
@@ -466,7 +516,8 @@ class ComponenteOpcionalController extends Controller
         ];
 
         foreach ($campos as $c) {
-            if (!isset($data[$c])) $data[$c] = '';
+            if (!isset($data[$c]))
+                $data[$c] = null;
         }
 
         switch ($data['tipo_opcional'] ?? '') {
@@ -492,6 +543,7 @@ class ComponenteOpcionalController extends Controller
                 $data['marca'] = $data['marca_fan'] ?? '';
                 $data['tipo'] = $data['tipo_fan'] ?? '';
                 $data['consumo'] = $data['consumo_fan'] ?? '';
+                $data['ubicacion'] = $data['ubicacion_fan'] ?? '';
                 $data['estado'] = $data['estado_fan'] ?? 'Operativo';
                 $data['detalles'] = $data['detalles_fan'] ?? $data['detalles'] ?? null;
                 break;
@@ -565,7 +617,7 @@ class ComponenteOpcionalController extends Controller
                 if (!is_array($resolucion)) {
                     $resolucion = [$resolucion];
                 }
-                $data['resolucion'] = implode(', ', array_filter($resolucion));
+                $data['resolucion'] = implode(', ', array_map('trim', array_filter($resolucion)));
 
                 $data['drivers'] = $data['drivers_audio'] ?? '';
                 $data['compatibilidad'] = $data['compatibilidad_tarjeta_audio'] ?? '';
@@ -579,10 +631,14 @@ class ComponenteOpcionalController extends Controller
         }
 
         // Esto asegura que 'estado' siempre sea uno de los permitidos
-        $estadosValidos = ['Operativo', 'Medio dañado', 'Dañado'];
+        $estadosValidos = ['Buen Funcionamiento', 'Operativo', 'Sin Funcionar', 'Medio dañado', 'Dañado'];
         if (!in_array($data['estado'], $estadosValidos)) {
             $data['estado'] = 'Operativo';
         }
+
+        // Estado activo por defecto
+        if (empty($data['estadoElim']))
+            $data['estadoElim'] = 'Activo';
 
         return $data;
     }
@@ -593,7 +649,8 @@ class ComponenteOpcionalController extends Controller
             ->where('tipo_componente', 'Tarjeta Madre')
             ->first();
 
-        if (!$tarjetaMadre) return [];
+        if (!$tarjetaMadre)
+            return [];
 
         $cantidadSlots = (int) $tarjetaMadre->cantidad_slot_memoria;
 

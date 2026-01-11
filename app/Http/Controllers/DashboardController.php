@@ -29,9 +29,9 @@ class DashboardController extends Controller
 
         // Estado funcional de los equipos
         $estadoFuncional = [
-            'Buen Funcionamiento' => $equiposActivos->where('estado_funcional', 'Bueno')->count(),
-            'Operativo' => $equiposActivos->where('estado_funcional', 'Intermedio')->count(),
-            'Sin Funcionar' => $equiposActivos->where('estado_funcional', 'Dañado')->count(),
+            'Operativo' => $equiposActivos->where('estado_funcional', 'Operativo')->count(),
+            'Buen Funcionamiento' => $equiposActivos->where('estado_funcional', 'Buen Funcionamiento')->count(),
+            'Sin Funcionar' => $equiposActivos->where('estado_funcional', 'Sin Funcionar')->count(),
         ];
 
         // Estado tecnológico de los equipos

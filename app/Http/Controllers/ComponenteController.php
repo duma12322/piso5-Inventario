@@ -17,11 +17,41 @@ class ComponenteController extends Controller
     }
 
     // Lista todos los componentes activos
-    public function index()
+    public function index(Request $request)
     {
-        $componentes = Componente::activos()->with('equipo')->get();
-        return view('componentes.index', compact('componentes'));
+        $search = $request->input('search');
+
+        $query = Componente::activos()->with('equipo');
+
+        if ($search) {
+            // 1. Limpiar caracteres extra
+            $cleanSearch = preg_replace('/[^\wñÑáéíóúÁÉÍÓÚ ]+/u', ' ', $search);
+
+            // 2. Dividir en palabras
+            $terms = array_filter(explode(' ', $cleanSearch));
+
+            foreach ($terms as $term) {
+                $query->where(function ($q) use ($term) {
+                    $q->where('tipo_componente', 'like', "%{$term}%")
+                        ->orWhere('marca', 'like', "%{$term}%")
+                        ->orWhere('modelo', 'like', "%{$term}%")
+                        ->orWhere('estado', 'like', "%{$term}%")
+                        ->orWhere('capacidad', 'like', "%{$term}%")
+                        ->orWhereHas('equipo', function ($qe) use ($term) {
+                            $qe->where('marca', 'like', "%{$term}%")
+                                ->orWhere('modelo', 'like', "%{$term}%");
+                        });
+                });
+            }
+        }
+
+        $componentes = $query->orderBy('id_componente', 'desc')
+            ->paginate(10)
+            ->withQueryString();
+
+        return view('componentes.index', compact('componentes', 'search'));
     }
+
 
     // Mostrar formulario de creación
     public function create()
@@ -99,7 +129,7 @@ class ComponenteController extends Controller
                 ]);
             }
 
-            // 🔹 Validación de tipo RAM
+            // Validación de tipo RAM
             if ($tarjetaMadre->tipo) {
                 $tipoMother = $this->normalizarTipoRAM($tarjetaMadre->tipo);
                 $tipoRAM = $this->normalizarTipoRAM($data['tipo']);
@@ -143,6 +173,22 @@ class ComponenteController extends Controller
             }
 
             $data['slot_memoria'] = $slot; // asignamos formato correcto
+
+            // Validación frecuencia
+            if ($tarjetaMadre->frecuencias_memoria) {
+                // Obtenemos las frecuencias válidas como array de números limpios
+                $frecuenciasPermitidas = array_map('trim', explode(',', $tarjetaMadre->frecuencias_memoria));
+
+                // Quitamos posibles unidades en $data['frecuencia'] y lo comparamos como número
+                $frecuenciaSeleccionada = (int) $data['frecuencia'];
+
+                if (!in_array($frecuenciaSeleccionada, $frecuenciasPermitidas)) {
+                    $frecuenciasFormateadas = implode(', ', $frecuenciasPermitidas);
+                    return back()->withInput()->withErrors([
+                        'frecuencia' => "La frecuencia ingresada ({$frecuenciaSeleccionada} MHz) no es compatible con la tarjeta madre. Frecuencias válidas: {$frecuenciasFormateadas} MHz."
+                    ]);
+                }
+            }
         }
 
         // CREAR EL COMPONENTE
@@ -239,7 +285,7 @@ class ComponenteController extends Controller
         $componente = Componente::findOrFail($id);
         $data = $this->procesarDatos($request->all());
 
-        // 🔹 VALIDACIÓN DE SOCKET
+        // VALIDACIÓN DE SOCKET
         if ($data['tipo_componente'] === 'Procesador') {
             $tarjetaMadre = Componente::where('id_equipo', $data['id_equipo'])
                 ->where('tipo_componente', 'Tarjeta Madre')
@@ -276,7 +322,7 @@ class ComponenteController extends Controller
             }
         }
 
-        // 🔹 VALIDACIÓN DE TIPO DE RAM
+        // VALIDACIÓN DE TIPO DE RAM
         if ($data['tipo_componente'] === 'Memoria RAM') {
             $tarjetaMadre = Componente::where('id_equipo', $data['id_equipo'])
                 ->where('tipo_componente', 'Tarjeta Madre')
@@ -289,7 +335,7 @@ class ComponenteController extends Controller
                 ]);
             }
 
-            // 🔹 Normalizamos slot ingresado
+            // Normalizamos slot ingresado
             $slot = $data['slot_memoria'] ?? null;
             if (!$slot) {
                 return back()->withInput()->withErrors([
@@ -367,10 +413,10 @@ class ComponenteController extends Controller
             unset($data['slot_memoria']); // Para otros componentes no usamos slot
         }
 
-        // 🔹 ACTUALIZAR COMPONENTE
+        // ACTUALIZAR COMPONENTE
         $componente->update($data);
 
-        // 🔹 GUARDAR LOG
+        // GUARDAR LOG
         $usuario = Auth::check() ? Auth::user()->usuario : 'Sistema';
         try {
             LogModel::create([
@@ -383,7 +429,7 @@ class ComponenteController extends Controller
             \Illuminate\Support\Facades\Log::error('Error guardando log: ' . $e->getMessage());
         }
 
-        // 🔹 REDIRECCIÓN
+        // REDIRECCIÓN
         if ($request->input('porEquipo')) {
             return redirect()->route('componentes.porEquipo', $request->input('id_equipo'))
                 ->with('success', 'Componente actualizado correctamente.');
@@ -444,13 +490,6 @@ class ComponenteController extends Controller
     private function procesarDatos(array $data)
     {
 
-        // 🔹 Convertir cualquier array en string (para evitar errores "Array to string conversion")
-        foreach ($data as $key => $value) {
-            if (is_array($value)) {
-                $data[$key] = implode(', ', $value);
-            }
-        }
-
         // Campos de texto
         $camposTexto = [
             'marca',
@@ -497,6 +536,13 @@ class ComponenteController extends Controller
             'cantidad_slot_memoria'
         ];
 
+        // Convertir cualquier array a string separando por comas
+        foreach ($data as $key => $value) {
+            if (is_array($value)) {
+                $data[$key] = implode(',', $value);
+            }
+        }
+
         // Campos ENUM
         $camposEnum = ['estado', 'compatibilidad'];
 
@@ -504,10 +550,14 @@ class ComponenteController extends Controller
         $camposFecha = ['fecha_instalacion'];
 
         // Inicializar
-        foreach ($camposTexto as $c) $data[$c] = $data[$c] ?? null;
-        foreach ($camposNumericos as $c) $data[$c] = isset($data[$c]) && $data[$c] !== '' ? $data[$c] : null;
-        foreach ($camposFecha as $c) $data[$c] = !empty($data[$c]) ? $data[$c] : null;
-        foreach ($camposEnum as $c) $data[$c] = in_array($data[$c] ?? '', ['Operativo', 'Medio dañado', 'Dañado', 'Sí', 'Parcialmente', 'No']) ? $data[$c] : null;
+        foreach ($camposTexto as $c)
+            $data[$c] = $data[$c] ?? null;
+        foreach ($camposNumericos as $c)
+            $data[$c] = isset($data[$c]) && $data[$c] !== '' ? $data[$c] : null;
+        foreach ($camposFecha as $c)
+            $data[$c] = !empty($data[$c]) ? $data[$c] : null;
+        foreach ($camposEnum as $c)
+            $data[$c] = in_array($data[$c] ?? '', ['Operativo', 'Medio dañado', 'Dañado', 'Sí', 'Parcialmente', 'No']) ? $data[$c] : null;
 
         // Campos según tipo de componente
         switch ($data['tipo_componente'] ?? '') {
@@ -609,10 +659,16 @@ class ComponenteController extends Controller
                 $data['modelo'] = $data['modelo_fuente'] ?? $data['modelo'];
                 $data['potencia'] = $data['potencia'] ?? $data['potencia'];
                 if (!empty($data['voltajes_fuente'])) {
-                    $voltajes = $data['voltajes_fuente'];
+
+                    // normalizar a array si viene como string
+                    $voltajes = is_array($data['voltajes_fuente'])
+                        ? $data['voltajes_fuente']
+                        : explode(',', $data['voltajes_fuente']);
+
                     if (!empty($data['voltaje_otro'])) {
                         $voltajes[] = $data['voltaje_otro'];
                     }
+
                     $data['voltajes_fuente'] = implode(',', $voltajes);
                 } else {
                     $data['voltajes_fuente'] = !empty($data['voltaje_otro']) ? $data['voltaje_otro'] : null;
@@ -644,13 +700,14 @@ class ComponenteController extends Controller
             case 'Tarjeta Red':
                 $data['marca'] = $data['marca_tarjeta_red'] ?? $data['marca'];
                 $data['modelo'] = $data['modelo_tarjeta_red'] ?? $data['modelo'];
-                if (!empty($data['tipo_tarjeta_red']) && is_array($data['tipo_tarjeta_red'])) {
-                    $data['tipo'] = implode(', ', $data['tipo_tarjeta_red']);
-                } elseif (!empty($data['tipo_tarjeta_red'])) {
-                    // Por si llega como string (no debería, pero prevenimos error)
-                    $data['tipo'] = $data['tipo_tarjeta_red'];
+                if (!empty($data['tipo_tarjeta_red'])) {
+                    if (is_array($data['tipo_tarjeta_red'])) {
+                        $data['tipo'] = implode(', ', $data['tipo_tarjeta_red']);
+                    } else {
+                        $data['tipo'] = (string) $data['tipo_tarjeta_red'];
+                    }
                 } else {
-                    $data['tipo'] = $data['tipo'] ?? null;
+                    $data['tipo'] = null;
                 }
                 $data['velocidad_transferencia'] = $data['velocidad_transferencia'] ?? $data['velocidad_transferencia'];
                 $data['estado'] = $data['estado_tarjeta_red'] ?? $data['estado'];
@@ -661,7 +718,7 @@ class ComponenteController extends Controller
                 $data['marca'] = $data['marca_unidad'] ?? $data['marca'];
                 $data['tipo'] = $data['tipo_unidad'] ?? $data['tipo'];
                 if (isset($data['tipos_discos']) && is_array($data['tipos_discos'])) {
-                    $data['tipos_discos'] = implode(', ', $data['tipos_discos']);
+                    $data['tipos_discos'] = implode(',', $data['tipos_discos']);
                 } else {
                     $data['tipos_discos'] = null;
                 }
@@ -679,8 +736,17 @@ class ComponenteController extends Controller
                 break;
         }
 
+        if (($data['tipo_componente'] ?? '') !== 'Unidad Optica') {
+            $data['tipos_discos'] = null;
+        }
+
+        if (($data['tipo_componente'] ?? '') !== 'Tarjeta Grafica') {
+            $data['salidas_video'] = null;
+        }
+
         // Estado activo por defecto
-        if (empty($data['estadoElim'])) $data['estadoElim'] = 'Activo';
+        if (empty($data['estadoElim']))
+            $data['estadoElim'] = 'Activo';
 
         return $data;
     }
@@ -763,7 +829,8 @@ class ComponenteController extends Controller
             ->where('tipo_componente', 'Tarjeta Madre')
             ->first();
 
-        if (!$tarjetaMadre) return [];
+        if (!$tarjetaMadre)
+            return [];
 
         $cantidadSlots = (int) $tarjetaMadre->cantidad_slot_memoria;
 
