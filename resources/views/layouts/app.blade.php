@@ -122,7 +122,7 @@
                                 <div class="nav-icon">
                                     <i class="fas fa-clipboard-list"></i>
                                 </div>
-                                <span class="nav-text">Logins del Sistema</span>
+                                <span class="nav-text">Bitacora</span>
                                 <div class="nav-indicator"></div>
                             </a>
                         </div>

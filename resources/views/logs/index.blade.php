@@ -5,7 +5,7 @@
         <div class="components-header">
             <div class="header-content">
                 <div class="title-section">
-                    <h1>Registro de Logs</h1>
+                    <h1>Bitacora</h1>
                     <p>Historial de actividad del sistema</p>
                 </div>
                 <div class="header-stats">
