@@ -98,7 +98,7 @@
                         <label class="form-label"><i class="fas fa-tags"></i> Tipo de Componente Opcional</label>
                         <select id="tipo_opcional" name="tipo_opcional" class="form-select" required>
                             <option value="">Seleccione un tipo</option>
-                            @foreach(['Memoria Ram', 'Disco Duro', 'Fan Cooler', 'Tarjeta Grafica', 'Tarjeta de Red', 'Tarjeta WiFi', 'Tarjeta de Sonido'] as $tipo)
+                            @foreach(['Memoria Ram', 'Disco Duro', 'Fan Cooler', 'Tarjeta Grafica', 'Tarjeta de Red', 'Tarjeta de Sonido'] as $tipo)
                                 <option value="{{ $tipo }}" {{ old('tipo_opcional') == $tipo ? 'selected' : '' }}>{{ $tipo }}
                                 </option>
                             @endforeach
