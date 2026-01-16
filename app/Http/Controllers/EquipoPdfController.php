@@ -8,11 +8,19 @@ use App\Models\ComponenteOpcional;
 use TCPDF;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class EquipoPdfController extends Controller
 {
+    /**
+     * Genera un PDF detallado de un equipo específico.
+     *
+     * @param int $id ID del equipo a generar
+     * @return void (descarga del PDF directamente)
+     */
     public function generarPDF($id)
     {
+        // Traer el equipo junto con sus relaciones
         $equipo = Equipo::with(['direccion', 'division', 'coordinacion'])->findOrFail($id);
         $anioActual = Carbon::now()->year;
 
@@ -21,16 +29,17 @@ class EquipoPdfController extends Controller
             ->where('estadoElim', 'Activo')
             ->get();
 
+        // Obtener componentes opcionales activos
         $componentesOpcionales = ComponenteOpcional::where('id_equipo', $id)
             ->where('estadoElim', 'Activo')
             ->get();
 
-        // Filtrar componentes tecnológicos
+        // Filtrar componentes tecnológicos para evaluación de estado
         $componentesTecnologicos = $componentes->filter(
             fn($c) => in_array(strtolower($c->tipo_componente), ['tarjeta madre', 'procesador', 'memoria ram'])
         );
 
-        // Generar explicación detallada y calcular estado tecnológico
+        // Inicializar variables para explicación y cálculo de estado tecnológico
         $explicacion = '';
         $puntajeTotal = 0;
         $pesoTotal = 0;
@@ -59,6 +68,7 @@ class EquipoPdfController extends Controller
 
                 $puntajeComponente = max(0, 1 - ($edad / $vidaUtil)) * $peso;
             } elseif ($tipoComp === 'memoria ram') {
+                // Info tecnológica para memoria RAM
                 $compTecnologia = DB::table('componentes_tecnologia')
                     ->where('tipo_componente', 'Memoria RAM')
                     ->where('tipo', 'LIKE', "%{$componente->tipo}%")
@@ -69,10 +79,12 @@ class EquipoPdfController extends Controller
                 $peso = $compTecnologia->peso_importancia ?? 2;
                 $edad = max(0, $anioActual - $anioLanzamiento);
 
+                // Explicación detallada
                 $explicacion .= "- {$componente->tipo_componente} ({$componente->marca}, Tipo: {$componente->tipo}): tecnología lanzada en {$anioLanzamiento}, vida útil {$vidaUtil}.<br>";
 
                 $puntajeComponente = max(0, 1 - ($edad / $vidaUtil)) * $peso;
-            } else { // Procesador u otros
+            } else {
+                // Otros componentes (procesador u otros) sin puntaje
                 $puntajeComponente = 0;
                 $peso = 0;
             }
@@ -81,7 +93,7 @@ class EquipoPdfController extends Controller
             $pesoTotal += $peso;
         }
 
-        // Estado tecnológico
+        // Calcular estado tecnológico general del equipo
         $ratio = $pesoTotal ? $puntajeTotal / $pesoTotal : 1;
         if ($ratio >= 0.75) {
             $estadoTecnologico = 'Nuevo';
@@ -94,7 +106,7 @@ class EquipoPdfController extends Controller
         $equipo->estado_tecnologico = $estadoTecnologico;
         $equipo->save();
 
-        // Generar PDF horizontal
+        // Configuración inicial de TCPDF para PDF horizontal
         $pdf = new TCPDF('L', 'mm', 'A4', true, 'UTF-8', false);
         $pdf->SetCreator('Laravel TCPDF');
         $pdf->SetAuthor('Sistema de Inventario');
@@ -103,7 +115,7 @@ class EquipoPdfController extends Controller
         $pdf->setPrintFooter(false);
         $pdf->AddPage();
 
-        // Insertar imagen de encabezado
+        // Insertar imagen de encabezado como marca de agua
         $imagePath = public_path('encabezado.jpeg');
         if (file_exists($imagePath)) {
             $pdf->SetAlpha(0.3); // Opacidad baja para marca de agua
@@ -114,10 +126,12 @@ class EquipoPdfController extends Controller
 
         $fechaHora = date('d/m/Y h:i A');
 
+        // Obtener nombres de relaciones
         $direccion = $equipo->direccion->nombre_direccion ?? 'N/A';
         $division = $equipo->division->nombre_division ?? 'N/A';
         $coordinacion = $equipo->coordinacion->nombre_coordinacion ?? 'N/A';
 
+        // HTML principal del PDF
         $html = '
         <div style="background-color: #b91d47; color: white; line-height: 25px; font-size: 14px; font-weight: bold; text-align: center;">
             FICHA DEL EQUIPO
@@ -227,7 +241,7 @@ class EquipoPdfController extends Controller
             <tr>
                 <td style="width: 50%;">
                     _________________________________<br>
-                    <b>' . e(auth()->user()->usuario ?? 'N/A') . '</b><br>
+                    <b>' . e(Auth::user()->usuario  ?? 'N/A') . '</b><br>
                     Técnico Div. soporte<br>
                     Hardware y Software
                 </td>
@@ -262,7 +276,10 @@ class EquipoPdfController extends Controller
             </tr>
         </table>';
 
+        // Escribir HTML en PDF
         $pdf->writeHTML($html, true, false, true, false, '');
+
+        // Salida del PDF al navegador
         $pdf->Output('ficha_equipo_' . ($equipo->nombre ?? 'equipo') . '.pdf', 'I');
     }
 }

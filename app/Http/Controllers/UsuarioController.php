@@ -6,11 +6,25 @@ use Illuminate\Http\Request;
 use App\Models\Usuario;
 use Illuminate\Support\Facades\Auth;
 
+/**
+ * Controlador para manejar los usuarios del sistema.
+ *
+ * Proporciona funcionalidades CRUD (Crear, Leer, Actualizar, Eliminar)
+ * para los usuarios, incluyendo:
+ * - Listado de usuarios con búsqueda y paginación.
+ * - Creación y edición de usuarios.
+ * - Eliminación de usuarios.
+ * - Validación de contraseña actual al actualizar.
+ * - Registro de acciones en logs para auditoría.
+ */
 
 class UsuarioController extends Controller
 {
     /**
-     * Listar todos los usuarios
+     * Listar todos los usuarios con paginación y búsqueda opcional.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\View\View
      */
     public function index(Request $request)
     {
@@ -27,7 +41,9 @@ class UsuarioController extends Controller
     }
 
     /**
-     * Mostrar formulario para crear usuario
+     * Mostrar formulario para crear un nuevo usuario.
+     *
+     * @return \Illuminate\View\View
      */
     public function create()
     {
@@ -35,7 +51,10 @@ class UsuarioController extends Controller
     }
 
     /**
-     * Guardar nuevo usuario
+     * Guardar un nuevo usuario en la base de datos.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(Request $request)
     {
@@ -59,7 +78,10 @@ class UsuarioController extends Controller
     }
 
     /**
-     * Mostrar formulario para editar usuario
+     * Mostrar formulario para editar un usuario existente.
+     *
+     * @param int $id
+     * @return \Illuminate\View\View
      */
     public function edit($id)
     {
@@ -68,7 +90,11 @@ class UsuarioController extends Controller
     }
 
     /**
-     * Actualizar usuario
+     * Actualizar los datos de un usuario existente.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update(Request $request, $id)
     {
@@ -81,15 +107,15 @@ class UsuarioController extends Controller
             'password' => 'nullable|string|min:4',
         ]);
 
-        // ✅ Obtener la contraseña real desde la base de datos
+        // Obtener la contraseña real desde la base de datos
         $passwordReal = $usuario->getRawOriginal('password');
 
-        // 🔒 Validar la contraseña actual con MD5
+        // Validar la contraseña actual con MD5
         if (md5($request->password_actual) !== $passwordReal) {
             return back()->withErrors(['password_actual' => 'La contraseña actual no es correcta.'])->withInput();
         }
 
-        // ✅ Si llega aquí, la contraseña actual es válida
+        // Si llega aquí, la contraseña actual es válida
         $usuario->actualizarUsuario([
             'usuario' => $request->usuario,
             'password' => $request->password,
@@ -105,7 +131,10 @@ class UsuarioController extends Controller
 
 
     /**
-     * Eliminar usuario
+     * Eliminar un usuario del sistema.
+     *
+     * @param int $id
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy($id)
     {

@@ -9,25 +9,40 @@ use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
+    /**
+     * Constructor del controlador.
+     * Aplica middleware 'auth' para que solo usuarios autenticados
+     * puedan acceder a las rutas de este controlador.
+     */
     public function __construct()
     {
         $this->middleware('auth');
     }
 
+    /**
+     * Mostrar la vista principal del dashboard.
+     * Reúne información estadística sobre equipos, usuarios y direcciones.
+     *
+     * @return \Illuminate\View\View
+     */
     public function index()
     {
+        // Obtener el usuario autenticado
         $usuario = Auth::user();
 
-        // Traemos todos los equipos activos como colección
+        // Traer todos los equipos activos como colección
         $equiposActivos = Equipo::where('estado', 'Activo')->get();
+
+        // Traer todas las direcciones activas
         $direccionesActivos = Direccion::where('estado', 'Activo')->get();
 
         // Conteos generales
-        $totalEquipos = $equiposActivos->count();
-        $totalUsuarios = Usuario::count();
-        $totalDirecciones = $direccionesActivos->count();
+        $totalEquipos = $equiposActivos->count();        // Número total de equipos activos
+        $totalUsuarios = Usuario::count();              // Número total de usuarios
+        $totalDirecciones = $direccionesActivos->count(); // Número total de direcciones activas
 
         // Estado funcional de los equipos
+        // Categoriza los equipos según su estado funcional
         $estadoFuncional = [
             'Operativo' => $equiposActivos->where('estado_funcional', 'Operativo')->count(),
             'Buen Funcionamiento' => $equiposActivos->where('estado_funcional', 'Buen Funcionamiento')->count(),
@@ -35,6 +50,7 @@ class DashboardController extends Controller
         ];
 
         // Estado tecnológico de los equipos
+        // Categoriza los equipos según su antigüedad o capacidad de actualización
         $estadoTecnologico = [
             'Nuevo' => $equiposActivos->where('estado_tecnologico', 'Nuevo')->count(),
             'Actualizable' => $equiposActivos->where('estado_tecnologico', 'Actualizable')->count(),
@@ -52,14 +68,15 @@ class DashboardController extends Controller
             'Dañado' => $gabinetesActivos->where('estado_gabinete', 'Dañado')->count(),
         ];
 
+        // Retornar la vista del dashboard con todos los datos
         return view('dashboard.index', compact(
-            'usuario',
-            'totalEquipos',
-            'totalUsuarios',
-            'totalDirecciones',
-            'estadoFuncional',
-            'estadoTecnologico',
-            'estadoGabinete'
+            'usuario',          // Usuario autenticado
+            'totalEquipos',     // Total de equipos activos
+            'totalUsuarios',    // Total de usuarios registrados
+            'totalDirecciones', // Total de direcciones activas
+            'estadoFuncional',  // Conteo de equipos según estado funcional
+            'estadoTecnologico', // Conteo de equipos según estado tecnológico
+            'estadoGabinete'    // Conteo de gabinetes según su estado
         ));
     }
 }

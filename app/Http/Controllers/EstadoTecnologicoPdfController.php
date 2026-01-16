@@ -5,23 +5,30 @@ namespace App\Http\Controllers;
 use App\Models\Equipo;
 use TCPDF;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class EstadoTecnologicoPdfController extends Controller
 {
+    /**
+     * Genera un PDF con el estado tecnológico de los equipos activos.
+     *
+     * @return void (descarga directa del PDF)
+     */
     public function generarPDF()
     {
         $anioActual = Carbon::now()->year;
 
-        // Obtener solo los equipos activos
+        // Obtener solo equipos activos
         $equipos = Equipo::where('estado', 'Activo')->get();
 
-        // Contar estado tecnológico
+        // Inicializar conteo de estado tecnológico
         $estadoTecnologico = [
             'Nuevo' => 0,
             'Actualizable' => 0,
             'Obsoleto' => 0,
         ];
 
+        // Contar equipos por estado tecnológico
         foreach ($equipos as $equipo) {
             if (!empty($equipo->estado_tecnologico)) {
                 $estadoTecnologico[$equipo->estado_tecnologico] = ($estadoTecnologico[$equipo->estado_tecnologico] ?? 0) + 1;
@@ -30,7 +37,7 @@ class EstadoTecnologicoPdfController extends Controller
             }
         }
 
-        // Crear PDF
+        // Inicializar TCPDF
         $pdf = new TCPDF('P', 'mm', 'A4', true, 'UTF-8', false);
         $pdf->SetCreator('Laravel TCPDF');
         $pdf->SetAuthor('Sistema de Inventario');
@@ -38,23 +45,26 @@ class EstadoTecnologicoPdfController extends Controller
         $pdf->setPrintHeader(false);
         $pdf->setPrintFooter(false);
         $pdf->AddPage();
+
         // --- AGREGAR IMAGEN DE ENCABEZADO ---
         if (file_exists(public_path('encabezado.jpeg'))) {
-            $pdf->SetAlpha(0.3);
+            $pdf->SetAlpha(0.3); // Opacidad baja para marca de agua
             $pdf->Image(public_path('encabezado.jpeg'), 0, 0, 210, 20, '', '', '', false, 300);
-            $pdf->SetAlpha(1);
+            $pdf->SetAlpha(1); // Restaurar opacidad
         }
 
-        // Dejar espacio debajo de la imagen para el contenido
+        // Espacio debajo de la imagen para el contenido
         $pdf->Ln(45);
 
         $fechaHora = date('d/m/Y h:i A');
 
+        // Encabezado principal del PDF
         $html = '<div style="background-color: #b91d47; color: white; line-height: 25px; font-size: 14px; font-weight: bold; text-align: center;">
             ESTADO TECNOLÓGICO DE EQUIPOS ACTIVOS
         </div>
         <div style="text-align: right; font-size: 9px; color: #444; margin-top: 2px;">Generado el: ' . $fechaHora . '</div><br><br>';
 
+        // Tabla resumen por estado tecnológico
         $html .= '<table border="1" cellpadding="6" cellspacing="0" style="border-collapse:collapse;">
         <thead>
             <tr style="background-color:#b91d47; color:#ffffff; font-weight:bold;">
@@ -73,13 +83,18 @@ class EstadoTecnologicoPdfController extends Controller
 
         $html .= '</tbody></table><br><br>';
 
-        // Listado de equipos por estado (solo activos)
+        // Detalle de equipos por estado tecnológico
         foreach ($estadoTecnologico as $estado => $count) {
             $equiposPorEstado = $equipos->where('estado_tecnologico', $estado);
-            if ($equiposPorEstado->isEmpty())
-                continue; // Saltar si no hay equipos activos en este estado
 
+            if ($equiposPorEstado->isEmpty()) {
+                continue; // Saltar si no hay equipos en ese estado
+            }
+
+            // Sub-encabezado por estado
             $html .= '<h4 style="background-color:#eee; padding:5px; border-left: 5px solid #b91d47;">&nbsp;' . e($estado) . ' (' . e($count) . ' equipos)</h4>';
+
+            // Tabla de detalle de equipos
             $html .= '<table border="1" cellpadding="4" cellspacing="0">
             <thead>
                 <tr style="background-color:#555; color:#ffffff;">
@@ -112,7 +127,7 @@ class EstadoTecnologicoPdfController extends Controller
             <tr>
                 <td style="width: 50%;">
                     _________________________________<br>
-                    <b>' . e(auth()->user()->usuario ?? 'N/A') . '</b><br>
+                    <b>' . e(Auth::user()->usuario ?? 'N/A') . '</b><br>
                     Técnico Div. soporte<br>
                     Hardware y Software
                 </td>
@@ -147,7 +162,10 @@ class EstadoTecnologicoPdfController extends Controller
             </tr>
         </table>';
 
+        // Escribir HTML en PDF
         $pdf->writeHTML($html, true, false, true, false, '');
+
+        // Salida del PDF al navegador
         $pdf->Output('estado_tecnologico_activos_' . $anioActual . '.pdf', 'I');
     }
 }

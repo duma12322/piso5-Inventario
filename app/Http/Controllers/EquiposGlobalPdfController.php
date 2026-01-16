@@ -8,12 +8,23 @@ use App\Models\ComponenteOpcional;
 use TCPDF;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class EquiposGlobalPdfController extends Controller
 {
+    /**
+     * Genera un PDF global de los equipos activos con sus componentes y opcionales.
+     * Permite filtrar por estado tecnológico y otros parámetros.
+     *
+     * @param string|null $estadoTecnologico Estado tecnológico opcional para filtrar (Nuevo, Actualizable, Obsoleto)
+     * @return void
+     */
     public function generarPDFGlobal($estadoTecnologico = null)
     {
+        // Año actual
         $anioActual = Carbon::now()->year;
+
+        // Obtener todos los filtros enviados por request
         $filtros = request()->all();
 
         // Equipos activos
@@ -22,11 +33,11 @@ class EquiposGlobalPdfController extends Controller
 
         $filtros = request()->all();
 
-        // 1. Crear query base
+        // Crear query base
         $query = Equipo::with(['direccion', 'division', 'coordinacion'])
             ->where('estado', 'Activo');
 
-        // 2. Filtro de búsqueda general (search)
+        // Filtro de búsqueda general (search)
         if (!empty($filtros['search'])) {
             $clean = preg_replace('/[^\wñÑáéíóúÁÉÍÓÚ ]+/u', ' ', $filtros['search']);
             $terms = array_filter(explode(' ', $clean));
@@ -47,7 +58,7 @@ class EquiposGlobalPdfController extends Controller
             });
         }
 
-        // 3. Filtros individuales
+        // Filtros individuales
         if (!empty($filtros['marca'])) {
             $query->where('marca', 'LIKE', "%{$filtros['marca']}%");
         }
@@ -67,19 +78,17 @@ class EquiposGlobalPdfController extends Controller
             $query->where('estado_funcional', $filtros['estado_funcional']);
         }
 
-        // 4. Filtrar por estadoTecnologico si se pasa como parámetro
+        // Filtrar por estadoTecnologico si se pasa como parámetro
         if ($estadoTecnologico) {
             $query->where('estado_tecnologico', $estadoTecnologico);
         }
 
-        // 5. Obtener resultados filtrados
+        // Obtener resultados filtrados
         $equipos = $query->get();
 
         if ($equipos->isEmpty()) {
             abort(404, 'No hay equipos activos para generar el PDF.');
         }
-
-
 
         if ($estadoTecnologico) {
             $query->where('estado_tecnologico', $estadoTecnologico);
@@ -266,7 +275,7 @@ class EquiposGlobalPdfController extends Controller
             <tr>
                 <td style="width: 50%;">
                     _________________________________<br>
-                    <b>' . e(auth()->user()->usuario ?? 'N/A') . '</b><br>
+                    <b>' . e(Auth::user()->usuario ?? 'N/A') . '</b><br>
                     Técnico Div. soporte<br>
                     Hardware y Software
                 </td>
@@ -301,7 +310,10 @@ class EquiposGlobalPdfController extends Controller
             </tr>
         </table>';
 
+        // Escribir HTML en PDF
         $pdf->writeHTML($html, true, false, true, false, '');
+
+        // Salida del PDF al navegador
         $pdf->Output('listado_equipos_activos_' . ($estadoTecnologico ?: 'todos') . '.pdf', 'I');
     }
 }

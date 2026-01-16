@@ -7,24 +7,47 @@ use App\Models\Software;
 use App\Models\Equipo;
 use Illuminate\Support\Facades\Auth;
 
+/**
+ * Controlador para manejar los Softwares.
+ *
+ * Proporciona funcionalidades CRUD (Crear, Leer, Actualizar, Eliminar)
+ * para los softwares asociados a los equipos de la organización, incluyendo:
+ * - Listado de software con sus equipos relacionados.
+ * - Creación y edición de registros de software.
+ * - Eliminación de software.
+ * - Registro de acciones en logs para auditoría.
+ */
 
 class SoftwareController extends Controller
 {
-    // Listar todos los softwares
+    /**
+     * Listar todos los softwares con sus equipos relacionados.
+     *
+     * @return \Illuminate\View\View
+     */
     public function index()
     {
         $software = Software::with('equipo')->get();
         return view('software.index', compact('software'));
     }
 
-    // Mostrar formulario para agregar software
+    /**
+     * Mostrar formulario para agregar un nuevo software.
+     *
+     * @return \Illuminate\View\View
+     */
     public function create()
     {
         $equipos = Equipo::all();
         return view('software.create', compact('equipos'));
     }
 
-    // Guardar nuevo software
+    /**
+     * Guardar un nuevo software en la base de datos.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function store(Request $request)
     {
         $request->validate([
@@ -48,7 +71,12 @@ class SoftwareController extends Controller
         return redirect()->route('software.index')->with('success', 'Software agregado correctamente.');
     }
 
-    // Mostrar formulario para editar software
+    /**
+     * Mostrar formulario para editar un software existente.
+     *
+     * @param int $id
+     * @return \Illuminate\View\View
+     */
     public function edit($id)
     {
         $software = Software::findOrFail($id);
@@ -56,7 +84,13 @@ class SoftwareController extends Controller
         return view('software.edit', compact('software', 'equipos'));
     }
 
-    // Actualizar software
+    /**
+     * Actualizar los datos de un software existente.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function update(Request $request, $id)
     {
         $software = Software::findOrFail($id);
@@ -82,7 +116,12 @@ class SoftwareController extends Controller
         return redirect()->route('software.index')->with('success', 'Software actualizado correctamente.');
     }
 
-    // Eliminar software
+    /**
+     * Eliminar un software de la base de datos.
+     *
+     * @param int $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function destroy($id)
     {
         $software = Software::findOrFail($id);

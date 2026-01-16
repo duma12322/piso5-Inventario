@@ -9,8 +9,24 @@ use App\Models\Division;
 use App\Models\Log as LogModel;
 use Illuminate\Support\Facades\Auth;
 
+/**
+ * Controlador para manejar las Coordinaciones.
+ *
+ * Proporciona funcionalidades CRUD (Crear, Leer, Actualizar, Eliminar)
+ * para las coordinaciones de la organización, incluyendo:
+ * - Listado de coordinaciones con búsqueda y paginación.
+ * - Creación y edición de coordinaciones.
+ * - Eliminación lógica (inactivación) de coordinaciones.
+ * - Registro de acciones en logs para auditoría.
+ */
 class CoordinacionController extends Controller
 {
+    /**
+     * Constructor del controlador.
+     *
+     * Aplica el middleware 'auth' a todas las rutas, protegiéndolas para
+     * que solo usuarios autenticados puedan acceder.
+     */
     public function __construct()
     {
         $this->middleware('auth'); // protege todas las rutas
@@ -18,6 +34,12 @@ class CoordinacionController extends Controller
 
     /**
      * Mostrar todas las coordinaciones activas con su división.
+     *
+     * @param Request $request
+     * @return \Illuminate\View\View
+     *
+     * Permite filtrar por nombre de coordinación o nombre de división
+     * mediante un campo 'search' en la solicitud.
      */
     public function index(Request $request)
     {
@@ -39,7 +61,13 @@ class CoordinacionController extends Controller
     }
 
     /**
-     * Obtener coordinaciones activas por división (AJAX)
+     * Obtener coordinaciones activas por división (AJAX).
+     *
+     * @param int $id_division
+     * @return \Illuminate\Http\Response
+     *
+     * Devuelve un listado de <option> para un select en la vista
+     * según la división seleccionada.
      */
     public function getByDivisionAjax($id_division)
     {
@@ -52,7 +80,9 @@ class CoordinacionController extends Controller
     }
 
     /**
-     * Mostrar formulario de creación.
+     * Mostrar formulario de creación de una coordinación.
+     *
+     * Trae todas las divisiones y direcciones activas para poblar selects.
      */
     public function create()
     {
@@ -61,9 +91,14 @@ class CoordinacionController extends Controller
         return view('coordinaciones.create', compact('divisiones', 'direcciones'));
     }
 
-
     /**
-     * Guardar nueva coordinación.
+     * Guardar nueva coordinación en la base de datos.
+     *
+     * Valida los campos necesarios antes de crear la coordinación.
+     * Registra la acción en la tabla de logs.
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(Request $request)
     {
@@ -99,20 +134,29 @@ class CoordinacionController extends Controller
     }
 
     /**
-     * Mostrar formulario de edición.
+     * Mostrar formulario de edición de una coordinación existente.
+     *
+     * @param int $id
+     * @return \Illuminate\View\View
      */
     public function edit($id)
     {
         $coordinacion = Coordinacion::with('division.direccion')->findOrFail($id);
         $divisiones = Division::with('direccion')->get();
-        $direcciones = \App\Models\Direccion::all();
+        $direcciones = Direccion::all();
 
         return view('coordinaciones.edit', compact('coordinacion', 'divisiones', 'direcciones'));
     }
 
-
     /**
-     * Actualizar coordinación.
+     * Actualizar coordinación existente.
+     *
+     * Valida los campos antes de actualizar.
+     * Registra la acción en la tabla de logs.
+     *
+     * @param Request $request
+     * @param int $id
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update(Request $request, $id)
     {
@@ -149,6 +193,12 @@ class CoordinacionController extends Controller
 
     /**
      * Eliminar coordinación (borrado lógico).
+     *
+     * Cambia el estado a 'Inactivo' en lugar de eliminar físicamente.
+     * Registra la acción en la tabla de logs.
+     *
+     * @param int $id
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy($id)
     {

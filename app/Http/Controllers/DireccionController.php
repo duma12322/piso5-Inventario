@@ -10,13 +10,22 @@ use Illuminate\Support\Facades\Auth;
 
 class DireccionController extends Controller
 {
+    /**
+     * Constructor del controlador.
+     * Aplica middleware 'auth' a todas las rutas para protegerlas
+     * y asegurarse de que solo usuarios autenticados puedan acceder.
+     */
     public function __construct()
     {
-        $this->middleware('auth'); // protege todas las rutas
+        $this->middleware('auth');
     }
 
     /**
      * Mostrar todas las direcciones activas.
+     * Permite buscar por nombre de dirección y paginar resultados.
+     *
+     * @param Request $request
+     * @return \Illuminate\View\View
      */
     public function index(Request $request)
     {
@@ -27,14 +36,17 @@ class DireccionController extends Controller
             $query->where('nombre_direccion', 'like', "%{$request->search}%");
         }
 
-        // Paginación 10 por página
+        // Paginación: 10 registros por página, ordenados alfabéticamente
         $direcciones = $query->orderBy('nombre_direccion', 'asc')->paginate(10)->withQueryString();
 
         return view('direcciones.index', compact('direcciones'));
     }
 
     /**
-     * Mostrar formulario de creación.
+     * Mostrar formulario de creación de nueva dirección.
+     * Trae todas las direcciones activas por si se necesitan referencias.
+     *
+     * @return \Illuminate\View\View
      */
     public function create()
     {
@@ -43,21 +55,29 @@ class DireccionController extends Controller
     }
 
     /**
-     * Guardar una nueva dirección.
+     * Guardar una nueva dirección en la base de datos.
+     * Valida el nombre y registra un log de la acción.
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(Request $request)
     {
+        // Validación de campos requeridos
         $request->validate([
             'nombre_direccion' => 'required|string|max:255',
         ]);
 
+        // Crear la dirección
         $direccion = Direccion::create([
             'nombre_direccion' => $request->nombre_direccion,
             'estado' => 'Activo'
         ]);
 
+        // Obtener usuario actual o 'Sistema' si no está autenticado
         $usuario = Auth::check() ? Auth::user()->name ?? Auth::user()->usuario : 'Sistema';
 
+        // Guardar log de acción
         try {
             LogModel::create([
                 'usuario' => $usuario,
@@ -66,6 +86,7 @@ class DireccionController extends Controller
                 'fecha' => now()
             ]);
         } catch (\Exception $e) {
+            // Registrar error si falla el guardado del log
             \Illuminate\Support\Facades\Log::error('Error guardando log: ' . $e->getMessage());
         }
 
@@ -74,7 +95,10 @@ class DireccionController extends Controller
     }
 
     /**
-     * Mostrar formulario de edición.
+     * Mostrar formulario de edición para una dirección existente.
+     *
+     * @param Direccion $direccion
+     * @return \Illuminate\View\View
      */
     public function edit(Direccion $direccion)
     {
@@ -82,20 +106,28 @@ class DireccionController extends Controller
     }
 
     /**
-     * Actualizar una dirección.
+     * Actualizar la información de una dirección existente.
+     * Valida los campos requeridos y registra un log de la acción.
+     *
+     * @param Request $request
+     * @param Direccion $direccion
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update(Request $request, Direccion $direccion)
     {
+        // Validación de campos
         $request->validate([
             'nombre_direccion' => 'required|string|max:255',
         ]);
 
+        // Actualizar la dirección
         $direccion->update([
             'nombre_direccion' => $request->nombre_direccion
         ]);
 
         $usuario = Auth::check() ? Auth::user()->name ?? Auth::user()->usuario : 'Sistema';
 
+        // Guardar log de acción
         try {
             LogModel::create([
                 'usuario' => $usuario,
@@ -112,7 +144,11 @@ class DireccionController extends Controller
     }
 
     /**
-     * Eliminar una dirección (lógico).
+     * Eliminar una dirección (borrado lógico).
+     * Cambia el estado a 'Inactivo' y registra un log de la acción.
+     *
+     * @param Direccion $direccion
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(Direccion $direccion)
     {
@@ -121,6 +157,7 @@ class DireccionController extends Controller
 
         $usuario = Auth::check() ? Auth::user()->name ?? Auth::user()->usuario : 'Sistema';
 
+        // Guardar log de acción
         try {
             LogModel::create([
                 'usuario' => $usuario,

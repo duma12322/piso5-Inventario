@@ -5,9 +5,15 @@ namespace App\Http\Controllers;
 use App\Models\Equipo;
 use TCPDF;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class EstadoGabinetePdfController extends Controller
 {
+    /**
+     * Genera un PDF con el estado físico de los gabinetes de los equipos activos.
+     *
+     * @return void (descarga directa del PDF)
+     */
     public function generarPDF()
     {
         $anioActual = Carbon::now()->year;
@@ -44,6 +50,7 @@ class EstadoGabinetePdfController extends Controller
         $pdf->setPrintHeader(false);
         $pdf->setPrintFooter(false);
         $pdf->AddPage();
+
         // --- AGREGAR IMAGEN DE ENCABEZADO ---
         if (file_exists(public_path('encabezado.jpeg'))) {
             $pdf->SetAlpha(0.3);
@@ -51,18 +58,18 @@ class EstadoGabinetePdfController extends Controller
             $pdf->SetAlpha(1);
         }
 
-        // Dejar espacio debajo de la imagen para el contenido
-        // Dejar espacio debajo de la imagen para el contenido
+        // Espacio debajo de la imagen para el contenido
         $pdf->Ln(45);
 
         $fechaHora = date('d/m/Y h:i A');
 
+        // Encabezado principal del PDF
         $html = '<div style="background-color: #b91d47; color: white; line-height: 25px; font-size: 14px; font-weight: bold; text-align: center;">
             ESTADO FÍSICO DE GABINETES ACTIVOS
         </div>
         <div style="text-align: right; font-size: 9px; color: #444; margin-top: 2px;">Generado el: ' . $fechaHora . '</div><br><br>';
 
-        // Tabla resumen por estado
+        // Tabla resumen por estado de gabinete
         $html .= '<table border="1" cellpadding="6" cellspacing="0" style="border-collapse:collapse;">
             <thead>
                 <tr style="background-color:#b91d47; color:#ffffff; font-weight:bold;">
@@ -83,14 +90,17 @@ class EstadoGabinetePdfController extends Controller
 
         $html .= '</tbody></table><br><br>';
 
-        // Detalle de equipos por estado
+        // Detalle de equipos por estado de gabinete
         foreach ($estadoGabineteCount as $estado => $count) {
             $equiposPorEstado = $equipos->where('estado_gabinete', $estado);
 
             if ($equiposPorEstado->isEmpty())
                 continue; // Saltar si no hay equipos activos
 
+            // Sub-encabezado por estado
             $html .= '<h4 style="background-color:#eee; padding:5px; border-left: 5px solid #b91d47;">&nbsp;' . e($estado) . ' (' . e($count) . ' equipos)</h4>';
+
+            // Tabla de detalle de equipos
             $html .= '<table border="1" cellpadding="4" cellspacing="0">
                 <thead>
                     <tr style="background-color:#555; color:#ffffff;">
@@ -123,7 +133,7 @@ class EstadoGabinetePdfController extends Controller
             <tr>
                 <td style="width: 50%;">
                     _________________________________<br>
-                    <b>' . e(auth()->user()->usuario ?? 'N/A') . '</b><br>
+                    <b>' . e(Auth::user()->usuario ?? 'N/A') . '</b><br>
                     Técnico Div. soporte<br>
                     Hardware y Software
                 </td>
@@ -158,7 +168,10 @@ class EstadoGabinetePdfController extends Controller
             </tr>
         </table>';
 
+        // Escribir HTML en PDF
         $pdf->writeHTML($html, true, false, true, false, '');
+
+        // Salida del PDF al navegador
         $pdf->Output('estado_gabinete_activos_' . $anioActual . '.pdf', 'I');
     }
 }

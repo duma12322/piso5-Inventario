@@ -10,6 +10,14 @@ use TCPDF;
 
 class PdfInactivosController extends Controller
 {
+    /**
+     * Genera un PDF con los equipos que tienen componentes u opcionales inactivos.
+     *
+     * Aplica filtros por dirección, división y coordinación.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return mixed PDF descargable o visualizable
+     */
     public function exportar(Request $request)
     {
         $idDireccion = $request->id_direccion;
@@ -19,7 +27,6 @@ class PdfInactivosController extends Controller
         // ---------------------------------------------------------
         // VALIDACIONES DE SENTIDO LÓGICO
         // ---------------------------------------------------------
-
         if (!$idDireccion && $idDivision) {
             return back()->with('error', 'Debe seleccionar primero la Dirección.');
         }
@@ -37,7 +44,7 @@ class PdfInactivosController extends Controller
         // ---------------------------------------------------------
         $query = Equipo::where('estado', 'Activo'); // 🔹 Solo equipos activos
 
-        // Aplicar filtros
+        // Aplicar filtros si están presentes
         if ($request->filled('id_direccion')) {
             $query->where('id_direccion', $request->id_direccion);
         }
@@ -48,10 +55,12 @@ class PdfInactivosController extends Controller
             $query->where('id_coordinacion', $request->id_coordinacion);
         }
 
+        // Obtener los equipos filtrados
         $equipos = $query->get();
 
-        // Agregar componentes y opcionales inactivos
+        // Transformar cada equipo para agregar componentes y opcionales inactivos
         $equipos->transform(function ($equipo) {
+            // Componentes inactivos (estado o estadoElim)
             $equipo->componentes_inactivos = Componente::where('id_equipo', $equipo->id_equipo)
                 ->where(function ($q) {
                     $q->where('estado', 'Inactivo')
@@ -59,6 +68,7 @@ class PdfInactivosController extends Controller
                 })
                 ->get();
 
+            // Componentes opcionales inactivos
             $equipo->opcionales_inactivos = ComponenteOpcional::where('id_equipo', $equipo->id_equipo)
                 ->where('estadoElim', 'Inactivo')
                 ->get();
@@ -67,7 +77,7 @@ class PdfInactivosController extends Controller
         });
 
         // ---------------------------------------------------------
-        // PDF TCPDF
+        // CONFIGURACIÓN PDF TCPDF
         // ---------------------------------------------------------
         $pdf = new TCPDF('L', 'mm', 'A4', true, 'UTF-8', false);
         $pdf->SetTitle('Equipos con Componentes Inactivos');
@@ -76,15 +86,17 @@ class PdfInactivosController extends Controller
         $pdf->setPrintFooter(false);
         $pdf->AddPage();
 
-        // Insertar imagen de encabezado
+        // Insertar imagen de encabezado si existe
         $imagePath = public_path('encabezado.jpeg');
         if (file_exists($imagePath)) {
             $pdf->Image($imagePath, 0, 0, 297, 27, 'JPEG', '', 'T', false, 300, '', false, false, 0, false, false, false);
-            $pdf->Ln(30);
+            $pdf->Ln(30); // espacio debajo de la imagen
         }
 
+        // Título del PDF
         $html = '<h2>Equipos con Componentes Inactivos</h2>';
 
+        // Tabla de equipos con componentes inactivos
         $html .= '<table border="1" cellpadding="5">
                     <thead>
                         <tr bgcolor="#cccccc">
@@ -98,22 +110,25 @@ class PdfInactivosController extends Controller
                     </thead>
                     <tbody>';
 
+        // Recorrer equipos y agregar filas a la tabla
         foreach ($equipos as $e) {
-
             $comp = '';
 
+            // Listar componentes inactivos
             foreach ($e->componentes_inactivos as $c) {
                 $comp .= "{$c->tipo_componente} ({$c->marca}) - Inactivo<br>";
             }
 
+            // Listar componentes opcionales inactivos
             foreach ($e->opcionales_inactivos as $o) {
                 $comp .= "{$o->tipo_opcional} ({$o->marca} {$o->modelo}) - Inactivo<br>";
             }
 
             if ($comp === '') {
-                $comp = '—';
+                $comp = '—'; // Si no hay inactivos
             }
 
+            // Construir fila de la tabla
             $html .= '<tr>';
             $html .= '<td>' . ($e->numero_bien ?? 'S/I') . '</td>';
             $html .= '<td>' . $e->marca . ' ' . $e->modelo . '</td>';
@@ -126,7 +141,8 @@ class PdfInactivosController extends Controller
 
         $html .= '</tbody></table>';
 
+        // Generar el PDF
         $pdf->writeHTML($html);
-        return $pdf->Output('equipos_inactivos.pdf', 'I');
+        return $pdf->Output('equipos_inactivos.pdf', 'I'); // I = mostrar en navegador
     }
 }
