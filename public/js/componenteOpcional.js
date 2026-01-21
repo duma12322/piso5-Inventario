@@ -1,4 +1,8 @@
+// ======================================================
+// Función para mostrar u ocultar secciones según el tipo
+// ======================================================
 function mostrarCampos(tipo) {
+  // Array con los IDs de todas las secciones posibles
   const secciones = [
     "tarjeta_madre_campos",
     "memoria_ram_campos",
@@ -7,16 +11,19 @@ function mostrarCampos(tipo) {
     "tarjeta_grafica_campos",
     "tarjeta_red_campos",
     "fan_cooler_campos",
-    "tarjeta_sonido_campos",
+    "tarjeta_sonido_campos"
   ];
 
+  // Ocultar todas las secciones antes de mostrar la correcta
   secciones.forEach(id => {
     const elem = document.getElementById(id);
-    if (elem) elem.style.display = "none";
+    if (elem) elem.style.display = "none"; // Oculta la sección si existe
   });
 
+  // Convertir el tipo a minúsculas para comparaciones seguras
   const tipoNormalizado = tipo.toLowerCase();
 
+  // Mostrar la sección correspondiente según el tipo seleccionado
   if (tipoNormalizado.includes("madre")) {
     document.getElementById("tarjeta_madre_campos").style.display = "block";
   } else if (tipoNormalizado.includes("ram")) {
@@ -39,11 +46,16 @@ function mostrarCampos(tipo) {
   }
 }
 
+// ======================================================
+// Código que se ejecuta al cargar la página
+// ======================================================
 document.addEventListener("DOMContentLoaded", () => {
+  // Tomar el valor inicial del select al cargar la página
   const tipoSeleccionado = document.getElementById("tipo_opcional").value;
-  mostrarCampos(tipoSeleccionado);
+  mostrarCampos(tipoSeleccionado); // Mostrar la sección correspondiente
 
+  // Escuchar cambios en el select
   document.getElementById("tipo_opcional").addEventListener("change", e => {
-    mostrarCampos(e.target.value);
+    mostrarCampos(e.target.value); // Actualizar la sección al cambiar
   });
 });

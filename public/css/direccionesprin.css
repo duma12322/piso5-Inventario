@@ -1,316 +1,383 @@
-/* Variables CSS */
+/* direccionesprin.css - Estilos generales para formulario */
+
+/* ======================================================
+   variables-direcciones.css - Variables, animaciones y
+   estilos generales para la sección de direcciones
+   ====================================================== */
+
+/* ==============================
+   Variables CSS
+   ============================== */
 :root {
-    --primary-color: #da0606;
-    --primary-hover: #9b0505;
-    --secondary-color: #b70909;
-    --success-color: #0cce3c;
-    --danger-color: #ec0808;
-    --warning-color: #f8e008;
-    --info-color: #a00c0c;
-    --color-editar: #0854f8;
-    --dark-color: #1f0000;
-    --light-color: #f9fcf8;
-    --gray-100: #f1f5f9;
-    --gray-200: #e2e8f0;
-    --gray-300: #cbd5e1;
-    --gray-400: #94a3b8;
-    --gray-500: #64748b;
-    --gray-600: #0068fa;
-    --border-radius: 12px;
-    --box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-    --box-shadow-lg: 0 20px 40px rgba(0, 0, 0, 0.15);
-    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  /* Colores principales */
+  --primary-color: #da0606;
+  --primary-hover: #9b0505;
+  --secondary-color: #b70909;
+
+  /* Colores de estado */
+  --success-color: #0cce3c;
+  --danger-color: #ec0808;
+  --warning-color: #f8e008;
+  --info-color: #a00c0c;
+  --color-editar: #0854f8;
+
+  /* Colores base */
+  --dark-color: #1f0000;
+  --light-color: #f9fcf8;
+  --gray-100: #f1f5f9;
+  --gray-200: #e2e8f0;
+  --gray-300: #cbd5e1;
+  --gray-400: #94a3b8;
+  --gray-500: #64748b;
+  --gray-600: #0068fa;
+
+  /* Bordes y sombras */
+  --border-radius: 12px;
+  --box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  --box-shadow-lg: 0 20px 40px rgba(0, 0, 0, 0.15);
+
+  /* Transiciones */
+  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Animaciones */
+/* ==============================
+   Animaciones
+   ============================== */
+
+/* Fade In: aparición desde abajo */
 @keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
+/* Slide In: entrada lateral */
 @keyframes slideIn {
-    from {
-        transform: translateX(-20px);
-        opacity: 0;
-    }
-    to {
-        transform: translateX(0);
-        opacity: 1;
-    }
+  from {
+    transform: translateX(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
 }
 
+/* Pulse: efecto de latido */
 @keyframes pulse {
-    0%,
-    100% {
-        transform: scale(1);
-    }
-    50% {
-        transform: scale(1.5);
-    }
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.5);
+  }
 }
 
+/* Float: movimiento vertical suave */
 @keyframes float {
-    0%,
-    100% {
-        transform: translateY(0px);
-    }
-    50% {
-        transform: translateY(-10px);
-    }
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
 }
 
-/* Estilos Generales */
+/* ==============================
+   Estilos Generales del contenedor
+   ============================== */
 .direcciones-container {
-    padding: 30px;
-    max-width: 1400px;
-    margin: 0 auto;
-    background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
-    min-height: 100vh;
+  padding: 30px; /* Espaciado interno */
+  max-width: 1400px;
+  margin: 0 auto; /* Centrado horizontal */
+  background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+  min-height: 100vh; /* Ocupa toda la pantalla */
 }
 
-/* Header */
+/* ==============================
+   Header de la sección
+   ============================== */
 .direcciones-header {
-    background: linear-gradient(
-        135deg,
-        var(--primary-color) 0%,
-        var(--secondary-color) 100%
-    );
-    border-radius: var(--border-radius);
-    padding: 30px;
-    margin-bottom: 30px;
-    color: white;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    box-shadow: var(--box-shadow);
-    animation: fadeIn 0.6s ease-out;
+  background: linear-gradient(
+    135deg,
+    var(--primary-color) 0%,
+    var(--secondary-color) 100%
+  );
+  border-radius: var(--border-radius);
+  padding: 30px;
+  margin-bottom: 30px;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: var(--box-shadow);
+  animation: fadeIn 0.6s ease-out;
 }
 
+/* Contenido interno del header */
 .header-content {
-    display: flex;
-    align-items: center;
-    gap: 20px;
+  display: flex;
+  align-items: center;
+  gap: 20px; /* Espacio entre icono y texto */
 }
 
+/* Icono del header con animación de pulse */
 .header-icon {
-    width: 60px;
-    height: 60px;
-    background: rgba(255, 255, 255, 0.2);
-    border-radius: 15px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 28px;
-    animation: pulse 2s infinite;
+  width: 60px;
+  height: 60px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  animation: pulse 2s infinite;
 }
 
+/* Texto principal del header */
 .header-text h1 {
-    font-size: 32px;
-    font-weight: 700;
-    margin: 0;
-    text-shadow: 2px 2px 4px rgba(230, 6, 6, 0.2);
+  font-size: 32px;
+  font-weight: 700;
+  margin: 0;
+  text-shadow: 2px 2px 4px rgba(230, 6, 6, 0.2);
 }
 
 .header-text p {
-    opacity: 0.9;
-    margin: 5px 0 0 0;
-    font-size: 16px;
+  opacity: 0.9;
+  margin: 5px 0 0 0;
+  font-size: 16px;
 }
 
-/* Botón Agregar */
+/* ==============================
+   Botón Agregar (Add)
+   ============================== */
 .btn-add {
-    background: rgba(255, 255, 255, 0.2);
-    color: white;
-    padding: 12px 24px;
-    border-radius: 50px;
-    text-decoration: none;
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    font-weight: 600;
-    transition: var(--transition);
-    border: 2px solid rgba(255, 255, 255, 0.3);
-    backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  padding: 12px 24px;
+  border-radius: 50px;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 600;
+  transition: var(--transition);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(10px);
 }
 
 .btn-add:hover {
-    background: rgba(255, 255, 255, 0.3);
-    transform: translateY(-2px);
-    color: white;
-    text-decoration: none;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  background: rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
+  color: white;
+  text-decoration: none;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
 }
 
-/* Estadísticas */
+/* ======================================================
+   estadisticas-direcciones.css - Estadísticas y tabla
+   ====================================================== */
+
+/* ==============================
+   Contenedor de estadísticas
+   ============================== */
 .stats-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 20px;
-    margin-bottom: 30px;
+  display: grid;
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(250px, 1fr)
+  ); /* Columnas adaptables */
+  gap: 20px; /* Espacio entre tarjetas */
+  margin-bottom: 30px;
 }
 
+/* ==============================
+   Tarjeta de estadística individual
+   ============================== */
 .stat-card {
-    background: white;
-    border-radius: var(--border-radius);
-    padding: 25px;
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    box-shadow: var(--box-shadow);
-    transition: var(--transition);
-    animation: slideIn 0.5s ease-out;
+  background: white; /* Fondo blanco */
+  border-radius: var(--border-radius); /* Bordes redondeados */
+  padding: 25px; /* Espaciado interno */
+  display: flex; /* Flexbox para alinear icono y contenido */
+  align-items: center;
+  gap: 20px; /* Separación entre icono y contenido */
+  box-shadow: var(--box-shadow); /* Sombra estándar */
+  transition: var(--transition); /* Transición suave para hover */
+  animation: slideIn 0.5s ease-out; /* Animación de entrada lateral */
 }
 
 .stat-card:hover {
-    transform: translateY(-5px);
-    box-shadow: var(--box-shadow-lg);
+  transform: translateY(-5px); /* Elevación al pasar el cursor */
+  box-shadow: var(--box-shadow-lg); /* Sombra más grande */
 }
 
+/* Icono de la tarjeta */
 .stat-icon {
-    width: 60px;
-    height: 60px;
-    background: linear-gradient(
-        135deg,
-        var(--primary-color) 0%,
-        var(--info-color) 100%
-    );
-    border-radius: 15px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 24px;
-    color: white;
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(
+    135deg,
+    var(--primary-color) 0%,
+    var(--info-color) 100%
+  ); /* Gradiente dinámico */
+  border-radius: 15px; /* Bordes ligeramente redondeados */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  color: white;
 }
 
+/* Contenido de la tarjeta */
 .stat-content h3 {
-    font-size: 32px;
-    font-weight: 700;
-    color: var(--dark-color);
-    margin: 0;
+  font-size: 32px; /* Tamaño destacado para el valor */
+  font-weight: 700;
+  color: var(--dark-color);
+  margin: 0;
 }
 
 .stat-content p {
-    color: var(--gray-500);
-    margin: 5px 0 0 0;
-    font-size: 14px;
+  color: var(--gray-500); /* Texto secundario */
+  margin: 5px 0 0 0;
+  font-size: 14px;
 }
 
-/* Contenedor de Tabla */
+/* ==============================
+   Contenedor de tabla
+   ============================== */
 .table-container {
-    background: white;
-    border-radius: var(--border-radius);
-    overflow: hidden;
-    box-shadow: var(--box-shadow);
-    animation: fadeIn 0.6s ease-out;
+  background: white;
+  border-radius: var(--border-radius);
+  overflow: hidden; /* Oculta bordes redondeados de contenido extra */
+  box-shadow: var(--box-shadow);
+  animation: fadeIn 0.6s ease-out; /* Aparición gradual */
 }
 
-/* Tabla */
+/* ==============================
+   Tabla de direcciones
+   ============================== */
 .direcciones-table {
-    width: 100%;
-    border-collapse: collapse;
+  width: 100%;
+  border-collapse: collapse; /* Sin espacios entre celdas */
 }
 
+/* Encabezado de la tabla */
 .direcciones-table thead {
-    background: linear-gradient(
-        135deg,
-        var(--primary-color) 0%,
-        var(--secondary-color) 100%
-    );
+  background: linear-gradient(
+    135deg,
+    var(--primary-color) 0%,
+    var(--secondary-color) 100%
+  ); /* Gradiente para el header */
 }
 
 .direcciones-table thead th {
-    color: white;
-    font-weight: 600;
-    padding: 20px;
-    text-align: left;
-    border: none;
-    position: sticky;
-    top: 0;
-    z-index: 10;
+  color: white;
+  font-weight: 600;
+  padding: 20px;
+  text-align: left;
+  border: none;
+  position: sticky; /* Encabezado fijo al hacer scroll */
+  top: 0;
+  z-index: 10;
 }
 
+/* Bordes redondeados de las esquinas del encabezado */
 .direcciones-table thead th:first-child {
-    border-radius: var(--border-radius) 0 0 0;
+  border-radius: var(--border-radius) 0 0 0;
 }
 
 .direcciones-table thead th:last-child {
-    border-radius: 0 var(--border-radius) 0 0;
+  border-radius: 0 var(--border-radius) 0 0;
 }
 
+/* Filas del cuerpo de la tabla */
 .direcciones-table tbody tr {
-    border-bottom: 1px solid var(--gray-400);
-    transition: var(--transition);
+  border-bottom: 1px solid var(--gray-400); /* Línea separadora */
+  transition: var(--transition);
 }
 
 .direcciones-table tbody tr:hover {
-    background-color: var(--gray-100);
-    transform: scale(1.002);
+  background-color: var(--gray-100); /* Resalta al pasar el cursor */
+  transform: scale(1.002); /* Ligera animación de enfoque */
 }
 
 .direcciones-table tbody tr:last-child {
-    border-bottom: none;
+  border-bottom: none; /* Última fila sin borde inferior */
 }
 
+/* Celdas de la tabla */
 .direcciones-table tbody td {
-    padding: 20px;
-    vertical-align: middle;
+  padding: 20px;
+  vertical-align: middle; /* Centrado vertical del contenido */
 }
 
-/* Badge ID */
+/* ======================================================
+   badge-direccion.css - Estilos para Badge y dirección
+   ====================================================== */
+
+/* ==============================
+   Badge de ID
+   ============================== */
 .badge-id {
-    background: var(--danger-color);
-    color: var(--light-color);
-    padding: 8px 16px;
-    border-radius: 20px;
-    font-weight: 600;
-    font-size: 14px;
-    display: inline-block;
-    min-width: 50px;
-    text-align: center;
+  background: var(--danger-color); /* Fondo rojo */
+  color: var(--light-color); /* Texto blanco */
+  padding: 8px 16px; /* Espaciado interno */
+  border-radius: 20px; /* Bordes redondeados tipo píldora */
+  font-weight: 600; /* Negrita */
+  font-size: 14px; /* Tamaño del texto */
+  display: inline-block; /* Para poder aplicar padding correctamente */
+  min-width: 50px; /* Ancho mínimo */
+  text-align: center; /* Centrado del texto */
 }
 
-/* Información de Dirección */
+/* ==============================
+   Contenedor de información de dirección
+   ============================== */
 .direccion-info {
-    display: flex;
-    align-items: center;
-    gap: 15px;
+  display: flex; /* Flexbox para icono y detalles */
+  align-items: center; /* Centrado vertical */
+  gap: 15px; /* Separación entre icono y detalles */
 }
 
+/* Icono de la dirección */
 .direccion-icon {
-    width: 50px;
-    height: 50px;
-    background: linear-gradient(
-        135deg,
-        var(--primary-color) 0%,
-        var(--info-color) 100%
-    );
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    font-size: 18px;
-    flex-shrink: 0;
+  width: 50px;
+  height: 50px;
+  background: linear-gradient(
+    135deg,
+    var(--primary-color) 0%,
+    var(--info-color) 100%
+  ); /* Gradiente para el icono */
+  border-radius: 12px; /* Bordes redondeados */
+  display: flex;
+  align-items: center;
+  justify-content: center; /* Centrado del contenido */
+  color: white; /* Color del icono */
+  font-size: 18px; /* Tamaño del icono */
+  flex-shrink: 0; /* Evita que el icono se reduzca */
 }
 
+/* Detalles de la dirección */
 .direccion-details strong {
-    font-size: 16px;
-    color: var(--dark-color);
-    display: block;
-    margin-bottom: 5px;
+  font-size: 16px; /* Texto destacado */
+  color: var(--dark-color); /* Color principal */
+  display: block;
+  margin-bottom: 5px; /* Separación debajo del título */
 }
 
+/* Descripción de la dirección */
 .direccion-description {
-    font-size: 13px;
-    color: var(--gray-500);
-    margin: 0;
-    line-height: 1.4;
+  font-size: 13px; /* Texto más pequeño */
+  color: var(--gray-500); /* Color secundario */
+  margin: 0;
+  line-height: 1.4; /* Espaciado de línea */
 }
 
 /*  Badges de Estado
@@ -334,95 +401,112 @@
     border: 1px solid rgba(244, 63, 94, 0.3);
 }  */
 
-/* Acciones */
+/* ======================================================
+   acciones-direccion.css - Estilos para botones de acción
+   ====================================================== */
+
+/* ==============================
+   Contenedor de acciones
+   ============================== */
 .acciones {
-    min-width: 150px;
+  min-width: 150px; /* Ancho mínimo para contener los botones */
 }
 
+/* Grupo de botones */
 .btn-group {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
+  display: flex; /* Flexbox para alinear los botones */
+  justify-content: center; /* Centrado horizontal */
+  gap: 10px; /* Espaciado entre botones */
 }
 
+/* Botones de acción generales */
 .btn-action {
-    width: 40px;
-    height: 40px;
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: none;
-    cursor: pointer;
-    transition: var(--transition);
-    color: white;
-    font-size: 16px;
+  width: 40px; /* Tamaño cuadrado */
+  height: 40px;
+  border-radius: 10px; /* Bordes redondeados */
+  display: flex;
+  align-items: center;
+  justify-content: center; /* Centrado del icono dentro del botón */
+  border: none; /* Sin borde */
+  cursor: pointer; /* Cursor pointer */
+  transition: var(--transition); /* Transición suave */
+  color: white; /* Color del icono/texto */
+  font-size: 16px; /* Tamaño del icono */
 }
 
+/* ==============================
+   Botón de editar
+   ============================== */
 .btn-edit {
-    background: var(--color-editar);
+  background: var(--color-editar); /* Color azul definido en variables */
 }
 
 .btn-edit:hover {
-    background: #0c94d8;
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(14, 165, 233, 0.3);
+  background: #0c94d8; /* Cambio de color al pasar el mouse */
+  transform: translateY(-2px); /* Levanta el botón ligeramente */
+  box-shadow: 0 5px 15px rgba(14, 165, 233, 0.3); /* Sombra suave */
 }
 
+/* ==============================
+   Botón de eliminar
+   ============================== */
 .btn-delete {
-    background: var(--danger-color);
+  background: var(--danger-color); /* Color rojo definido en variables */
 }
 
 .btn-delete:hover {
-    background: #c90202;
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(244, 63, 94, 0.3);
+  background: #c90202; /* Cambio de color al pasar el mouse */
+  transform: translateY(-2px); /* Levanta el botón */
+  box-shadow: 0 5px 15px rgba(244, 63, 94, 0.3); /* Sombra roja suave */
 }
 
-/* Estado Vacío */
+/* ==============================
+   Estado vacío (cuando no hay datos)
+   ============================== */
 .empty-state {
-    text-align: center;
-    padding: 60px 20px;
+  text-align: center; /* Centrado de contenido */
+  padding: 60px 20px; /* Espaciado vertical y horizontal */
 }
 
 .empty-icon {
-    font-size: 60px;
-    color: var(--gray-300);
-    margin-bottom: 20px;
-    animation: float 3s ease-in-out infinite;
+  font-size: 60px; /* Tamaño grande para icono */
+  color: var(--gray-300); /* Color gris tenue */
+  margin-bottom: 20px; /* Separación debajo del icono */
+  animation: float 3s ease-in-out infinite; /* Animación flotante */
 }
 
 .empty-state h4 {
-    color: var(--gray-600);
-    font-weight: 600;
-    margin-bottom: 10px;
+  color: var(--gray-600); /* Color del título */
+  font-weight: 600; /* Negrita */
+  margin-bottom: 10px; /* Separación debajo del título */
 }
 
 .empty-state p {
-    color: var(--gray-500);
-    margin-bottom: 30px;
+  color: var(--gray-500); /* Color del texto secundario */
+  margin-bottom: 30px; /* Separación debajo del párrafo */
 }
 
+/* Botón para agregar desde estado vacío */
 .btn-add-empty {
-    background: var(--primary-color);
-    color: white;
-    padding: 12px 24px;
-    border-radius: 50px;
-    text-decoration: none;
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    font-weight: 600;
-    transition: var(--transition);
-    border: none;
+  background: var(--primary-color); /* Color principal */
+  color: white; /* Texto blanco */
+  padding: 12px 24px; /* Espaciado interno */
+  border-radius: 50px; /* Bordes tipo píldora */
+  text-decoration: none; /* Sin subrayado */
+  display: inline-flex; /* Para centrar iconos y texto */
+  align-items: center;
+  gap: 10px; /* Espaciado entre icono y texto */
+  font-weight: 600; /* Negrita */
+  transition: var(--transition); /* Transición suave */
+  border: none; /* Sin borde */
 }
 
 .btn-add-empty:hover {
-    background: var(--primary-hover);
-    transform: translateY(-2px);
-    color: white;
-    text-decoration: none;
-    box-shadow: 0 10px 20px rgba(67, 97, 238, 0.3);
+  background: var(--primary-hover); /* Cambio de color al pasar el mouse */
+  transform: translateY(-2px); /* Levanta el botón */
+  color: white;
+  text-decoration: none;
+  box-shadow: 0 10px 20px rgba(67, 97, 238, 0.3); /* Sombra suave */
 }
 
 /* Paginación */
@@ -460,271 +544,339 @@
 }
 */
 
-/* Modal */
+/* ======================================================
+   modal-direccion.css - Estilos para modales de alerta
+   ====================================================== */
+
+/* ==============================
+   Contenedor del modal
+   ============================== */
 .modal {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    z-index: 1000;
-    align-items: center;
-    justify-content: center;
-    animation: fadeIn 0.3s ease-out;
-    backdrop-filter: blur(5px);
+  display: none; /* Oculto por defecto */
+  position: fixed; /* Fijo en la pantalla */
+  top: 0;
+  left: 0;
+  width: 100%; /* Ocupa todo el ancho */
+  height: 100%; /* Ocupa todo el alto */
+  background: rgba(0, 0, 0, 0.5); /* Fondo semitransparente */
+  z-index: 1000; /* Por encima de otros elementos */
+  align-items: center; /* Centrado vertical */
+  justify-content: center; /* Centrado horizontal */
+  animation: fadeIn 0.3s ease-out; /* Animación de aparición */
+  backdrop-filter: blur(5px); /* Difumina el fondo detrás del modal */
 }
 
+/* ==============================
+   Contenido del modal
+   ============================== */
 .modal-content {
-    background: white;
-    border-radius: var(--border-radius);
-    max-width: 500px;
-    width: 90%;
-    overflow: hidden;
-    box-shadow: var(--box-shadow-lg);
-    animation: slideIn 0.3s ease-out;
+  background: white; /* Fondo blanco */
+  border-radius: var(--border-radius); /* Bordes redondeados */
+  max-width: 500px; /* Ancho máximo */
+  width: 90%; /* Ancho adaptable */
+  overflow: hidden; /* Evita desbordes */
+  box-shadow: var(--box-shadow-lg); /* Sombra destacada */
+  animation: slideIn 0.3s ease-out; /* Animación de entrada */
 }
 
+/* ==============================
+   Header del modal
+   ============================== */
 .modal-header {
-    background: linear-gradient(135deg, var(--danger-color) 0%, #e33555 100%);
-    color: white;
-    padding: 20px;
-    display: flex;
-    align-items: center;
-    gap: 15px;
+  background: linear-gradient(135deg, var(--danger-color) 0%, #e33555 100%);
+  color: white;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
 }
 
 .modal-header h3 {
-    margin: 0;
-    font-size: 20px;
+  margin: 0; /* Elimina margen por defecto */
+  font-size: 20px; /* Tamaño del título */
 }
 
+/* ==============================
+   Body del modal
+   ============================== */
 .modal-body {
-    padding: 30px;
-    color: var(--gray-600);
+  padding: 30px; /* Espaciado interno */
+  color: var(--gray-600); /* Color de texto */
 }
 
 .modal-body p {
-    margin: 0 0 15px 0;
-    line-height: 1.6;
+  margin: 0 0 15px 0; /* Separación entre párrafos */
+  line-height: 1.6; /* Altura de línea para legibilidad */
 }
 
+/* Texto de advertencia dentro del modal */
 .text-warning {
-    color: var(--warning-color);
-    font-weight: 600;
+  color: var(--warning-color);
+  font-weight: 600;
 }
 
+/* ==============================
+   Footer del modal
+   ============================== */
 .modal-footer {
-    padding: 20px;
-    background: var(--gray-100);
-    display: flex;
-    justify-content: flex-end;
-    gap: 15px;
-    border-top: 1px solid var(--gray-200);
+  padding: 20px; /* Espaciado interno */
+  background: var(--gray-100); /* Fondo gris claro */
+  display: flex;
+  justify-content: flex-end; /* Alinea botones a la derecha */
+  gap: 15px; /* Separación entre botones */
+  border-top: 1px solid var(--gray-200); /* Línea superior */
 }
 
+/* ==============================
+   Botones del modal
+   ============================== */
 .btn-cancel,
 .btn-confirm {
-    padding: 10px 24px;
-    border-radius: 8px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: var(--transition);
-    border: none;
+  padding: 10px 24px; /* Espaciado interno */
+  border-radius: 8px; /* Bordes redondeados */
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  border: none;
 }
 
+/* Botón de cancelar */
 .btn-cancel {
-    background: var(--gray-300);
-    color: var(--gray-700);
+  background: var(--gray-300); /* Fondo gris */
+  color: var(--gray-700); /* Texto gris oscuro */
 }
 
 .btn-cancel:hover {
-    background: var(--gray-400);
-    transform: translateY(-2px);
+  background: var(--gray-400); /* Fondo gris más oscuro */
+  transform: translateY(-2px); /* Leve elevación */
 }
 
+/* Botón de confirmar (acción de peligro) */
 .btn-confirm {
-    background: var(--danger-color);
-    color: white;
+  background: var(--danger-color); /* Fondo rojo */
+  color: white; /* Texto blanco */
 }
 
 .btn-confirm:hover {
-    background: #e33555;
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(244, 63, 94, 0.3);
+  background: #e33555; /* Cambio de color al pasar el mouse */
+  transform: translateY(-2px); /* Leve elevación */
+  box-shadow: 0 5px 15px rgba(244, 63, 94, 0.3); /* Sombra roja suave */
 }
 
-/* Tooltips */
+/* ======================================================
+   tooltip-animaciones.css - Estilos para tooltips y animaciones de filas
+   ====================================================== */
+
+/* ==============================
+   Tooltips
+   ============================== */
 .tooltip {
-    position: fixed;
-    background: var(--dark-color);
-    color: white;
-    padding: 8px 12px;
-    border-radius: 6px;
-    font-size: 12px;
-    font-weight: 500;
-    z-index: 9999;
-    pointer-events: none;
-    animation: fadeIn 0.2s ease-out;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    white-space: nowrap;
+  position: fixed; /* Se posiciona respecto a la ventana */
+  background: var(--dark-color); /* Fondo oscuro */
+  color: white; /* Texto blanco */
+  padding: 8px 12px; /* Espaciado interno */
+  border-radius: 6px; /* Bordes redondeados */
+  font-size: 12px; /* Tamaño de fuente */
+  font-weight: 500; /* Peso de la fuente */
+  z-index: 9999; /* Siempre encima de otros elementos */
+  pointer-events: none; /* No interfiere con el mouse */
+  animation: fadeIn 0.2s ease-out; /* Animación de aparición rápida */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* Sombra para dar profundidad */
+  white-space: nowrap; /* Evita que el texto se rompa en varias líneas */
 }
 
+/* Flecha del tooltip */
 .tooltip::after {
-    content: "";
-    position: absolute;
-    bottom: -5px;
-    left: 50%;
-    transform: translateX(-50%);
-    border-width: 5px;
-    border-style: solid;
-    border-color: var(--dark-color) transparent transparent transparent;
+  content: ""; /* Pseudo-elemento vacío */
+  position: absolute; /* Posicionamiento relativo al tooltip */
+  bottom: -5px; /* Coloca la flecha justo debajo */
+  left: 50%; /* Centrado horizontal */
+  transform: translateX(-50%); /* Centrado exacto */
+  border-width: 5px; /* Tamaño de la flecha */
+  border-style: solid; /* Estilo de la flecha */
+  border-color: var(--dark-color) transparent transparent transparent; /* Flecha apuntando hacia abajo */
 }
 
-/* Animaciones para filas */
+/* ==============================
+   Animaciones para filas u otros elementos
+   ============================== */
 .animate-fade-in {
-    animation: fadeIn 0.5s ease-out;
-    animation-fill-mode: both;
+  animation: fadeIn 0.5s ease-out; /* Animación de aparición suave */
+  animation-fill-mode: both; /* Mantiene el estado final de la animación */
 }
 
-/* Responsive */
+/* ======================================================
+   responsive-utilities.css - Estilos responsivos, accesibilidad y utilidades
+   ====================================================== */
+
+/* ==============================
+   Media query para tablets y pantallas medianas (≤768px)
+   ============================== */
 @media (max-width: 768px) {
-    .direcciones-container {
-        padding: 15px;
-    }
+  /* Contenedor principal de direcciones */
+  .direcciones-container {
+    padding: 15px; /* Reduce el padding para pantallas más pequeñas */
+  }
 
-    .direcciones-header {
-        flex-direction: column;
-        text-align: center;
-        gap: 20px;
-        padding: 20px;
-    }
+  /* Header de direcciones */
+  .direcciones-header {
+    flex-direction: column; /* Organiza elementos verticalmente */
+    text-align: center; /* Centra el texto */
+    gap: 20px; /* Espacio entre elementos */
+    padding: 20px; /* Padding reducido */
+  }
 
-    .header-content {
-        flex-direction: column;
-        gap: 15px;
-    }
+  /* Contenido del header */
+  .header-content {
+    flex-direction: column;
+    gap: 15px;
+  }
 
-    .header-text h1 {
-        font-size: 24px;
-    }
+  /* Tamaño del título principal */
+  .header-text h1 {
+    font-size: 24px;
+  }
 
-    .stats-container {
-        grid-template-columns: 1fr;
-    }
+  /* Estadísticas: una columna en lugar de varias */
+  .stats-container {
+    grid-template-columns: 1fr;
+  }
 
-    .direcciones-table thead {
-        display: none;
-    }
+  /* Tabla: oculta el encabezado para mobile */
+  .direcciones-table thead {
+    display: none;
+  }
 
-    .direcciones-table tbody tr {
-        display: block;
-        margin-bottom: 20px;
-        border: 1px solid var(--gray-200);
-        border-radius: 10px;
-        padding: 15px;
-    }
+  /* Filas de la tabla convertidas en bloques */
+  .direcciones-table tbody tr {
+    display: block;
+    margin-bottom: 20px;
+    border: 1px solid var(--gray-200);
+    border-radius: 10px;
+    padding: 15px;
+  }
 
-    .direcciones-table tbody td {
-        display: block;
-        padding: 10px 0;
-        border: none;
-        text-align: left;
-        position: relative;
-    }
+  /* Celdas de la tabla como bloques verticales */
+  .direcciones-table tbody td {
+    display: block;
+    padding: 10px 0;
+    border: none;
+    text-align: left;
+    position: relative;
+  }
 
-    .direcciones-table tbody td::before {
-        content: attr(data-label);
-        font-weight: 600;
-        color: var(--dark-color);
-        display: block;
-        margin-bottom: 5px;
-        font-size: 14px;
-        color: var(--gray-500);
-    }
+  /* Etiquetas dinámicas para cada celda (se puede automatizar con JS) */
+  .direcciones-table tbody td::before {
+    content: attr(data-label); /* Muestra el valor de data-label si existe */
+    font-weight: 600;
+    color: var(--dark-color);
+    display: block;
+    margin-bottom: 5px;
+    font-size: 14px;
+    color: var(--gray-500);
+  }
 
-    /* Añadir data-labels dinámicamente con JS o agregar clases */
-    .direcciones-table td:nth-child(1):before {
-        content: "ID:";
-    }
-    .direcciones-table td:nth-child(2):before {
-        content: "Nombre:";
-    }
-    .direcciones-table td:nth-child(3):before {
-        content: "Estado:";
-    }
-    .direcciones-table td:nth-child(4):before {
-        content: "Acciones:";
-    }
+  /* Etiquetas fijas para columnas específicas */
+  .direcciones-table td:nth-child(1):before {
+    content: "ID:";
+  }
+  .direcciones-table td:nth-child(2):before {
+    content: "Nombre:";
+  }
+  .direcciones-table td:nth-child(3):before {
+    content: "Estado:";
+  }
+  .direcciones-table td:nth-child(4):before {
+    content: "Acciones:";
+  }
 
-    .btn-group {
-        justify-content: flex-start;
-    }
+  /* Botones de acciones alineados al inicio */
+  .btn-group {
+    justify-content: flex-start;
+  }
 
-    .modal-content {
-        width: 95%;
-        margin: 20px;
-    }
+  /* Modal ancho casi completo */
+  .modal-content {
+    width: 95%;
+    margin: 20px;
+  }
 }
 
-/* Estilos para tablas responsivas con JavaScript */
+/* ==============================
+   Media query para móviles pequeños (≤480px)
+   ============================== */
 @media (max-width: 480px) {
-    .direccion-info {
-        flex-direction: column;
-        text-align: center;
-        gap: 10px;
-    }
+  /* Información de dirección vertical y centrada */
+  .direccion-info {
+    flex-direction: column;
+    text-align: center;
+    gap: 10px;
+  }
 
-    .btn-group {
-        flex-direction: column;
-        align-items: stretch;
-    }
+  /* Botones de acción en columna */
+  .btn-group {
+    flex-direction: column;
+    align-items: stretch;
+  }
 
-    .btn-action {
-        width: 100%;
-        margin-bottom: 5px;
-    }
+  /* Cada botón de acción ocupa todo el ancho */
+  .btn-action {
+    width: 100%;
+    margin-bottom: 5px;
+  }
 }
 
-/* Mejoras de accesibilidad */
+/* ==============================
+   Mejoras de accesibilidad
+   ============================== */
 .btn-action:focus-visible,
 .btn-add:focus-visible,
 .btn-cancel:focus-visible,
 .btn-confirm:focus-visible {
-    outline: 3px solid var(--primary-color);
-    outline-offset: 2px;
+  outline: 3px solid var(--primary-color); /* Resalta con color primario */
+  outline-offset: 2px; /* Separación del borde del elemento */
 }
 
-/* Efecto de carga */
+/* ==============================
+   Estado de carga
+   ============================== */
 .loading {
-    opacity: 0.6;
-    pointer-events: none;
+  opacity: 0.6; /* Opaco mientras carga */
+  pointer-events: none; /* No permite interacción */
 }
 
-/* Clases utilitarias */
+/* ==============================
+   Clases utilitarias
+   ============================== */
 .text-center {
-    text-align: center;
+  text-align: center;
 }
 
 .text-warning {
-    color: var(--warning-color);
+  color: var(--warning-color);
 }
 
-/* Transiciones suaves */
+/* ==============================
+   Transiciones suaves y scroll
+   ============================== */
 * {
-    scroll-behavior: smooth;
+  scroll-behavior: smooth; /* Scroll animado para toda la página */
 }
 
-/* Efectos de hover mejorados */
+/* ==============================
+   Efectos de hover mejorados
+   ============================== */
+/* Iconos de dirección flotando al pasar el mouse */
 .direccion-row:hover .direccion-icon {
-    animation: pulse 1s ease-in-out;
+  animation: pulse 1s ease-in-out;
 }
 
+/* Botones de acción: animación del icono al pasar el mouse */
 .btn-action:hover i {
-    transform: scale(1.2);
+  transform: scale(1.2);
 }
 
+/* Transición suave para iconos dentro de botones de acción */
 .btn-action i {
-    transition: transform 0.3s ease;
+  transition: transform 0.3s ease;
 }

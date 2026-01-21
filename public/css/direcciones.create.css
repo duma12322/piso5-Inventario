@@ -1,89 +1,95 @@
-/* Contenedor centrado */
+/* direcciones.create.css - Estilos generales para formulario */
+
+/* Contenedor principal del formulario */
 .form-container {
-  max-width: 500px;
-  margin: 50px auto;
-  background: #ffffff;
-  padding: 30px 40px;
-  border-radius: 12px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  max-width: 500px; /* Ancho máximo del formulario */
+  margin: 50px auto; /* Centrado vertical y horizontal */
+  background: #ffffff; /* Fondo blanco */
+  padding: 30px 40px; /* Espaciado interno */
+  border-radius: 12px; /* Bordes redondeados */
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1); /* Sombra suave */
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Fuente del formulario */
 }
 
-/* Título */
+/* Título del formulario */
 .form-container h3 {
-  text-align: center;
-  margin-bottom: 25px;
-  color: #333;
-  font-weight: 600;
+  text-align: center; /* Centrado del texto */
+  margin-bottom: 25px; /* Separación inferior */
+  color: #333; /* Color de texto */
+  font-weight: 600; /* Grosor del texto */
 }
 
-/* Form group */
+/* Agrupación de campos (form-group) */
 .form-group {
-  margin-bottom: 20px;
+  margin-bottom: 20px; /* Espacio inferior entre campos */
 }
 
-/* Labels */
+/* Etiquetas de los campos */
 .form-group label {
-  display: block;
-  margin-bottom: 8px;
-  color: #555;
-  font-weight: 500;
+  display: block; /* Mostrar en bloque */
+  margin-bottom: 8px; /* Separación del input */
+  color: #555; /* Color de texto */
+  font-weight: 500; /* Grosor intermedio */
 }
 
-/* Inputs */
+/* Estilo general de los inputs */
 .form-control {
-  width: 100%;
-  padding: 10px 15px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-  transition: 0.3s;
-  font-size: 15px;
+  width: 100%; /* Ocupa todo el ancho del contenedor */
+  padding: 10px 15px; /* Espaciado interno */
+  border-radius: 8px; /* Bordes redondeados */
+  border: 1px solid #ccc; /* Borde gris claro */
+  transition: 0.3s; /* Transición suave para hover/focus */
+  font-size: 15px; /* Tamaño de texto */
 }
 
+/* Efecto al enfocar input */
 .form-control:focus {
-  outline: none;
-  border-color: #007bff;
-  box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+  outline: none; /* Elimina el borde por defecto */
+  border-color: #007bff; /* Borde azul */
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.3); /* Sombra azul suave */
 }
 
-/* Botones */
+/* Contenedor de botones */
 .form-buttons {
-  display: flex;
-  gap: 15px;
-  margin-top: 20px;
-  justify-content: center; /* centrado */
+  display: flex; /* Distribución horizontal */
+  gap: 15px; /* Separación entre botones */
+  margin-top: 20px; /* Espacio superior */
+  justify-content: center; /* Centrado horizontal */
 }
 
+/* Estilos generales de botones */
 .btn-primary,
 .btn-secondary {
-  flex: 1;
-  padding: 10px 0;
-  border-radius: 8px;
-  font-weight: 600;
-  transition: all 0.3s ease;
-  text-align: center;
+  flex: 1; /* Botones del mismo tamaño */
+  padding: 10px 0; /* Espaciado vertical */
+  border-radius: 8px; /* Bordes redondeados */
+  font-weight: 600; /* Grosor de texto */
+  transition: all 0.3s ease; /* Transición suave */
+  text-align: center; /* Centrado de texto */
 }
 
-/* Botón guardar */
+/* Botón de guardar */
 .btn-primary {
-  background-color: #007bff;
-  border: none;
-  color: #fff;
+  background-color: #007bff; /* Fondo azul */
+  border: none; /* Sin borde */
+  color: #fff; /* Texto blanco */
 }
 
+/* Hover del botón guardar */
 .btn-primary:hover {
-  background-color: #0056b3;
-  box-shadow: 0 5px 15px rgba(0, 123, 255, 0.3);
+  background-color: #0056b3; /* Azul más oscuro */
+  box-shadow: 0 5px 15px rgba(0, 123, 255, 0.3); /* Sombra suave */
 }
 
-/* Botón volver */
+/* Botón de volver */
 .btn-secondary {
-  background-color: #6c757d;
-  border: none;
-  color: #fff;
+  background-color: #6c757d; /* Fondo gris */
+  border: none; /* Sin borde */
+  color: #fff; /* Texto blanco */
 }
 
+/* Hover del botón volver */
 .btn-secondary:hover {
-  background-color: #5a6268;
-  box-shadow: 0 5px 15px rgba(108, 117, 125, 0.3);
+  background-color: #5a6268; /* Gris más oscuro */
+  box-shadow: 0 5px 15px rgba(108, 117, 125, 0.3); /* Sombra suave */
 }

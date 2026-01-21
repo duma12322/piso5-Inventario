@@ -1,697 +1,807 @@
-/* equiposprin.css */
+/* equiposprin.css - Estilos generales para formulario */
 
-/* Estilos generales */
+/* ------------------------------------------------------
+   Contenedor principal
+   ------------------------------------------------------ */
 .container {
-    max-width: 1400px;
-    margin: 2rem auto;
-    padding: 0 1rem;
+  max-width: 1400px; /* Ancho máximo del contenedor */
+  margin: 2rem auto; /* Centrado horizontal con margen superior/inferior */
+  padding: 0 1rem; /* Espaciado interno lateral */
 }
 
-/* Header section */
+/* ------------------------------------------------------
+   Header principal
+   ------------------------------------------------------ */
 .header-section {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 2rem;
-    padding: 1.5rem;
-    background: linear-gradient(135deg, #aa1414 0%, #fc0404 100%);
-    border-radius: 12px;
-    box-shadow: 0 8px 20px rgba(234, 102, 102, 0.2);
+  display: flex; /* Layout flex para alinear elementos */
+  justify-content: space-between; /* Separar título y botones */
+  align-items: center; /* Centrar verticalmente */
+  margin-bottom: 2rem; /* Separación inferior */
+  padding: 1.5rem; /* Espaciado interno */
+  background: linear-gradient(
+    135deg,
+    #aa1414 0%,
+    #fc0404 100%
+  ); /* Degradado rojo */
+  border-radius: 12px; /* Bordes redondeados */
+  box-shadow: 0 8px 20px rgba(234, 102, 102, 0.2); /* Sombra suave */
 }
 
+/* Título de página */
 .page-title {
-    color: white;
-    font-size: 2.2rem;
-    font-weight: 700;
-    margin: 0;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+  color: white;
+  font-size: 2.2rem;
+  font-weight: 700;
+  margin: 0;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); /* Sombra de texto */
 }
 
-/* Custom Header Buttons */
+/* ------------------------------------------------------
+   Botones del header
+   ------------------------------------------------------ */
+
+/* Botón “Agregar” */
 .btn-header-add {
-    background: rgba(255, 255, 255, 0.2);
-    color: white;
-    padding: 12px 25px;
-    border-radius: 0.5rem;
-    text-decoration: none;
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    font-weight: 600;
-    transition: all 0.3s ease;
-    backdrop-filter: blur(10px);
-    border: 2px solid rgba(255, 255, 255, 0.3);
-    position: relative;
-    z-index: 2;
+  background: rgba(255, 255, 255, 0.2); /* Fondo semi-transparente */
+  color: white;
+  padding: 12px 25px;
+  border-radius: 0.5rem;
+  text-decoration: none;
+  display: inline-flex; /* Flex para icono + texto */
+  align-items: center;
+  gap: 10px; /* Separación entre icono y texto */
+  font-weight: 600;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px); /* Efecto vidrio difuminado */
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  position: relative;
+  z-index: 2;
 }
 
 .btn-header-add:hover {
-    background: rgba(255, 255, 255, 0.3);
-    transform: translateY(-2px);
-    color: white;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  background: rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px); /* Pequeño levantamiento */
+  color: white;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
+/* Contenedor de botones del header */
 .header-buttons {
-    display: flex;
-    gap: 15px;
-    align-items: center;
+  display: flex;
+  gap: 15px;
+  align-items: center;
 }
 
+/* Botón PDF */
 .btn-header-pdf {
-    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-    color: white;
-    padding: 12px 25px;
-    border-radius: 0.5rem;
-    text-decoration: none;
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    font-weight: 600;
-    transition: all 0.3s ease;
-    border: 2px solid rgba(255, 255, 255, 0.3);
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  background: linear-gradient(
+    135deg,
+    #10b981 0%,
+    #059669 100%
+  ); /* Verde degradado */
+  color: white;
+  padding: 12px 25px;
+  border-radius: 0.5rem;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .btn-header-pdf:hover {
-    background: linear-gradient(135deg, #059669 0%, #047857 100%);
-    transform: translateY(-2px);
-    color: white;
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
-    border-color: rgba(255, 255, 255, 0.5);
+  background: linear-gradient(135deg, #059669 0%, #047857 100%);
+  transform: translateY(-2px);
+  color: white;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+  border-color: rgba(255, 255, 255, 0.5);
 }
 
-/* Versión Súper Limpia */
+/* ------------------------------------------------------
+   Buscador simple
+   ------------------------------------------------------ */
+
+/* Contenedor del buscador */
 .simple-search-container {
-    width: 100%;
-    margin-bottom: 1.5rem;
+  width: 100%;
+  margin-bottom: 1.5rem;
 }
 
+/* Wrapper del input + botón */
 .search-wrapper {
-    display: flex;
-    width: 100%;
-    border-radius: 50px;
-    overflow: hidden;
-    background: #fff;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  display: flex;
+  width: 100%;
+  border-radius: 50px;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
 }
 
+/* Input de búsqueda */
 .search-input {
-    flex: 1;
-    padding: 12px 15px;
-    border: none;
-    border-bottom: 2px solid transparent;
-    font-size: 15px;
-    outline: none;
-    background: #fff;
-    color: #333;
-    width: 100%;
-    transition: border-color 0.2s;
+  flex: 1; /* Ocupa todo el espacio disponible */
+  padding: 12px 15px;
+  border: none;
+  border-bottom: 2px solid transparent;
+  font-size: 15px;
+  outline: none;
+  background: #fff;
+  color: #333;
+  width: 100%;
+  transition: border-color 0.2s;
 }
 
 .search-input:focus {
-    border-bottom-color: rgb(245, 4, 4);
-    background: #fff;
+  border-bottom-color: rgb(245, 4, 4); /* Subrayado rojo al enfocar */
+  background: #fff;
 }
 
 .search-input::placeholder {
-    color: #999;
+  color: #999;
 }
 
+/* Botón de búsqueda */
 .search-button {
-    background: rgb(240, 2, 2);
-    border: none;
-    color: white;
-    padding: 0 25px;
-    cursor: pointer;
-    font-size: 15px;
-    font-weight: 500;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-width: 60px;
-    transition: background 0.2s;
+  background: rgb(240, 2, 2);
+  border: none;
+  color: white;
+  padding: 0 25px;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 60px;
+  transition: background 0.2s;
 }
 
 .search-button:hover {
-    background: #a00;
+  background: #a00;
 }
 
+/* Botón para limpiar input */
 .clear-button {
-    position: absolute;
-    right: 65px;
-    top: 50%;
-    transform: translateY(-50%);
-    background: none;
-    border: none;
-    color: #ccc;
-    cursor: pointer;
-    font-size: 14px;
-    padding: 5px;
-    transition: color 0.2s;
+  position: absolute;
+  right: 65px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: #ccc;
+  cursor: pointer;
+  font-size: 14px;
+  padding: 5px;
+  transition: color 0.2s;
 }
 
 .clear-button:hover {
-    color: #c00;
+  color: #c00;
 }
-/* Table container */
+
+/* ======================================================
+   Table Styles - equipos table
+   ====================================================== */
+
+/* ------------------------------------------------------
+   Contenedor de la tabla
+   ------------------------------------------------------ */
 .table-container {
-    background: white;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
-    margin-bottom: 2rem;
-    overflow-x: auto;
+  background: white; /* Fondo blanco */
+  border-radius: 12px; /* Bordes redondeados */
+  overflow: hidden; /* Oculta desbordes */
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08); /* Sombra suave */
+  margin-bottom: 2rem; /* Separación inferior */
+  overflow-x: auto; /* Scroll horizontal si es necesario */
 }
 
-/* Table styles */
+/* ------------------------------------------------------
+   Tabla principal
+   ------------------------------------------------------ */
 .equipos-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 0.95rem;
+  width: 100%; /* Ocupa todo el ancho del contenedor */
+  border-collapse: collapse; /* Colapsa bordes de celdas */
+  font-size: 0.95rem; /* Tamaño de fuente ligeramente reducido */
 }
 
+/* Encabezado de tabla */
 .equipos-table thead {
-    background: linear-gradient(135deg, #aa0404 0%, #f10202 100%);
+  background: linear-gradient(
+    135deg,
+    #aa0404 0%,
+    #f10202 100%
+  ); /* Degradado rojo */
 }
 
 .equipos-table th {
-    padding: 1.2rem 1rem;
-    text-align: center;
-    color: white;
-    font-weight: 600;
-    text-transform: uppercase;
-    font-size: 0.85rem;
-    letter-spacing: 0.5px;
-    border-bottom: none;
+  padding: 1.2rem 1rem; /* Espaciado interno */
+  text-align: center; /* Centrado horizontal */
+  color: white; /* Texto blanco */
+  font-weight: 600; /* Negrita */
+  text-transform: uppercase; /* Letras mayúsculas */
+  font-size: 0.85rem; /* Tamaño de fuente pequeño */
+  letter-spacing: 0.5px; /* Espaciado entre letras */
+  border-bottom: none; /* Sin borde inferior */
 }
 
+/* Filas de la tabla */
 .equipos-table tbody tr {
-    border-bottom: 1px solid #e5e7eb;
-    transition: all 0.2s ease;
+  border-bottom: 1px solid #e5e7eb; /* Línea separadora gris clara */
+  transition: all 0.2s ease; /* Animación suave al hover */
 }
 
 .equipos-table tbody tr:hover {
-    background-color: #f8fafc;
-    transform: translateY(-1px);
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+  background-color: #f8fafc; /* Fondo claro al pasar el mouse */
+  transform: translateY(-1px); /* Leve elevación */
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05); /* Sombra ligera */
 }
 
+/* Celdas */
 .equipos-table td {
-    padding: 1rem;
-    vertical-align: middle;
-    color: #4b5563;
+  padding: 1rem; /* Espaciado interno */
+  vertical-align: middle; /* Centrado vertical */
+  color: #4b5563; /* Texto gris oscuro */
 }
 
+/* Identificador de equipo */
 .equipos-table .equipo-id {
-    font-weight: 700;
-    color: #201f1f;
-    font-family: "Courier New", monospace;
-    font-size: 0.9rem;
+  font-weight: 700;
+  color: #201f1f;
+  font-family: "Courier New", monospace;
+  font-size: 0.9rem;
 }
 
+/* Número de bien o referencia */
 .equipos-table .numero_bien {
-    font-weight: 600;
-    color: #f70505;
-    font-family: "Courier New", monospace;
+  font-weight: 600;
+  color: #f70505;
+  font-family: "Courier New", monospace;
 }
 
-/* Status badges - Standardized Red/Green/Yellow Theme */
+/* ------------------------------------------------------
+   Badges de estado
+   ------------------------------------------------------ */
 .status-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 6px 12px;
-    border-radius: 20px;
-    font-size: 0.85rem;
-    font-weight: 600;
-    /* text-transform: uppercase; Removed to match Components style */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  display: inline-flex; /* Flex para icono + texto si aplica */
+  align-items: center;
+  gap: 6px; /* Separación interna */
+  padding: 6px 12px; /* Espaciado del badge */
+  border-radius: 20px; /* Bordes redondeados */
+  font-size: 0.85rem; /* Tamaño de texto */
+  font-weight: 600;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05); /* Sombra ligera */
 }
 
-/* Green State */
+/* Estados verdes (buena condición) */
 .status-buen-funcionamiento,
 .status-activo,
 .status-nuevo,
 .status-bueno,
 .status-optimo {
-    background-color: #d1fae5;
-    color: #059669;
-    border: 1px solid #a7f3d0;
+  background-color: #d1fae5; /* Verde claro */
+  color: #059669; /* Verde intenso para texto */
+  border: 1px solid #a7f3d0; /* Borde verde suave */
 }
 
-/* Yellow State */
+/* Estados amarillos (precaución / mantenimiento) */
 .status-operativo,
 .status-mantenimiento,
 .status-actualizable,
 .status-regular,
 .status-en-reparacion {
-    background-color: #fef3c7;
-    color: #d97706;
-    border: 1px solid #fde68a;
+  background-color: #fef3c7; /* Amarillo claro */
+  color: #d97706; /* Amarillo/ambar oscuro */
+  border: 1px solid #fde68a; /* Borde amarillo suave */
 }
 
-/* Red State */
+/* Estados rojos (inactivo / dañado / obsoleto) */
 .status-sin-funcionar,
 .status-danado,
 .status-inactivo,
 .status-obsoleto,
 .status-desactualizado {
-    background-color: #fee2e2;
-    color: #dc2626;
-    border: 1px solid #fecaca;
+  background-color: #fee2e2; /* Rojo claro */
+  color: #dc2626; /* Rojo intenso */
+  border: 1px solid #fecaca; /* Borde rojo suave */
 }
 
-/* Default */
+/* Estado por defecto / desconocido */
 .status-desconocido,
 .status-default {
-    background-color: #f3f4f6;
-    color: #4b5563;
-    border: 1px solid #e5e7eb;
+  background-color: #f3f4f6; /* Gris claro */
+  color: #4b5563; /* Gris oscuro */
+  border: 1px solid #e5e7eb; /* Borde gris claro */
 }
 
-/* Action buttons */
+/* ======================================================
+   Action Buttons - Botones de acción en tablas o listas
+   ====================================================== */
+
+/* Contenedor de botones de acción */
 .action-buttons {
-    display: flex;
-    gap: 0.5rem;
-    justify-content: flex-start;
+  display: flex; /* Mostrar botones en fila */
+  gap: 0.5rem; /* Espaciado entre botones */
+  justify-content: flex-start; /* Alineación a la izquierda */
 }
 
+/* Botón genérico de acción */
 .btn-action {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 36px;
-    height: 36px;
-    border-radius: 8px;
-    text-decoration: none;
-    color: white;
-    transition: all 0.2s ease;
-    border: none;
-    cursor: pointer;
-    font-size: 0.9rem;
+  display: inline-flex; /* Flex interno para icono + texto */
+  align-items: center; /* Centrado vertical */
+  justify-content: center; /* Centrado horizontal */
+  width: 36px; /* Ancho fijo */
+  height: 36px; /* Alto fijo */
+  border-radius: 8px; /* Bordes redondeados */
+  text-decoration: none; /* Sin subrayado */
+  color: white; /* Texto blanco */
+  transition: all 0.2s ease; /* Transición suave para hover */
+  border: none; /* Sin borde */
+  cursor: pointer; /* Cursor puntero */
+  font-size: 0.9rem; /* Tamaño de fuente */
 }
 
+/* Efecto hover genérico */
 .btn-action:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px); /* Leve elevación */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Sombra al pasar mouse */
 }
 
+/* Botón editar */
 .btn-edit {
-    background-color: #3b82f6;
+  background-color: #3b82f6; /* Azul principal */
 }
 
 .btn-edit:hover {
-    background-color: #2563eb;
+  background-color: #2563eb; /* Azul más oscuro al hover */
 }
 
+/* Botón ver / detalle */
 .btn-view {
-    background-color: #10b981;
+  background-color: #10b981; /* Verde principal */
 }
 
 .btn-view:hover {
-    background-color: #059669;
+  background-color: #059669; /* Verde oscuro al hover */
 }
 
+/* Botón PDF / exportar */
 .btn-pdf {
-    background-color: #ef4444;
+  background-color: #ef4444; /* Rojo intenso */
 }
 
 .btn-pdf:hover {
-    background-color: #dc2626;
+  background-color: #dc2626; /* Rojo más oscuro al hover */
 }
 
+/* Botón eliminar */
 .btn-delete {
-    background-color: #6b7280;
+  background-color: #6b7280; /* Gris medio */
 }
 
 .btn-delete:hover {
-    background-color: #4b5563;
+  background-color: #4b5563; /* Gris más oscuro al hover */
 }
 
+/* Formulario de eliminación inline */
 .delete-form {
-    display: inline;
-    margin: 0;
+  display: inline; /* Mostrar en línea */
+  margin: 0; /* Sin margen */
 }
 
-/* No data message */
+/* ------------------------------------------------------
+   Mensaje de "No hay datos"
+   ------------------------------------------------------ */
 .no-data {
-    text-align: center;
-    padding: 3rem !important;
-    color: #6b7280;
-    font-size: 1.1rem;
-    background-color: #f9fafb;
+  text-align: center; /* Centrado del texto */
+  padding: 3rem !important; /* Espaciado grande */
+  color: #6b7280; /* Texto gris medio */
+  font-size: 1.1rem; /* Tamaño de fuente ligeramente mayor */
+  background-color: #f9fafb; /* Fondo gris claro */
 }
 
+/* Icono dentro del mensaje de "No hay datos" */
 .no-data i {
-    margin-right: 0.5rem;
-    color: #9ca3af;
+  margin-right: 0.5rem; /* Espacio entre icono y texto */
+  color: #9ca3af; /* Gris más claro para icono */
 }
 
-/* Responsive design */
+/* ======================================================
+   Responsive Design - Adaptación a distintos tamaños
+   ====================================================== */
+
+/* Pantallas medianas (≤1200px) */
 @media (max-width: 1200px) {
-    .container {
-        margin: 1rem auto;
-    }
+  .container {
+    margin: 1rem auto; /* Reducir margen lateral */
+  }
 
-    .header-section {
-        flex-direction: column;
-        gap: 1rem;
-        text-align: center;
-        padding: 1.5rem;
-    }
+  .header-section {
+    flex-direction: column; /* Columnas en lugar de fila */
+    gap: 1rem; /* Espacio entre elementos */
+    text-align: center; /* Centrar texto */
+    padding: 1.5rem; /* Ajustar padding */
+  }
 
-    .header-buttons {
-        width: 100%;
-        justify-content: center;
-        flex-wrap: wrap;
-    }
+  .header-buttons {
+    width: 100%; /* Ocupa todo el ancho */
+    justify-content: center; /* Centrar botones */
+    flex-wrap: wrap; /* Permitir saltos de línea */
+  }
 }
 
+/* Pantallas pequeñas (≤768px) */
 @media (max-width: 768px) {
-    .table-container {
-        border-radius: 8px;
-        margin: 0 -1rem;
-    }
+  .table-container {
+    border-radius: 8px; /* Bordes más redondeados */
+    margin: 0 -1rem; /* Expandir contenedor para ancho completo */
+  }
 
-    .equipos-table {
-        font-size: 0.85rem;
-    }
+  .equipos-table {
+    font-size: 0.85rem; /* Fuente más pequeña */
+  }
 
-    .equipos-table th,
-    .equipos-table td {
-        padding: 0.75rem 0.5rem;
-    }
+  .equipos-table th,
+  .equipos-table td {
+    padding: 0.75rem 0.5rem; /* Ajustar padding para celdas */
+  }
 
-    .action-buttons {
-        flex-direction: column;
-        gap: 0.3rem;
-    }
+  .action-buttons {
+    flex-direction: column; /* Botones apilados verticalmente */
+    gap: 0.3rem; /* Menor espacio entre botones */
+  }
 
-    .btn-action {
-        width: 32px;
-        height: 32px;
-        font-size: 0.8rem;
-    }
+  .btn-action {
+    width: 32px; /* Botones más pequeños */
+    height: 32px;
+    font-size: 0.8rem; /* Fuente más pequeña */
+  }
 
-    .status-badge {
-        font-size: 0.7rem;
-        padding: 0.3rem 0.6rem;
-    }
+  .status-badge {
+    font-size: 0.7rem; /* Badges más pequeños */
+    padding: 0.3rem 0.6rem;
+  }
 }
 
-/* Animaciones */
+/* ======================================================
+   Animaciones
+   ====================================================== */
+
+/* Animación de aparición con deslizamiento */
 @keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(10px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+  from {
+    opacity: 0; /* Transparente al inicio */
+    transform: translateY(10px); /* Leve desplazamiento vertical */
+  }
+  to {
+    opacity: 1; /* Opaco al final */
+    transform: translateY(0); /* Posición final */
+  }
 }
 
+/* Aplicar animación a filas de la tabla */
 .equipos-table tbody tr {
-    animation: fadeIn 0.3s ease-out forwards;
+  animation: fadeIn 0.3s ease-out forwards; /* Fade-in hacia arriba */
 }
 
+/* Retraso para filas impares */
 .equipos-table tbody tr:nth-child(odd) {
-    animation-delay: 0.05s;
+  animation-delay: 0.05s;
 }
 
+/* Retraso para filas pares */
 .equipos-table tbody tr:nth-child(even) {
-    animation-delay: 0.1s;
+  animation-delay: 0.1s;
 }
 
-/* Scrollbar personalizado */
+/* ======================================================
+   Scrollbar personalizado para tablas
+   ====================================================== */
 .table-container::-webkit-scrollbar {
-    height: 8px;
+  height: 8px; /* Altura de la barra de scroll */
 }
 
 .table-container::-webkit-scrollbar-track {
-    background: #f1f5f9;
-    border-radius: 4px;
+  background: #f1f5f9; /* Color del track */
+  border-radius: 4px; /* Bordes redondeados del track */
 }
 
 .table-container::-webkit-scrollbar-thumb {
-    background: linear-gradient(135deg, #7e0404 0%, #f70505 100%);
-    border-radius: 4px;
+  background: linear-gradient(135deg, #7e0404 0%, #f70505 100%);
+  border-radius: 4px; /* Bordes redondeados del thumb */
 }
 
 .table-container::-webkit-scrollbar-thumb:hover {
-    background: linear-gradient(135deg, #f80202 0%, #8a0303 100%);
+  background: linear-gradient(135deg, #f80202 0%, #8a0303 100%);
 }
 
-/* Columna Dirección Truncada con Tooltip */
+/* ======================================================
+   Columna Dirección Truncada con Tooltip
+   ====================================================== */
 .column-direccion {
-    max-width: 150px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    cursor: help;
+  max-width: 150px; /* Limita ancho máximo */
+  white-space: nowrap; /* Evita salto de línea */
+  overflow: hidden; /* Oculta exceso de texto */
+  text-overflow: ellipsis; /* Muestra "..." si el texto se corta */
+  cursor: help; /* Indica que hay tooltip disponible */
 }
 
-/* Dropdown Actions Menu */
+/* ======================================================
+   Dropdown Actions Menu - Menú desplegable de acciones
+   ====================================================== */
+
+/* Contenedor principal del dropdown */
 .dropdown-action-container {
-    position: relative;
-    display: inline-block;
+  position: relative; /* Necesario para posicionar el menú relativo al contenedor */
+  display: inline-block; /* Permite que se comporte como elemento en línea */
 }
 
+/* Botón que activa el dropdown */
 .dropdown-toggle-btn {
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 6px;
-    border-radius: 50%;
-    color: #6b7280;
-    transition: all 0.2s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  background: none; /* Sin fondo */
+  border: none; /* Sin borde */
+  cursor: pointer; /* Cambia el cursor al pasar por encima */
+  padding: 6px; /* Espaciado interno */
+  border-radius: 50%; /* Botón circular */
+  color: #6b7280; /* Color gris */
+  transition: all 0.2s ease; /* Transición suave */
+  display: flex; /* Para centrar iconos */
+  align-items: center;
+  justify-content: center;
 }
 
+/* Hover y focus para el botón */
 .dropdown-toggle-btn:hover,
 .dropdown-toggle-btn:focus {
-    background-color: #f3f4f6;
-    color: #1f2937;
-    outline: none;
+  background-color: #f3f4f6; /* Fondo gris claro */
+  color: #1f2937; /* Texto oscuro */
+  outline: none; /* Eliminar borde por defecto de focus */
 }
 
+/* Menú desplegable */
 .dropdown-menu-actions {
-    display: none;
-    position: absolute;
-    right: 0;
-    top: 100%;
-    background-color: white;
-    min-width: 180px;
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
-        0 4px 6px -2px rgba(0, 0, 0, 0.05);
-    z-index: 50;
-    border-radius: 8px;
-    border: 1px solid #e5e7eb;
-    overflow: hidden;
-    margin-top: 4px;
-    text-align: left;
+  display: none; /* Oculto por defecto */
+  position: absolute; /* Posicionado respecto al contenedor */
+  right: 0; /* Alineado a la derecha */
+  top: 100%; /* Justo debajo del botón */
+  background-color: white; /* Fondo blanco */
+  min-width: 180px; /* Ancho mínimo */
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05); /* Sombra */
+  z-index: 50; /* Por encima de otros elementos */
+  border-radius: 8px; /* Bordes redondeados */
+  border: 1px solid #e5e7eb; /* Borde gris claro */
+  overflow: hidden; /* Ocultar contenido sobrante */
+  margin-top: 4px; /* Separación del botón */
+  text-align: left; /* Alinear texto a la izquierda */
 }
 
+/* Mostrar el menú con animación */
 .dropdown-menu-actions.show {
-    display: block;
-    animation: fadeIn 0.2s ease-out;
+  display: block; /* Visible */
+  animation: fadeIn 0.2s ease-out; /* Animación de aparición */
 }
 
+/* Elementos individuales del menú */
 .dropdown-item {
-    padding: 10px 16px;
-    text-decoration: none;
-    display: flex;
-    align-items: center;
-    color: #374151;
-    font-size: 0.875rem;
-    transition: background-color 0.2s;
-    width: 100%;
-    box-sizing: border-box;
-    border: none;
-    background: none;
-    cursor: pointer;
-    text-align: left;
+  padding: 10px 16px; /* Espaciado interno */
+  text-decoration: none; /* Sin subrayado */
+  display: flex; /* Flex para icono + texto */
+  align-items: center;
+  color: #374151; /* Gris oscuro */
+  font-size: 0.875rem; /* Tamaño de fuente pequeño */
+  transition: background-color 0.2s; /* Transición suave al hover */
+  width: 100%; /* Ocupa todo el ancho del menú */
+  box-sizing: border-box;
+  border: none;
+  background: none;
+  cursor: pointer;
+  text-align: left; /* Alinear texto a la izquierda */
 }
 
+/* Hover sobre un item */
 .dropdown-item:hover {
-    background-color: #f9fafb;
-    color: #1f2937;
+  background-color: #f9fafb; /* Fondo gris claro */
+  color: #1f2937; /* Texto más oscuro */
 }
 
+/* Iconos dentro de los items */
 .dropdown-item i {
-    width: 20px;
-    margin-right: 10px;
-    color: #9ca3af;
-    text-align: center;
+  width: 20px; /* Ancho fijo */
+  margin-right: 10px; /* Separación del texto */
+  color: #9ca3af; /* Gris claro */
+  text-align: center; /* Centrar icono */
 }
 
+/* Hover sobre iconos */
 .dropdown-item:hover i {
-    color: #6b7280;
+  color: #6b7280; /* Cambia a gris más oscuro */
 }
 
+/* Variante peligrosa (eliminar/borrar) */
 .dropdown-item.text-danger {
-    color: #dc2626;
+  color: #dc2626; /* Rojo */
 }
 
 .dropdown-item.text-danger:hover {
-    background-color: #fef2f2;
+  background-color: #fef2f2; /* Fondo rojo claro */
 }
 
 .dropdown-item.text-danger i {
-    color: #ef4444;
+  color: #ef4444; /* Icono rojo */
 }
 
-/* Dropdown Colors */
+/* Dropdown Colors personalizados por acción */
+
+/* Editar */
 .dropdown-item.item-edit {
-    color: #2563eb;
+  color: #2563eb; /* Azul */
 }
 .dropdown-item.item-edit i {
-    color: #2563eb;
+  color: #2563eb;
 }
 .dropdown-item.item-edit:hover {
-    background-color: #eff6ff;
+  background-color: #eff6ff; /* Azul claro al hover */
 }
 
+/* Ver / Visualizar */
 .dropdown-item.item-view {
-    color: #059669;
+  color: #059669; /* Verde */
 }
 .dropdown-item.item-view i {
-    color: #059669;
+  color: #059669;
 }
 .dropdown-item.item-view:hover {
-    background-color: #ecfdf5;
+  background-color: #ecfdf5; /* Verde claro al hover */
 }
 
+/* PDF */
 .dropdown-item.item-pdf {
-    color: #dc2626;
+  color: #dc2626; /* Rojo */
 }
 .dropdown-item.item-pdf i {
-    color: #dc2626;
+  color: #dc2626;
 }
 .dropdown-item.item-pdf:hover {
-    background-color: #fef2f2;
+  background-color: #fef2f2; /* Fondo rojo claro */
 }
 
+/* Eliminar */
 .dropdown-item.item-delete {
-    color: #4b5563;
+  color: #4b5563; /* Gris */
 }
 .dropdown-item.item-delete i {
-    color: #4b5563;
+  color: #4b5563;
 }
 .dropdown-item.item-delete:hover {
-    background-color: #f3f4f6;
+  background-color: #f3f4f6; /* Gris claro */
 }
 
-/* Fixed positioning support */
+/* ======================================================
+   Posicionamiento fijo del menú (soporte JS)
+   ====================================================== */
 .dropdown-menu-actions {
-    /* Position will be handled by JS (fixed) */
-    position: fixed;
-    z-index: 9999; /* High z-index to float above everything */
-    margin: 0;
-    min-width: 160px;
+  position: fixed; /* El menú será fijado mediante JS */
+  z-index: 9999; /* Encima de todo */
+  margin: 0; /* Sin margen extra */
+  min-width: 160px; /* Ancho mínimo seguro */
 }
 
-/* Paginación - Standardized from indexcomponentes.css */
+/* ======================================================
+   Paginación - Estilos estándar desde indexcomponentes.css
+   ====================================================== */
+
+/* Contenedor principal de la paginación */
 .pagination-container {
-    display: flex;
-    justify-content: center;
-    padding: 20px 0;
+  display: flex; /* Usar flex para centrar contenido */
+  justify-content: center; /* Centrado horizontal */
+  padding: 20px 0; /* Espaciado arriba y abajo */
 }
 
+/* Lista de páginas */
 .pagination-container .pagination {
-    display: flex;
-    padding-left: 0;
-    list-style: none;
-    border-radius: 12px;
-    background: white;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    padding: 10px;
-    gap: 5px;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-    margin: 0;
+  display: flex; /* Flex para alinear los items horizontalmente */
+  padding-left: 0; /* Eliminar padding por defecto */
+  list-style: none; /* Sin bullets */
+  border-radius: 12px; /* Bordes redondeados del contenedor */
+  background: white; /* Fondo blanco */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Sombra suave */
+  padding: 10px; /* Padding interno */
+  gap: 5px; /* Separación entre items */
+  flex-wrap: wrap; /* Permite que los items se envuelvan en móviles */
+  justify-content: center; /* Centrado horizontal */
+  align-items: center; /* Alinear verticalmente */
+  margin: 0; /* Eliminar margin por defecto */
 }
 
+/* Cada item de la paginación */
 .pagination-container .page-item {
-    margin: 2px;
+  margin: 2px; /* Pequeño margen entre items */
 }
 
+/* Enlaces de página */
 .pagination-container .page-link {
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0;
-    font-size: 0.9rem;
-    color: #da0606; /* Red */
-    text-decoration: none;
-    background-color: white;
-    border: 1px solid #da0606; /* Red border */
-    border-radius: 50%; /* Circle */
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    width: 38px;
-    height: 38px;
-    font-weight: 600;
-    margin: 0 3px;
+  position: relative; /* Para pseudo-elementos si se necesitan */
+  display: flex; /* Para centrar contenido */
+  align-items: center;
+  justify-content: center;
+  padding: 0; /* Padding interno inicial */
+  font-size: 0.9rem; /* Tamaño de texto */
+  color: #da0606; /* Rojo principal */
+  text-decoration: none; /* Sin subrayado */
+  background-color: white; /* Fondo blanco */
+  border: 1px solid #da0606; /* Borde rojo */
+  border-radius: 50%; /* Botones circulares */
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); /* Suavizado */
+  width: 38px; /* Ancho fijo */
+  height: 38px; /* Alto fijo */
+  font-weight: 600; /* Negrita */
+  margin: 0 3px; /* Espaciado lateral */
 }
 
-/* Pill shape for text buttons (Anterior/Siguiente) */
+/* Botones "Anterior" y "Siguiente" con forma de pastilla */
 .pagination-container .page-item:first-child .page-link,
 .pagination-container .page-item:last-child .page-link {
-    width: auto;
-    border-radius: 50px;
-    padding: 0 15px;
+  width: auto; /* Ajuste automático al texto */
+  border-radius: 50px; /* Bordes redondeados tipo pill */
+  padding: 0 15px; /* Espaciado horizontal */
 }
 
+/* Hover sobre los links de página */
 .pagination-container .page-link:hover {
-    z-index: 2;
-    color: white;
-    background-color: #da0606;
-    border-color: #da0606;
-    transform: translateY(-2px);
-    box-shadow: 0 2px 5px rgba(218, 6, 6, 0.3);
+  z-index: 2; /* Traer al frente */
+  color: white; /* Texto blanco */
+  background-color: #da0606; /* Fondo rojo */
+  border-color: #da0606; /* Borde rojo */
+  transform: translateY(-2px); /* Pequeño efecto elevación */
+  box-shadow: 0 2px 5px rgba(218, 6, 6, 0.3); /* Sombra */
 }
 
+/* Estado activo de página */
 .pagination-container .page-item.active .page-link {
-    z-index: 3;
-    color: #fff;
-    background-color: #da0606;
-    border-color: #da0606;
-    box-shadow: 0 4px 10px rgba(218, 6, 6, 0.4);
-    transform: scale(1.1);
+  z-index: 3; /* Encima de otros elementos */
+  color: #fff; /* Texto blanco */
+  background-color: #da0606; /* Fondo rojo */
+  border-color: #da0606; /* Borde rojo */
+  box-shadow: 0 4px 10px rgba(218, 6, 6, 0.4); /* Sombra más pronunciada */
+  transform: scale(1.1); /* Escala ligeramente más grande */
 }
 
+/* Estado deshabilitado */
 .pagination-container .page-item.disabled .page-link {
-    color: #6c757d;
-    pointer-events: none;
-    background-color: transparent;
-    border-color: transparent;
-    opacity: 0.6;
+  color: #6c757d; /* Gris */
+  pointer-events: none; /* No clickeable */
+  background-color: transparent; /* Fondo transparente */
+  border-color: transparent; /* Borde transparente */
+  opacity: 0.6; /* Opacidad reducida */
 }
 
+/* Contenedor nav para compatibilidad con Laravel / Bootstrap */
 .pagination-container nav {
-    width: 100%;
-    margin-top: 20px;
+  width: 100%; /* Ocupa todo el ancho */
+  margin-top: 20px; /* Espaciado superior */
 }
 
+/* Texto informativo oculto en pantallas pequeñas */
 .pagination-container nav > div:first-child {
-    display: none;
+  display: none;
 }
 
+/* Mostrar texto informativo en pantallas >= 640px */
 @media (min-width: 640px) {
-    .pagination-container nav > div:first-child {
-        display: block;
-        margin-bottom: 1rem;
-        text-align: center;
-        color: #6c757d;
-        font-size: 0.9rem;
-    }
+  .pagination-container nav > div:first-child {
+    display: block;
+    margin-bottom: 1rem;
+    text-align: center;
+    color: #6c757d; /* Gris */
+    font-size: 0.9rem; /* Tamaño de fuente */
+  }
 }
+
+/* Iconos dentro de la paginación (si hay SVG) */
 .pagination-container svg {
-    width: 20px;
-    height: 20px;
+  width: 20px;
+  height: 20px;
 }

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 19-01-2026 a las 18:26:06
+-- Tiempo de generación: 21-01-2026 a las 16:24:53
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.4.14
 
@@ -499,16 +499,13 @@ INSERT INTO `equipos` (`id_equipo`, `marca`, `modelo`, `serial`, `numero_bien`, 
 (22, 'HP', 'PRODESK 400G1', 'MXL4371MQB', '105835', 'METAL COLOR NEGRO', 5, 7, NULL, 'Buen Funcionamiento', 'Nuevo', 'Nuevo', 'Inactivo'),
 (23, 'HP', 'PRODESK 400G1', 'MXL4371MPF', '105795', 'METAL COLOR NEGRO', 5, NULL, NULL, 'Buen Funcionamiento', 'Nuevo', 'Nuevo', 'Inactivo'),
 (24, 'HP', 'Compaq dc5800 small', 'MXJ8480253', '98491', 'METAL COLOR GRIS Y PLASTICO COLOR NEGRO', 4, NULL, NULL, 'Operativo', 'Nuevo', 'Deteriorado', 'Inactivo'),
-(25, 'RICARDO', 'RIC', '30317381', '12345678', 'De acero', NULL, NULL, NULL, 'Sin Funcionar', 'Nuevo', 'Dañado', 'Inactivo'),
-(26, 'RICARDO', 'RICu', NULL, NULL, NULL, NULL, NULL, NULL, 'Buen Funcionamiento', 'Nuevo', 'Nuevo', 'Inactivo'),
-(27, 'RICARDO', '8hi', NULL, NULL, NULL, NULL, NULL, NULL, 'Operativo', 'Nuevo', 'Nuevo', 'Inactivo'),
 (28, 'DELL', 'OPTIPLEX XE2', NULL, '113304', 'METAL COLOR NEGRO', 1, NULL, NULL, 'Operativo', 'Obsoleto', 'Nuevo', 'Inactivo'),
 (29, 'DELL', 'OPTIPLEX 3040', NULL, '113839', 'METAL COLOR NEGRO', 1, NULL, NULL, 'Buen Funcionamiento', 'Obsoleto', 'Nuevo', 'Activo'),
 (30, 'DELL', 'OPTIPLEX XE2', NULL, '113304', 'METAL COLOR NEGRO', 1, NULL, NULL, 'Buen Funcionamiento', 'Obsoleto', 'Nuevo', 'Activo'),
 (31, 'MSI', 'M5-71385', NULL, '115096', 'METAL COLOR NEGRO', 3, 6, NULL, 'Operativo', 'Actualizable', 'Nuevo', 'Activo'),
 (32, 'HP', 'COMPAQ DX5600', 'MXJ848026Z', '98481', 'METAL COLOR NEGRO', 1, NULL, NULL, 'Buen Funcionamiento', 'Obsoleto', 'Nuevo', 'Activo'),
 (33, 'HP', 'COMPAQ DX5800', NULL, NULL, 'METAL COLOR GRIS CIN NEGRO', 1, NULL, NULL, 'Buen Funcionamiento', 'Obsoleto', 'Deteriorado', 'Activo'),
-(34, 'VIT MINI', 'M2100', 'A00121246415', '108373', NULL, 1, NULL, NULL, 'Buen Funcionamiento', 'Obsoleto', 'Nuevo', 'Activo'),
+(34, 'VIT MINI', 'M2100', 'A00121246415', '108373', 'METAL COLOR NEGRO', 1, NULL, NULL, 'Buen Funcionamiento', 'Obsoleto', 'Nuevo', 'Activo'),
 (35, 'HP', 'PRODESK', 'MXL4371MRH', '105848', 'PLASTICO/METAL COLOR NEGRO CON GRIS', 1, NULL, NULL, 'Operativo', 'Obsoleto', 'Nuevo', 'Activo'),
 (36, 'HP', 'CORE 2 DUO', 'MXJ80283', '98505', 'COLOR GRIS CON NEGRO OPACO', 1, NULL, NULL, 'Operativo', 'Obsoleto', 'Deteriorado', 'Activo'),
 (37, 'HP', 'COMPAQ DX5800', 'MX584825L', '98487', 'METAL COLOR NEGRO CON GRIS', 1, NULL, NULL, 'Operativo', 'Obsoleto', 'Nuevo', 'Activo'),
@@ -518,7 +515,7 @@ INSERT INTO `equipos` (`id_equipo`, `marca`, `modelo`, `serial`, `numero_bien`, 
 (41, 'HP', 'PRODESK', 'MXL4371MPF', '105795', 'METAL COLOR NEGRO', 1, NULL, NULL, 'Operativo', 'Obsoleto', 'Nuevo', 'Activo'),
 (42, 'VIT MINI', 'PENTIUM', 'A001246425', '108368', 'PLASTICO COLOR NEGRO', 1, NULL, NULL, 'Operativo', 'Obsoleto', 'Nuevo', 'Activo'),
 (43, 'HP', 'COMPAQ DX5800', 'MXJ8480279', '98475', 'PLASTICO/METAL COLOR NEGRO', 1, NULL, NULL, 'Operativo', 'Obsoleto', 'Deteriorado', 'Activo'),
-(44, 'HP', 'COMPAQ DX5800', 'mxj848028l', '98503', NULL, 1, NULL, NULL, 'Buen Funcionamiento', 'Obsoleto', 'Nuevo', 'Activo'),
+(44, 'HP', 'COMPAQ DX5800', 'mxj848028l', '98503', 'METAL COLOR NEGRO', 1, NULL, NULL, 'Buen Funcionamiento', 'Obsoleto', 'Nuevo', 'Activo'),
 (45, 'HP', 'COMPAQ DX5800', 'mxj848027Q', '98441', 'PLASTICO/METAL COLOR NEGRO CON GRIS', 1, NULL, NULL, 'Operativo', 'Obsoleto', 'Nuevo', 'Activo'),
 (46, 'VIT MINI', 'M-2100', 'A0012461893', '108688', 'PLASTICO/METAL COLOR NEGRO', 1, NULL, NULL, 'Operativo', 'Obsoleto', 'Deteriorado', 'Activo'),
 (47, 'VIT MINI', 'M-2100', 'A001246397', '108370', 'PLASTICO/METAL COLOR NEGRO', 1, NULL, NULL, 'Operativo', 'Obsoleto', 'Nuevo', 'Activo'),
@@ -1262,7 +1259,9 @@ INSERT INTO `logs` (`id_log`, `usuario`, `accion`, `fecha`) VALUES
 (828, 'admin', 'Creado el componente ID: Tarjeta Red', '2026-01-19 17:23:03'),
 (829, 'admin', 'Creado el componente ID: Unidad Optica', '2026-01-19 17:23:33'),
 (830, 'admin', 'Creado el componente ID: Fan Cooler', '2026-01-19 17:24:01'),
-(831, 'admin', 'Actualizó equipo: HP COMPAQ DX5800', '2026-01-19 17:24:25');
+(831, 'admin', 'Actualizó equipo: HP COMPAQ DX5800', '2026-01-19 17:24:25'),
+(832, 'admin', 'Actualizó equipo: HP COMPAQ DX5800', '2026-01-21 15:17:27'),
+(833, 'admin', 'Actualizó equipo: VIT MINI M2100', '2026-01-21 15:20:49');
 
 -- --------------------------------------------------------
 
@@ -1308,11 +1307,6 @@ INSERT INTO `software` (`id_software`, `id_equipo`, `nombre`, `version`, `tipo`,
 (243, 33, 'Chrome', '', 'Navegador', NULL),
 (244, 33, 'Firefox', '', 'Navegador', NULL),
 (245, 33, 'Edge', '', 'Navegador', NULL),
-(246, 34, 'Windows', '10 PRO', 'Sistema Operativo', '32'),
-(247, 34, 'Microsoft Office', '2016', 'Ofimática', '32'),
-(248, 34, 'Chrome', '', 'Navegador', NULL),
-(249, 34, 'Firefox', '', 'Navegador', NULL),
-(250, 34, 'Edge', '', 'Navegador', NULL),
 (259, 36, 'Windows', '10', 'Sistema Operativo', '64'),
 (260, 36, 'Microsoft Office', '2016', 'Ofimática', '64'),
 (261, 36, 'Chrome', '', 'Navegador', NULL),
@@ -1352,10 +1346,6 @@ INSERT INTO `software` (`id_software`, `id_equipo`, `nombre`, `version`, `tipo`,
 (326, 43, 'Microsoft Office', '2016', 'Ofimática', '32'),
 (327, 43, 'Chrome', '', 'Navegador', NULL),
 (328, 43, 'Edge', '', 'Navegador', NULL),
-(329, 44, 'Windows', '10', 'Sistema Operativo', '32'),
-(330, 44, 'Microsoft Office', '2016', 'Ofimática', '32'),
-(331, 44, 'Chrome', '', 'Navegador', NULL),
-(332, 44, 'Edge', '', 'Navegador', NULL),
 (337, 45, 'Windows', '10 PRO', 'Sistema Operativo', '32'),
 (338, 45, 'Microsoft Office', '2016', 'Ofimática', '32'),
 (339, 45, 'Chrome', '', 'Navegador', NULL),
@@ -1377,7 +1367,16 @@ INSERT INTO `software` (`id_software`, `id_equipo`, `nombre`, `version`, `tipo`,
 (373, 49, 'Windows', '10', 'Sistema Operativo', '32'),
 (374, 49, 'Microsoft Office', '2016', 'Ofimática', '32'),
 (375, 49, 'Chrome', '', 'Navegador', NULL),
-(376, 49, 'Firefox', '', 'Navegador', NULL);
+(376, 49, 'Firefox', '', 'Navegador', NULL),
+(377, 44, 'Windows', '10', 'Sistema Operativo', '32'),
+(378, 44, 'Microsoft Office', '2016', 'Ofimática', '32'),
+(379, 44, 'Chrome', '', 'Navegador', NULL),
+(380, 44, 'Edge', '', 'Navegador', NULL),
+(381, 34, 'Windows', '10 PRO', 'Sistema Operativo', '32'),
+(382, 34, 'Microsoft Office', '2016', 'Ofimática', '32'),
+(383, 34, 'Chrome', '', 'Navegador', NULL),
+(384, 34, 'Firefox', '', 'Navegador', NULL),
+(385, 34, 'Edge', '', 'Navegador', NULL);
 
 -- --------------------------------------------------------
 
@@ -1527,13 +1526,13 @@ ALTER TABLE `equipos`
 -- AUTO_INCREMENT de la tabla `logs`
 --
 ALTER TABLE `logs`
-  MODIFY `id_log` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=832;
+  MODIFY `id_log` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=834;
 
 --
 -- AUTO_INCREMENT de la tabla `software`
 --
 ALTER TABLE `software`
-  MODIFY `id_software` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=377;
+  MODIFY `id_software` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=386;
 
 --
 -- AUTO_INCREMENT de la tabla `usuarios`

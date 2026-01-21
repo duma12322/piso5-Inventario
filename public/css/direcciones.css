@@ -1,59 +1,67 @@
-/* public/css/direcciones.css */
+/* ======================================================
+   direcciones.css - Estilos generales para formulario
+   ====================================================== */
 
-/* Contenedor principal */
+/* Contenedor principal del formulario o sección */
 .container {
-  background-color: #f9f9f9;
-  padding: 25px;
-  border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  background-color: #f9f9f9; /* Fondo gris claro */
+  padding: 25px; /* Espaciado interno */
+  border-radius: 12px; /* Bordes redondeados */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Sombra suave */
 }
 
-/* Encabezado */
+/* Encabezado principal */
 h3 {
-  color: #333;
-  margin-bottom: 20px;
+  color: #333; /* Color de texto oscuro */
+  margin-bottom: 20px; /* Separación inferior */
 }
 
-/* Tabla */
+/* Estilo general de la tabla */
 .table {
-  background-color: #fff;
-  border-radius: 10px;
-  overflow: hidden;
+  background-color: #fff; /* Fondo blanco */
+  border-radius: 10px; /* Bordes redondeados */
+  overflow: hidden; /* Evita que el contenido sobresalga */
 }
 
+/* Encabezado de tabla */
 .table thead th {
-  background-color: #007bff;
-  color: #fff;
-  text-align: center;
+  background-color: #007bff; /* Fondo azul */
+  color: #fff; /* Texto blanco */
+  text-align: center; /* Centrado del texto */
 }
 
+/* Filas de la tabla al pasar el mouse */
 .table tbody tr:hover {
-  background-color: #e9f5ff;
-  transition: 0.3s;
+  background-color: #e9f5ff; /* Fondo azul claro al hover */
+  transition: 0.3s; /* Transición suave */
 }
 
+/* Celdas de tabla */
 .table td,
 .table th {
-  vertical-align: middle !important;
-  text-align: center;
+  vertical-align: middle !important; /* Centrado vertical */
+  text-align: center; /* Centrado horizontal */
 }
 
-/* Botones */
+/* Botón de acción exitosa (guardar, aceptar) */
 .btn-success {
-  background-color: #28a745;
-  border-color: #28a745;
-  border-radius: 8px;
-}
-.btn-success:hover {
-  background-color: #218838;
+  background-color: #28a745; /* Verde */
+  border-color: #28a745; /* Borde verde */
+  border-radius: 8px; /* Bordes redondeados */
 }
 
+/* Hover del botón success */
+.btn-success:hover {
+  background-color: #218838; /* Verde más oscuro */
+}
+
+/* Botones primarios y de peligro (editar, eliminar) */
 .btn-primary,
 .btn-danger {
-  border-radius: 8px;
+  border-radius: 8px; /* Bordes redondeados */
 }
 
-/* Form inline */
+/* Formularios en línea */
 form {
-  display: inline-block;
+  display: inline-block; /* Permite que el form se muestre en línea */
 }

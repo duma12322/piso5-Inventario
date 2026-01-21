@@ -1,101 +1,128 @@
-/* Variables de colores vibrantes */
+/* indexcomponentes.css - Estilos generales para formulario */
+
+/* -------------------------------
+   Variables de colores y diseño
+---------------------------------*/
 :root {
-    --primary: #667eea;
-    --primary-dark: #5a6fd8;
-    --secondary: #764ba2;
-    --success: #05ec2c;
-    --Blanco: #f7f8f7;
-    --gris: #696d6a;
-    --warning: #ff9500;
-    --green: #009213;
-    --danger: #f71307;
-    --info: #088efc;
-    --purple: #af52de;
-    --orange: #ff9500;
-    --teal: #5a6afa;
-    --pink: #fa0707;
+  /* Colores principales */
+  --primary: #667eea;
+  --primary-dark: #5a6fd8;
+  --secondary: #764ba2;
+  --success: #05ec2c;
+  --Blanco: #f7f8f7;
+  --gris: #696d6a;
+  --warning: #ff9500;
+  --green: #009213;
+  --danger: #f71307;
+  --info: #088efc;
+  --purple: #af52de;
+  --orange: #ff9500;
+  --teal: #5a6afa;
+  --pink: #fa0707;
 
-    --bg-gradient: linear-gradient(135deg, #e21111 0%, #8f0000 100%);
+  /* Gradiente de fondo principal */
+  --bg-gradient: linear-gradient(135deg, #e21111 0%, #8f0000 100%);
 
-    --text-dark: #2c3e50;
-    --text-light: #6c757d;
-    --bg-light: #f8f9fa;
-    --border-light: #e9ecef;
-    --shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.15);
+  /* Textos y fondos */
+  --text-dark: #2c3e50;
+  --text-light: #6c757d;
+  --bg-light: #f8f9fa;
+  --border-light: #e9ecef;
 
-    --border-radius: 12px;
-    --border-radius-sm: 8px;
-    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  /* Sombras */
+  --shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.15);
+
+  /* Bordes y transiciones */
+  --border-radius: 12px;
+  --border-radius-sm: 8px;
+  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Estilos generales */
+/* -------------------------------
+   Reset y estilos base
+---------------------------------*/
 * {
-    box-shadow: border-box;
+  box-shadow: border-box; /* Corregir nombre típico: probablemente quisiste 'box-sizing: border-box;' */
 }
 
 body {
-    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-    min-height: 100vh;
-    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(
+    135deg,
+    #f5f7fa 0%,
+    #c3cfe2 100%
+  ); /* Fondo degradado suave */
+  min-height: 100vh; /* Asegura altura mínima de pantalla */
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
+/* -------------------------------
+   Contenedor principal de componentes
+---------------------------------*/
 .components-container {
-    max-width: 1450px;
-    margin: 0 auto;
-    padding: 40px 30px; /* Increased padding */
-    animation: fadeIn 0.8s ease-out;
+  max-width: 1450px; /* Ancho máximo de contenido */
+  margin: 0 auto; /* Centrado horizontal */
+  padding: 40px 30px; /* Espaciado interno */
+  animation: fadeIn 0.8s ease-out; /* Animación de entrada */
 }
 
-/* Header Styles */
+/* -------------------------------
+   Encabezado de la sección de componentes
+---------------------------------*/
 .components-header {
-    background: var(--bg-gradient);
-    border-radius: var(--border-radius);
-    padding: 40px; /* Increased padding from 30px */
-    margin-bottom: 35px; /* Increased margin */
-    color: white;
-    box-shadow: var(--shadow-lg);
-    position: relative;
-    overflow: hidden;
+  background: var(--bg-gradient); /* Gradiente definido en :root */
+  border-radius: var(--border-radius);
+  padding: 40px; /* Espaciado interno */
+  margin-bottom: 35px; /* Separación inferior */
+  color: white; /* Texto en blanco */
+  box-shadow: var(--shadow-lg); /* Sombra grande */
+  position: relative; /* Para pseudo-elementos */
+  overflow: hidden;
 }
 
+/* Efecto de brillo en el header */
 .components-header::before {
-    content: "";
-    position: absolute;
-    top: -50%;
-    right: -50%;
-    width: 100%;
-    height: 200%;
-    background: linear-gradient(
-        45deg,
-        transparent,
-        rgba(255, 255, 255, 0.1),
-        transparent
-    );
-    transform: rotate(45deg);
-    animation: shine 3s infinite;
+  content: "";
+  position: absolute;
+  top: -50%;
+  right: -50%;
+  width: 100%;
+  height: 200%;
+  background: linear-gradient(
+    45deg,
+    transparent,
+    rgba(255, 255, 255, 0.1),
+    transparent
+  );
+  transform: rotate(45deg);
+  animation: shine 3s infinite; /* Animación de brillo */
 }
 
+/* Contenido del header (título y acciones) */
 .header-content {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-    position: relative;
-    z-index: 2;
+  display: flex; /* Flex para alinear elementos */
+  justify-content: space-between; /* Separar título y botones */
+  align-items: center; /* Centrar verticalmente */
+  margin-bottom: 20px; /* Espaciado inferior */
+  position: relative; /* Para mantener en el frente */
+  z-index: 2; /* Encima del pseudo-elemento */
 }
 
+/* -------------------------------
+   Títulos y subtítulos
+---------------------------------*/
 .title-section h1 {
-    margin: 0 0 8px 0;
-    font-size: 2.2rem;
-    font-weight: 700;
+  margin: 0 0 8px 0; /* Sin margen superior, pequeño margen inferior */
+  font-size: 2.2rem; /* Tamaño grande */
+  font-weight: 700; /* Negrita */
 }
 
 .title-section p {
-    margin: 0;
-    opacity: 0.9;
-    font-size: 1.1rem;
+  margin: 0; /* Sin margen */
+  opacity: 0.9; /* Ligeramente transparente */
+  font-size: 1.1rem; /* Tamaño de subtítulo */
 }
+
 /* 
 .header-icon {
     font-size: 2.5rem;
@@ -103,318 +130,382 @@ body {
     display: block;
 }
  */
+/* ======================================================
+   indexcomponentes.css - Sección de estadísticas y tabla
+   ====================================================== */
+
+/* -------------------------------
+   Header de estadísticas
+---------------------------------*/
 .header-stats {
-    display: flex;
-    gap: 200px;
+  display: flex; /* Layout horizontal de tarjetas */
+  gap: 200px; /* Separación grande entre cada tarjeta */
 }
 
+/* Tarjeta individual de estadística */
 .stat-card {
-    background: rgba(255, 255, 255, 0.2);
-    padding: 15px 20px;
-    border-radius: var(--border-radius-sm);
-    backdrop-filter: blur(10px);
-    text-align: center;
-    min-width: 120px;
+  background: rgba(255, 255, 255, 0.2); /* Fondo semitransparente */
+  padding: 15px 20px; /* Espaciado interno */
+  border-radius: var(--border-radius-sm); /* Bordes redondeados pequeños */
+  backdrop-filter: blur(10px); /* Efecto de desenfoque detrás */
+  text-align: center; /* Centrado de contenido */
+  min-width: 120px; /* Ancho mínimo */
 }
 
+/* Icono dentro de la tarjeta */
 .stat-card i {
-    font-size: 1.5rem;
-    margin-bottom: 8px;
-    display: block;
+  font-size: 1.5rem; /* Tamaño grande */
+  margin-bottom: 8px;
+  display: block; /* Ocupa línea completa */
 }
 
+/* Número principal de la estadística */
 .stat-number {
-    display: block;
-    font-size: 1.8rem;
-    font-weight: 700;
+  display: block;
+  font-size: 1.8rem; /* Tamaño grande para destacar */
+  font-weight: 700; /* Negrita */
 }
 
+/* Etiqueta de la estadística */
 .stat-label {
-    font-size: 0.9rem;
-    opacity: 0.9;
+  font-size: 0.9rem;
+  opacity: 0.9; /* Ligeramente transparente */
 }
 
-/* Botón agregar */
+/* -------------------------------
+   Botón para agregar componentes
+---------------------------------*/
 .btn-add-component {
-    background: rgba(255, 255, 255, 0.2);
-    color: white;
-    padding: 12px 25px;
-    border-radius: var(--border-radius-sm);
-    text-decoration: none;
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    font-weight: 600;
-    transition: var(--transition);
-    backdrop-filter: blur(10px);
-    border: 2px solid rgba(255, 255, 255, 0.3);
-    position: relative;
-    z-index: 2;
+  background: rgba(255, 255, 255, 0.2); /* Fondo semitransparente */
+  color: white;
+  padding: 12px 25px; /* Espaciado interno */
+  border-radius: var(--border-radius-sm); /* Bordes redondeados */
+  text-decoration: none;
+  display: inline-flex; /* Flex para icono + texto */
+  align-items: center;
+  gap: 10px; /* Separación entre icono y texto */
+  font-weight: 600; /* Negrita ligera */
+  transition: var(--transition); /* Transición suave */
+  backdrop-filter: blur(10px); /* Fondo difuminado */
+  border: 2px solid rgba(255, 255, 255, 0.3); /* Borde semi-transparente */
+  position: relative;
+  z-index: 2;
 }
 
+/* Efecto hover del botón */
 .btn-add-component:hover {
-    background: rgba(255, 255, 255, 0.3);
-    transform: translateY(-2px);
-    color: white;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  background: rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px); /* Leve elevación */
+  color: white;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); /* Sombra destacada */
 }
 
-/* Tabla */
+/* -------------------------------
+   Contenedor de la tabla
+---------------------------------*/
 .table-wrapper {
-    background: white;
-    border-radius: var(--border-radius);
-    box-shadow: var(--shadow);
-    overflow: hidden;
-    margin-bottom: 30px;
-    animation: slideUp 0.6s ease-out;
+  background: white;
+  border-radius: var(--border-radius); /* Bordes redondeados */
+  box-shadow: var(--shadow); /* Sombra estándar */
+  overflow: hidden; /* Recorte contenido desbordante */
+  margin-bottom: 30px; /* Espaciado inferior */
+  animation: slideUp 0.6s ease-out; /* Animación de entrada */
 }
 
+/* Tabla de componentes */
 .components-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 0.85rem; /* Reduced font size */
-    table-layout: auto; /* changed from fixed to auto to adapt */
+  width: 100%;
+  border-collapse: collapse; /* Elimina espacio entre celdas */
+  font-size: 0.85rem; /* Tamaño de fuente reducido */
+  table-layout: auto; /* Se adapta al contenido */
 }
 
+/* Encabezado de la tabla */
 .components-table thead {
-    background: linear-gradient(135deg, var(--primary), var(--secondary));
+  background: linear-gradient(
+    135deg,
+    var(--primary),
+    var(--secondary)
+  ); /* Gradiente vibrante */
 }
 
+/* Celdas del encabezado */
 .components-table th {
-    padding: 12px 10px; /* Reduced padding */
-    text-align: center;
-    color: white;
-    font-weight: 600;
-    text-transform: uppercase;
-    font-size: 0.8rem; /* Reduced header font */
-    letter-spacing: 0.5px;
-    border-bottom: 3px solid rgba(255, 255, 255, 0.2);
-    /* white-space: nowrap; REMOVED to allow wrapping */
-    vertical-align: middle;
+  padding: 12px 10px; /* Espaciado reducido */
+  text-align: center; /* Texto centrado */
+  color: white; /* Texto blanco */
+  font-weight: 600; /* Negrita */
+  text-transform: uppercase; /* Letras mayúsculas */
+  font-size: 0.8rem; /* Tamaño pequeño */
+  letter-spacing: 0.5px; /* Separación entre letras */
+  border-bottom: 3px solid rgba(255, 255, 255, 0.2); /* Línea inferior tenue */
+  vertical-align: middle; /* Centrado vertical */
+  /* white-space: nowrap; REMOVED para permitir wrap si necesario */
 }
 
+/* Iconos dentro de encabezados de tabla */
 .components-table th i {
-    margin-right: 8px;
-    font-size: 0.9rem;
+  margin-right: 8px;
+  font-size: 0.9rem;
 }
 
-/* Column Widths - Optimized (Relaxed for responsiveness) */
+/* -------------------------------
+   Anchos de columnas (Optimizado para responsividad)
+---------------------------------*/
 .column-id {
-    width: 60px;
-    text-align: center;
+  width: 60px; /* Ancho fijo para IDs */
+  text-align: center; /* Centrado de contenido */
 }
+
 .column-equipo {
-    /* width: 150px; Removed fixed width */
-    min-width: 100px;
+  /* width: 150px; Fixed width removed for flexibility */
+  min-width: 100px; /* Ancho mínimo para adaptarse al contenido */
 }
+
 .column-brand {
-    /* width: 140px; */
-    min-width: 100px;
+  /* width: 140px; */
+  min-width: 100px;
 }
+
 .column-model {
-    /* width: 160px; */
-    min-width: 100px;
+  /* width: 160px; */
+  min-width: 100px;
 }
+
 .column-actions {
-    width: 120px;
+  width: 120px; /* Ancho fijo para botones de acción */
 }
 
-/* Filas de la tabla */
+/* -------------------------------
+   Filas de la tabla de componentes
+---------------------------------*/
 .component-row {
-    border-bottom: 1px solid var(--border-light);
-    transition: var(--transition);
-    animation: fadeInRow 0.5s ease-out;
+  border-bottom: 1px solid var(--border-light); /* Línea inferior sutil */
+  transition: var(--transition); /* Transición suave */
+  animation: fadeInRow 0.5s ease-out; /* Animación de aparición */
 }
 
+/* Efecto hover sobre fila */
 .component-row:hover {
-    background: linear-gradient(135deg, #f8f9ff 0%, #f0f2ff 100%);
-    transform: translateX(5px);
-    box-shadow: 0 2px 10px rgba(102, 126, 234, 0.1);
+  background: linear-gradient(
+    135deg,
+    #f8f9ff 0%,
+    #f0f2ff 100%
+  ); /* Fondo degradado suave */
+  transform: translateX(5px); /* Desplazamiento leve a la derecha */
+  box-shadow: 0 2px 10px rgba(102, 126, 234, 0.1); /* Sombra ligera */
 }
 
+/* Celdas dentro de la fila */
 .component-row td {
-    padding: 10px 10px; /* Reduced padding */
-    vertical-align: middle;
-    /* overflow: hidden; REMOVED */
-    /* text-overflow: ellipsis; REMOVED */
-    text-align: center;
-    word-wrap: break-word; /* Added for wrapping */
+  padding: 10px 10px; /* Padding reducido para compactar tabla */
+  vertical-align: middle; /* Centrado vertical */
+  text-align: center; /* Centrado horizontal */
+  word-wrap: break-word; /* Permite que el texto se rompa en varias líneas */
+  /* overflow y text-overflow removidos para permitir wrapping */
 }
 
-/* Estilos específicos de columnas */
+/* -------------------------------
+   Estilos específicos por columna
+---------------------------------*/
+
+/* Badge para ID del componente */
 .component-id .id-badge {
-    background: var(--primary);
-    color: white;
-    padding: 6px 12px;
-    border-radius: 20px;
-    font-weight: 600;
-    font-size: 0.85rem;
-    display: inline-block;
+  background: var(--primary);
+  color: white;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  display: inline-block;
 }
 
+/* Información del equipo con icono */
 .equipo-info {
-    display: flex;
-    align-items: center;
-    gap: 10px;
+  display: flex; /* Layout horizontal */
+  align-items: center; /* Alineación vertical centrada */
+  gap: 10px; /* Separación entre icono y texto */
 }
 
 .equipo-info i {
-    color: var(--primary);
-    font-size: 1.1rem;
+  color: var(--primary); /* Color primario para iconos */
+  font-size: 1.1rem; /* Tamaño ligeramente más grande */
 }
 
-/* Badges de tipo */
+/* -------------------------------
+   Badges de tipo de componente
+---------------------------------*/
 .type-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 6px 12px;
-    border-radius: 20px;
-    font-size: 0.85rem;
-    font-weight: 600;
-    text-transform: uppercase;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 20px; /* Bordes redondeados estilo “pill” */
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
 }
 
+/* Badges blancos - CPUs, procesadores, RAM, discos duros */
 .type-cpu,
 .type-procesador,
-.type-tarjeta-madre {
-    background: linear-gradient(135deg, var(--Blanco), var(--Blanco));
-    color: rgb(0, 0, 0);
-}
-.type-cpu,
-.type-procesador,
-.type-Tarjeta-Grafica {
-    background: linear-gradient(135deg, var(--Blanco), var(--Blanco));
-    color: rgb(0, 0, 0);
-}
+.type-Tarjeta-Grafica,
 .type-ram,
-.type-memoria-ram {
-    background: linear-gradient(135deg, var(--Blanco), var(--Blanco));
-    color: rgb(0, 0, 0);
-}
-
+.type-memoria-ram,
 .type-disco-duro,
 .type-almacenamiento {
-    background: linear-gradient(135deg, var(--Blanco), var(--Blanco));
-    color: rgb(0, 0, 0);
+  background: linear-gradient(
+    135deg,
+    var(--Blanco),
+    var(--Blanco)
+  ); /* Fondo blanco */
+  color: rgb(0, 0, 0); /* Texto negro */
 }
 
+/* Badges de monitores/pantallas */
 .type-monitor,
 .type-pantalla {
-    background: linear-gradient(135deg, var(--info), var(--teal));
-    color: white;
+  background: linear-gradient(135deg, var(--info), var(--teal));
+  color: white;
 }
 
+/* Badges de periféricos (teclado, mouse, otros) */
 .type-teclado,
 .type-mouse,
 .type-periferico {
-    background: linear-gradient(135deg, var(--purple), var(--pink));
-    color: white;
+  background: linear-gradient(135deg, var(--purple), var(--pink));
+  color: white;
 }
 
-/* Badges de estado */
+/* ======================================================
+   Badges de Estado y Botones de Acción
+   ====================================================== */
+
+/* -------------------------------
+   Badges de estado general
+---------------------------------*/
 .status-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 6px 12px;
-    border-radius: 20px;
-    font-size: 0.85rem;
-    font-weight: 600;
+  display: inline-flex; /* Layout horizontal para ícono + texto */
+  align-items: center; /* Centrado vertical */
+  gap: 6px; /* Separación entre ícono y texto */
+  padding: 6px 12px; /* Espaciado interno */
+  border-radius: 20px; /* Bordes redondeados estilo “pill” */
+  font-size: 0.85rem; /* Tamaño de fuente */
+  font-weight: 600; /* Negrita */
 }
 
-/* Operativo - Amarillo */
+/* -------------------------------
+   Estado Amarillo - Operativo / En mantenimiento
+---------------------------------*/
 .status-operativo {
-    background-color: #fef3c7;
-    color: #d97706;
-    border: 1px solid #fde68a;
+  background-color: #fef3c7; /* Fondo amarillo claro */
+  color: #d97706; /* Texto naranja oscuro */
+  border: 1px solid #fde68a; /* Borde amarillo suave */
 }
 
-/* Buen Funcionamiento - Verde */
+/* -------------------------------
+   Estado Verde - Buen funcionamiento / Activo
+---------------------------------*/
 .status-buen-funcionamiento,
 .status-activo,
 .status-bueno {
-    background-color: #d1fae5;
-    color: #059669;
-    border: 1px solid #a7f3d0;
+  background-color: #d1fae5; /* Fondo verde claro */
+  color: #059669; /* Texto verde */
+  border: 1px solid #a7f3d0; /* Borde verde suave */
 }
 
-/* Sin Funcionar - Rojo */
+/* -------------------------------
+   Estado Rojo - Sin funcionar / Dañado
+---------------------------------*/
 .status-sin-funcionar,
 .status-danado,
 .status-no-funcional {
-    background-color: #fee2e2;
-    color: #dc2626;
-    border: 1px solid #fecaca;
+  background-color: #fee2e2; /* Fondo rojo claro */
+  color: #dc2626; /* Texto rojo */
+  border: 1px solid #fecaca; /* Borde rojo suave */
 }
 
+/* -------------------------------
+   Estado Desconocido / Default
+---------------------------------*/
 .status-desconocido {
-    background-color: #f3f4f6;
-    color: #4b5563;
-    border: 1px solid #e5e7eb;
+  background-color: #f3f4f6; /* Fondo gris claro */
+  color: #4b5563; /* Texto gris oscuro */
+  border: 1px solid #e5e7eb; /* Borde gris claro */
 }
 
-/* Botones de acción */
+/* ======================================================
+   Botones de acción (editar, eliminar, etc.)
+   ====================================================== */
 .action-buttons {
-    display: flex;
-    gap: 12px; /* Increased from 8px */
-    justify-content: center;
+  display: flex; /* Layout horizontal */
+  gap: 12px; /* Separación entre botones */
+  justify-content: center; /* Centrado horizontal */
 }
 
+/* Botón de acción genérico */
 .btn-action {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    text-decoration: none;
-    transition: var(--transition);
-    border: none;
-    cursor: pointer;
-    font-size: 1rem;
-    position: relative;
+  display: inline-flex; /* Layout horizontal para icono */
+  align-items: center; /* Centrado vertical */
+  justify-content: center; /* Centrado horizontal */
+  width: 40px; /* Tamaño fijo cuadrado */
+  height: 40px;
+  border-radius: 50%; /* Circular */
+  text-decoration: none;
+  transition: var(--transition); /* Transición suave para hover */
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  position: relative; /* Para posicionar tooltip */
 }
 
+/* Tooltip dentro del botón */
 .btn-action .tooltip {
-    position: absolute;
-    bottom: -40px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: var(--text-dark);
-    color: white;
-    padding: 6px 12px;
-    border-radius: var(--border-radius-sm);
-    font-size: 0.8rem;
-    white-space: nowrap;
-    opacity: 0;
-    pointer-events: none;
-    transition: var(--transition);
+  position: absolute;
+  bottom: -40px; /* Posición inicial debajo del botón */
+  left: 50%;
+  transform: translateX(-50%); /* Centrado horizontal */
+  background: var(--text-dark);
+  color: white;
+  padding: 6px 12px;
+  border-radius: var(--border-radius-sm);
+  font-size: 0.8rem;
+  white-space: nowrap;
+  opacity: 0; /* Oculto por defecto */
+  pointer-events: none; /* No interactúa hasta hover */
+  transition: var(--transition);
 }
 
+/* Mostrar tooltip al hover */
 .btn-action:hover .tooltip {
-    opacity: 1;
-    bottom: -35px;
+  opacity: 1;
+  bottom: -35px; /* Se eleva ligeramente */
 }
 
+/* -------------------------------
+   Botón Editar
+---------------------------------*/
 .btn-edit {
-    background: linear-gradient(135deg, var(--info), var(--teal));
-    color: white;
+  background: linear-gradient(135deg, var(--info), var(--teal));
+  color: white;
 }
 
 .btn-edit:hover {
-    transform: scale(1.1) rotate(5deg);
-    box-shadow: 0 4px 12px rgba(90, 200, 250, 0.4);
+  transform: scale(1.1) rotate(5deg); /* Crece y rota ligeramente */
+  box-shadow: 0 4px 12px rgba(90, 200, 250, 0.4); /* Sombra suave azul */
 }
 
+/* -------------------------------
+   Botón Eliminar
+---------------------------------*/
 .btn-delete {
-    background: linear-gradient(135deg, var(--danger), #ff3b30);
-    color: white;
+  background: linear-gradient(135deg, var(--danger), #ff3b30);
+  color: white;
 }
 
 .btn-delete:hover {
-    transform: scale(1.1) rotate(-5deg);
-    box-shadow: 0 4px 12px rgba(255, 59, 48, 0.4);
+  transform: scale(1.1) rotate(-5deg); /* Crece y rota en sentido opuesto */
+  box-shadow: 0 4px 12px rgba(255, 59, 48, 0.4); /* Sombra suave roja */
 }
 
 /* .btn-info {
@@ -432,400 +523,456 @@ body {
     padding: 0 !important;
 }
  */
+/* ======================================================
+   Empty State - Mensaje de vacío
+   ====================================================== */
 .empty-state {
-    text-align: center;
-    padding: 60px 20px;
-    color: var(--text-light);
+  text-align: center; /* Centrado horizontal */
+  padding: 60px 20px; /* Espacio interno amplio */
+  color: var(--text-light); /* Color de texto secundario */
 }
 
 .empty-state i {
-    font-size: 4rem;
-    margin-bottom: 20px;
-    color: var(--primary);
-    opacity: 0.5;
+  font-size: 4rem; /* Ícono grande */
+  margin-bottom: 20px; /* Espacio debajo del ícono */
+  color: var(--primary); /* Color principal */
+  opacity: 0.5; /* Transparencia para suavidad */
 }
 
 .empty-state h3 {
-    margin: 0 0 10px 0;
-    color: var(--text-dark);
+  margin: 0 0 10px 0; /* Margen inferior pequeño */
+  color: var(--text-dark); /* Color de título */
 }
 
 .empty-state p {
-    margin: 0 0 25px 0;
-    font-size: 1.1rem;
+  margin: 0 0 25px 0; /* Margen inferior para separar texto */
+  font-size: 1.1rem; /* Tamaño de párrafo ligeramente grande */
 }
 
 .btn-empty-state {
-    background: var(--primary);
-    color: white;
-    padding: 12px 25px;
-    border-radius: var(--border-radius-sm);
-    text-decoration: none;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    font-weight: 600;
-    transition: var(--transition);
+  background: var(--primary); /* Fondo principal */
+  color: white; /* Texto blanco */
+  padding: 12px 25px; /* Espaciado interno */
+  border-radius: var(--border-radius-sm); /* Bordes redondeados */
+  text-decoration: none; /* Sin subrayado */
+  display: inline-flex; /* Layout horizontal */
+  align-items: center; /* Centrado vertical */
+  gap: 8px; /* Separación entre ícono y texto */
+  font-weight: 600; /* Negrita */
+  transition: var(--transition); /* Transición suave */
 }
 
 .btn-empty-state:hover {
-    background: var(--primary-dark);
-    transform: translateY(-2px);
-    color: white;
-    box-shadow: var(--shadow);
+  background: var(--primary-dark); /* Fondo más oscuro al pasar el mouse */
+  transform: translateY(-2px); /* Elevación visual */
+  color: white;
+  box-shadow: var(--shadow); /* Sombra para resaltar */
 }
 
-/* Paginación */
+/* ======================================================
+   Paginación - Standardizada
+   ====================================================== */
 .pagination-container {
-    display: flex;
-    justify-content: center;
-    padding: 20px 0;
+  display: flex; /* Layout horizontal */
+  justify-content: center; /* Centrado */
+  padding: 20px 0; /* Espaciado vertical */
 }
 
+/* Lista de páginas */
 .pagination-container .pagination {
-    display: flex;
-    padding-left: 0;
-    list-style: none;
-    border-radius: var(--border-radius);
-    background: white;
-    box-shadow: var(--shadow);
-    padding: 10px;
-    gap: 5px;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
+  display: flex; /* Flex para que los items se alineen */
+  padding-left: 0; /* Quitar padding por defecto */
+  list-style: none; /* Quitar bullets */
+  border-radius: var(--border-radius); /* Bordes redondeados */
+  background: white;
+  box-shadow: var(--shadow);
+  padding: 10px; /* Espaciado interno */
+  gap: 5px; /* Separación entre items */
+  flex-wrap: wrap; /* Permite que los items se ajusten */
+  justify-content: center;
+  align-items: center;
 }
 
 .pagination-container .page-item {
-    margin: 2px; /* Margin for wrapping */
+  margin: 2px; /* Margen pequeño para separación */
 }
 
-/* Ensure UL allows wrapping */
+/* Asegurar que UL permite wrapping */
 .pagination-container .pagination {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 2px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2px;
 }
 
+/* Estilo de enlace de página */
 .pagination-container .page-link {
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0;
-    font-size: 0.9rem;
-    color: #da0606; /* Red */
-    text-decoration: none;
-    background-color: white;
-    border: 1px solid #da0606; /* Red border */
-    border-radius: 50%; /* Circle */
-    transition: var(--transition);
-    width: 38px;
-    height: 38px;
-    font-weight: 600;
-    margin: 0 3px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  font-size: 0.9rem;
+  color: #da0606; /* Rojo */
+  text-decoration: none;
+  background-color: white;
+  border: 1px solid #da0606; /* Borde rojo */
+  border-radius: 50%; /* Forma circular */
+  transition: var(--transition);
+  width: 38px;
+  height: 38px;
+  font-weight: 600;
+  margin: 0 3px;
 }
 
-/* Pill shape for text buttons (Anterior/Siguiente) */
+/* Botones de texto "Anterior/Siguiente" estilo pastilla */
 .pagination-container .page-item:first-child .page-link,
 .pagination-container .page-item:last-child .page-link {
-    width: auto;
-    border-radius: 50px;
-    padding: 0 15px;
+  width: auto;
+  border-radius: 50px;
+  padding: 0 15px;
 }
 
+/* Hover en link */
 .pagination-container .page-link:hover {
-    z-index: 2;
-    color: white;
-    background-color: #da0606;
-    border-color: #da0606;
-    transform: translateY(-2px);
-    box-shadow: 0 2px 5px rgba(218, 6, 6, 0.3);
+  z-index: 2;
+  color: white;
+  background-color: #da0606;
+  border-color: #da0606;
+  transform: translateY(-2px);
+  box-shadow: 0 2px 5px rgba(218, 6, 6, 0.3);
 }
 
+/* Página activa */
 .pagination-container .page-item.active .page-link {
-    z-index: 3;
-    color: #fff;
-    background-color: #da0606;
-    border-color: #da0606;
-    box-shadow: 0 4px 10px rgba(218, 6, 6, 0.4);
-    transform: scale(1.1);
+  z-index: 3;
+  color: #fff;
+  background-color: #da0606;
+  border-color: #da0606;
+  box-shadow: 0 4px 10px rgba(218, 6, 6, 0.4);
+  transform: scale(1.1);
 }
 
+/* Página deshabilitada */
 .pagination-container .page-item.disabled .page-link {
-    color: #6c757d;
-    pointer-events: none;
-    background-color: transparent;
-    border-color: transparent;
-    opacity: 0.6;
+  color: #6c757d;
+  pointer-events: none; /* No clicable */
+  background-color: transparent;
+  border-color: transparent;
+  opacity: 0.6; /* Visualmente deshabilitada */
 }
 
-/* Estilo para el texto "Results" si aparece junto a la paginación de Laravel */
-/* Bootstrap handles display logic via d-sm-none and d-sm-flex */
+/* Texto de resultados (opcional con Laravel) */
 .pagination-container nav {
-    width: 100%;
-    margin-top: 20px;
+  width: 100%;
+  margin-top: 20px;
 }
+
+/* Tamaño de íconos SVG dentro de paginación */
 .pagination-container svg {
-    width: 20px;
-    height: 20px;
+  width: 20px;
+  height: 20px;
 }
 
-/* Modal */
+/* ======================================================
+   Modal - Ventanas emergentes
+   ====================================================== */
+
+/* Contenedor del modal */
 .modal {
-    display: none;
-    position: fixed;
-    z-index: 1000;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(5px);
+  display: none; /* Inicialmente oculto */
+  position: fixed; /* Fijo en pantalla */
+  z-index: 1000; /* Por encima de todo */
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5); /* Fondo semitransparente */
+  backdrop-filter: blur(5px); /* Efecto blur de fondo */
 }
 
+/* Contenido interno del modal */
 .modal-content {
-    background: white;
-    margin: 5% auto;
-    padding: 0;
-    border-radius: var(--border-radius);
-    width: 90%;
-    max-width: 600px;
-    box-shadow: var(--shadow-lg);
-    animation: modalSlideIn 0.3s ease-out;
+  background: white; /* Fondo blanco */
+  margin: 5% auto; /* Centrado vertical y horizontal */
+  padding: 0; /* Sin padding inicial */
+  border-radius: var(--border-radius); /* Bordes redondeados */
+  width: 90%; /* Ancho relativo */
+  max-width: 600px; /* Máximo ancho */
+  box-shadow: var(--shadow-lg); /* Sombra profunda */
+  animation: modalSlideIn 0.3s ease-out; /* Animación de entrada */
 }
 
+/* Encabezado del modal */
 .modal-header {
-    background: var(--bg-gradient);
-    color: white;
-    padding: 20px 25px;
-    border-radius: var(--border-radius) var(--border-radius) 0 0;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  background: var(--bg-gradient); /* Fondo degradado */
+  color: white; /* Texto blanco */
+  padding: 20px 25px; /* Espaciado interno */
+  border-radius: var(--border-radius) var(--border-radius) 0 0; /* Bordes superiores redondeados */
+  display: flex; /* Layout flex */
+  justify-content: space-between; /* Separar título y botón cerrar */
+  align-items: center; /* Centrado vertical */
 }
 
+/* Título del modal */
 .modal-header h3 {
-    margin: 0;
+  margin: 0; /* Quitar márgenes por defecto */
 }
 
+/* Botón cerrar */
 .close-modal {
-    font-size: 1.5rem;
-    cursor: pointer;
-    transition: var(--transition);
+  font-size: 1.5rem; /* Tamaño del icono */
+  cursor: pointer; /* Cursor pointer */
+  transition: var(--transition); /* Transición suave */
 }
 
 .close-modal:hover {
-    transform: scale(1.1);
+  transform: scale(1.1); /* Efecto hover */
 }
 
+/* Cuerpo del modal */
 .modal-body {
-    padding: 25px;
+  padding: 25px; /* Espaciado interno */
 }
 
-/* Animaciones */
+/* ======================================================
+   Animaciones
+   ====================================================== */
+
+/* Fade in general para elementos */
 @keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
+/* Entrada tipo "slide up" */
 @keyframes slideUp {
-    from {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
+/* Fade in de filas (tables) */
 @keyframes fadeInRow {
-    from {
-        opacity: 0;
-        transform: translateX(-10px);
-    }
-    to {
-        opacity: 1;
-        transform: translateX(0);
-    }
+  from {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
+/* Animación de brillo (shine) */
 @keyframes shine {
-    0% {
-        transform: rotate(45deg) translateX(-100%);
-    }
-    100% {
-        transform: rotate(45deg) translateX(200%);
-    }
+  0% {
+    transform: rotate(45deg) translateX(-100%);
+  }
+  100% {
+    transform: rotate(45deg) translateX(200%);
+  }
 }
 
+/* Entrada del modal con efecto de deslizamiento y escala */
 @keyframes modalSlideIn {
-    from {
-        opacity: 0;
-        transform: translateY(-50px) scale(0.9);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-    }
+  from {
+    opacity: 0;
+    transform: translateY(-50px) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
 
-/* Responsive */
+/* ======================================================
+   Responsive Design - Adaptaciones para pantallas pequeñas
+   ====================================================== */
+
+/* ---------------------------
+   Breakpoint: Tablets y móviles
+   Max-width: 768px
+   --------------------------- */
 @media (max-width: 768px) {
-    .components-container {
-        padding: 15px;
-    }
+  /* Contenedor principal */
+  .components-container {
+    padding: 15px; /* Reduce padding para pantallas pequeñas */
+  }
 
-    .components-header {
-        padding: 20px;
-    }
+  /* Header principal */
+  .components-header {
+    padding: 20px; /* Menor padding que en escritorio */
+  }
 
-    .header-content {
-        flex-direction: column;
-        gap: 20px;
-        text-align: center;
-    }
+  /* Contenido del header */
+  .header-content {
+    flex-direction: column; /* Apilar elementos verticalmente */
+    gap: 20px; /* Separación entre elementos */
+    text-align: center; /* Centrar texto */
+  }
 
-    .title-section h1 {
-        font-size: 1.8rem;
-    }
+  /* Títulos principales */
+  .title-section h1 {
+    font-size: 1.8rem; /* Ajuste de tamaño para móviles */
+  }
 
-    .table-wrapper {
-        overflow-x: auto;
-    }
+  /* Contenedor de tablas */
+  .table-wrapper {
+    overflow-x: auto; /* Permite scroll horizontal si es necesario */
+  }
 
-    .components-table {
-        /* min-width removed to prevent scroll on small tables */
-        width: 100%;
-        border-collapse: collapse;
-    }
+  /* Tabla principal */
+  .components-table {
+    width: 100%; /* Asegura que ocupe todo el ancho disponible */
+    border-collapse: collapse; /* Colapsa bordes */
+  }
 
-    /* Fixed widths for mobile to allow scrolling */
-    .column-id {
-        width: 60px;
-    }
-    .column-brand {
-        width: 180px; /* Increased width for mobile */
-    }
-    .column-model {
-        width: 250px; /* Increased width for mobile */
-    }
-    .column-date {
-        width: 150px;
-    }
+  /* Ajuste de columnas para mobile */
+  .column-id {
+    width: 60px; /* Fijo para ID */
+  }
+  .column-brand {
+    width: 180px; /* Ajuste mayor para marcas */
+  }
+  .column-model {
+    width: 250px; /* Ajuste mayor para modelos largos */
+  }
+  .column-date {
+    width: 150px; /* Ajuste de fechas */
+  }
 
-    /* Compact Table Override (for Logs, etc.) to prevent scroll */
-    .table-compact .column-brand,
-    .table-compact .column-model,
-    .table-compact .column-date,
-    .table-compact .column-id,
-    .table-compact .column-actions {
-        width: auto !important;
-        min-width: 0;
-        white-space: normal;
-    }
+  /* Overrides para tablas compactas (logs, etc.) */
+  .table-compact .column-brand,
+  .table-compact .column-model,
+  .table-compact .column-date,
+  .table-compact .column-id,
+  .table-compact .column-actions {
+    width: auto !important; /* Permite que la columna se ajuste */
+    min-width: 0; /* Remueve ancho mínimo */
+    white-space: normal; /* Permite que el texto haga wrap */
+  }
 
-    .action-buttons {
-        flex-wrap: wrap;
-    }
+  /* Botones de acción */
+  .action-buttons {
+    flex-wrap: wrap; /* Permite que los botones se ajusten en varias filas */
+  }
 
-    .btn-action .tooltip {
-        display: none;
-    }
+  /* Tooltip de botones oculto en móviles */
+  .btn-action .tooltip {
+    display: none;
+  }
 }
 
+/* ---------------------------
+   Breakpoint: Teléfonos pequeños
+   Max-width: 480px
+   --------------------------- */
 @media (max-width: 480px) {
-    .header-stats {
-        flex-direction: column;
-        gap: 10px;
-    }
+  /* Estadísticas en header */
+  .header-stats {
+    flex-direction: column; /* Apilar verticalmente */
+    gap: 10px; /* Espacio reducido */
+  }
 
-    .stat-card {
-        min-width: auto;
-    }
+  /* Cartas de estadística */
+  .stat-card {
+    min-width: auto; /* Ajuste flexible del ancho */
+  }
 }
 
-/* Search Bar Styles (Copied from equiposprin.css) */
-/* Search Bar Styles (Copied from equiposprin.css) */
+/* ======================================================
+   Search Bar - Barra de búsqueda
+   Copiado y adaptado de equiposprin.css
+   ====================================================== */
+
+/* Contenedor de la búsqueda */
 .simple-search-container {
-    width: 100%;
-    margin-bottom: 2rem;
+  width: 100%; /* Ocupa todo el ancho */
+  margin-bottom: 2rem; /* Separación inferior */
 }
 
+/* Wrapper de búsqueda */
 .search-wrapper {
-    display: flex;
-    width: 100%;
-    border-radius: 50px;
-    overflow: hidden;
-    background: #fff;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08); /* Exact match */
-    position: relative;
+  display: flex; /* Layout horizontal */
+  width: 100%; /* Ancho completo */
+  border-radius: 50px; /* Bordes redondeados */
+  overflow: hidden; /* Oculta overflow */
+  background: #fff; /* Fondo blanco */
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08); /* Sombra ligera */
+  position: relative; /* Para posicionar elementos internos */
 }
 
+/* Input de búsqueda */
 .search-input {
-    flex: 1;
-    padding: 12px 15px; /* Exact match */
-    border: none;
-    border-bottom: 2px solid transparent;
-    font-size: 16px; /* Optimized for mobile */
-    outline: none;
-    background: #fff;
-    color: #333; /* Exact match */
-    width: 100%;
-    transition: border-color 0.2s;
+  flex: 1; /* Ocupa todo el espacio disponible */
+  padding: 12px 15px; /* Espaciado interno */
+  border: none; /* Sin bordes */
+  border-bottom: 2px solid transparent; /* Línea inferior invisible */
+  font-size: 16px; /* Tamaño de fuente óptimo para móviles */
+  outline: none; /* Sin outline al focus */
+  background: #fff; /* Fondo blanco */
+  color: #333; /* Texto oscuro */
+  width: 100%; /* Ancho completo */
+  transition: border-color 0.2s; /* Transición suave de borde */
 }
 
 .search-input:focus {
-    border-bottom-color: rgb(245, 4, 4); /* Exact match - Red */
-    background: #fff;
+  border-bottom-color: rgb(245, 4, 4); /* Rojo al enfocar */
+  background: #fff; /* Mantiene fondo blanco */
 }
 
 .search-input::placeholder {
-    color: #999;
+  color: #999; /* Color gris para placeholder */
 }
 
+/* Botón de búsqueda */
 .search-button {
-    background: rgb(240, 2, 2); /* Exact match - Red */
-    border: none;
-    color: white;
-    padding: 0 25px; /* Exact match */
-    cursor: pointer;
-    font-size: 16px; /* Optimized for mobile */
-    font-weight: 500;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-width: 60px;
-    transition: background 0.2s;
+  background: rgb(240, 2, 2); /* Rojo */
+  border: none;
+  color: white;
+  padding: 0 25px; /* Espaciado horizontal */
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 60px; /* Ancho mínimo */
+  transition: background 0.2s; /* Transición suave */
 }
 
 .search-button:hover {
-    background: #a00; /* Exact match */
+  background: #a00; /* Rojo oscuro al hover */
 }
 
+/* Botón limpiar input */
 .clear-button {
-    position: absolute;
-    right: 65px; /* Exact match */
-    top: 50%;
-    transform: translateY(-50%);
-    background: none;
-    border: none;
-    color: #ccc;
-    cursor: pointer;
-    font-size: 14px;
-    padding: 5px;
-    transition: color 0.2s;
-    z-index: 10;
+  position: absolute; /* Posición absoluta */
+  right: 65px; /* Ubicación a la derecha */
+  top: 50%;
+  transform: translateY(-50%); /* Centrar verticalmente */
+  background: none;
+  border: none;
+  color: #ccc;
+  cursor: pointer;
+  font-size: 14px;
+  padding: 5px;
+  transition: color 0.2s;
+  z-index: 10;
 }
 
 .clear-button:hover {
-    color: #c00;
+  color: #c00; /* Rojo al hover */
 }

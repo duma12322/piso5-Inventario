@@ -1,188 +1,225 @@
+/* login.css - Estilos generales para formulario */
+
 /* ===========================
    RESET Y FUENTES
-=========================== */
+   =========================== */
+
+/* Importa fuente Poppins desde Google Fonts */
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap");
 
+/* Reset general y box-sizing */
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: "Poppins", sans-serif;
+  margin: 0; /* Elimina márgenes por defecto */
+  padding: 0; /* Elimina padding por defecto */
+  box-sizing: border-box; /* Incluye padding y border en el ancho total */
+  font-family: "Poppins", sans-serif; /* Fuente principal */
 }
 
+/* Estilos generales del body */
 body {
-    min-height: 100vh;
-    background: #000428;
-    overflow-x: hidden; /* Prevent horizontal scroll only */
-    overflow-y: auto; /* Allow vertical scroll */
+  min-height: 100vh; /* Asegura que ocupe toda la altura de la pantalla */
+  background: #000428; /* Fondo oscuro */
+  overflow-x: hidden; /* Evita scroll horizontal */
+  overflow-y: auto; /* Permite scroll vertical */
 }
 
 /* ===========================
    ENCABEZADO
-=========================== */
+   =========================== */
+
+/* Header principal */
 .header {
-    position: relative;
-    width: 100%;
-    background: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0;
-    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.2);
-    z-index: 1000;
+  position: relative; /* Posicionamiento relativo para elementos internos */
+  width: 100%; /* Ancho completo */
+  background: white; /* Fondo blanco */
+  display: flex; /* Layout flex */
+  align-items: center; /* Centrar verticalmente */
+  justify-content: center; /* Centrar horizontalmente */
+  padding: 0; /* Sin padding interno */
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.2); /* Sombra sutil */
+  z-index: 1000; /* Encima de otros elementos */
 }
 
+/* Contenedor de imágenes del header */
 .header-images {
-    width: 100%;
+  width: 100%; /* Ocupa todo el ancho */
 }
 
+/* Imágenes del header */
 .header-images img {
-    width: 100%;
-    height: auto;
-    display: block;
-    max-height: 150px; /* Limit header height on large screens */
-    object-fit: contain;
+  width: 100%; /* Ancho completo */
+  height: auto; /* Mantiene proporción */
+  display: block; /* Evita espacios debajo de la imagen */
+  max-height: 150px; /* Limita altura en pantallas grandes */
+  object-fit: contain; /* Contiene la imagen sin deformarla */
 }
 
 /* ===========================
    SECCIÓN HOME (FONDO TOTAL)
-=========================== */
+   =========================== */
+
+/* Contenedor principal de la página home */
 .home {
-    position: relative;
-    width: 100%;
-    min-height: 100vh; /* Allow growth */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: linear-gradient(180deg, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.7)),
-        url("../fonts/nvfondo.png") center center / cover no-repeat fixed;
-    padding: 20px;
-    padding-top: 40px; /* Add spacing from header */
-    padding-bottom: 40px;
+  position: relative; /* Para elementos internos posicionados */
+  width: 100%; /* Ancho completo */
+  min-height: 100vh; /* Ocupa toda la altura de la pantalla */
+  display: flex; /* Flexbox para centrar contenido */
+  align-items: center; /* Centrado vertical */
+  justify-content: center; /* Centrado horizontal */
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.7)),
+    url("../fonts/nvfondo.png") center center / cover no-repeat fixed; /* Fondo degradado + imagen */
+  padding: 20px; /* Padding general */
+  padding-top: 40px; /* Espacio superior extra desde el header */
+  padding-bottom: 40px; /* Espacio inferior */
 }
 
+/* Página de login específica */
 .login-page {
-    padding: 0px !important;
-    display: block !important;
-    min-height: 100vh;
+  padding: 0px !important; /* Forzar padding cero */
+  display: block !important; /* Forzar bloque */
+  min-height: 100vh; /* Altura mínima de toda la pantalla */
 }
 
 /* ===========================
    CONTENEDOR DEL LOGIN
-=========================== */
+   =========================== */
+
+/* Caja principal del formulario */
 .form_container {
-    background: rgba(255, 255, 255, 0.12);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    width: 100%;
-    max-width: 400px;
-    padding: 40px;
-    border-radius: 20px;
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
-    animation: fadeIn 0.8s ease-out;
+  background: rgba(255, 255, 255, 0.12); /* Fondo semi-transparente */
+  backdrop-filter: blur(20px); /* Desenfoque de fondo */
+  -webkit-backdrop-filter: blur(20px); /* Soporte Safari */
+  border: 1px solid rgba(255, 255, 255, 0.2); /* Borde sutil */
+  width: 100%; /* Ocupa todo el ancho disponible */
+  max-width: 400px; /* Ancho máximo */
+  padding: 40px; /* Espaciado interno */
+  border-radius: 20px; /* Bordes redondeados */
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5); /* Sombra intensa */
+  animation: fadeIn 0.8s ease-out; /* Animación de aparición */
 }
 
+/* Título del formulario */
 .form_container h2 {
-    font-size: 24px;
-    font-weight: 600;
-    text-align: center;
-    color: #fff;
-    margin-bottom: 30px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
+  font-size: 24px; /* Tamaño de fuente */
+  font-weight: 600; /* Grosor */
+  text-align: center; /* Centrado */
+  color: #fff; /* Texto blanco */
+  margin-bottom: 30px; /* Separación inferior */
+  text-transform: uppercase; /* Mayúsculas */
+  letter-spacing: 1px; /* Espaciado entre letras */
 }
 
 /* ===========================
    INPUTS Y CAMPOS
-=========================== */
+   =========================== */
+
+/* Contenedor de cada input */
 .input_box {
-    position: relative;
-    margin-bottom: 20px;
+  position: relative; /* Para posicionar íconos */
+  margin-bottom: 20px; /* Espacio inferior entre campos */
 }
 
+/* Campos de entrada */
 .input_box input {
-    width: 100%;
-    height: 50px;
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    border-radius: 10px;
-    padding: 0 45px;
-    font-size: 16px; /* Prevent iOS zoom */
-    transition: 0.3s;
+  width: 100%; /* Ocupa todo el ancho */
+  height: 50px; /* Altura fija */
+  border: 1px solid rgba(255, 255, 255, 0.3); /* Borde transparente-blanco */
+  border-radius: 10px; /* Bordes redondeados */
+  padding: 0 45px; /* Espaciado horizontal interno para íconos */
+  font-size: 16px; /* Tamaño de fuente óptimo para evitar zoom en iOS */
+  transition: 0.3s; /* Transición suave */
 }
 
+/* Input en foco */
 .input_box input:focus {
-    outline: none;
-    border-color: #ff3333;
-    box-shadow: 0 0 10px rgba(255, 0, 0, 0.2);
+  outline: none; /* Sin outline por defecto */
+  border-color: #ff3333; /* Rojo al enfocar */
+  box-shadow: 0 0 10px rgba(255, 0, 0, 0.2); /* Sombra roja suave */
 }
 
+/* Iconos dentro de los inputs */
 .input_box i {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 20px;
-    color: #000428;
-    /* Iconos más visibles */
+  position: absolute; /* Posición absoluta dentro del input */
+  top: 50%; /* Centrado vertical */
+  transform: translateY(-50%); /* Ajuste exacto al centro */
+  font-size: 20px; /* Tamaño del icono */
+  color: #000428; /* Color oscuro */
 }
 
+/* Iconos específicos para email y password */
 .input_box i.email,
 .input_box i.password {
-    left: 15px;
+  left: 15px; /* Separación desde la izquierda */
 }
 
-/* Icono de Ver/Ocultar con mejor visibilidad */
+/* ======================================================
+   Icono de Ver/Ocultar Contraseña
+   ====================================================== */
+
+/* Icono de visibilidad dentro del input */
 .pw_hide {
-    right: 15px;
-    cursor: pointer;
-    opacity: 0.8;
-    transition: 0.3s;
+  right: 15px; /* Separación desde el borde derecho del input */
+  cursor: pointer; /* Cambia el cursor a puntero */
+  opacity: 0.8; /* Ligeramente transparente */
+  transition: 0.3s; /* Transición suave para hover */
 }
 
+/* Efecto al pasar el mouse sobre el icono */
 .pw_hide:hover {
-    opacity: 1;
-    color: #ff3333 !important;
+  opacity: 1; /* Total visibilidad */
+  color: #ff3333 !important; /* Cambia a rojo brillante */
 }
 
-/* ===========================
-   BOTÓN
-=========================== */
+/* ======================================================
+   BOTÓN PRINCIPAL DE LOGIN
+   ====================================================== */
+
+/* Estilo del botón */
 .button {
-    width: 100%;
-    height: 50px;
-    border: none;
-    border-radius: 10px;
-    color: #fff;
-    font-weight: 600;
-    background: linear-gradient(90deg, #ff0000, #800000);
-    cursor: pointer;
-    transition: 0.3s;
-    box-shadow: 0 5px 15px rgba(255, 0, 0, 0.3);
-    margin-top: 10px;
+  width: 100%; /* Ancho completo */
+  height: 50px; /* Altura fija */
+  border: none; /* Sin borde por defecto */
+  border-radius: 10px; /* Bordes redondeados */
+  color: #fff; /* Texto blanco */
+  font-weight: 600; /* Negrita */
+  background: linear-gradient(90deg, #ff0000, #800000); /* Degradado rojo */
+  cursor: pointer; /* Cursor puntero */
+  transition: 0.3s; /* Transición suave para hover */
+  box-shadow: 0 5px 15px rgba(255, 0, 0, 0.3); /* Sombra suave */
+  margin-top: 10px; /* Separación superior */
 }
 
+/* Efecto al pasar el mouse sobre el botón */
 .button:hover {
-    transform: translateY(-2px);
-    filter: brightness(1.2);
-    box-shadow: 0 8px 20px rgba(255, 0, 0, 0.4);
+  transform: translateY(-2px); /* Levanta ligeramente */
+  filter: brightness(1.2); /* Aumenta el brillo */
+  box-shadow: 0 8px 20px rgba(255, 0, 0, 0.4); /* Sombra más intensa */
 }
 
-/* Animación */
+/* ======================================================
+   ANIMACIONES
+   ====================================================== */
+
+/* Animación de fadeIn (usada en form_container y otros elementos) */
 @keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
+  from {
+    opacity: 0; /* Comienza invisible */
+    transform: translateY(20px); /* Comienza desplazado hacia abajo */
+  }
 
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+  to {
+    opacity: 1; /* Termina visible */
+    transform: translateY(0); /* Termina en posición original */
+  }
 }
 
-/* RESPONSIVE */
+/* ======================================================
+   RESPONSIVE
+   ====================================================== */
+
+/* Ajustes para pantallas muy pequeñas (móviles) */
 @media (max-width: 480px) {
-    .form_container {
-        padding: 30px 20px;
-    }
+  .form_container {
+    padding: 30px 20px; /* Reduce padding para caber en pantalla pequeña */
+  }
 }

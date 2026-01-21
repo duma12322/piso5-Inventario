@@ -1,501 +1,638 @@
-/* Variables de color y animación */
+/* equiposinactivosblade.css - Estilos generales para formulario de equipos inactivos */
+
+/* ==============================
+   Variables de color y animación
+   ============================== */
 :root {
-    --primary-red: #dc3545;
-    --dark-red: #c82333;
-    --warning-orange: #fd7e14;
-    --dark-bg: #1a1d28;
-    --card-bg: #ffffff;
-    --text-primary: #2d3748;
-    --text-secondary: #718096;
-    --border-color: #e2e8f0;
-    --hover-bg: #f7fafc;
-    --shadow-sm: 0 2px 4px rgba(0,0,0,0.05);
-    --shadow-md: 0 4px 6px rgba(0,0,0,0.07);
-    --shadow-lg: 0 10px 15px rgba(0,0,0,0.1);
-    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --primary-red: #dc3545; /* Color principal rojo */
+  --dark-red: #c82333; /* Rojo oscuro para hover o estados activos */
+  --warning-orange: #fd7e14; /* Naranja de advertencia */
+  --dark-bg: #1a1d28; /* Fondo oscuro */
+  --card-bg: #ffffff; /* Fondo de tarjetas */
+  --text-primary: #2d3748; /* Texto principal */
+  --text-secondary: #718096; /* Texto secundario */
+  --border-color: #e2e8f0; /* Color de bordes */
+  --hover-bg: #f7fafc; /* Fondo hover */
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05); /* Sombra pequeña */
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07); /* Sombra mediana */
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1); /* Sombra grande */
+  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); /* Transición suave */
 }
 
-/* Estilos generales */
+/* ==============================
+   Contenedor principal
+   ============================== */
 .equipos-inactivos-container {
-    padding: 2rem 0;
-    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-    min-height: 100vh;
+  padding: 2rem 0; /* Espacio superior e inferior */
+  background: linear-gradient(
+    135deg,
+    #f8f9fa 0%,
+    #e9ecef 100%
+  ); /* Gradiente de fondo */
+  min-height: 100vh; /* Altura mínima completa de pantalla */
 }
 
-/* Header con animación */
+/* ==============================
+   Header de sección con animación
+   ============================== */
 .header-section {
-    text-align: center;
-    margin-bottom: 3rem;
-    padding: 2rem;
-    background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
-    border-radius: 15px;
-    color: white;
-    box-shadow: var(--shadow-lg);
-    position: relative;
-    overflow: hidden;
+  text-align: center;
+  margin-bottom: 3rem; /* Separación inferior */
+  padding: 2rem;
+  background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
+  border-radius: 15px;
+  color: white;
+  box-shadow: var(--shadow-lg);
+  position: relative;
+  overflow: hidden; /* Para animación de fondo flotante */
 }
 
+/* Efecto de partículas flotantes en el header */
 .header-section::before {
-    content: '';
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
-    background-size: 20px 20px;
-    animation: float 20s linear infinite;
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.1) 1px,
+    transparent 1px
+  );
+  background-size: 20px 20px;
+  animation: float 20s linear infinite;
 }
 
+/* Animación de desplazamiento flotante */
 @keyframes float {
-    0% { transform: translate(0, 0) rotate(0deg); }
-    100% { transform: translate(-20px, -20px) rotate(360deg); }
+  0% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  100% {
+    transform: translate(-20px, -20px) rotate(360deg);
+  }
 }
 
+/* ==============================
+   Wrapper del título y subtítulo
+   ============================== */
 .title-wrapper {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 1rem;
-    margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem; /* Separación entre icono y texto */
+  margin-bottom: 1rem;
 }
 
+/* Icono de calavera animado */
 .skull-icon {
-    font-size: 2.5rem;
-    animation: pulse 2s infinite;
+  font-size: 2.5rem;
+  animation: pulse 2s infinite;
 }
 
+/* Animación de pulso */
 @keyframes pulse {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.1); }
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
 }
 
+/* ==============================
+   Títulos y subtítulos
+   ============================== */
 .page-title {
-    font-size: 2.2rem;
-    font-weight: 700;
-    margin: 0;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+  font-size: 2.2rem;
+  font-weight: 700;
+  margin: 0;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); /* Sombra suave para destacar */
 }
 
 .page-subtitle {
-    font-size: 1.1rem;
-    opacity: 0.9;
-    margin: 0;
+  font-size: 1.1rem;
+  opacity: 0.9; /* Texto ligeramente transparente */
+  margin: 0;
 }
 
-/* Tarjeta de Filtros */
+/* ======================================================
+   Tarjetas de Filtros y Sección de Exportación
+   ====================================================== */
+
+/* ==============================
+   Tarjeta de filtros
+   ============================== */
 .filter-card {
-    border: none;
-    border-radius: 12px;
-    box-shadow: var(--shadow-md);
-    margin-bottom: 2rem;
-    background: var(--card-bg);
-    transition: var(--transition);
+  border: none; /* Sin borde por defecto */
+  border-radius: 12px; /* Esquinas redondeadas */
+  box-shadow: var(--shadow-md); /* Sombra mediana */
+  margin-bottom: 2rem; /* Separación inferior */
+  background: var(--card-bg); /* Fondo blanco definido en variables */
+  transition: var(--transition); /* Transición suave para hover */
 }
 
 .filter-card:hover {
-    box-shadow: var(--shadow-lg);
-    transform: translateY(-2px);
+  box-shadow: var(--shadow-lg); /* Sombra más grande al pasar el mouse */
+  transform: translateY(-2px); /* Leve elevación */
 }
 
+/* Header de la tarjeta */
 .filter-card .card-header {
-    background: linear-gradient(135deg, #2d3748 0%, #4a5568 100%);
-    color: white;
-    border-radius: 12px 12px 0 0 !important;
-    padding: 1.2rem 1.5rem;
-    border: none;
+  background: linear-gradient(
+    135deg,
+    #2d3748 0%,
+    #4a5568 100%
+  ); /* Gradiente gris oscuro */
+  color: white;
+  border-radius: 12px 12px 0 0 !important; /* Redondeo superior solo */
+  padding: 1.2rem 1.5rem;
+  border: none;
 }
 
+/* Título dentro del header */
 .filter-card .card-title {
-    font-weight: 600;
-    font-size: 1.2rem;
+  font-weight: 600;
+  font-size: 1.2rem;
 }
 
+/* Select con animación */
 .select-animate {
-    transition: var(--transition);
-    border: 2px solid var(--border-color);
-    border-radius: 8px;
-    padding: 0.75rem;
+  transition: var(--transition); /* Transición suave */
+  border: 2px solid var(--border-color); /* Borde gris claro */
+  border-radius: 8px;
+  padding: 0.75rem;
 }
 
 .select-animate:focus {
-    border-color: var(--primary-red);
-    box-shadow: 0 0 0 0.25rem rgba(220, 53, 69, 0.25);
-    transform: translateY(-1px);
+  border-color: var(--primary-red); /* Borde rojo al enfocar */
+  box-shadow: 0 0 0 0.25rem rgba(220, 53, 69, 0.25); /* Sombra roja */
+  transform: translateY(-1px); /* Leve elevación */
 }
 
+/* Botón de filtrado */
 .btn-filter {
-    background: linear-gradient(135deg, var(--primary-red) 0%, var(--dark-red) 100%);
-    border: none;
-    color: white;
-    padding: 0.75rem 1.5rem;
-    border-radius: 8px;
-    font-weight: 600;
-    transition: var(--transition);
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  background: linear-gradient(
+    135deg,
+    var(--primary-red) 0%,
+    var(--dark-red) 100%
+  ); /* Gradiente rojo */
+  border: none;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: var(--transition);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .btn-filter:hover {
-    background: linear-gradient(135deg, var(--dark-red) 0%, #bd2130 100%);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
+  background: linear-gradient(135deg, var(--dark-red) 0%, #bd2130 100%);
+  transform: translateY(-2px); /* Elevación leve */
+  box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3); /* Sombra roja */
 }
 
-/* Sección de Exportación */
+/* ==============================
+   Sección de exportación
+   ============================== */
 .export-section {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 2rem;
-    padding: 1rem;
-    background: white;
-    border-radius: 10px;
-    box-shadow: var(--shadow-sm);
+  display: flex;
+  justify-content: space-between; /* Botones a extremos */
+  align-items: center;
+  margin-bottom: 2rem;
+  padding: 1rem;
+  background: white;
+  border-radius: 10px;
+  box-shadow: var(--shadow-sm);
 }
 
+/* Grupo de botones (PDF/Excel) */
 .btn-group {
-    display: flex;
-    gap: 0.5rem;
+  display: flex;
+  gap: 0.5rem; /* Separación entre botones */
 }
 
-.btn-pdf, .btn-excel {
-    padding: 0.75rem 1.5rem;
-    border-radius: 8px;
-    font-weight: 600;
-    transition: var(--transition);
-    display: flex;
-    align-items: center;
-    border: none;
+/* Botones PDF y Excel */
+.btn-pdf,
+.btn-excel {
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: var(--transition);
+  display: flex;
+  align-items: center;
+  border: none;
 }
 
+/* Botón PDF */
 .btn-pdf {
-    background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
-    color: white;
+  background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+  color: white;
 }
 
 .btn-pdf:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
+  transform: translateY(-2px); /* Elevación leve */
+  box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
 }
 
+/* Botón Excel */
 .btn-excel {
-    background: linear-gradient(135deg, #28a745 0%, #218838 100%);
-    color: white;
+  background: linear-gradient(135deg, #28a745 0%, #218838 100%);
+  color: white;
 }
 
 .btn-excel:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
+  transform: translateY(-2px); /* Elevación leve */
+  box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
 }
 
+/* Badges dentro de sección de estadísticas */
 .stats-badge .badge {
-    padding: 0.75rem 1.25rem;
-    font-size: 0.95rem;
-    border-radius: 8px;
-    animation: bounce 2s infinite;
+  padding: 0.75rem 1.25rem;
+  font-size: 0.95rem;
+  border-radius: 8px;
+  animation: bounce 2s infinite; /* Animación de rebote */
 }
 
+/* Animación de rebote para badges */
 @keyframes bounce {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-5px); }
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
 }
 
-/* Tabla de Resultados */
+/* ======================================================
+   Tabla de Resultados y Filas Expandibles
+   ====================================================== */
+
+/* ==============================
+   Contenedor principal de la tabla
+   ============================== */
 .results-card {
-    border: none;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: var(--shadow-md);
+  border: none; /* Sin borde */
+  border-radius: 12px; /* Esquinas redondeadas */
+  overflow: hidden; /* Oculta contenido desbordante */
+  box-shadow: var(--shadow-md); /* Sombra mediana */
 }
 
+/* Header de la tarjeta */
 .results-card .card-header {
-    background: white;
-    border-bottom: 2px solid var(--border-color);
-    padding: 1.2rem 1.5rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  background: white; /* Fondo blanco */
+  border-bottom: 2px solid var(--border-color); /* Separador inferior */
+  padding: 1.2rem 1.5rem;
+  display: flex;
+  justify-content: space-between; /* Espacio entre título y acciones */
+  align-items: center;
 }
 
+/* Contenedor de acciones (botones) en el header */
 .card-actions {
-    display: flex;
-    gap: 0.5rem;
+  display: flex;
+  gap: 0.5rem; /* Separación entre botones */
 }
 
+/* Tabla de equipos */
 .equipos-table {
-    margin: 0;
+  margin: 0; /* Elimina márgenes */
 }
 
+/* Encabezados de la tabla */
 .equipos-table thead th {
-    background: #f8f9fa;
-    border-bottom: 2px solid var(--border-color);
-    padding: 1rem;
-    font-weight: 600;
-    color: var(--text-primary);
-    position: sticky;
-    top: 0;
-    z-index: 10;
+  background: #f8f9fa; /* Fondo gris claro */
+  border-bottom: 2px solid var(--border-color);
+  padding: 1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  position: sticky; /* Se queda fijo al hacer scroll */
+  top: 0;
+  z-index: 10;
 }
 
+/* Filas del cuerpo de la tabla */
 .equipos-table tbody tr {
-    transition: var(--transition);
+  transition: var(--transition); /* Transición suave */
 }
 
 .equipos-table tbody tr:hover {
-    background-color: var(--hover-bg);
-    transform: scale(1.002);
+  background-color: var(--hover-bg); /* Fondo al pasar el mouse */
+  transform: scale(1.002); /* Leve zoom */
 }
 
+/* Celdas de la tabla */
 .equipos-table tbody td {
-    padding: 1.2rem 1rem;
-    vertical-align: middle;
-    border-bottom: 1px solid var(--border-color);
+  padding: 1.2rem 1rem;
+  vertical-align: middle;
+  border-bottom: 1px solid var(--border-color);
 }
 
+/* Badge para ID de equipo */
 .equipo-id .badge {
-    font-size: 0.85rem;
-    padding: 0.4rem 0.75rem;
-    border-radius: 6px;
+  font-size: 0.85rem;
+  padding: 0.4rem 0.75rem;
+  border-radius: 6px;
 }
 
+/* Información del equipo */
 .equipo-info strong {
-    color: var(--text-primary);
-    display: block;
-    margin-bottom: 0.25rem;
+  color: var(--text-primary);
+  display: block;
+  margin-bottom: 0.25rem;
 }
 
+/* Botón toggle para mostrar/ocultar componentes */
 .toggle-componentes {
-    transition: var(--transition);
-    border-radius: 6px;
-    font-weight: 500;
-    padding: 0.5rem 1rem;
+  transition: var(--transition);
+  border-radius: 6px;
+  font-weight: 500;
+  padding: 0.5rem 1rem;
 }
 
 .toggle-componentes:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  transform: translateY(-2px); /* Elevación leve */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
 }
 
-/* Fila expandible de componentes */
+/* ==============================
+   Fila expandible de componentes
+   ============================== */
 .componentes-row {
-    background: #f8f9fa;
-    animation: slideDown 0.3s ease-out;
+  background: #f8f9fa; /* Fondo gris claro */
+  animation: slideDown 0.3s ease-out; /* Animación de aparición */
 }
 
+/* Animación de deslizamiento hacia abajo */
 @keyframes slideDown {
-    from {
-        opacity: 0;
-        transform: translateY(-10px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-.componentes-content {
-    padding: 1.5rem;
-    background: white;
-    margin: 0.5rem;
-    border-radius: 8px;
-    border-left: 4px solid var(--primary-red);
-}
-
-.componente-section {
-    animation: fadeIn 0.5s ease-out;
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-}
-
-.section-title {
-    color: var(--text-primary);
-    font-size: 1.1rem;
-    margin-bottom: 1rem;
-    padding-bottom: 0.5rem;
-    border-bottom: 2px solid var(--border-color);
-}
-
-.componentes-list {
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-}
-
-.componente-item {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    padding: 1rem;
-    background: white;
-    border-radius: 8px;
-    border: 1px solid var(--border-color);
-    transition: var(--transition);
-    animation: slideIn 0.3s ease-out forwards;
-    animation-delay: calc(var(--item-index, 0) * 0.1s);
+  from {
     opacity: 0;
+    transform: translateY(-10px); /* Comienza arriba */
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0); /* Termina en posición normal */
+  }
 }
 
+/* Contenido de la fila expandible */
+.componentes-content {
+  padding: 1.5rem;
+  background: white; /* Fondo blanco */
+  margin: 0.5rem;
+  border-radius: 8px;
+  border-left: 4px solid var(--primary-red); /* Barra lateral roja */
+}
+
+/* Sección individual de componente con fade-in */
+.componente-section {
+  animation: fadeIn 0.5s ease-out;
+}
+
+/* Animación de desvanecimiento */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* ======================================================
+   Sección de Componentes, Estado Vacío y Paginación
+   ====================================================== */
+
+/* ==============================
+   Título de sección
+   ============================== */
+.section-title {
+  color: var(--text-primary); /* Color principal del texto */
+  font-size: 1.1rem; /* Tamaño de fuente */
+  margin-bottom: 1rem; /* Espacio debajo del título */
+  padding-bottom: 0.5rem; /* Espacio interno inferior */
+  border-bottom: 2px solid var(--border-color); /* Línea decorativa */
+}
+
+/* ==============================
+   Lista de componentes
+   ============================== */
+.componentes-list {
+  display: flex;
+  flex-direction: column; /* Alineación vertical */
+  gap: 0.75rem; /* Separación entre items */
+}
+
+/* Item individual de componente */
+.componente-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  background: white; /* Fondo blanco */
+  border-radius: 8px; /* Bordes redondeados */
+  border: 1px solid var(--border-color); /* Borde ligero */
+  transition: var(--transition); /* Transiciones suaves */
+  animation: slideIn 0.3s ease-out forwards; /* Animación de aparición */
+  animation-delay: calc(var(--item-index, 0) * 0.1s); /* Retraso escalonado */
+  opacity: 0; /* Comienza invisible */
+}
+
+/* Animación slideIn para items */
 @keyframes slideIn {
-    to {
-        opacity: 1;
-        transform: translateX(0);
-    }
-    from {
-        opacity: 0;
-        transform: translateX(-20px);
-    }
+  from {
+    opacity: 0;
+    transform: translateX(-20px); /* Desde la izquierda */
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0); /* Posición final */
+  }
 }
 
+/* Hover sobre item de componente */
 .componente-item:hover {
-    transform: translateX(5px);
-    box-shadow: var(--shadow-sm);
-    border-color: var(--primary-red);
+  transform: translateX(5px); /* Leve desplazamiento */
+  box-shadow: var(--shadow-sm); /* Sombra ligera */
+  border-color: var(--primary-red); /* Cambio de color del borde */
 }
 
+/* Icono del componente */
 .componente-icon {
-    width: 40px;
-    height: 40px;
-    background: linear-gradient(135deg, #e9ecef 0%, #dee2e6 100%);
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.2rem;
-    color: var(--primary-red);
+  width: 40px;
+  height: 40px;
+  background: linear-gradient(135deg, #e9ecef 0%, #dee2e6 100%);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  color: var(--primary-red);
 }
 
+/* Información principal del componente */
 .componente-info {
-    flex: 1;
+  flex: 1; /* Ocupa el espacio disponible */
 }
 
 .componente-info strong {
-    color: var(--text-primary);
-    font-size: 1rem;
-    display: block;
-    margin-bottom: 0.25rem;
+  color: var(--text-primary);
+  font-size: 1rem;
+  display: block;
+  margin-bottom: 0.25rem;
 }
 
+/* Estado / badge del componente */
 .componente-status .badge {
-    padding: 0.4rem 0.75rem;
-    font-size: 0.85rem;
-    border-radius: 6px;
+  padding: 0.4rem 0.75rem;
+  font-size: 0.85rem;
+  border-radius: 6px;
 }
 
-/* Estado vacío */
+/* ==============================
+   Estado vacío (cuando no hay componentes)
+   ============================== */
 .empty-state {
-    text-align: center;
-    padding: 4rem 2rem;
-    color: var(--text-secondary);
+  text-align: center;
+  padding: 4rem 2rem;
+  color: var(--text-secondary);
 }
 
 .empty-state-icon {
-    font-size: 4rem;
-    color: #28a745;
-    margin-bottom: 1.5rem;
-    animation: scaleIn 1s ease-out;
+  font-size: 4rem;
+  color: #28a745; /* Verde para icono de estado vacío */
+  margin-bottom: 1.5rem;
+  animation: scaleIn 1s ease-out; /* Animación de aparición */
 }
 
+/* Animación scaleIn para iconos */
 @keyframes scaleIn {
-    0% { transform: scale(0); opacity: 0; }
-    100% { transform: scale(1); opacity: 1; }
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
 
 .empty-state h4 {
-    color: var(--text-primary);
-    margin-bottom: 1rem;
-    font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 1rem;
+  font-weight: 600;
 }
 
-/* Paginación */
+/* ==============================
+   Paginación
+   ============================== */
 .pagination-wrapper {
-    margin-top: 2rem;
-    display: flex;
-    justify-content: center;
+  margin-top: 2rem;
+  display: flex;
+  justify-content: center; /* Centrado horizontal */
 }
 
 .pagination-wrapper .pagination {
-    box-shadow: var(--shadow-sm);
-    border-radius: 8px;
-    overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  border-radius: 8px;
+  overflow: hidden; /* Para bordes redondeados */
 }
 
 .pagination-wrapper .page-link {
-    padding: 0.75rem 1rem;
-    border: none;
-    color: var(--text-primary);
-    transition: var(--transition);
+  padding: 0.75rem 1rem;
+  border: none;
+  color: var(--text-primary);
+  transition: var(--transition);
 }
 
 .pagination-wrapper .page-link:hover {
-    background: var(--primary-red);
-    color: white;
-    transform: translateY(-1px);
+  background: var(--primary-red); /* Fondo rojo al hover */
+  color: white; /* Texto blanco */
+  transform: translateY(-1px); /* Leve desplazamiento */
 }
 
+/* Página activa */
 .pagination-wrapper .page-item.active .page-link {
-    background: linear-gradient(135deg, var(--primary-red) 0%, var(--dark-red) 100%);
-    border: none;
+  background: linear-gradient(
+    135deg,
+    var(--primary-red) 0%,
+    var(--dark-red) 100%
+  );
+  border: none;
 }
 
-/* Responsive */
+/* ======================================================
+   Responsive - Ajustes para pantallas pequeñas
+   ====================================================== */
+
+/* Media query para pantallas hasta 768px */
 @media (max-width: 768px) {
-    .header-section {
-        padding: 1.5rem 1rem;
-    }
-    
-    .page-title {
-        font-size: 1.8rem;
-    }
-    
-    .export-section {
-        flex-direction: column;
-        gap: 1rem;
-    }
-    
-    .componente-item {
-        flex-direction: column;
-        text-align: center;
-        gap: 0.75rem;
-    }
-    
-    .toggle-componentes {
-        width: 100%;
-        margin-bottom: 0.5rem;
-    }
-    
-    .equipos-table thead {
-        display: none;
-    }
-    
-    .equipos-table tbody tr {
-        display: block;
-        margin-bottom: 1rem;
-        border: 1px solid var(--border-color);
-        border-radius: 8px;
-        padding: 1rem;
-    }
-    
-    .equipos-table tbody td {
-        display: block;
-        text-align: right;
-        padding: 0.5rem 0;
-        border: none;
-        position: relative;
-    }
-    
-    .equipos-table tbody td::before {
-        content: attr(data-label);
-        position: absolute;
-        left: 0;
-        width: 50%;
-        padding-right: 1rem;
-        font-weight: 600;
-        text-align: left;
-        color: var(--text-primary);
-    }
+  /* Ajuste del padding del header principal */
+  .header-section {
+    padding: 1.5rem 1rem; /* Reduce el padding para pantallas más pequeñas */
+  }
+
+  /* Ajuste del tamaño del título principal */
+  .page-title {
+    font-size: 1.8rem; /* Fuente más pequeña para caber en pantallas móviles */
+  }
+
+  /* Sección de exportación: pasar de fila a columna */
+  .export-section {
+    flex-direction: column; /* Apilar elementos verticalmente */
+    gap: 1rem; /* Espacio entre botones */
+  }
+
+  /* Componente item: apilar contenido verticalmente y centrar */
+  .componente-item {
+    flex-direction: column; /* De fila a columna */
+    text-align: center; /* Centrar texto e iconos */
+    gap: 0.75rem; /* Separación entre elementos */
+  }
+
+  /* Botón toggle de componentes ocupa todo el ancho */
+  .toggle-componentes {
+    width: 100%; /* Botón a ancho completo */
+    margin-bottom: 0.5rem; /* Espacio inferior */
+  }
+
+  /* Tabla de equipos: ocultar el header para mejor visualización móvil */
+  .equipos-table thead {
+    display: none; /* Header oculto */
+  }
+
+  /* Tabla de equipos: convertir filas en bloques verticales */
+  .equipos-table tbody tr {
+    display: block; /* Cada fila como bloque */
+    margin-bottom: 1rem; /* Separación entre filas */
+    border: 1px solid var(--border-color); /* Borde visible para cada fila */
+    border-radius: 8px; /* Bordes redondeados */
+    padding: 1rem; /* Espacio interno */
+  }
+
+  /* Celdas de la tabla: mostrar como bloques y ajustar alineación */
+  .equipos-table tbody td {
+    display: block; /* Cada celda en su propia línea */
+    text-align: right; /* Texto alineado a la derecha */
+    padding: 0.5rem 0; /* Espaciado vertical */
+    border: none; /* Quitar borde inferior */
+    position: relative; /* Para pseudo-elementos */
+  }
+
+  /* Mostrar etiquetas de columna con pseudo-elementos */
+  .equipos-table tbody td::before {
+    content: attr(data-label); /* Etiqueta dinámica usando data-label */
+    position: absolute; /* Posición absoluta para separar del contenido */
+    left: 0; /* Alineado a la izquierda */
+    width: 50%; /* Ocupa la mitad izquierda */
+    padding-right: 1rem; /* Espaciado entre etiqueta y contenido */
+    font-weight: 600; /* Texto en negrita */
+    text-align: left; /* Alineación de la etiqueta a la izquierda */
+    color: var(--text-primary); /* Color de la etiqueta */
+  }
 }

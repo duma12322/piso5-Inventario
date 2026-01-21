@@ -1,220 +1,270 @@
 /* componentes.css - Estilos para las tablas de componentes */
 
-/* Mejoras para la tabla de componentes principales */
+/* ======================================================
+   MEJORAS PARA LA TABLA DE COMPONENTES PRINCIPALES
+   ====================================================== */
+
+/* Bordes de la tabla */
 .table-bordered {
-    border: 1px solid #dee2e6;
+  border: 1px solid #dee2e6; /* Borde gris claro alrededor de toda la tabla */
 }
 
+/* Filas alternadas (striped) para mejor legibilidad */
 .table-striped tbody tr:nth-of-type(odd) {
-    background-color: rgba(0, 0, 0, 0.02);
+  background-color: rgba(0, 0, 0, 0.02); /* Fondo muy claro en filas impares */
 }
 
-/* Distribución de columnas para componentes principales */
+/* ======================================================
+   DISTRIBUCIÓN DE COLUMNAS PARA COMPONENTES PRINCIPALES
+   ====================================================== */
+
+/* Columna 1 */
 .table-bordered th:nth-child(1),
 .table-bordered td:nth-child(1) {
-    width: 5%;
-    min-width: 50px;
+  width: 5%; /* Ancho relativo de columna */
+  min-width: 50px; /* Ancho mínimo en píxeles */
 }
 
+/* Columna 2 */
 .table-bordered th:nth-child(2),
 .table-bordered td:nth-child(2) {
-    width: 12%;
-    min-width: 100px;
+  width: 12%;
+  min-width: 100px;
 }
 
+/* Columna 3 */
 .table-bordered th:nth-child(3),
 .table-bordered td:nth-child(3) {
-    width: 10%;
-    min-width: 80px;
+  width: 10%;
+  min-width: 80px;
 }
 
+/* Columna 4 */
 .table-bordered th:nth-child(4),
 .table-bordered td:nth-child(4) {
-    width: 12%;
-    min-width: 100px;
+  width: 12%;
+  min-width: 100px;
 }
 
+/* Columna 5 */
 .table-bordered th:nth-child(5),
 .table-bordered td:nth-child(5) {
-    width: 12%;
-    min-width: 100px;
+  width: 12%;
+  min-width: 100px;
 }
 
+/* Columna 6 */
 .table-bordered th:nth-child(6),
 .table-bordered td:nth-child(6) {
-    width: 10%;
-    min-width: 90px;
+  width: 10%;
+  min-width: 90px;
 }
 
+/* Columna 7 */
 .table-bordered th:nth-child(7),
 .table-bordered td:nth-child(7) {
-    width: 12%;
-    min-width: 100px;
+  width: 12%;
+  min-width: 100px;
 }
 
+/* Columna 8 */
 .table-bordered th:nth-child(8),
 .table-bordered td:nth-child(8) {
-    width: 12%;
-    min-width: 100px;
+  width: 12%;
+  min-width: 100px;
 }
 
+/* Columna 9 */
 .table-bordered th:nth-child(9),
 .table-bordered td:nth-child(9) {
-    width: 12%;
-    min-width: 120px;
+  width: 12%;
+  min-width: 120px;
 }
 
+/* Columna 10 */
 .table-bordered th:nth-child(10),
 .table-bordered td:nth-child(10) {
-    width: 13%;
-    min-width: 130px;
+  width: 13%;
+  min-width: 130px;
 }
 
-/* Estilos para badges de estado */
+/* ======================================================
+   BADGES GENERALES
+   ====================================================== */
+
+/* Badge base */
 .badge {
-    display: inline-block;
-    padding: 0.35em 0.65em;
-    font-size: 0.85em;
-    font-weight: 600;
-    line-height: 1;
-    text-align: center;
-    white-space: nowrap;
-    vertical-align: baseline;
-    border-radius: 0.375rem;
+  display: inline-block; /* Mostrar en línea con otros elementos */
+  padding: 0.35em 0.65em; /* Espaciado interno */
+  font-size: 0.85em; /* Tamaño de fuente pequeño */
+  font-weight: 600; /* Fuente semi-negrita */
+  line-height: 1; /* Altura de línea ajustada */
+  text-align: center; /* Centrado de texto */
+  white-space: nowrap; /* No permitir salto de línea */
+  vertical-align: baseline; /* Alineación vertical estándar */
+  border-radius: 0.375rem; /* Bordes ligeramente redondeados */
 }
 
+/* Badge con fondo verde */
 .badge.bg-success {
-    background-color: #198754 !important;
-    color: white;
+  background-color: #198754 !important; /* Fondo verde */
+  color: white; /* Texto blanco */
 }
 
+/* Badge con fondo azul */
 .badge.bg-primary {
-    background-color: #0d6efd !important;
-    color: white;
+  background-color: #0d6efd !important; /* Fondo azul */
+  color: white; /* Texto blanco */
 }
 
+/* Margen derecho para badges consecutivos */
 .badge.me-1 {
-    margin-right: 0.25rem;
+  margin-right: 0.25rem;
 }
 
-/* Status badges para estados de componentes */
+/* ======================================================
+   BADGES DE ESTADO DE COMPONENTES
+   ====================================================== */
+
+/* Badge base de estado */
 .status-badge {
-    display: inline-block;
-    padding: 0.4rem 0.9rem;
-    border-radius: 20px;
-    font-size: 0.85rem;
-    font-weight: 600;
-    text-transform: capitalize;
-    letter-spacing: 0.3px;
-    white-space: nowrap;
+  display: inline-block; /* Mostrar en línea */
+  padding: 0.4rem 0.9rem; /* Espaciado interno */
+  border-radius: 20px; /* Bordes redondeados */
+  font-size: 0.85rem; /* Tamaño de fuente */
+  font-weight: 600; /* Fuente semi-negrita */
+  text-transform: capitalize; /* Capitaliza la primera letra */
+  letter-spacing: 0.3px; /* Espacio entre letras */
+  white-space: nowrap; /* No permitir salto de línea */
 }
 
 /* Buen Funcionamiento - Verde */
 .status-buen-funcionamiento,
 .estado-buen-funcionamiento {
-    background-color: #dcfce7;
-    color: #166534;
-    border: 1px solid #86efac;
+  background-color: #dcfce7; /* Fondo verde claro */
+  color: #166534; /* Texto verde oscuro */
+  border: 1px solid #86efac; /* Borde verde */
 }
 
 /* Operativo - Amarillo */
 .status-operativo,
 .estado-operativo {
-    background-color: #fef3c7;
-    color: #92400e;
-    border: 1px solid #fcd34d;
+  background-color: #fef3c7; /* Fondo amarillo claro */
+  color: #92400e; /* Texto marrón/amarillo oscuro */
+  border: 1px solid #fcd34d; /* Borde amarillo */
 }
 
 /* Sin Funcionar - Rojo */
 .status-sin-funcionar,
 .estado-sin-funcionar {
-    background-color: #fee2e2;
-    color: #991b1b;
-    border: 1px solid #fca5a5;
+  background-color: #fee2e2; /* Fondo rojo claro */
+  color: #991b1b; /* Texto rojo oscuro */
+  border: 1px solid #fca5a5; /* Borde rojo */
 }
 
-/* Tabla responsive */
+/* ======================================================
+   TABLAS
+   ====================================================== */
+
+/* Contenedor de tabla con scroll horizontal */
 .table-container {
-    overflow-x: auto;
-    margin-bottom: 1.5rem;
+  overflow-x: auto; /* Scroll horizontal si es necesario */
+  margin-bottom: 1.5rem; /* Separación inferior */
 }
 
-/* Mejora de padding en celdas */
+/* Padding y alineación de celdas */
 .table-bordered td,
 .table-bordered th {
-    padding: 0.75rem;
-    vertical-align: middle;
-    word-wrap: break-word;
+  padding: 0.75rem; /* Espaciado interno */
+  vertical-align: middle; /* Centrado vertical */
+  word-wrap: break-word; /* Permite cortar palabras largas */
 }
 
 /* Encabezados de tabla */
 .table-bordered thead th {
-    background-color: #f8f9fa;
-    font-weight: 600;
-    color: #495057;
-    border-bottom: 2px solid #dee2e6;
+  background-color: #f8f9fa; /* Fondo gris claro */
+  font-weight: 600; /* Fuente semi-negrita */
+  color: #495057; /* Texto gris oscuro */
+  border-bottom: 2px solid #dee2e6; /* Línea inferior */
 }
 
 /* Hover en filas */
 .table-bordered tbody tr:hover {
-    background-color: rgba(0, 0, 0, 0.04);
-    transition: background-color 0.2s ease;
+  background-color: rgba(0, 0, 0, 0.04); /* Fondo gris claro al pasar mouse */
+  transition: background-color 0.2s ease; /* Transición suave */
 }
 
-/* Botones de acción */
+/* ======================================================
+   BOTONES DE ACCIÓN PEQUEÑOS
+   ====================================================== */
+
+/* Tamaño pequeño de botones */
 .btn-sm {
-    padding: 0.25rem 0.5rem;
-    font-size: 0.875rem;
-    border-radius: 0.25rem;
+  padding: 0.25rem 0.5rem; /* Espaciado interno */
+  font-size: 0.875rem; /* Tamaño de fuente */
+  border-radius: 0.25rem; /* Bordes redondeados */
 }
 
+/* Botón de advertencia (amarillo) */
 .btn-warning {
-    background-color: #ffc107;
-    border-color: #ffc107;
-    color: #000;
+  background-color: #ffc107;
+  border-color: #ffc107;
+  color: #000;
 }
 
+/* Hover del botón de advertencia */
 .btn-warning:hover {
-    background-color: #e0a800;
-    border-color: #d39e00;
+  background-color: #e0a800;
+  border-color: #d39e00;
 }
 
+/* Botón de peligro (rojo) */
 .btn-danger {
-    background-color: #dc3545;
-    border-color: #dc3545;
-    color: white;
+  background-color: #dc3545;
+  border-color: #dc3545;
+  color: white;
 }
 
+/* Hover del botón de peligro */
 .btn-danger:hover {
-    background-color: #c82333;
-    border-color: #bd2130;
+  background-color: #c82333;
+  border-color: #bd2130;
 }
 
-/* Espaciado entre botones */
+/* ======================================================
+   UTILIDADES
+   ====================================================== */
+
+/* Espaciado inferior */
 .mb-1 {
-    margin-bottom: 0.25rem;
+  margin-bottom: 0.25rem;
 }
 
 /* Centrado de texto */
 .text-center {
-    text-align: center;
+  text-align: center;
 }
 
-/* Responsive para pantallas pequeñas */
+/* ======================================================
+   RESPONSIVE PARA PANTALLAS PEQUEÑAS
+   ====================================================== */
 @media (max-width: 768px) {
-    .table-bordered th,
-    .table-bordered td {
-        font-size: 0.85rem;
-        padding: 0.5rem;
-    }
+  /* Ajuste de tamaño de fuente y padding en celdas de tabla */
+  .table-bordered th,
+  .table-bordered td {
+    font-size: 0.85rem; /* Fuente ligeramente más pequeña */
+    padding: 0.5rem; /* Espaciado interno reducido */
+  }
 
-    .status-badge {
-        font-size: 0.75rem;
-        padding: 0.3rem 0.6rem;
-    }
+  /* Ajuste de tamaño y padding en badges de estado */
+  .status-badge {
+    font-size: 0.75rem; /* Fuente más pequeña */
+    padding: 0.3rem 0.6rem; /* Padding reducido */
+  }
 
-    .badge {
-        font-size: 0.75em;
-        padding: 0.25em 0.5em;
-    }
+  /* Ajuste de tamaño y padding en badges generales */
+  .badge {
+    font-size: 0.75em; /* Fuente más pequeña */
+    padding: 0.25em 0.5em; /* Padding reducido */
+  }
 }

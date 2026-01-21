@@ -1,1232 +1,1577 @@
+/* createagregarcomponente.css - Estilos generales */
 
+/* ======================================================
+   Variables CSS (paleta de colores, gradientes, sombras, bordes y transiciones)
+   ====================================================== */
 :root {
-    /* Paleta de colores vibrante - FIJOS */
-    --primary: #667eea;
-    --primary-light: #764ba2;
-    --secondary: #f093fb;
-    --secondary-light: #f5576c;
-    --success: #38b2ac;
-    --warning: #fbbf24;
-    --danger: #f87171;
-    --info: #60a5fa;
-    
-    /* Gradientes FIJOS */
-    --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    --gradient-secondary: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-    --gradient-success: linear-gradient(135deg, #38b2ac 0%, #4fd1c7 100%);
-    --gradient-warning: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
-    --gradient-background: linear-gradient(135deg, #d8d5d5 0%, #d6d2d2 50%, #e6e3e3 100%);
-    
-    /* Colores base */
-    --light: #f8fafc;
-    --dark: #1e293b;
-    --gray-100: #f1f5f9;
-    --gray-200: #e2e8f0;
-    --gray-300: #cbd5e1;
-    --gray-400: #94a3b8;
-    --gray-500: #64748b;
-    --gray-600: #475569;
-    --gray-700: #334155;
-    
-    /* Sombras */
-    --shadow-sm: 0 1px 3px rgba(209, 16, 16, 0.12);
-    --shadow-md: 0 4px 6px -1px rgba(36, 226, 19, 0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
-    --shadow-lg: 0 10px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04);
-    --shadow-xl: 0 25px 50px -12px rgba(0,0,0,0.25);
-    --shadow-primary: 0 10px 30px -5px rgba(237, 238, 243, 0.726);
-    
-    /* Bordes */
-    --radius-sm: 0.5rem;
-    --radius-md: 0.75rem;
-    --radius-lg: 1rem;
-    --radius-xl: 1.5rem;
-    
-    /* Transiciones */
-    --transition-fast: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    --transition-slow: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  /* Colores principales y secundarios */
+  --primary: #667eea;
+  --primary-light: #764ba2;
+  --secondary: #f093fb;
+  --secondary-light: #f5576c;
+  --success: #38b2ac;
+  --warning: #fbbf24;
+  --danger: #f87171;
+  --info: #60a5fa;
+
+  /* Gradientes fijos para fondos y elementos destacados */
+  --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  --gradient-secondary: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  --gradient-success: linear-gradient(135deg, #38b2ac 0%, #4fd1c7 100%);
+  --gradient-warning: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+  --gradient-background: linear-gradient(
+    135deg,
+    #d8d5d5 0%,
+    #d6d2d2 50%,
+    #e6e3e3 100%
+  );
+
+  /* Colores base */
+  --light: #f8fafc;
+  --dark: #1e293b;
+  --gray-100: #f1f5f9;
+  --gray-200: #e2e8f0;
+  --gray-300: #cbd5e1;
+  --gray-400: #94a3b8;
+  --gray-500: #64748b;
+  --gray-600: #475569;
+  --gray-700: #334155;
+
+  /* Sombras para diferentes profundidades */
+  --shadow-sm: 0 1px 3px rgba(209, 16, 16, 0.12);
+  --shadow-md: 0 4px 6px -1px rgba(36, 226, 19, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 25px -5px rgba(0, 0, 0, 0.1),
+    0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  --shadow-xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  --shadow-primary: 0 10px 30px -5px rgba(237, 238, 243, 0.726);
+
+  /* Bordes redondeados */
+  --radius-sm: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.5rem;
+
+  /* Transiciones para animaciones suaves */
+  --transition-fast: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+/* ======================================================
+   Reset general y tipografía
+   ====================================================== */
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box; /* Asegura que padding y borde no afecten ancho total */
 }
 
 body {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    background: var(--gradient-background);
-    min-height: 100vh;
-    color: var(--dark);
-    line-height: 1.6;
-    position: relative;
-    overflow-x: hidden;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    sans-serif; /* Tipografía principal */
+  background: var(--gradient-background); /* Fondo degradado */
+  min-height: 100vh; /* Ocupa toda la altura de la ventana */
+  color: var(--dark); /* Color de texto principal */
+  line-height: 1.6; /* Espaciado de línea */
+  position: relative;
+  overflow-x: hidden; /* Evita scroll horizontal innecesario */
 }
 
-/* Fondo fijo con animaciones */
+/* ======================================================
+   Fondo animado y elementos flotantes
+   ====================================================== */
+
+/* Fondo fijo que cubre toda la ventana */
 .animated-background {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -1;
-    overflow: hidden;
-    background: var(--gradient-background);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1; /* Detrás de todo el contenido */
+  overflow: hidden;
+  background: var(--gradient-background);
 }
 
+/* Contenedor para las formas flotantes */
 .floating-shapes {
-    position: relative;
-    width: 100%;
-    height: 100%;
+  position: relative;
+  width: 100%;
+  height: 100%;
 }
 
+/* Forma flotante base */
 .shape {
-    position: absolute;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-    animation: float 8s ease-in-out infinite;
-    box-shadow: 0 0 40px rgba(255, 255, 255, 0.1);
+  position: absolute;
+  border-radius: 50%; /* Forma circular */
+  background: rgba(255, 255, 255, 0.1); /* Fondo translúcido */
+  backdrop-filter: blur(10px); /* Efecto desenfoque */
+  animation: float 8s ease-in-out infinite; /* Animación de flotación */
+  box-shadow: 0 0 40px rgba(255, 255, 255, 0.1); /* Brillo sutil */
 }
 
+/* Forma flotante específica con diferentes tamaños, posiciones y animaciones */
 .shape-1 {
-    width: 300px;
-    height: 300px;
-    top: 10%;
-    left: 5%;
-    animation-delay: 0s;
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.05));
-    filter: blur(20px);
+  width: 300px;
+  height: 300px;
+  top: 10%;
+  left: 5%;
+  animation-delay: 0s;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.15),
+    rgba(255, 255, 255, 0.05)
+  );
+  filter: blur(20px);
 }
 
 .shape-2 {
-    width: 200px;
-    height: 200px;
-    top: 60%;
-    right: 10%;
-    animation-delay: 2s;
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.03));
-    filter: blur(15px);
+  width: 200px;
+  height: 200px;
+  top: 60%;
+  right: 10%;
+  animation-delay: 2s;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.12),
+    rgba(255, 255, 255, 0.03)
+  );
+  filter: blur(15px);
 }
 
 .shape-3 {
-    width: 150px;
-    height: 150px;
-    bottom: 20%;
-    left: 20%;
-    animation-delay: 4s;
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.02));
-    filter: blur(10px);
+  width: 150px;
+  height: 150px;
+  bottom: 20%;
+  left: 20%;
+  animation-delay: 4s;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.1),
+    rgba(255, 255, 255, 0.02)
+  );
+  filter: blur(10px);
 }
 
 .shape-4 {
-    width: 250px;
-    height: 250px;
-    top: 20%;
-    right: 20%;
-    animation-delay: 1s;
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.06));
-    filter: blur(25px);
+  width: 250px;
+  height: 250px;
+  top: 20%;
+  right: 20%;
+  animation-delay: 1s;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.18),
+    rgba(255, 255, 255, 0.06)
+  );
+  filter: blur(25px);
 }
 
 .shape-5 {
-    width: 180px;
-    height: 180px;
-    bottom: 10%;
-    right: 30%;
-    animation-delay: 3s;
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02));
-    filter: blur(12px);
+  width: 180px;
+  height: 180px;
+  bottom: 10%;
+  right: 30%;
+  animation-delay: 3s;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.08),
+    rgba(255, 255, 255, 0.02)
+  );
+  filter: blur(12px);
 }
 
+/* ======================================================
+   Animación de flotación para las formas
+   ====================================================== */
 @keyframes float {
-    0%, 100% {
-        transform: translate(0, 0) rotate(0deg) scale(1);
-    }
-    25% {
-        transform: translate(20px, -40px) rotate(90deg) scale(1.05);
-    }
-    50% {
-        transform: translate(-15px, 30px) rotate(180deg) scale(0.95);
-    }
-    75% {
-        transform: translate(30px, 20px) rotate(270deg) scale(1.02);
-    }
+  0%,
+  100% {
+    transform: translate(0, 0) rotate(0deg) scale(1);
+    /* Inicio y fin: sin movimiento ni rotación, escala normal */
+  }
+  25% {
+    transform: translate(20px, -40px) rotate(90deg) scale(1.05);
+    /* Primer cuarto: se desplaza hacia derecha-arriba, rota 90°, escala ligeramente */
+  }
+  50% {
+    transform: translate(-15px, 30px) rotate(180deg) scale(0.95);
+    /* Mitad: se desplaza izquierda-abajo, rota 180°, ligeramente más pequeño */
+  }
+  75% {
+    transform: translate(30px, 20px) rotate(270deg) scale(1.02);
+    /* Tres cuartos: se desplaza derecha-abajo, rota 270°, escala ligeramente */
+  }
 }
 
-/* Patrón de puntos animados adicional */
+/* ======================================================
+   Patrón de puntos animados en el fondo
+   ====================================================== */
 .animated-background::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-image: 
-        radial-gradient(circle at 20% 80%, rgba(255, 255, 255, 0.1) 2px, transparent 2px),
-        radial-gradient(circle at 40% 20%, rgba(255, 255, 255, 0.08) 1px, transparent 1px),
-        radial-gradient(circle at 60% 50%, rgba(255, 255, 255, 0.12) 3px, transparent 3px),
-        radial-gradient(circle at 80% 30%, rgba(255, 255, 255, 0.06) 2px, transparent 2px),
-        radial-gradient(circle at 30% 70%, rgba(255, 255, 255, 0.09) 1px, transparent 1px);
-    background-size: 300px 300px;
-    animation: moveDots 20s linear infinite;
-    z-index: -1;
+  content: ''; /* Elemento pseudo para los puntos */
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+
+  /* Combinación de gradientes radiales para crear múltiples puntos */
+  background-image: radial-gradient(
+      circle at 20% 80%,
+      rgba(255, 255, 255, 0.1) 2px,
+      transparent 2px
+    ),
+    radial-gradient(
+      circle at 40% 20%,
+      rgba(255, 255, 255, 0.08) 1px,
+      transparent 1px
+    ),
+    radial-gradient(
+      circle at 60% 50%,
+      rgba(255, 255, 255, 0.12) 3px,
+      transparent 3px
+    ),
+    radial-gradient(
+      circle at 80% 30%,
+      rgba(255, 255, 255, 0.06) 2px,
+      transparent 2px
+    ),
+    radial-gradient(
+      circle at 30% 70%,
+      rgba(255, 255, 255, 0.09) 1px,
+      transparent 1px
+    );
+
+  background-size: 300px 300px; /* Tamaño del patrón de puntos */
+
+  animation: moveDots 20s linear infinite; /* Movimiento continuo de los puntos */
+  z-index: -1; /* Detrás de todo el contenido */
 }
 
+/* ======================================================
+   Animación del desplazamiento de los puntos
+   ====================================================== */
 @keyframes moveDots {
-    0% {
-        transform: translate(0, 0);
-    }
-    100% {
-        transform: translate(300px, 300px);
-    }
+  0% {
+    transform: translate(0, 0);
+    /* Inicio: posición original */
+  }
+  100% {
+    transform: translate(300px, 300px);
+    /* Fin: desplazamiento diagonal hacia la derecha-abajo */
+  }
 }
 
-/* Líneas decorativas */
+/* ======================================================
+   Líneas decorativas sobre el fondo de la página
+   ====================================================== */
 .animated-background::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: 
-        linear-gradient(90deg, transparent 50%, rgba(255, 255, 255, 0.03) 50%),
-        linear-gradient(180deg, transparent 50%, rgba(255, 255, 255, 0.02) 50%);
-    background-size: 100px 100px;
-    animation: gridMove 40s linear infinite;
-    opacity: 0.3;
+  content: ''; /* Elemento pseudo para las líneas decorativas */
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+
+  /* Dos gradientes lineales cruzados para formar una cuadrícula sutil */
+  background: linear-gradient(
+      90deg,
+      transparent 50%,
+      rgba(255, 255, 255, 0.03) 50%
+    ),
+    linear-gradient(180deg, transparent 50%, rgba(255, 255, 255, 0.02) 50%);
+
+  background-size: 100px 100px; /* Tamaño de cada celda de la cuadrícula */
+
+  animation: gridMove 40s linear infinite; /* Movimiento lento diagonal de la cuadrícula */
+  opacity: 0.3; /* Opacidad baja para que sea decorativa y no moleste */
 }
 
+/* Animación de movimiento de la cuadrícula */
 @keyframes gridMove {
-    0% {
-        transform: translate(0, 0);
-    }
-    100% {
-        transform: translate(100px, 100px);
-    }
+  0% {
+    transform: translate(0, 0); /* Inicio: posición original */
+  }
+  100% {
+    transform: translate(100px, 100px); /* Fin: desplazamiento diagonal */
+  }
 }
 
-/* Contenedor principal */
+/* ======================================================
+   Contenedor principal del formulario de componentes
+   ====================================================== */
 .component-form-container {
-    max-width: 1200px;
-    margin: 2rem auto;
-    padding: 0 1.5rem;
-    position: relative;
-    height: auto;
-    z-index: 1;
+  max-width: 1200px; /* Ancho máximo del contenedor */
+  margin: 2rem auto; /* Centrado horizontal con margen vertical */
+  padding: 0 1.5rem; /* Espaciado interno lateral */
+  position: relative; /* Para permitir posicionamiento absoluto de elementos hijos */
+  height: auto; /* Altura automática según contenido */
+  z-index: 1; /* Sobre el fondo animado */
 }
 
-/* Header */
+/* ======================================================
+   Header del formulario
+   ====================================================== */
 .form-header {
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(20px);
-    border-radius: var(--radius-xl);
-    padding: 2.5rem;
-    margin-bottom: 2rem;
-    box-shadow: var(--shadow-xl);
-    border: 1px solid rgba(175, 173, 173, 0.3);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 2rem;
-    height: 200px;
-    position: relative;
-    overflow: hidden;
+  background: rgba(255, 255, 255, 0.95); /* Fondo semitransparente */
+  backdrop-filter: blur(20px); /* Desenfoque del fondo detrás del header */
+  border-radius: var(--radius-xl); /* Bordes redondeados grandes */
+  padding: 2.5rem; /* Espaciado interno amplio */
+  margin-bottom: 2rem; /* Separación del contenido siguiente */
+  box-shadow: var(--shadow-xl); /* Sombra profunda */
+  border: 1px solid rgba(175, 173, 173, 0.3); /* Borde sutil */
+  display: flex; /* Contenido en línea horizontal */
+  justify-content: space-between; /* Separación entre elementos hijos */
+  align-items: center; /* Alineación vertical */
+  gap: 2rem; /* Espacio entre elementos hijos */
+  height: 200px; /* Altura fija del header */
+  position: relative; /* Para posicionamiento relativo de hijos */
+  overflow: hidden; /* Oculta elementos que sobresalgan */
 }
 
+/* Contenido interno del header */
 .header-content {
-    display: flex;
-    align-items: center;
-    gap: 1.5rem;
-    flex: 1;
+  display: flex;
+  align-items: center; /* Alinea verticalmente los elementos */
+  gap: 1.5rem; /* Espacio entre elementos */
+  flex: 1; /* Ocupa todo el espacio disponible */
 }
 
+/* Contenedor del ícono del header */
 .header-icon-container {
-    position: relative;
-    width: 90px;
-    height: 90px;
+  position: relative;
+  width: 90px;
+  height: 90px;
 }
 
+/* Ícono principal del header */
 .header-icon {
-    font-size: 3.5rem;
-    color: var(--primary);
-    position: relative;
-    z-index: 2;
-    filter: drop-shadow(0 4px 12px rgb(255, 255, 255));
-    animation: pulseIcon 2s ease-in-out infinite;
+  font-size: 3.5rem; /* Tamaño grande del icono */
+  color: var(--primary); /* Color principal */
+  position: relative;
+  z-index: 2; /* Sobre otros elementos decorativos */
+  filter: drop-shadow(0 4px 12px rgb(255, 255, 255)); /* Sombra difusa */
+  animation: pulseIcon 2s ease-in-out infinite; /* Animación de pulso */
 }
 
+/* Animación de pulso y ligera rotación del ícono */
 @keyframes pulseIcon {
-    0%, 100% {
-        transform: scale(1) rotate(0deg);
-    }
-    40% {
-        transform: scale(1) rotate(10deg);
-    }
+  0%,
+  100% {
+    transform: scale(1) rotate(0deg); /* Tamaño y rotación inicial/final */
+  }
+  40% {
+    transform: scale(1) rotate(10deg); /* Ligera rotación a mitad de ciclo */
+  }
 }
 
-
+/* Contenedor de texto dentro del header */
 .header-text h1 {
-    font-size: 2.5rem;
-    background: var(--gradient-primary);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    margin-bottom: 0.5rem;
-    font-weight: 800;
-    letter-spacing: -0.5px;
+  font-size: 2.5rem; /* Tamaño del título principal */
+  background: var(--gradient-primary); /* Gradiente sobre el texto */
+  -webkit-background-clip: text; /* Recorta el gradiente al texto */
+  -webkit-text-fill-color: transparent; /* Relleno transparente para mostrar gradiente */
+  background-clip: text;
+  margin-bottom: 0.5rem;
+  font-weight: 800; /* Texto muy pesado */
+  letter-spacing: -0.5px; /* Ajuste del espaciado de letras */
 }
 
 .header-text p {
-    color: var(--gray-600);
-    font-size: 1.1rem;
-    font-weight: 500;
+  color: var(--gray-600); /* Color de subtítulo gris */
+  font-size: 1.1rem; /* Tamaño de subtítulo */
+  font-weight: 500; /* Peso medio */
 }
 
+/* Contenedor de acciones dentro del header */
 .header-actions {
-    flex-shrink: 0;
+  flex-shrink: 0; /* No se encoge al reducir espacio */
 }
 
+/* Botón de regreso */
 .btn-back {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.75rem;
-    padding: 1rem 2rem;
-    background: var(--gradient-primary);
-    color: rgb(255, 255, 255);
-    text-decoration: none;
-    border-radius: var(--radius-lg);
-    font-weight: 600;
-    transition: var(--transition);
-    box-shadow: var(--shadow-primary);
-    border: none;
-    cursor: pointer;
-    font-size: 1rem;
+  display: inline-flex; /* Botón flexible en línea */
+  align-items: center; /* Alineación vertical de contenido */
+  gap: 0.75rem; /* Espacio entre icono y texto */
+  padding: 1rem 2rem; /* Espaciado interno */
+  background: var(--gradient-primary); /* Gradiente de fondo */
+  color: rgb(255, 255, 255); /* Texto blanco */
+  text-decoration: none; /* Sin subrayado */
+  border-radius: var(--radius-lg); /* Bordes redondeados grandes */
+  font-weight: 600; /* Peso medio-alto */
+  transition: var(--transition); /* Animación suave al hover */
+  box-shadow: var(--shadow-primary); /* Sombra principal */
+  border: none;
+  cursor: pointer;
+  font-size: 1rem; /* Tamaño de texto */
 }
 
+/* Efecto hover para el botón */
 .btn-back:hover {
-    transform: translateY(-3px) scale(1.05);
-    box-shadow: var(--shadow-xl);
+  transform: translateY(-3px) scale(1.05); /* Se eleva y aumenta ligeramente */
+  box-shadow: var(--shadow-xl); /* Sombra más profunda */
 }
 
-/* Pasos de progreso */
+/* ======================================================
+   Contenedor principal de los pasos de progreso
+   ====================================================== */
 .progress-steps {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 3rem 0;
-    position: relative;
+  display: flex; /* Distribuye los pasos en línea horizontal */
+  align-items: center; /* Alinea verticalmente al centro */
+  justify-content: center; /* Centra horizontalmente */
+  margin: 3rem 0; /* Espaciado vertical grande */
+  position: relative; /* Para posicionamiento relativo de elementos hijos */
 }
 
+/* Cada paso individual */
 .step {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    z-index: 2;
-    transition: var(--transition);
-    position: relative;
+  display: flex;
+  flex-direction: column; /* Icono arriba, texto debajo */
+  align-items: center; /* Centrado horizontal del contenido */
+  z-index: 2; /* Sobre elementos de fondo */
+  transition: var(--transition); /* Transiciones suaves */
+  position: relative; /* Permite posicionar elementos absolutos dentro */
 }
 
+/* Círculo principal de cada paso */
 .step-circle {
-    width: 70px;
-    height: 70px;
-    border-radius: 50%;
-    background: rgb(233, 4, 4);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: bold;
-    font-size: 1.4rem;
-    color: var(--gray-400);
-    position: relative;
-    transition: var(--transition);
-    border: 4px solid var(--gray-200);
-    box-shadow: var(--shadow-md);
+  width: 70px; /* Tamaño ancho del círculo */
+  height: 70px; /* Tamaño alto del círculo */
+  border-radius: 50%; /* Hace que sea un círculo perfecto */
+  background: rgb(233, 4, 4); /* Color de fondo inicial rojo */
+  display: flex; /* Contenido interno en línea flexible */
+  align-items: center; /* Centrado vertical de contenido */
+  justify-content: center; /* Centrado horizontal de contenido */
+  font-weight: bold; /* Texto en negrita */
+  font-size: 1.4rem; /* Tamaño del texto dentro del círculo */
+  color: var(--gray-400); /* Color del número inicial */
+  position: relative; /* Para elementos internos absolutos */
+  transition: var(--transition); /* Transición suave para cambios */
+  border: 4px solid var(--gray-200); /* Borde inicial gris claro */
+  box-shadow: var(--shadow-md); /* Sombra moderada */
 }
 
+/* Paso activo */
 .step.active .step-circle {
-    background: var(--gradient-primary);
-    color: white;
-    border-color: white;
-    box-shadow: var(--shadow-primary);
-    transform: scale(1.1);
+  background: var(--gradient-primary); /* Gradiente primario */
+  color: white; /* Texto blanco */
+  border-color: white; /* Borde blanco */
+  box-shadow: var(--shadow-primary); /* Sombra destacada */
+  transform: scale(1.1); /* Agranda ligeramente el círculo */
 }
 
+/* Número dentro del círculo */
 .step-circle span {
-    transition: var(--transition);
-    font-weight: 700;
+  transition: var(--transition); /* Suaviza cambios de estilo */
+  font-weight: 700; /* Texto semi-negrita */
 }
 
+/* Oculta el número cuando el paso está activo (aparece checkmark) */
 .step.active .step-circle span {
-    opacity: 0;
-    transform: scale(0);
+  opacity: 0; /* Invisible */
+  transform: scale(0); /* Colapsado */
 }
 
+/* Marca de verificación */
 .checkmark {
-    position: absolute;
-    font-size: 1.8rem;
-    opacity: 0;
-    transform: scale(0) rotate(-180deg);
-    transition: var(--transition);
+  position: absolute; /* Posicionamiento relativo al círculo */
+  font-size: 1.8rem; /* Tamaño grande para destacar */
+  opacity: 0; /* Inicialmente invisible */
+  transform: scale(0) rotate(-180deg); /* Colapsada y rotada */
+  transition: var(--transition); /* Transición suave para animación */
 }
 
+/* Cuando el paso está activo, muestra el checkmark */
 .step.active .checkmark {
-    opacity: 1;
-    transform: scale(1) rotate(0);
-    animation: checkmarkPop 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  opacity: 1; /* Visible */
+  transform: scale(1) rotate(0); /* Tamaño completo y recto */
+  animation: checkmarkPop 0.5s cubic-bezier(
+      0.68,
+      -0.55,
+      0.265,
+      1.55
+    ); /* Animación con rebote */
 }
 
+/* Animación de aparición del checkmark */
 @keyframes checkmarkPop {
-    0% {
-        transform: scale(0) rotate(-180deg);
-    }
-    100% {
-        transform: scale(1) rotate(0);
-    }
+  0% {
+    transform: scale(0) rotate(-180deg); /* Inicio: colapsado y rotado */
+  }
+  100% {
+    transform: scale(1) rotate(0); /* Fin: tamaño completo y recto */
+  }
 }
 
+/* ======================================================
+   Etiqueta o descripción de cada paso
+   ====================================================== */
 .step-label {
-    margin-top: 1rem;
-    font-weight: 600;
-    color: var(--gray-400);
-    transition: var(--transition);
-    text-align: center;
-    padding: 0.5rem 1rem;
-    border-radius: var(--radius-sm);
-    background: rgba(255, 255, 255, 0.9);
-    backdrop-filter: blur(10px);
+  margin-top: 1rem; /* Espacio superior respecto al círculo */
+  font-weight: 600; /* Texto semi-negrita */
+  color: var(--gray-400); /* Color gris inicial */
+  transition: var(--transition); /* Transición suave al cambiar estilos */
+  text-align: center; /* Centrado horizontal del texto */
+  padding: 0.5rem 1rem; /* Espaciado interno */
+  border-radius: var(--radius-sm); /* Bordes ligeramente redondeados */
+  background: rgba(255, 255, 255, 0.9); /* Fondo semi-transparente */
+  backdrop-filter: blur(10px); /* Difumina el fondo detrás de la etiqueta */
 }
 
+/* Estilos para etiqueta cuando el paso está activo */
 .step.active .step-label {
-    color: var(--primary);
-    background: rgba(102, 126, 234, 0.1);
-    transform: translateY(-2px);
+  color: var(--primary); /* Color principal para resaltar */
+  background: rgba(102, 126, 234, 0.1); /* Fondo suave del color principal */
+  transform: translateY(-2px); /* Levanta ligeramente la etiqueta */
 }
 
+/* Conector entre pasos */
 .step-connector {
-    width: 200px;
-    height: 6px;
-    background: linear-gradient(90deg, var(--gray-200) 0%, var(--gray-200) 100%);
-    margin: 0 1rem;
-    position: relative;
-    overflow: hidden;
-    border-radius: 3px;
-    transition: var(--transition-slow);
+  width: 200px; /* Largo del conector */
+  height: 6px; /* Grosor del conector */
+  background: linear-gradient(
+    90deg,
+    var(--gray-200) 0%,
+    var(--gray-200) 100%
+  ); /* Color gris por defecto */
+  margin: 0 1rem; /* Espaciado lateral entre pasos */
+  position: relative; /* Para pseudo-elementos internos */
+  overflow: hidden; /* Oculta cualquier exceso de animación */
+  border-radius: 3px; /* Bordes redondeados */
+  transition: var(--transition-slow); /* Transición más lenta al activarse */
 }
 
+/* Conector activo (cuando el paso anterior se completó) */
 .step-connector.active {
-    background: linear-gradient(90deg, var(--primary) 0%, var(--primary-light) 100%);
+  background: linear-gradient(
+    90deg,
+    var(--primary) 0%,
+    var(--primary-light) 100%
+  );
 }
 
+/* Brillo animado sobre el conector activo */
 .step-connector.active::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.8), transparent);
-    animation: shimmer 1.5s infinite;
+  content: ''; /* Elemento vacío */
+  position: absolute; /* Posición absoluta dentro del conector */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.8),
+    transparent
+  ); /* Gradiente para efecto de brillo */
+  animation: shimmer 1.5s infinite; /* Animación continua de izquierda a derecha */
 }
 
+/* Animación de brillo del conector */
 @keyframes shimmer {
-    0% { transform: translateX(-100%); }
-    100% { transform: translateX(100%); }
+  0% {
+    transform: translateX(-100%); /* Inicia fuera a la izquierda */
+  }
+  100% {
+    transform: translateX(100%); /* Termina fuera a la derecha */
+  }
 }
 
-/* Pasos del formulario */
+/* ======================================================
+   Pasos del formulario (cada sección del paso)
+   ====================================================== */
 .form-step {
-    display: none;
-    background: rgba(255, 255, 255, 0.97);
-    backdrop-filter: blur(20px);
-    border-radius: var(--radius-xl);
-    padding: 3rem;
-    box-shadow: var(--shadow-xl);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    margin-bottom: 2rem;
-    animation: slideUp 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  display: none; /* Oculto por defecto */
+  background: rgba(255, 255, 255, 0.97); /* Fondo casi blanco */
+  backdrop-filter: blur(20px); /* Difumina lo que hay detrás */
+  border-radius: var(--radius-xl); /* Bordes muy redondeados */
+  padding: 3rem; /* Espaciado interno grande */
+  box-shadow: var(--shadow-xl); /* Sombra destacada */
+  border: 1px solid rgba(255, 255, 255, 0.3); /* Borde muy sutil */
+  margin-bottom: 2rem; /* Separación inferior entre pasos */
+  animation: slideUp 0.5s cubic-bezier(
+      0.4,
+      0,
+      0.2,
+      1
+    ); /* Animación de aparición */
 }
 
+/* Animación de aparición de cada paso (subiendo) */
 @keyframes slideUp {
-    from {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+  from {
+    opacity: 0; /* Invisible al inicio */
+    transform: translateY(30px); /* Comienza ligeramente abajo */
+  }
+  to {
+    opacity: 1; /* Visible al final */
+    transform: translateY(0); /* Posición final */
+  }
 }
 
+/* Paso activo visible */
 .form-step.active {
-    display: block;
+  display: block; /* Muestra el paso actual */
 }
 
+/* ======================================================
+   Encabezado del paso
+   ====================================================== */
 .step-header {
-    display: flex;
-    align-items: center;
-    gap: 1.5rem;
-    margin-bottom: 3rem;
-    padding-bottom: 2rem;
-    border-bottom: 2px solid var(--gray-200);
-    position: relative;
+  display: flex; /* Layout horizontal */
+  align-items: center; /* Centra verticalmente los elementos */
+  gap: 1.5rem; /* Espacio entre icono y título */
+  margin-bottom: 3rem; /* Separación inferior del bloque */
+  padding-bottom: 2rem; /* Espaciado interno inferior */
+  border-bottom: 2px solid var(--gray-200); /* Línea divisoria */
+  position: relative; /* Para posicionar elementos internos si es necesario */
 }
 
+/* Icono representando el paso */
 .step-icon {
-    width: 80px;
-    height: 80px;
-    border-radius: var(--radius-lg);
-    background: var(--gradient-primary);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 2rem;
-    color: white;
-    box-shadow: var(--shadow-primary);
-    flex-shrink: 0;
-    animation: bounce 3s infinite;
+  width: 80px; /* Ancho del icono */
+  height: 80px; /* Alto del icono */
+  border-radius: var(--radius-lg); /* Bordes redondeados grandes */
+  background: var(--gradient-primary); /* Gradiente principal */
+  display: flex; /* Flexbox para centrar contenido */
+  align-items: center; /* Centrado vertical */
+  justify-content: center; /* Centrado horizontal */
+  font-size: 2rem; /* Tamaño del icono */
+  color: white; /* Color del icono */
+  box-shadow: var(--shadow-primary); /* Sombra destacada */
+  flex-shrink: 0; /* Evita que el icono se encoja */
+  animation: bounce 3s infinite; /* Animación de rebote continuo */
 }
 
+/* Animación de rebote del icono */
 @keyframes bounce {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-10px); }
+  0%,
+  100% {
+    transform: translateY(0); /* Posición inicial y final */
+  }
+  50% {
+    transform: translateY(-10px); /* Rebote hacia arriba */
+  }
 }
 
+/* Título y descripción del paso */
 .step-title h3 {
-    font-size: 2rem;
-    color: var(--dark);
-    margin-bottom: 0.5rem;
-    font-weight: 700;
-    background: var(--gradient-primary);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+  font-size: 2rem; /* Tamaño del título */
+  color: var(--dark); /* Color del texto */
+  margin-bottom: 0.5rem; /* Separación inferior */
+  font-weight: 700; /* Negrita */
+  background: var(--gradient-primary); /* Gradiente aplicado al texto */
+  -webkit-background-clip: text; /* Clip del fondo en texto */
+  -webkit-text-fill-color: transparent; /* Hace el gradiente visible */
+  background-clip: text; /* Soporte estándar */
 }
 
 .step-title p {
-    color: var(--gray-600);
-    font-size: 1.1rem;
-    font-weight: 500;
+  color: var(--gray-600); /* Color gris del subtítulo */
+  font-size: 1.1rem; /* Tamaño de la descripción */
+  font-weight: 500; /* Semi-negrita */
 }
 
-/* Grid del formulario */
+/* ======================================================
+   Grid del formulario
+   ====================================================== */
 .form-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 1.5rem;
-    margin-bottom: 2rem;
+  display: grid; /* Layout de rejilla */
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(300px, 1fr)
+  ); /* Columnas automáticas */
+  gap: 1.5rem; /* Espacio entre columnas y filas */
+  margin-bottom: 2rem; /* Separación inferior del grid */
 }
 
+/* Grupo de cada campo del formulario */
 .form-group {
-    margin-bottom: 1.5rem;
-    position: relative;
+  margin-bottom: 1.5rem; /* Separación inferior */
+  position: relative; /* Para posibles elementos internos */
 }
 
+/* Etiquetas de los campos */
 .form-label {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    font-weight: 600;
-    color: var(--dark);
-    margin-bottom: 0.75rem;
-    font-size: 1rem;
-    padding: 0.5rem;
-    background: rgba(102, 126, 234, 0.05);
-    border-radius: var(--radius-sm);
-    border-left: 4px solid var(--primary);
+  display: flex; /* Layout horizontal */
+  align-items: center; /* Centrado vertical */
+  gap: 0.75rem; /* Espacio entre icono y texto */
+  font-weight: 600; /* Semi-negrita */
+  color: var(--dark); /* Color principal */
+  margin-bottom: 0.75rem; /* Espaciado inferior */
+  font-size: 1rem; /* Tamaño del texto */
+  padding: 0.5rem; /* Espaciado interno */
+  background: rgba(102, 126, 234, 0.05); /* Fondo suave */
+  border-radius: var(--radius-sm); /* Bordes redondeados pequeños */
+  border-left: 4px solid var(--primary); /* Línea lateral destacada */
 }
 
+/* Icono dentro de la etiqueta */
 .form-label i {
-    color: var(--primary);
-    font-size: 1.2rem;
-    width: 24px;
-    text-align: center;
+  color: var(--primary); /* Color del icono */
+  font-size: 1.2rem; /* Tamaño del icono */
+  width: 24px; /* Ancho fijo */
+  text-align: center; /* Centrado horizontal */
 }
 
+/* Inputs, selects y textareas */
 .form-input,
 .form-select,
 .form-textarea {
-    width: 100%;
-    padding: 1rem 1.25rem;
-    border: 2px solid var(--gray-200);
-    border-radius: var(--radius-md);
-    font-size: 1rem;
-    transition: var(--transition);
-    background: white;
-    color: var(--dark);
-    font-family: inherit;
+  width: 100%; /* Ocupa todo el ancho */
+  padding: 1rem 1.25rem; /* Espaciado interno */
+  border: 2px solid var(--gray-200); /* Borde gris */
+  border-radius: var(--radius-md); /* Bordes medianos */
+  font-size: 1rem; /* Tamaño del texto */
+  transition: var(--transition); /* Transición suave */
+  background: white; /* Fondo blanco */
+  color: var(--dark); /* Color del texto */
+  font-family: inherit; /* Hereda la fuente del body */
 }
 
+/* Efecto focus en campos */
 .form-input:focus,
 .form-select:focus,
 .form-textarea:focus {
-    outline: none;
-    border-color: var(--primary);
-    box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
-    transform: translateY(-2px);
+  outline: none; /* Sin borde de enfoque por defecto */
+  border-color: var(--primary); /* Borde principal */
+  box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1); /* Resplandor suave */
+  transform: translateY(-2px); /* Leve levantamiento */
 }
 
+/* Efecto hover */
 .form-input:hover,
 .form-select:hover,
 .form-textarea:hover {
-    border-color: var(--gray-300);
+  border-color: var(--gray-300); /* Cambio de borde al pasar el cursor */
 }
 
+/* Campos con error */
 .form-input.error,
 .form-select.error,
 .form-textarea.error {
-    border-color: var(--danger);
-    animation: shake 0.5s;
+  border-color: var(--danger); /* Borde rojo */
+  animation: shake 0.5s; /* Animación de vibración */
 }
 
+/* Animación de vibración para errores */
 @keyframes shake {
-    0%, 100% { transform: translateX(0); }
-    25% { transform: translateX(-5px); }
-    75% { transform: translateX(5px); }
+  0%,
+  100% {
+    transform: translateX(0); /* Posición inicial/final */
+  }
+  25% {
+    transform: translateX(-5px); /* Mueve a la izquierda */
+  }
+  75% {
+    transform: translateX(5px); /* Mueve a la derecha */
+  }
 }
 
+/* Textarea específico */
 .form-textarea {
-    resize: vertical;
-    min-height: 120px;
-    line-height: 1.5;
+  resize: vertical; /* Permite cambiar altura verticalmente */
+  min-height: 120px; /* Altura mínima */
+  line-height: 1.5; /* Espaciado entre líneas */
 }
 
-/* Equipo seleccionado */
+/* ======================================================
+   Equipo seleccionado
+   ====================================================== */
 .selected-equipo {
-    display: flex;
-    align-items: center;
-    gap: 1.25rem;
-    padding: 1.25rem;
-    background: linear-gradient(135deg, rgba(94, 226, 6, 0.1), rgba(118, 75, 162, 0.1));
-    border-radius: var(--radius-md);
-    border: 2px solid var(--primary);
-    animation: slideIn 0.3s ease-out;
-    cursor: pointer;
-    transition: var(--transition);
+  display: flex; /* Layout horizontal para icono y texto */
+  align-items: center; /* Centrado vertical */
+  gap: 1.25rem; /* Espacio entre icono y texto */
+  padding: 1.25rem; /* Espaciado interno */
+  background: linear-gradient(
+    135deg,
+    rgba(94, 226, 6, 0.1),
+    rgba(118, 75, 162, 0.1)
+  ); /* Fondo degradado suave */
+  border-radius: var(--radius-md); /* Bordes medianos redondeados */
+  border: 2px solid var(--primary); /* Borde con color principal */
+  animation: slideIn 0.3s ease-out; /* Animación al aparecer */
+  cursor: pointer; /* Cambia cursor al pasar por encima */
+  transition: var(--transition); /* Transición suave para hover */
 }
 
+/* Efecto hover sobre el equipo seleccionado */
 .selected-equipo:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-md);
+  transform: translateY(-2px); /* Leve levantamiento */
+  box-shadow: var(--shadow-md); /* Sombra media */
 }
 
+/* Animación de entrada */
 @keyframes slideIn {
-    from {
-        opacity: 0;
-        transform: translateX(-20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateX(0);
-    }
+  from {
+    opacity: 0; /* Inicialmente invisible */
+    transform: translateX(-20px); /* Aparece desde la izquierda */
+  }
+  to {
+    opacity: 1; /* Totalmente visible */
+    transform: translateX(0); /* Posición final */
+  }
 }
 
+/* Icono dentro del equipo */
 .equipo-icon {
-    width: 60px;
-    height: 60px;
-    border-radius: var(--radius-md);
-    background: var(--gradient-primary);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.8rem;
-    color: white;
-    flex-shrink: 0;
+  width: 60px; /* Tamaño ancho */
+  height: 60px; /* Tamaño alto */
+  border-radius: var(--radius-md); /* Bordes redondeados */
+  background: var(--gradient-primary); /* Gradiente principal */
+  display: flex; /* Flexbox para centrar contenido */
+  align-items: center; /* Centrado vertical */
+  justify-content: center; /* Centrado horizontal */
+  font-size: 1.8rem; /* Tamaño del icono */
+  color: white; /* Color del icono */
+  flex-shrink: 0; /* No se encoge */
 }
 
+/* Información del equipo */
 .equipo-info {
-    flex: 1;
+  flex: 1; /* Ocupa el espacio restante */
 }
 
+/* Nombre del equipo */
 .equipo-name {
-    display: block;
-    font-weight: 700;
-    color: var(--dark);
-    font-size: 1.2rem;
-    margin-bottom: 0.25rem;
+  display: block; /* Bloque para separar de otros elementos */
+  font-weight: 700; /* Negrita */
+  color: var(--dark); /* Color oscuro */
+  font-size: 1.2rem; /* Tamaño del texto */
+  margin-bottom: 0.25rem; /* Espaciado inferior */
 }
 
+/* Estado del equipo */
 .equipo-status {
-    display: inline-block;
-    color: var(--success);
-    font-size: 0.9rem;
-    font-weight: 600;
-    background: rgba(56, 178, 172, 0.1);
-    padding: 0.25rem 1rem;
-    border-radius: 50px;
+  display: inline-block; /* Ajusta el ancho al contenido */
+  color: var(--success); /* Color verde */
+  font-size: 0.9rem; /* Tamaño pequeño */
+  font-weight: 600; /* Semi-negrita */
+  background: rgba(56, 178, 172, 0.1); /* Fondo suave */
+  padding: 0.25rem 1rem; /* Espaciado interno */
+  border-radius: 50px; /* Bordes redondeados tipo pill */
 }
 
-/* Vista previa del componente */
+/* ======================================================
+   Vista previa del componente
+   ====================================================== */
 .component-preview {
-    display: flex;
-    align-items: center;
-    gap: 2rem;
-    padding: 2rem;
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(248, 250, 252, 0.9));
-    border-radius: var(--radius-lg);
-    margin: 2rem 0 3rem;
-    border: 2px solid var(--gray-200);
-    transition: var(--transition);
-    backdrop-filter: blur(10px);
+  display: flex; /* Layout horizontal */
+  align-items: center; /* Centrado vertical */
+  gap: 2rem; /* Espacio entre icono y contenido */
+  padding: 2rem; /* Espaciado interno */
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.9),
+    rgba(248, 250, 252, 0.9)
+  ); /* Fondo degradado claro */
+  border-radius: var(--radius-lg); /* Bordes grandes redondeados */
+  margin: 2rem 0 3rem; /* Espaciado superior e inferior */
+  border: 2px solid var(--gray-200); /* Borde gris claro */
+  transition: var(--transition); /* Transiciones suaves */
+  backdrop-filter: blur(10px); /* Desenfoque de fondo */
 }
 
+/* Vista previa cuando hay selección */
 .component-preview.has-selection {
-    border-color: var(--primary);
-    background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
-    transform: translateY(-5px);
-    box-shadow: var(--shadow-primary);
+  border-color: var(--primary); /* Borde principal */
+  background: linear-gradient(
+    135deg,
+    rgba(102, 126, 234, 0.1),
+    rgba(118, 75, 162, 0.1)
+  ); /* Fondo degradado especial */
+  transform: translateY(-5px); /* Leve levantamiento */
+  box-shadow: var(--shadow-primary); /* Sombra destacada */
 }
 
+/* Icono de vista previa */
 .preview-icon {
-    width: 100px;
-    height: 100px;
-    border-radius: var(--radius-lg);
-    background: var(--gradient-primary);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 3rem;
-    color: white;
-    flex-shrink: 0;
-    animation: floatIcon 3s ease-in-out infinite;
+  width: 100px; /* Ancho */
+  height: 100px; /* Alto */
+  border-radius: var(--radius-lg); /* Bordes redondeados */
+  background: var(--gradient-primary); /* Gradiente principal */
+  display: flex; /* Centrado del contenido */
+  align-items: center; /* Centrado vertical */
+  justify-content: center; /* Centrado horizontal */
+  font-size: 3rem; /* Tamaño del icono */
+  color: white; /* Color del icono */
+  flex-shrink: 0; /* No se encoge */
+  animation: floatIcon 3s ease-in-out infinite; /* Animación flotante */
 }
 
+/* Animación de flotación del icono */
 @keyframes floatIcon {
-    0%, 100% { transform: translateY(0) rotate(0deg); }
-    50% { transform: translateY(-15px) rotate(10deg); }
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg); /* Posición inicial y final */
+  }
+  50% {
+    transform: translateY(-15px) rotate(10deg); /* Flotación hacia arriba y rotación ligera */
+  }
 }
 
+/* ======================================================
+   Contenido de la vista previa del componente
+   ====================================================== */
 .preview-content h4 {
-    font-size: 1.8rem;
-    color: var(--dark);
-    margin-bottom: 0.5rem;
-    font-weight: 700;
-    background: var(--gradient-primary);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+  font-size: 1.8rem; /* Tamaño del título */
+  color: var(--dark); /* Color principal oscuro */
+  margin-bottom: 0.5rem; /* Separación inferior */
+  font-weight: 700; /* Negrita */
+  background: var(--gradient-primary); /* Fondo degradado */
+  -webkit-background-clip: text; /* Aplica el gradiente al texto en Webkit */
+  -webkit-text-fill-color: transparent; /* Texto transparente para mostrar el gradiente */
+  background-clip: text; /* Aplica el gradiente al texto en navegadores compatibles */
 }
 
 .preview-content p {
-    color: var(--gray-600);
-    font-size: 1.1rem;
-    font-weight: 500;
+  color: var(--gray-600); /* Color gris para el párrafo */
+  font-size: 1.1rem; /* Tamaño del texto */
+  font-weight: 500; /* Peso medio */
 }
 
-/* Secciones de componentes */
+/* ======================================================
+   Secciones de componentes
+   ====================================================== */
 .component-sections {
-    margin: 2rem 0;
+  margin: 2rem 0; /* Espaciado superior e inferior */
 }
 
 .component-section {
-    animation: fadeIn 0.5s ease-out;
+  animation: fadeIn 0.5s ease-out; /* Animación de aparición */
 }
 
+/* Animación fadeIn para secciones */
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0; /* Inicialmente invisible */
+    transform: translateY(20px); /* Desplazamiento hacia abajo */
+  }
+  to {
+    opacity: 1; /* Visible al final */
+    transform: translateY(0); /* Posición final */
+  }
 }
 
+/* Encabezado de cada sección */
 .component-header {
-    display: flex;
-    align-items: center;
-    gap: 1.5rem;
-    margin-bottom: 2.5rem;
-    padding-bottom: 1.5rem;
-    border-bottom: 2px solid var(--gray-200);
+  display: flex; /* Layout horizontal */
+  align-items: center; /* Centrado vertical */
+  gap: 1.5rem; /* Espacio entre icono y texto */
+  margin-bottom: 2.5rem; /* Espaciado inferior */
+  padding-bottom: 1.5rem; /* Espaciado interno inferior */
+  border-bottom: 2px solid var(--gray-200); /* Línea inferior */
 }
 
+/* Icono de la sección */
 .component-icon {
-    width: 70px;
-    height: 70px;
-    border-radius: var(--radius-lg);
-    background: var(--gradient-primary);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 2rem;
-    color: white;
-    flex-shrink: 0;
+  width: 70px; /* Ancho del icono */
+  height: 70px; /* Alto del icono */
+  border-radius: var(--radius-lg); /* Bordes redondeados grandes */
+  background: var(--gradient-primary); /* Fondo degradado */
+  display: flex; /* Centrado del contenido */
+  align-items: center; /* Centrado vertical */
+  justify-content: center; /* Centrado horizontal */
+  font-size: 2rem; /* Tamaño del icono */
+  color: white; /* Color del icono */
+  flex-shrink: 0; /* No se reduce */
 }
 
+/* Título de la sección */
 .component-title h4 {
-    font-size: 1.8rem;
-    color: var(--dark);
-    margin-bottom: 0.5rem;
-    font-weight: 700;
+  font-size: 1.8rem; /* Tamaño del título */
+  color: var(--dark); /* Color oscuro */
+  margin-bottom: 0.5rem; /* Separación inferior */
+  font-weight: 700; /* Negrita */
 }
 
 .component-title p {
-    color: var(--gray-600);
-    font-size: 1.1rem;
+  color: var(--gray-600); /* Color gris */
+  font-size: 1.1rem; /* Tamaño del párrafo */
 }
 
-/* Grid de checkboxes */
+/* ======================================================
+   Grid de checkboxes
+   ====================================================== */
 .checkbox-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 1rem;
-    padding: 1.5rem;
-    background: white;
-    border-radius: var(--radius-md);
-    border: 2px solid var(--gray-200);
-    max-height: 400px;
-    overflow-y: auto;
+  display: grid; /* Grid para múltiples checkboxes */
+  grid-template-columns: repeat(
+    auto-fill,
+    minmax(200px, 1fr)
+  ); /* Columnas adaptables */
+  gap: 1rem; /* Espaciado entre checkboxes */
+  padding: 1.5rem; /* Espaciado interno */
+  background: white; /* Fondo blanco */
+  border-radius: var(--radius-md); /* Bordes medianos */
+  border: 2px solid var(--gray-200); /* Borde gris */
+  max-height: 400px; /* Altura máxima */
+  overflow-y: auto; /* Scroll vertical si es necesario */
 }
 
 .checkbox-grid.compact {
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  grid-template-columns: repeat(
+    auto-fill,
+    minmax(180px, 1fr)
+  ); /* Grid más compacto */
 }
 
+/* Estilos de la barra de scroll */
 .checkbox-grid::-webkit-scrollbar {
-    width: 8px;
+  width: 8px;
 }
 
 .checkbox-grid::-webkit-scrollbar-track {
-    background: var(--gray-100);
-    border-radius: 4px;
+  background: var(--gray-100); /* Fondo del track */
+  border-radius: 4px;
 }
 
 .checkbox-grid::-webkit-scrollbar-thumb {
-    background: var(--gray-300);
-    border-radius: 4px;
+  background: var(--gray-300); /* Color del thumb */
+  border-radius: 4px;
 }
 
 .checkbox-grid::-webkit-scrollbar-thumb:hover {
-    background: var(--gray-400);
+  background: var(--gray-400); /* Color al pasar el mouse */
 }
 
+/* Cada item de checkbox */
 .checkbox-item {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    cursor: pointer;
-    padding: 0.75rem;
-    border-radius: var(--radius-sm);
-    transition: var(--transition-fast);
-    user-select: none;
+  display: flex; /* Layout horizontal */
+  align-items: center; /* Centrado vertical */
+  gap: 0.75rem; /* Espacio entre input y label */
+  cursor: pointer; /* Cursor pointer */
+  padding: 0.75rem; /* Espaciado interno */
+  border-radius: var(--radius-sm); /* Bordes pequeños */
+  transition: var(--transition-fast); /* Transición rápida */
+  user-select: none; /* Evita selección accidental */
 }
 
 .checkbox-item:hover {
-    background: rgba(102, 126, 234, 0.05);
-    transform: translateX(5px);
+  background: rgba(102, 126, 234, 0.05); /* Fondo al pasar mouse */
+  transform: translateX(5px); /* Movimiento lateral */
 }
 
+/* Input real oculto */
 .checkbox-input {
-    display: none;
+  display: none;
 }
 
+/* Checkbox personalizado */
 .checkbox-custom {
-    width: 22px;
-    height: 22px;
-    border: 2px solid var(--gray-300);
-    border-radius: 6px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: var(--transition-fast);
-    flex-shrink: 0;
-    position: relative;
+  width: 22px; /* Tamaño del recuadro */
+  height: 22px;
+  border: 2px solid var(--gray-300); /* Borde gris */
+  border-radius: 6px; /* Bordes levemente redondeados */
+  display: flex; /* Centrado del check */
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition-fast); /* Transición rápida */
+  flex-shrink: 0;
+  position: relative;
 }
 
+/* Marca de check */
 .checkbox-custom::after {
-    content: '✓';
-    color: white;
-    font-size: 0.9rem;
-    font-weight: bold;
-    opacity: 0;
-    transform: scale(0);
-    transition: var(--transition-fast);
+  content: '✓'; /* Símbolo de check */
+  color: white; /* Color blanco */
+  font-size: 0.9rem; /* Tamaño del símbolo */
+  font-weight: bold;
+  opacity: 0; /* Inicialmente invisible */
+  transform: scale(0); /* Escala inicial */
+  transition: var(--transition-fast); /* Animación suave */
 }
 
+/* Estado marcado */
 .checkbox-input:checked + .checkbox-custom {
-    background: var(--gradient-primary);
-    border-color: transparent;
+  background: var(--gradient-primary); /* Fondo degradado */
+  border-color: transparent; /* Borde desaparece */
 }
 
 .checkbox-input:checked + .checkbox-custom::after {
-    opacity: 1;
-    transform: scale(1);
+  opacity: 1; /* Mostrar check */
+  transform: scale(1); /* Escala final */
 }
 
+/* Label del checkbox */
 .checkbox-label {
-    color: var(--dark);
-    font-size: 0.95rem;
-    font-weight: 500;
+  color: var(--dark); /* Color texto */
+  font-size: 0.95rem; /* Tamaño texto */
+  font-weight: 500; /* Peso medio */
 }
 
-/* Grupos de frecuencia */
+/* ======================================================
+   Grupos de frecuencia
+   ====================================================== */
+
+/* Contenedor de cada grupo de frecuencia */
 .frecuencia-grupo {
-    margin-bottom: 2rem;
-    padding: 1.5rem;
-    background: linear-gradient(135deg, rgba(102, 126, 234, 0.05), rgba(118, 75, 162, 0.05));
-    border-radius: var(--radius-md);
-    border: 1px solid rgba(102, 126, 234, 0.2);
+  margin-bottom: 2rem; /* Separación inferior entre grupos */
+  padding: 1.5rem; /* Espaciado interno */
+  background: linear-gradient(
+    135deg,
+    rgba(102, 126, 234, 0.05),
+    rgba(118, 75, 162, 0.05)
+  ); /* Fondo degradado sutil */
+  border-radius: var(--radius-md); /* Bordes medianos redondeados */
+  border: 1px solid rgba(
+      102,
+      126,
+      234,
+      0.2
+    ); /* Borde con color primario transparente */
 }
 
+/* Título de cada grupo de frecuencia */
 .frecuencia-titulo {
-    display: block;
-    font-size: 1.2rem;
-    font-weight: 700;
-    color: var(--primary);
-    margin-bottom: 1.25rem;
-    padding-bottom: 0.75rem;
-    border-bottom: 2px solid rgba(102, 126, 234, 0.3);
+  display: block; /* Ocupa toda la línea */
+  font-size: 1.2rem; /* Tamaño del título */
+  font-weight: 700; /* Negrita */
+  color: var(--primary); /* Color primario */
+  margin-bottom: 1.25rem; /* Separación inferior */
+  padding-bottom: 0.75rem; /* Espaciado interno inferior */
+  border-bottom: 2px solid rgba(102, 126, 234, 0.3); /* Línea inferior decorativa */
 }
 
+/* Contenedor de opciones de frecuencia */
 .frecuencia-opciones {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-    gap: 0.75rem;
+  display: grid; /* Layout tipo grid */
+  grid-template-columns: repeat(
+    auto-fill,
+    minmax(140px, 1fr)
+  ); /* Columnas adaptables */
+  gap: 0.75rem; /* Espaciado entre opciones */
 }
 
-/* Acciones de pasos */
+/* ======================================================
+   Acciones de pasos (botones: anterior, siguiente, enviar)
+   ====================================================== */
+
+/* Contenedor de botones al final de cada paso */
 .step-actions {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 3rem;
-    padding-top: 2rem;
-    border-top: 2px solid var(--gray-200);
-    gap: 1rem;
+  display: flex; /* Layout horizontal */
+  justify-content: space-between; /* Espacio entre botones */
+  align-items: center; /* Centrado vertical */
+  margin-top: 3rem; /* Separación superior */
+  padding-top: 2rem; /* Espaciado interno superior */
+  border-top: 2px solid var(--gray-200); /* Línea superior */
+  gap: 1rem; /* Espacio entre botones */
 }
 
+/* Estilo base de todos los botones */
 .btn-prev,
 .btn-next,
 .btn-submit {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.75rem;
-    padding: 1rem 2rem;
-    font-size: 1rem;
-    font-weight: 600;
-    border: none;
-    border-radius: var(--radius-lg);
-    cursor: pointer;
-    transition: var(--transition);
-    text-decoration: none;
-    font-family: inherit;
-    position: relative;
-    overflow: hidden;
+  display: inline-flex; /* Layout flexible horizontal */
+  align-items: center; /* Centrado vertical */
+  gap: 0.75rem; /* Espacio entre icono y texto si hay */
+  padding: 1rem 2rem; /* Espaciado interno */
+  font-size: 1rem; /* Tamaño de letra */
+  font-weight: 600; /* Negrita */
+  border: none; /* Sin borde predeterminado */
+  border-radius: var(--radius-lg); /* Bordes grandes redondeados */
+  cursor: pointer; /* Cursor de mano */
+  transition: var(--transition); /* Transición suave */
+  text-decoration: none; /* Sin subrayado */
+  font-family: inherit; /* Hereda fuente */
+  position: relative; /* Para pseudo-elementos internos */
+  overflow: hidden; /* Oculta contenido que sobresalga */
 }
 
+/* Pseudo-elemento decorativo de brillo */
 .btn-prev::before,
 .btn-next::before,
 .btn-submit::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-    transition: var(--transition);
+  content: ''; /* Elemento vacío */
+  position: absolute; /* Posicionado relativo al botón */
+  top: 0;
+  left: -100%; /* Inicialmente fuera del botón */
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  ); /* Efecto de brillo */
+  transition: var(--transition); /* Transición suave */
 }
 
+/* Movimiento del brillo al hacer hover */
 .btn-prev:hover::before,
 .btn-next:hover::before,
 .btn-submit:hover::before {
-    left: 100%;
+  left: 100%; /* Brillo se desplaza de izquierda a derecha */
 }
 
+/* ======================================================
+   Botón anterior
+   ====================================================== */
 .btn-prev {
-    background: var(--gray-200);
-    color: var(--gray-700);
+  background: var(--gray-200); /* Fondo gris claro */
+  color: var(--gray-700); /* Texto gris oscuro */
 }
 
 .btn-prev:hover {
-    background: var(--gray-300);
-    color: var(--dark);
-    transform: translateX(-5px);
+  background: var(--gray-300); /* Fondo más oscuro */
+  color: var(--dark); /* Texto más oscuro */
+  transform: translateX(-5px); /* Movimiento hacia la izquierda */
 }
 
+/* ======================================================
+   Botón siguiente
+   ====================================================== */
 .btn-next {
-    background: var(--gradient-primary);
-    color: white;
-    margin-left: auto;
-    box-shadow: var(--shadow-primary);
+  background: var(--gradient-primary); /* Degradado primario */
+  color: white; /* Texto blanco */
+  margin-left: auto; /* Se alinea a la derecha */
+  box-shadow: var(--shadow-primary); /* Sombra principal */
 }
 
 .btn-next:hover {
-    transform: translateX(5px);
-    box-shadow: var(--shadow-xl);
+  transform: translateX(5px); /* Movimiento hacia la derecha */
+  box-shadow: var(--shadow-xl); /* Sombra más grande */
 }
 
+/* ======================================================
+   Botón de enviar
+   ====================================================== */
 .btn-submit {
-    background: var(--gradient-success);
-    color: white;
-    box-shadow: 0 10px 30px -5px rgba(56, 178, 172, 0.4);
-    padding: 1rem 2.5rem;
+  background: var(--gradient-success); /* Degradado de éxito */
+  color: white; /* Texto blanco */
+  box-shadow: 0 10px 30px -5px rgba(56, 178, 172, 0.4); /* Sombra personalizada */
+  padding: 1rem 2.5rem; /* Espaciado mayor horizontal */
 }
 
 .btn-submit:hover {
-    transform: translateY(-3px) scale(1.05);
-    box-shadow: 0 20px 40px -10px rgba(56, 178, 172, 0.6);
+  transform: translateY(-3px) scale(1.05); /* Elevación y ligero zoom */
+  box-shadow: 0 20px 40px -10px rgba(56, 178, 172, 0.6); /* Sombra más intensa */
 }
 
-/* Modal */
+/* ======================================================
+   Modal
+   ====================================================== */
+
+/* Contenedor principal del modal */
 .modal {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.7);
-    backdrop-filter: blur(10px);
-    z-index: 9999;
-    align-items: center;
-    justify-content: center;
-    animation: fadeIn 0.3s ease-out;
+  display: none; /* Oculto por defecto */
+  position: fixed; /* Posición fija sobre la pantalla */
+  top: 0;
+  left: 0;
+  width: 100%; /* Ocupa toda la pantalla */
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7); /* Fondo semi-transparente negro */
+  backdrop-filter: blur(10px); /* Desenfoque del fondo */
+  z-index: 9999; /* Encima de todo */
+  align-items: center; /* Centrado vertical del contenido */
+  justify-content: center; /* Centrado horizontal del contenido */
+  animation: fadeIn 0.3s ease-out; /* Animación de aparición */
 }
 
+/* Contenedor del contenido del modal */
 .modal-content {
-    background: white;
-    border-radius: var(--radius-xl);
-    padding: 3rem;
-    max-width: 500px;
-    width: 90%;
-    text-align: center;
-    animation: modalSlideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    position: relative;
-    overflow: hidden;
+  background: white; /* Fondo blanco */
+  border-radius: var(--radius-xl); /* Bordes redondeados grandes */
+  padding: 3rem; /* Espaciado interno */
+  max-width: 500px; /* Ancho máximo */
+  width: 90%; /* Ancho adaptativo */
+  text-align: center; /* Texto centrado */
+  animation: modalSlideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1); /* Animación de subida */
+  position: relative; /* Para pseudo-elementos internos */
+  overflow: hidden; /* Oculta contenido que sobresalga */
 }
 
+/* Animación para que el modal aparezca desde abajo */
 @keyframes modalSlideUp {
-    from {
-        opacity: 0;
-        transform: translateY(50px) scale(0.9);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-    }
+  from {
+    opacity: 0;
+    transform: translateY(50px) scale(0.9); /* Empieza desplazado y reducido */
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1); /* Termina centrado y con tamaño normal */
+  }
 }
 
+/* Barra decorativa superior del modal */
 .modal-content::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 6px;
-    background: var(--gradient-success);
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%; /* Ancho completo del modal */
+  height: 6px; /* Grosor de la barra */
+  background: var(--gradient-success); /* Degradado verde */
 }
 
+/* Icono grande del modal (ej. éxito) */
 .modal-icon {
-    font-size: 5rem;
-    color: var(--success);
-    margin-bottom: 1.5rem;
-    animation: successIcon 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  font-size: 5rem; /* Tamaño grande */
+  color: var(--success); /* Color verde */
+  margin-bottom: 1.5rem; /* Separación inferior */
+  animation: successIcon 0.8s cubic-bezier(
+      0.68,
+      -0.55,
+      0.265,
+      1.55
+    ); /* Animación de entrada */
 }
 
+/* Animación del icono de éxito */
 @keyframes successIcon {
-    0% {
-        transform: scale(0) rotate(-180deg);
-    }
-    100% {
-        transform: scale(1) rotate(0);
-    }
+  0% {
+    transform: scale(0) rotate(-180deg); /* Comienza invisible y girado */
+  }
+  100% {
+    transform: scale(1) rotate(0); /* Termina visible y alineado */
+  }
 }
 
+/* Título dentro del modal */
 .modal-content h3 {
-    font-size: 2.2rem;
-    color: var(--dark);
-    margin-bottom: 1rem;
-    font-weight: 700;
+  font-size: 2.2rem; /* Tamaño grande */
+  color: var(--dark); /* Color oscuro */
+  margin-bottom: 1rem; /* Separación inferior */
+  font-weight: 700; /* Negrita */
 }
 
+/* Texto descriptivo dentro del modal */
 .modal-content p {
-    color: var(--gray-600);
-    font-size: 1.1rem;
-    margin-bottom: 2rem;
-    line-height: 1.6;
+  color: var(--gray-600); /* Gris medio */
+  font-size: 1.1rem; /* Tamaño estándar */
+  margin-bottom: 2rem; /* Separación inferior */
+  line-height: 1.6; /* Altura de línea para legibilidad */
 }
 
+/* Contenedor de botones dentro del modal */
 .modal-actions {
-    display: flex;
-    justify-content: center;
-    gap: 1rem;
+  display: flex; /* Layout horizontal */
+  justify-content: center; /* Centrado horizontal */
+  gap: 1rem; /* Espaciado entre botones */
 }
 
+/* Botones dentro del modal */
 .btn-modal {
-    padding: 1rem 2.5rem;
-    background: var(--gradient-primary);
-    color: white;
-    border: none;
-    border-radius: var(--radius-lg);
-    font-weight: 600;
-    cursor: pointer;
-    transition: var(--transition);
-    font-size: 1rem;
-    min-width: 150px;
+  padding: 1rem 2.5rem; /* Espaciado interno */
+  background: var(--gradient-primary); /* Fondo degradado primario */
+  color: white; /* Texto blanco */
+  border: none; /* Sin borde */
+  border-radius: var(--radius-lg); /* Bordes redondeados grandes */
+  font-weight: 600; /* Negrita */
+  cursor: pointer; /* Cursor de mano */
+  transition: var(--transition); /* Transición suave */
+  font-size: 1rem; /* Tamaño de letra */
+  min-width: 150px; /* Ancho mínimo */
 }
 
+/* Efecto hover para botones del modal */
 .btn-modal:hover {
-    transform: translateY(-2px) scale(1.05);
-    box-shadow: var(--shadow-primary);
+  transform: translateY(-2px) scale(1.05); /* Elevación y ligero zoom */
+  box-shadow: var(--shadow-primary); /* Sombra */
 }
 
-/* Mensajes de error */
+/* ======================================================
+   Mensajes de error
+   ====================================================== */
+
+/* Contenedor de mensajes de error generales */
 .error-message {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    color: var(--danger);
-    font-size: 0.9rem;
-    margin-top: 0.5rem;
-    padding: 0.75rem;
-    background: rgba(248, 113, 113, 0.1);
-    border-radius: var(--radius-sm);
-    border-left: 4px solid var(--danger);
-    animation: slideIn 0.3s ease-out;
+  display: flex; /* Layout horizontal */
+  align-items: center; /* Centrado vertical de icono y texto */
+  gap: 0.5rem; /* Espacio entre icono y texto */
+  color: var(--danger); /* Color rojo */
+  font-size: 0.9rem; /* Tamaño de letra más pequeño */
+  margin-top: 0.5rem; /* Separación superior */
+  padding: 0.75rem; /* Espaciado interno */
+  background: rgba(248, 113, 113, 0.1); /* Fondo rojo claro */
+  border-radius: var(--radius-sm); /* Bordes ligeramente redondeados */
+  border-left: 4px solid var(--danger); /* Línea roja lateral */
+  animation: slideIn 0.3s ease-out; /* Animación de entrada */
 }
 
+/* Iconos dentro de mensajes de error */
 .error-message i {
-    font-size: 1rem;
+  font-size: 1rem; /* Tamaño del icono */
 }
 
+/* Mensajes de error de campos específicos */
 .field-error {
-    color: var(--danger);
-    font-size: 0.85rem;
-    margin-top: 0.25rem;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    animation: slideIn 0.3s ease-out;
+  color: var(--danger); /* Rojo */
+  font-size: 0.85rem; /* Tamaño pequeño */
+  margin-top: 0.25rem; /* Separación superior */
+  display: flex; /* Layout horizontal para icono + texto */
+  align-items: center; /* Centrado vertical */
+  gap: 0.5rem; /* Separación entre icono y texto */
+  animation: slideIn 0.3s ease-out; /* Animación de entrada */
 }
 
-/* Responsive */
+/* ======================================================
+   Responsive: Ajustes para diferentes tamaños de pantalla
+   ====================================================== */
+
+/* Para pantallas medianas-grandes (tablets grandes, laptops menores a 1024px) */
 @media (max-width: 1024px) {
-    .component-form-container {
-        padding: 0 1rem;
-    }
-    
-    .form-header {
-        flex-direction: column;
-        text-align: center;
-        padding: 2rem;
-    }
-    
-    .header-content {
-        flex-direction: column;
-        text-align: center;
-    }
-    
-    .header-icon-container {
-        margin: 0 auto;
-    }
-    
-    .progress-steps {
-        flex-direction: column;
-        gap: 1.5rem;
-    }
-    
-    .step-connector {
-        width: 4px;
-        height: 100px;
-        margin: 0;
-    }
-    
-    .form-grid {
-        grid-template-columns: 1fr;
-    }
-    
-    .step-actions {
-        flex-direction: column;
-    }
-    
-    .btn-prev,
-    .btn-next,
-    .btn-submit {
-        width: 100%;
-        justify-content: center;
-    }
+  /* Contenedor principal del formulario */
+  .component-form-container {
+    padding: 0 1rem; /* Reducir padding lateral */
+  }
+
+  /* Header del formulario */
+  .form-header {
+    flex-direction: column; /* Apilar verticalmente los elementos */
+    text-align: center; /* Centrar el texto */
+    padding: 2rem; /* Reducir padding */
+  }
+
+  /* Contenido del header */
+  .header-content {
+    flex-direction: column; /* Apilar verticalmente los elementos */
+    text-align: center; /* Centrar el contenido */
+  }
+
+  /* Contenedor del icono del header */
+  .header-icon-container {
+    margin: 0 auto; /* Centrar horizontalmente */
+  }
+
+  /* Contenedor de pasos de progreso */
+  .progress-steps {
+    flex-direction: column; /* Apilar verticalmente los pasos */
+    gap: 1.5rem; /* Separación entre pasos */
+  }
+
+  /* Conector entre pasos */
+  .step-connector {
+    width: 4px; /* Conector vertical más delgado */
+    height: 100px; /* Altura para layout vertical */
+    margin: 0; /* Eliminar margen horizontal */
+  }
+
+  /* Grid de formulario */
+  .form-grid {
+    grid-template-columns: 1fr; /* Una sola columna */
+  }
+
+  /* Contenedor de botones de navegación */
+  .step-actions {
+    flex-direction: column; /* Apilar botones verticalmente */
+  }
+
+  /* Botones de navegación */
+  .btn-prev,
+  .btn-next,
+  .btn-submit {
+    width: 100%; /* Botones ocupan todo el ancho */
+    justify-content: center; /* Centrar contenido */
+  }
 }
 
+/* Para pantallas medianas (tablets, menores a 768px) */
 @media (max-width: 768px) {
-    .form-step {
-        padding: 2rem;
-    }
-    
-    .step-header {
-        flex-direction: column;
-        text-align: center;
-        gap: 1rem;
-    }
-    
-    .step-icon {
-        margin: 0 auto;
-    }
-    
-    .component-preview {
-        flex-direction: column;
-        text-align: center;
-        padding: 1.5rem;
-    }
-    
-    .checkbox-grid {
-        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-    }
-    
-    .frecuencia-opciones {
-        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-    }
-    
-    .header-text h1 {
-        font-size: 2rem;
-    }
-    
-    .modal-content {
-        padding: 2rem;
-    }
+  /* Espaciado de pasos del formulario */
+  .form-step {
+    padding: 2rem; /* Reducir padding interno */
+  }
+
+  /* Header de cada paso */
+  .step-header {
+    flex-direction: column; /* Apilar icono y título */
+    text-align: center; /* Centrar texto */
+    gap: 1rem; /* Espacio entre elementos */
+  }
+
+  /* Icono del paso */
+  .step-icon {
+    margin: 0 auto; /* Centrar horizontalmente */
+  }
+
+  /* Vista previa de componente */
+  .component-preview {
+    flex-direction: column; /* Apilar verticalmente */
+    text-align: center; /* Centrar texto */
+    padding: 1.5rem; /* Reducir padding */
+  }
+
+  /* Grid de checkboxes */
+  .checkbox-grid {
+    grid-template-columns: repeat(
+      auto-fill,
+      minmax(150px, 1fr)
+    ); /* Columnas más estrechas */
+  }
+
+  /* Grid de opciones de frecuencia */
+  .frecuencia-opciones {
+    grid-template-columns: repeat(
+      auto-fill,
+      minmax(120px, 1fr)
+    ); /* Columnas más estrechas */
+  }
+
+  /* Título del header */
+  .header-text h1 {
+    font-size: 2rem; /* Reducir tamaño de fuente */
+  }
+
+  /* Modal */
+  .modal-content {
+    padding: 2rem; /* Reducir padding */
+  }
 }
 
+/* Para pantallas pequeñas (móviles, menores a 480px) */
 @media (max-width: 480px) {
-    .component-form-container {
-        margin: 1rem auto;
-        padding: 0 0.75rem;
-    }
-    
-    .form-header,
-    .form-step {
-        padding: 1.5rem;
-    }
-    
-    .header-icon-container {
-        width: 70px;
-        height: 70px;
-    }
-    
-    .header-icon {
-        font-size: 2.5rem;
-    }
-    
-    .checkbox-grid {
-        grid-template-columns: 1fr;
-    }
-    
-    .frecuencia-opciones {
-        grid-template-columns: 1fr;
-    }
-    
-    .step-circle {
-        width: 60px;
-        height: 60px;
-        font-size: 1.2rem;
-    }
-    
-    .step-label {
-        font-size: 0.9rem;
-    }
-    
-    .btn-back,
-    .btn-prev,
-    .btn-next,
-    .btn-submit {
-        padding: 0.875rem 1.5rem;
-        font-size: 0.95rem;
-    }
+  /* Contenedor principal */
+  .component-form-container {
+    margin: 1rem auto; /* Reducir margen superior/inferior */
+    padding: 0 0.75rem; /* Reducir padding lateral */
+  }
+
+  /* Header y pasos del formulario */
+  .form-header,
+  .form-step {
+    padding: 1.5rem; /* Reducir padding interno */
+  }
+
+  /* Contenedor del icono del header */
+  .header-icon-container {
+    width: 70px; /* Ajustar tamaño del contenedor */
+    height: 70px;
+  }
+
+  /* Icono del header */
+  .header-icon {
+    font-size: 2.5rem; /* Reducir tamaño del icono */
+  }
+
+  /* Grid de checkboxes */
+  .checkbox-grid {
+    grid-template-columns: 1fr; /* Una columna */
+  }
+
+  /* Grid de opciones de frecuencia */
+  .frecuencia-opciones {
+    grid-template-columns: 1fr; /* Una columna */
+  }
+
+  /* Círculo de cada paso */
+  .step-circle {
+    width: 60px; /* Reducir tamaño */
+    height: 60px;
+    font-size: 1.2rem; /* Reducir tamaño del número */
+  }
+
+  /* Etiqueta de cada paso */
+  .step-label {
+    font-size: 0.9rem; /* Reducir tamaño de letra */
+  }
+
+  /* Botones principales */
+  .btn-back,
+  .btn-prev,
+  .btn-next,
+  .btn-submit {
+    padding: 0.875rem 1.5rem; /* Reducir padding */
+    font-size: 0.95rem; /* Reducir tamaño de letra */
+  }
 }

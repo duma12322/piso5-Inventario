@@ -1,772 +1,1004 @@
-/* Variables CSS */
+/* variables.css - Variables, animaciones y fondo animado*/
+
+/* ==============================
+   Variables CSS personalizadas
+   ============================== */
 :root {
-    --primary-color: #4361ee;
-    --primary-hover: #3a56d4;
-    --secondary-color: #7209b7;
-    --success-color: #4ade80;
-    --danger-color: #f43f5e;
-    --warning-color: #f59e0b;
-    --info-color: #0ea5e9;
-    --dark-color: #1e293b;
-    --light-color: #f8fafc;
-    --gray-100: #f1f5f9;
-    --gray-200: #e2e8f0;
-    --gray-300: #cbd5e1;
-    --gray-400: #94a3b8;
-    --gray-500: #64748b;
-    --gray-600: #475569;
-    --border-radius: 12px;
-    --box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-    --box-shadow-lg: 0 20px 40px rgba(0, 0, 0, 0.15);
-    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --primary-color: #4361ee; /* Color principal azul */
+  --primary-hover: #3a56d4; /* Color azul al pasar el mouse */
+  --secondary-color: #7209b7; /* Color secundario morado */
+  --success-color: #4ade80; /* Color de éxito (verde) */
+  --danger-color: #f43f5e; /* Color de peligro (rojo) */
+  --warning-color: #f59e0b; /* Color de advertencia (amarillo) */
+  --info-color: #0ea5e9; /* Color informativo (celeste) */
+  --dark-color: #1e293b; /* Color oscuro para texto o fondos */
+  --light-color: #f8fafc; /* Color claro de fondo */
+  --gray-100: #f1f5f9; /* Gris claro para fondos */
+  --gray-200: #e2e8f0; /* Gris medio */
+  --gray-300: #cbd5e1; /* Gris intermedio */
+  --gray-400: #94a3b8; /* Gris más oscuro */
+  --gray-500: #64748b; /* Gris estándar */
+  --gray-600: #475569; /* Gris oscuro */
+  --border-radius: 12px; /* Radio de bordes global */
+  --box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1); /* Sombra base */
+  --box-shadow-lg: 0 20px 40px rgba(0, 0, 0, 0.15); /* Sombra grande */
+  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); /* Transiciones suaves */
 }
 
-/* Animaciones */
+/* ==============================
+   Animaciones globales
+   ============================== */
+
+/* Aparición gradual con desplazamiento vertical */
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
+/* Entrada desde la izquierda */
 @keyframes slideIn {
-    from { transform: translateX(-20px); opacity: 0; }
-    to { transform: translateX(0); opacity: 1; }
+  from {
+    transform: translateX(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
 }
 
+/* Pulso para destacar elementos */
 @keyframes pulse {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.02); }
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.02);
+  }
 }
 
+/* Movimiento flotante vertical */
 @keyframes float {
-    0%, 100% { transform: translateY(0px); }
-    50% { transform: translateY(-10px); }
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
 }
 
+/* Fondo con gradiente animado */
 @keyframes gradientBG {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
-/* Estilos base */
+/* ==============================
+   Contenedor base para formularios de dirección
+   ============================== */
 .direccion-form-container {
-    min-height: 100vh;
-    background: linear-gradient(135deg, var(--light-color) 0%, var(--gray-100) 100%);
-    padding: 20px;
-    position: relative;
-    overflow-x: hidden;
+  min-height: 100vh; /* Altura completa de la ventana */
+  background: linear-gradient(
+    135deg,
+    var(--light-color) 0%,
+    var(--gray-100) 100%
+  ); /* Fondo degradado */
+  padding: 20px; /* Espaciado interno */
+  position: relative; /* Posicionamiento relativo para hijos absolutos */
+  overflow-x: hidden; /* Oculta scroll horizontal */
 }
 
-/* Fondo animado */
+/* ==============================
+   Fondo animado con formas flotantes
+   ============================== */
+
+/* Contenedor fijo del fondo animado */
 .animated-background {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 0;
-    overflow: hidden;
+  position: fixed; /* Fijo respecto a la ventana */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0; /* Detrás del contenido */
+  overflow: hidden; /* Oculta desbordes */
 }
 
+/* Contenedor de todas las formas flotantes */
 .floating-shapes {
-    position: absolute;
-    width: 100%;
-    height: 100%;
+  position: absolute;
+  width: 100%;
+  height: 100%;
 }
 
+/* Estilos base para cada forma flotante */
 .shape {
-    position: absolute;
-    border-radius: 50%;
-    background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
-    opacity: 0.1;
-    animation: float 20s infinite ease-in-out;
+  position: absolute; /* Posicionamiento absoluto dentro del contenedor */
+  border-radius: 50%; /* Forma circular */
+  background: linear-gradient(
+    45deg,
+    var(--primary-color),
+    var(--accent-color)
+  ); /* Degradado de color */
+  opacity: 0.1; /* Transparencia baja */
+  animation: float 20s infinite ease-in-out; /* Movimiento flotante continuo */
 }
 
+/* ==============================
+   Formas flotantes individuales con tamaños y posiciones
+   ============================== */
+
+/* Forma 1 */
 .shape-1 {
-    width: 300px;
-    height: 300px;
-    top: 10%;
-    left: 5%;
-    animation-delay: 0s;
+  width: 300px;
+  height: 300px;
+  top: 10%;
+  left: 5%;
+  animation-delay: 0s;
 }
 
+/* Forma 2 */
 .shape-2 {
-    width: 200px;
-    height: 200px;
-    top: 60%;
-    right: 10%;
-    animation-delay: 2s;
+  width: 200px;
+  height: 200px;
+  top: 60%;
+  right: 10%;
+  animation-delay: 2s;
 }
 
+/* Forma 3 */
 .shape-3 {
-    width: 150px;
-    height: 150px;
-    bottom: 20%;
-    left: 20%;
-    animation-delay: 4s;
+  width: 150px;
+  height: 150px;
+  bottom: 20%;
+  left: 20%;
+  animation-delay: 4s;
 }
 
+/* Forma 4 */
 .shape-4 {
-    width: 100px;
-    height: 100px;
-    top: 30%;
-    right: 25%;
-    animation-delay: 6s;
+  width: 100px;
+  height: 100px;
+  top: 30%;
+  right: 25%;
+  animation-delay: 6s;
 }
 
+/* Forma 5 */
 .shape-5 {
-    width: 250px;
-    height: 250px;
-    bottom: 10%;
-    right: 15%;
-    animation-delay: 8s;
+  width: 250px;
+  height: 250px;
+  bottom: 10%;
+  right: 15%;
+  animation-delay: 8s;
 }
 
-/* Header del formulario */
+/* ======================================================
+   formulario.header.css - Header y Card del Formulario
+   ====================================================== */
+
+/* ==============================
+   Header del formulario
+   ============================== */
 .form-header {
-    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
-    border-radius: var(--border-radius);
-    padding: 30px;
-    margin-bottom: 30px;
-    color: white;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    box-shadow: var(--box-shadow);
-    position: relative;
-    z-index: 1;
-    animation: fadeIn 0.6s ease-out;
+  background: linear-gradient(
+    135deg,
+    var(--primary-color) 0%,
+    var(--secondary-color) 100%
+  ); /* Fondo degradado */
+  border-radius: var(--border-radius); /* Bordes redondeados */
+  padding: 30px; /* Espaciado interno */
+  margin-bottom: 30px; /* Separación inferior */
+  color: white; /* Texto en blanco */
+  display: flex; /* Contenedor flex */
+  justify-content: space-between; /* Separación entre elementos */
+  align-items: center; /* Centrado vertical */
+  box-shadow: var(--box-shadow); /* Sombra */
+  position: relative; /* Posicionamiento relativo */
+  z-index: 1; /* Encima de otros elementos */
+  animation: fadeIn 0.6s ease-out; /* Animación de aparición */
 }
 
+/* Contenido del header */
 .header-content {
-    display: flex;
-    align-items: center;
-    gap: 20px;
+  display: flex; /* Contenedor flex */
+  align-items: center; /* Centrado vertical */
+  gap: 20px; /* Espaciado entre icono y texto */
 }
 
+/* Contenedor del icono */
 .header-icon-container {
-    position: relative;
-    width: 70px;
-    height: 70px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  position: relative; /* Para elementos internos absolutos */
+  width: 70px;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
+/* Icono principal del header */
 .header-icon {
-    font-size: 36px;
-    position: relative;
-    z-index: 2;
+  font-size: 36px;
+  position: relative;
+  z-index: 2; /* Por encima de animaciones */
 }
 
+/* Animación de pulso del icono */
 .icon-pulse {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background: rgba(255, 255, 255, 0.2);
-    border-radius: 50%;
-    animation: pulse 2s infinite;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.2); /* Fondo semitransparente */
+  border-radius: 50%; /* Forma circular */
+  animation: pulse 2s infinite; /* Pulso continuo */
 }
 
+/* Texto del header */
 .header-text h1 {
-    font-size: 28px;
-    font-weight: 700;
-    margin: 0 0 5px 0;
-    color: white;
+  font-size: 28px;
+  font-weight: 700;
+  margin: 0 0 5px 0;
+  color: white;
 }
 
 .header-text p {
-    opacity: 0.9;
-    margin: 0;
-    font-size: 16px;
+  opacity: 0.9; /* Ligera transparencia */
+  margin: 0;
+  font-size: 16px;
 }
 
+/* Botón de regresar */
 .btn-back {
-    background: rgba(255, 255, 255, 0.2);
-    color: white;
-    padding: 12px 24px;
-    border-radius: 50px;
-    text-decoration: none;
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    font-weight: 500;
-    transition: var(--transition);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.2); /* Fondo semitransparente */
+  color: white;
+  padding: 12px 24px;
+  border-radius: 50px; /* Botón redondeado */
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px; /* Espaciado entre icono y texto */
+  font-weight: 500;
+  transition: var(--transition); /* Transición suave */
+  backdrop-filter: blur(10px); /* Efecto de desenfoque */
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .btn-back:hover {
-    background: rgba(255, 255, 255, 0.3);
-    transform: translateX(-5px);
-    color: white;
-    text-decoration: none;
+  background: rgba(255, 255, 255, 0.3);
+  transform: translateX(-5px); /* Desplazamiento al pasar mouse */
+  color: white;
+  text-decoration: none;
 }
 
-/* Contenedor del formulario */
+/* ==============================
+   Contenedor del formulario
+   ============================== */
 .form-wrapper {
-    max-width: 800px;
-    margin: 0 auto;
-    position: relative;
-    z-index: 1;
-    animation: fadeIn 0.8s ease-out;
+  max-width: 800px; /* Ancho máximo */
+  margin: 0 auto; /* Centrado horizontal */
+  position: relative;
+  z-index: 1;
+  animation: fadeIn 0.8s ease-out; /* Aparición animada */
 }
 
-/* Card del formulario */
+/* ==============================
+   Card del formulario
+   ============================== */
 .form-card {
-    background: white;
-    border-radius: var(--border-radius);
-    overflow: hidden;
-    box-shadow: var(--box-shadow-lg);
+  background: white;
+  border-radius: var(--border-radius); /* Bordes redondeados */
+  overflow: hidden;
+  box-shadow: var(--box-shadow-lg); /* Sombra más grande */
 }
 
+/* Header interno de la card */
 .card-header {
-    background: linear-gradient(135deg, var(--dark-color) 0%, var(--gray-600) 100%);
-    color: white;
-    padding: 25px;
-    display: flex;
-    align-items: center;
-    gap: 20px;
+  background: linear-gradient(
+    135deg,
+    var(--dark-color) 0%,
+    var(--gray-600) 100%
+  ); /* Degradado oscuro */
+  color: white;
+  padding: 25px;
+  display: flex;
+  align-items: center;
+  gap: 20px; /* Separación entre icono y texto */
 }
 
+/* Icono dentro de la card */
 .card-icon {
-    width: 50px;
-    height: 50px;
-    background: rgba(255, 255, 255, 0.2);
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 22px;
+  width: 50px;
+  height: 50px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
 }
 
+/* Título y descripción de la card */
 .card-title h3 {
-    font-size: 22px;
-    font-weight: 700;
-    margin: 0 0 5px 0;
-    color: white;
+  font-size: 22px;
+  font-weight: 700;
+  margin: 0 0 5px 0;
+  color: white;
 }
 
 .card-title p {
-    opacity: 0.9;
-    margin: 0;
-    font-size: 14px;
+  opacity: 0.9;
+  margin: 0;
+  font-size: 14px;
 }
 
+/* Cuerpo de la card */
 .card-body {
-    padding: 30px;
+  padding: 30px;
 }
 
-/* Grupos de formulario */
+/* ======================================================
+   formulario.inputs.css - Grupos e Inputs del Formulario
+   ====================================================== */
+
+/* ==============================
+   Grupos de formulario
+   ============================== */
 .form-group {
-    margin-bottom: 30px;
+  margin-bottom: 30px; /* Separación entre grupos de inputs */
 }
 
+/* ==============================
+   Labels del formulario
+   ============================== */
 .form-label {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-weight: 600;
-    color: var(--dark-color);
-    margin-bottom: 12px;
-    font-size: 16px;
+  display: flex; /* Label como flex para icono + texto */
+  align-items: center; /* Centrado vertical */
+  gap: 10px; /* Espaciado entre icono y texto */
+  font-weight: 600; /* Negrita */
+  color: var(--dark-color); /* Color del texto */
+  margin-bottom: 12px; /* Separación con el input */
+  font-size: 16px; /* Tamaño de fuente */
 }
 
+/* Iconos dentro de labels */
 .form-label i {
-    color: var(--primary-color);
-    width: 20px;
-    text-align: center;
+  color: var(--primary-color); /* Color principal */
+  width: 20px; /* Ancho fijo */
+  text-align: center; /* Centrado del icono */
 }
 
+/* Indicador de campos obligatorios */
 .required {
-    color: var(--danger-color);
-    margin-left: 5px;
+  color: var(--danger-color); /* Color rojo para obligatorio */
+  margin-left: 5px; /* Separación respecto al texto */
 }
 
-/* Input group */
+/* ==============================
+   Grupo de input con icono
+   ============================== */
 .input-group {
-    position: relative;
+  position: relative; /* Para posicionar iconos dentro */
 }
 
+/* Icono dentro del input */
 .input-icon {
-    position: absolute;
-    left: 15px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: var(--gray-400);
-    font-size: 18px;
-    z-index: 2;
+  position: absolute;
+  left: 15px; /* Separación desde la izquierda */
+  top: 50%; /* Centrado vertical */
+  transform: translateY(-50%);
+  color: var(--gray-400); /* Color gris */
+  font-size: 18px; /* Tamaño del icono */
+  z-index: 2; /* Por encima del input */
 }
 
-.form-input, .form-textarea {
-    width: 100%;
-    padding: 15px 15px 15px 50px;
-    border: 2px solid var(--gray-200);
-    border-radius: 10px;
-    font-size: 16px;
-    transition: var(--transition);
-    background: white;
-    position: relative;
-    z-index: 1;
-}
-
+/* ==============================
+   Inputs y Textareas
+   ============================== */
+.form-input,
 .form-textarea {
-    min-height: 100px;
-    resize: vertical;
-    padding: 15px;
-    line-height: 1.6;
+  width: 100%; /* Ocupa todo el contenedor */
+  padding: 15px 15px 15px 50px; /* Padding con espacio para icono */
+  border: 2px solid var(--gray-200); /* Borde gris claro */
+  border-radius: 10px; /* Bordes redondeados */
+  font-size: 16px;
+  transition: var(--transition); /* Animación de cambios */
+  background: white;
+  position: relative;
+  z-index: 1;
 }
 
-.form-input:focus, .form-textarea:focus {
-    outline: none;
-    border-color: var(--primary-color);
-    box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
-    transform: translateY(-2px);
+/* Textarea específico */
+.form-textarea {
+  min-height: 100px; /* Altura mínima */
+  resize: vertical; /* Solo se puede cambiar altura */
+  padding: 15px;
+  line-height: 1.6; /* Espaciado entre líneas */
 }
 
+/* Focus en inputs y textareas */
+.form-input:focus,
+.form-textarea:focus {
+  outline: none; /* Sin outline por defecto */
+  border-color: var(--primary-color); /* Color de borde al enfocar */
+  box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1); /* Sombra suave */
+  transform: translateY(-2px); /* Pequeño levantamiento visual */
+}
+
+/* Input con error */
 .form-input.error {
-    border-color: var(--danger-color);
-    animation: shake 0.5s ease-in-out;
+  border-color: var(--danger-color); /* Color rojo de error */
+  animation: shake 0.5s ease-in-out; /* Animación de vibración */
 }
 
+/* ==============================
+   Animación de error "shake"
+   ============================== */
 @keyframes shake {
-    0%, 100% { transform: translateX(0); }
-    25% { transform: translateX(-5px); }
-    75% { transform: translateX(5px); }
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-5px); /* Desplazamiento izquierda */
+  }
+  75% {
+    transform: translateX(5px); /* Desplazamiento derecha */
+  }
 }
 
-/* Radio group */
+/* ======================================================
+   formulario.radio-preview.css - Radio buttons y preview
+   ====================================================== */
+
+/* ==============================
+   Grupo de radios
+   ============================== */
 .radio-group {
-    display: flex;
-    gap: 20px;
-    margin-top: 10px;
+  display: flex; /* Mostrar radios en línea */
+  gap: 20px; /* Espaciado entre radios */
+  margin-top: 10px; /* Separación con elementos anteriores */
 }
 
+/* Cada radio item */
 .radio-item {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    cursor: pointer;
-    padding: 12px 20px;
-    border: 2px solid var(--gray-200);
-    border-radius: 10px;
-    transition: var(--transition);
-    flex: 1;
+  display: flex; /* Flex para icono + label */
+  align-items: center; /* Centrado vertical */
+  gap: 12px; /* Espaciado interno */
+  cursor: pointer; /* Cambia cursor al pasar sobre el item */
+  padding: 12px 20px; /* Padding interno */
+  border: 2px solid var(--gray-200); /* Borde gris claro */
+  border-radius: 10px; /* Bordes redondeados */
+  transition: var(--transition); /* Animación suave */
+  flex: 1; /* Todos los radios ocupan espacio igual */
 }
 
+/* Hover del radio item */
 .radio-item:hover {
-    border-color: var(--primary-color);
-    background: var(--gray-100);
+  border-color: var(--primary-color); /* Cambia color borde */
+  background: var(--gray-100); /* Fondo gris claro */
 }
 
+/* Ocultar input nativo */
 .radio-item input[type="radio"] {
-    display: none;
+  display: none;
 }
 
+/* Radio personalizado */
 .radio-custom {
-    width: 20px;
-    height: 20px;
-    border: 2px solid var(--gray-300);
-    border-radius: 50%;
-    position: relative;
-    transition: var(--transition);
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--gray-300);
+  border-radius: 50%;
+  position: relative;
+  transition: var(--transition);
 }
 
+/* Estado checked del radio personalizado */
 .radio-item input[type="radio"]:checked + .radio-custom {
-    border-color: var(--primary-color);
-    background: var(--primary-color);
+  border-color: var(--primary-color);
+  background: var(--primary-color);
 }
 
+/* Punto interno del radio cuando está seleccionado */
 .radio-item input[type="radio"]:checked + .radio-custom::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 8px;
-    height: 8px;
-    background: white;
-    border-radius: 50%;
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 8px;
+  height: 8px;
+  background: white;
+  border-radius: 50%;
 }
 
+/* Label del radio */
 .radio-label {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-weight: 500;
-    color: var(--dark-color);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 500;
+  color: var(--dark-color);
 }
 
+/* Iconos dentro del label */
 .radio-label i {
-    font-size: 18px;
+  font-size: 18px;
 }
 
+/* Cambiar color de iconos según estado */
 .radio-item input[type="radio"]:checked ~ .radio-label i.fa-check-circle {
-    color: var(--success-color);
+  color: var(--success-color); /* Verde si checked */
 }
 
 .radio-item input[type="radio"]:checked ~ .radio-label i.fa-times-circle {
-    color: var(--danger-color);
+  color: var(--danger-color); /* Rojo si checked */
 }
 
-/* Input hints */
+/* ==============================
+   Hints o ayudas de inputs
+   ============================== */
 .input-hint {
-    margin-top: 8px;
-    font-size: 13px;
-    color: var(--gray-500);
-    display: flex;
-    align-items: center;
-    gap: 8px;
+  margin-top: 8px;
+  font-size: 13px;
+  color: var(--gray-500);
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .input-hint i {
-    color: var(--warning-color);
+  color: var(--warning-color); /* Icono de advertencia */
 }
 
-/* Mensajes de error */
+/* ==============================
+   Mensajes de error
+   ============================== */
 .error-message {
-    background: rgba(244, 63, 94, 0.1);
-    border-left: 4px solid var(--danger-color);
-    padding: 12px 15px;
-    margin-top: 10px;
-    border-radius: 0 8px 8px 0;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    color: var(--danger-color);
-    font-size: 14px;
-    animation: fadeIn 0.3s ease-out;
+  background: rgba(244, 63, 94, 0.1); /* Fondo rosado */
+  border-left: 4px solid var(--danger-color); /* Borde rojo */
+  padding: 12px 15px;
+  margin-top: 10px;
+  border-radius: 0 8px 8px 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--danger-color);
+  font-size: 14px;
+  animation: fadeIn 0.3s ease-out; /* Animación de aparición */
 }
 
 .field-error {
-    margin-top: 5px;
-    color: var(--danger-color);
-    font-size: 13px;
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    animation: fadeIn 0.3s ease-out;
+  margin-top: 5px;
+  color: var(--danger-color);
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  animation: fadeIn 0.3s ease-out;
 }
 
-/* Preview card */
+/* ==============================
+   Preview card de formulario
+   ============================== */
 .preview-card {
-    background: var(--gray-100);
-    border-radius: 10px;
-    padding: 20px;
-    margin-top: 30px;
-    border: 2px solid var(--gray-200);
-    animation: pulse 2s infinite;
+  background: var(--gray-100); /* Fondo gris claro */
+  border-radius: 10px;
+  padding: 20px;
+  margin-top: 30px;
+  border: 2px solid var(--gray-200);
+  animation: pulse 2s infinite; /* Animación de pulso */
 }
 
+/* Encabezado del preview */
 .preview-header {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-weight: 600;
-    color: var(--dark-color);
-    margin-bottom: 15px;
-    font-size: 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 600;
+  color: var(--dark-color);
+  margin-bottom: 15px;
+  font-size: 16px;
 }
 
 .preview-header i {
-    color: var(--primary-color);
+  color: var(--primary-color); /* Icono principal */
 }
 
+/* Contenido del preview */
 .preview-content {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
+/* Cada item dentro del preview */
 .preview-item {
-    display: flex;
-    gap: 10px;
-    align-items: flex-start;
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
 }
 
 .preview-item strong {
-    color: var(--dark-color);
-    min-width: 100px;
-    font-weight: 600;
+  color: var(--dark-color);
+  min-width: 100px;
+  font-weight: 600;
 }
 
 .preview-item span {
-    color: var(--gray-600);
-    flex: 1;
+  color: var(--gray-600);
+  flex: 1;
 }
 
-/* Badges */
+/* ======================================================
+   badges-footer.css - Badges y botones de card
+   ====================================================== */
+
+/* ==============================
+   Badges (indicadores de estado)
+   ============================== */
 .badge {
-    padding: 6px 16px;
-    border-radius: 20px;
-    font-size: 12px;
-    font-weight: 600;
-    display: inline-block;
+  padding: 6px 16px; /* Espaciado interno */
+  border-radius: 20px; /* Bordes redondeados tipo cápsula */
+  font-size: 12px; /* Tamaño de letra pequeño */
+  font-weight: 600; /* Negrita ligera */
+  display: inline-block; /* Mostrar en línea como bloque */
 }
 
+/* Badge para estado activo */
 .badge-active {
-    background: rgba(74, 222, 128, 0.2);
-    color: var(--success-color);
-    border: 1px solid rgba(74, 222, 128, 0.3);
+  background: rgba(74, 222, 128, 0.2); /* Fondo verde transparente */
+  color: var(--success-color); /* Texto verde */
+  border: 1px solid rgba(74, 222, 128, 0.3); /* Borde verde suave */
 }
 
+/* Badge para estado inactivo */
 .badge-inactive {
-    background: rgba(244, 63, 94, 0.2);
-    color: var(--danger-color);
-    border: 1px solid rgba(244, 63, 94, 0.3);
+  background: rgba(244, 63, 94, 0.2); /* Fondo rojo transparente */
+  color: var(--danger-color); /* Texto rojo */
+  border: 1px solid rgba(244, 63, 94, 0.3); /* Borde rojo suave */
 }
 
-/* Footer del card */
+/* ==============================
+   Footer de la card
+   ============================== */
 .card-footer {
-    padding: 25px 30px;
-    background: var(--gray-100);
-    border-top: 1px solid var(--gray-200);
-    display: flex;
-    justify-content: flex-end;
-    gap: 15px;
+  padding: 25px 30px; /* Espaciado interno */
+  background: var(--gray-100); /* Fondo gris claro */
+  border-top: 1px solid var(--gray-200); /* Separador superior */
+  display: flex; /* Flex para alinear botones */
+  justify-content: flex-end; /* Botones alineados a la derecha */
+  gap: 15px; /* Espaciado entre botones */
 }
 
-.btn-cancel, .btn-submit {
-    padding: 14px 30px;
-    border-radius: 10px;
-    font-weight: 600;
-    font-size: 16px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    transition: var(--transition);
-    cursor: pointer;
-    border: none;
-}
-
-.btn-cancel {
-    background: var(--gray-300);
-    color: var(--gray-700);
-}
-
-.btn-cancel:hover {
-    background: var(--gray-400);
-    transform: translateY(-2px);
-}
-
+/* ==============================
+   Botones del footer
+   ============================== */
+.btn-cancel,
 .btn-submit {
-    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
-    color: white;
+  padding: 14px 30px; /* Espaciado interno */
+  border-radius: 10px; /* Bordes redondeados */
+  font-weight: 600; /* Negrita */
+  font-size: 16px; /* Tamaño de letra */
+  display: flex; /* Flex para iconos + texto */
+  align-items: center; /* Centrado vertical */
+  gap: 10px; /* Espacio entre icono y texto */
+  transition: var(--transition); /* Animaciones suaves */
+  cursor: pointer; /* Cursor pointer */
+  border: none; /* Sin borde */
 }
 
+/* Botón cancelar */
+.btn-cancel {
+  background: var(--gray-300); /* Fondo gris */
+  color: var(--gray-700); /* Texto gris oscuro */
+}
+
+/* Hover del botón cancelar */
+.btn-cancel:hover {
+  background: var(--gray-400); /* Gris más oscuro */
+  transform: translateY(-2px); /* Efecto levantado */
+}
+
+/* Botón enviar/submit */
+.btn-submit {
+  background: linear-gradient(
+    135deg,
+    var(--primary-color) 0%,
+    var(--secondary-color) 100%
+  ); /* Gradiente de colores principal/secundario */
+  color: white; /* Texto blanco */
+}
+
+/* Hover del botón submit (si no está deshabilitado) */
 .btn-submit:hover:not(:disabled) {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 25px rgba(67, 97, 238, 0.3);
+  transform: translateY(-2px); /* Efecto levantado */
+  box-shadow: 0 10px 25px rgba(67, 97, 238, 0.3); /* Sombra */
 }
 
+/* Estado deshabilitado del botón submit */
 .btn-submit:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
+  opacity: 0.6; /* Opacidad reducida */
+  cursor: not-allowed; /* Cursor prohibido */
 }
 
-/* Modal de éxito */
+/* ======================================================
+   modal-success.css - Estilos para modales de éxito
+   ====================================================== */
+
+/* ==============================
+   Contenedor del modal
+   ============================== */
 .modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 1000;
-    backdrop-filter: blur(5px);
-    animation: fadeIn 0.3s ease-out;
+  position: fixed; /* Fijo en pantalla */
+  top: 0;
+  left: 0;
+  width: 100%; /* Ocupa toda la pantalla */
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5); /* Fondo semi-transparente */
+  display: flex; /* Flex para centrar contenido */
+  align-items: center; /* Centrado vertical */
+  justify-content: center; /* Centrado horizontal */
+  z-index: 1000; /* Por encima de todo */
+  backdrop-filter: blur(5px); /* Desenfoque del fondo */
+  animation: fadeIn 0.3s ease-out; /* Animación de entrada */
 }
 
+/* ==============================
+   Contenido del modal
+   ============================== */
 .modal-content {
-    background: white;
-    border-radius: var(--border-radius);
-    padding: 40px;
-    max-width: 500px;
-    width: 90%;
-    text-align: center;
-    box-shadow: var(--box-shadow-lg);
-    animation: slideIn 0.5s ease-out;
+  background: white; /* Fondo blanco */
+  border-radius: var(--border-radius); /* Bordes redondeados */
+  padding: 40px; /* Espaciado interno */
+  max-width: 500px; /* Ancho máximo */
+  width: 90%; /* Ancho relativo */
+  text-align: center; /* Texto centrado */
+  box-shadow: var(--box-shadow-lg); /* Sombra de la card */
+  animation: slideIn 0.5s ease-out; /* Animación de entrada */
 }
 
+/* Modal con borde superior verde para éxito */
 .modal-content.success {
-    border-top: 5px solid var(--success-color);
+  border-top: 5px solid var(--success-color);
 }
 
+/* ==============================
+   Icono del modal
+   ============================== */
 .modal-icon {
-    width: 80px;
-    height: 80px;
-    background: linear-gradient(135deg, var(--success-color) 0%, #22c55e 100%);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0 auto 20px;
-    color: white;
-    font-size: 36px;
-    animation: pulse 2s infinite;
+  width: 80px;
+  height: 80px;
+  background: linear-gradient(135deg, var(--success-color) 0%, #22c55e 100%);
+  border-radius: 50%; /* Círculo */
+  display: flex;
+  align-items: center; /* Centrado vertical */
+  justify-content: center; /* Centrado horizontal */
+  margin: 0 auto 20px; /* Centrado y margen inferior */
+  color: white; /* Color del icono */
+  font-size: 36px; /* Tamaño del icono */
+  animation: pulse 2s infinite; /* Animación pulsante */
 }
 
+/* ==============================
+   Título y mensaje del modal
+   ============================== */
 .modal-content h3 {
-    font-size: 24px;
-    font-weight: 700;
-    margin: 0 0 15px 0;
-    color: var(--dark-color);
+  font-size: 24px;
+  font-weight: 700;
+  margin: 0 0 15px 0;
+  color: var(--dark-color);
 }
 
 .modal-content p {
-    font-size: 16px;
-    color: var(--gray-600);
-    margin: 0 0 25px 0;
-    line-height: 1.6;
+  font-size: 16px;
+  color: var(--gray-600);
+  margin: 0 0 25px 0;
+  line-height: 1.6; /* Espaciado entre líneas */
 }
 
+/* ==============================
+   Contenedor de acciones (botones)
+   ============================== */
 .modal-actions {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
+  display: flex;
+  justify-content: center; /* Botones centrados */
+  gap: 15px; /* Espacio entre botones */
 }
 
+/* ==============================
+   Botones del modal
+   ============================== */
 .btn-modal {
-    padding: 12px 24px;
-    background: var(--primary-color);
-    color: white;
-    border: none;
-    border-radius: 50px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: var(--transition);
-    text-decoration: none;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    min-width: 140px;
+  padding: 12px 24px; /* Espaciado interno */
+  background: var(--primary-color); /* Fondo principal */
+  color: white; /* Texto blanco */
+  border: none; /* Sin borde */
+  border-radius: 50px; /* Bordes redondeados tipo cápsula */
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition); /* Transición suave */
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center; /* Centrado vertical */
+  justify-content: center; /* Centrado horizontal */
+  gap: 8px; /* Espacio entre icono y texto */
+  min-width: 140px; /* Ancho mínimo */
 }
 
+/* Hover del botón principal */
 .btn-modal:hover {
-    background: var(--primary-hover);
-    transform: translateY(-2px);
-    text-decoration: none;
-    color: white;
+  background: var(--primary-hover);
+  transform: translateY(-2px); /* Efecto levantado */
+  text-decoration: none;
+  color: white;
 }
 
+/* Botón secundario */
 .btn-modal.secondary {
-    background: var(--gray-300);
-    color: var(--gray-700);
+  background: var(--gray-300); /* Fondo gris */
+  color: var(--gray-700);
 }
 
+/* Hover del botón secundario */
 .btn-modal.secondary:hover {
-    background: var(--gray-400);
+  background: var(--gray-400);
 }
 
-/* Responsive */
+/* ======================================================
+   responsive-accessibility.css - Ajustes para móviles,
+   accesibilidad y estados de carga
+   ====================================================== */
+
+/* ==============================
+   Responsive: pantallas hasta 768px
+   ============================== */
 @media (max-width: 768px) {
-    .direccion-form-container {
-        padding: 15px;
-    }
-    
-    .form-header {
-        flex-direction: column;
-        text-align: center;
-        gap: 20px;
-        padding: 25px;
-    }
-    
-    .header-content {
-        flex-direction: column;
-        gap: 15px;
-    }
-    
-    .header-text h1 {
-        font-size: 24px;
-    }
-    
-    .btn-back {
-        width: 100%;
-        justify-content: center;
-    }
-    
-    .card-header {
-        flex-direction: column;
-        text-align: center;
-        gap: 15px;
-    }
-    
-    .card-body {
-        padding: 20px;
-    }
-    
-    .radio-group {
-        flex-direction: column;
-    }
-    
-    .preview-item {
-        flex-direction: column;
-        gap: 5px;
-    }
-    
-    .preview-item strong {
-        min-width: auto;
-    }
-    
-    .card-footer {
-        flex-direction: column;
-    }
-    
-    .btn-cancel, .btn-submit {
-        width: 100%;
-        justify-content: center;
-    }
-    
-    .modal-actions {
-        flex-direction: column;
-    }
-    
-    .btn-modal {
-        width: 100%;
-    }
+  /* Contenedor principal del formulario */
+  .direccion-form-container {
+    padding: 15px; /* Menor padding en pantallas pequeñas */
+  }
+
+  /* Header del formulario */
+  .form-header {
+    flex-direction: column; /* Columnas en lugar de fila */
+    text-align: center;
+    gap: 20px;
+    padding: 25px;
+  }
+
+  /* Contenido dentro del header */
+  .header-content {
+    flex-direction: column; /* Apilar icono y texto */
+    gap: 15px;
+  }
+
+  /* Título del header */
+  .header-text h1 {
+    font-size: 24px; /* Ajuste de tamaño */
+  }
+
+  /* Botón de volver */
+  .btn-back {
+    width: 100%; /* Botón completo */
+    justify-content: center; /* Centrado horizontal */
+  }
+
+  /* Header de las cards */
+  .card-header {
+    flex-direction: column;
+    text-align: center;
+    gap: 15px;
+  }
+
+  /* Cuerpo de la card */
+  .card-body {
+    padding: 20px; /* Menor padding */
+  }
+
+  /* Radio buttons en columna */
+  .radio-group {
+    flex-direction: column;
+  }
+
+  /* Preview items en columna */
+  .preview-item {
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .preview-item strong {
+    min-width: auto; /* Ajuste para textos cortos */
+  }
+
+  /* Footer de la card en columna */
+  .card-footer {
+    flex-direction: column;
+  }
+
+  /* Botones cancel/submit ocupan todo el ancho */
+  .btn-cancel,
+  .btn-submit {
+    width: 100%;
+    justify-content: center;
+  }
+
+  /* Acciones del modal en columna */
+  .modal-actions {
+    flex-direction: column;
+  }
+
+  /* Botones del modal ocupan todo el ancho */
+  .btn-modal {
+    width: 100%;
+  }
 }
 
+/* ==============================
+   Responsive: pantallas hasta 480px
+   ============================== */
 @media (max-width: 480px) {
-    .form-input, .form-textarea {
-        padding-left: 45px;
-        font-size: 15px;
-    }
-    
-    .input-icon {
-        left: 12px;
-        font-size: 16px;
-    }
-    
-    .card-title h3 {
-        font-size: 20px;
-    }
-    
-    .modal-content {
-        padding: 30px 20px;
-    }
+  /* Inputs y textareas más compactos */
+  .form-input,
+  .form-textarea {
+    padding-left: 45px;
+    font-size: 15px;
+  }
+
+  /* Iconos dentro de inputs más pequeños y ajustados */
+  .input-icon {
+    left: 12px;
+    font-size: 16px;
+  }
+
+  /* Título de las cards más pequeño */
+  .card-title h3 {
+    font-size: 20px;
+  }
+
+  /* Padding del contenido del modal reducido */
+  .modal-content {
+    padding: 30px 20px;
+  }
 }
 
-/* Mejoras de accesibilidad */
+/* ==============================
+   Mejoras de accesibilidad
+   ============================== */
 .form-input:focus-visible,
 .form-textarea:focus-visible,
 .btn-cancel:focus-visible,
 .btn-submit:focus-visible,
 .radio-item:focus-within {
-    outline: 3px solid var(--primary-color);
-    outline-offset: 2px;
+  outline: 3px solid var(--primary-color); /* Resalta elementos activos */
+  outline-offset: 2px; /* Separación del contorno */
 }
 
-/* Scroll suave */
+/* ==============================
+   Scroll suave
+   ============================== */
 html {
-    scroll-behavior: smooth;
+  scroll-behavior: smooth; /* Efecto suave al hacer scroll */
 }
 
-/* Estados de carga */
+/* ==============================
+   Estados de carga (loading)
+   ============================== */
 .loading {
-    opacity: 0.6;
-    pointer-events: none;
+  opacity: 0.6; /* Indicador visual */
+  pointer-events: none; /* Bloquea interacción mientras carga */
 }

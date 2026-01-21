@@ -1,35 +1,75 @@
+/* ================================
+   Estilos generales de la página
+   ================================ */
 body {
+  /* Color de fondo general de la aplicación */
   background-color: #f8f9fa;
 }
 
+/* ================================
+   Barra lateral (Sidebar)
+   ================================ */
 .sidebar {
+  /* Ancho fijo de la barra lateral */
   width: 230px;
+
+  /* Color de fondo blanco */
   background: #ffffff;
+
+  /* Sombra lateral para dar profundidad visual */
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
 }
 
+/* ================================
+   Elementos del menú
+   ================================ */
 .list-group-item {
+  /* Elimina bordes por defecto */
   border: none;
+
+  /* Peso de fuente medio para mejor legibilidad */
   font-weight: 500;
 }
 
+/* Efecto hover sobre los elementos del menú */
 .list-group-item:hover {
+  /* Cambia el fondo al pasar el cursor */
   background-color: #e9ecef;
 }
 
+/* ================================
+   Botón de cerrar sesión
+   ================================ */
 .logout-btn {
+  /* Color rojo para acción crítica */
   color: #dc3545 !important;
+
+  /* Texto en negrita para destacar */
   font-weight: bold;
 }
 
+/* Efecto hover del botón cerrar sesión */
 .logout-btn:hover {
+  /* Fondo rojo claro al pasar el cursor */
   background-color: #f8d7da;
+
+  /* Texto rojo más oscuro */
   color: #b02a37 !important;
 }
 
+/* ================================
+   Botón ubicado al final de la sidebar
+   ================================ */
 .footer-btn {
+  /* Posicionamiento absoluto dentro del contenedor */
   position: absolute;
+
+  /* Separación desde la parte inferior */
   bottom: 20px;
+
+  /* Ancho del botón */
   width: 85%;
+
+  /* Centrado horizontal */
   left: 7.5%;
 }

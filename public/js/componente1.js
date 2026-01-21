@@ -1,6 +1,13 @@
+// ======================================================
+// Mostrar/Ocultar campos según el tipo de componente
+// ======================================================
+
+// Ejecutar cuando el DOM esté completamente cargado
 document.addEventListener("DOMContentLoaded", () => {
+  // Selecciona el <select> con los tipos de componentes
   const tipoSelect = document.getElementById("tipo_componente");
 
+  // Array con los IDs de todas las secciones posibles
   const secciones = [
     "tarjeta_madre_campos",
     "memoria_ram_campos",
@@ -13,24 +20,27 @@ document.addEventListener("DOMContentLoaded", () => {
     "procesador_campos"
   ];
 
+  // Función para mostrar solo los campos correspondientes al tipo seleccionado
   const mostrarCampos = tipo => {
-    // Si no hay tipo seleccionado, ocultar todo y salir
+    // Si no hay tipo seleccionado, ocultar todas las secciones y salir
     if (!tipo) {
       secciones.forEach(id => {
         const elem = document.getElementById(id);
-        if (elem) elem.style.display = "none";
+        if (elem) elem.style.display = "none"; // Oculta cada sección
       });
       return;
     }
 
-    // Ocultar todo
+    // Primero, ocultar todas las secciones
     secciones.forEach(id => {
       const elem = document.getElementById(id);
       if (elem) elem.style.display = "none";
     });
 
+    // Normalizar el texto del tipo a minúsculas para comparaciones
     const tipoNormalizado = tipo.toLowerCase();
 
+    // Mostrar solo la sección correspondiente
     if (tipoNormalizado.includes("madre")) {
       document.getElementById("tarjeta_madre_campos").style.display = "block";
     } else if (tipoNormalizado.includes("ram")) {
@@ -55,13 +65,20 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   };
 
-  // Ejecutar al cargar (solo si hay valor)
+  // ======================================================
+  // Inicialización al cargar la página
+  // Si el select ya tiene un valor, mostrar la sección correspondiente
+  // ======================================================
   if (tipoSelect.value) {
     mostrarCampos(tipoSelect.value);
   }
 
-  // Ejecutar cuando cambie
+  // ======================================================
+  // Escuchar cambios en el select
+  // Cada vez que se cambia el tipo, actualizar los campos mostrados
+  // ======================================================
   tipoSelect.addEventListener("change", e => mostrarCampos(e.target.value));
 
+  // Mensaje de confirmación en consola
   console.log("JS unificado cargado");
 });

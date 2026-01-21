@@ -1,580 +1,717 @@
-/* Variables de colores */
+/* ======================================================
+   dashboard.css - Estilos generales del dashboard
+   ====================================================== */
+
+/* ==========================
+   Variables CSS globales
+   ========================== */
 :root {
-    --primary-color: #ee4343;
-    --secondary-color: #000000;
-    --success-color: #000000;
-    --green-color: #0bf10b;
-    --warning-color: #f72585;
-    --info-color: #7209b7;
-    --light-bg: #f8f9fa;
-    --dark-text: #000000;
-    --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-    --gradient-primary: linear-gradient(135deg, #f70000, #660303);
-    --gradient-success: linear-gradient(135deg, rgb(13, 90, 163), #046197);
-    --gradient-warning: linear-gradient(135deg, #f72525, #b51717);
+  /* Colores principales */
+  --primary-color: #ee4343; /* Color principal de la marca */
+  --secondary-color: #000000; /* Color secundario o de acento */
+  --success-color: #000000; /* Color para estados de éxito */
+  --green-color: #0bf10b; /* Verde brillante para destacar información positiva */
+  --warning-color: #f72585; /* Color de advertencia */
+  --info-color: #7209b7; /* Color informativo */
+  --light-bg: #f8f9fa; /* Fondo claro general */
+  --dark-text: #000000; /* Texto oscuro general */
+  --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); /* Sombra estándar para tarjetas */
 
-    /* Brand */
-    --brand-red-500: #b51717;
-    --brand-red-600: #991313;
-    --brand-red-700: #7a0e0e;
+  /* Gradientes para botones, headers y elementos destacados */
+  --gradient-primary: linear-gradient(135deg, #f70000, #660303);
+  --gradient-success: linear-gradient(135deg, rgb(13, 90, 163), #046197);
+  --gradient-warning: linear-gradient(135deg, #f72525, #b51717);
 
-    /* Neutral */
-    --neutral-0: #ffffff;
-    --neutral-100: #f5f5f5;
-    --neutral-900: #1f1f1f;
+  /* Colores de marca (shades de rojo) */
+  --brand-red-500: #b51717;
+  --brand-red-600: #991313;
+  --brand-red-700: #7a0e0e;
 
-    /* UI */
-    --radius-lg: 20px;
-    --radius-full: 999px;
+  /* Colores neutrales */
+  --neutral-0: #ffffff; /* Blanco puro */
+  --neutral-100: #f5f5f5; /* Gris muy claro */
+  --neutral-900: #1f1f1f; /* Gris muy oscuro */
 
-    --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.08);
-    --shadow-md: 0 10px 30px rgba(0, 0, 0, 0.15);
+  /* Radios de borde y esquinas */
+  --radius-lg: 20px; /* Bordes grandes */
+  --radius-full: 999px; /* Bordes totalmente redondeados */
 
-    --transition-base: 0.25s ease;
+  /* Sombras */
+  --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0 10px 30px rgba(0, 0, 0, 0.15);
+
+  /* Transiciones base */
+  --transition-base: 0.25s ease;
 }
 
-/* Estilos generales */
+/* ==========================
+   Contenedor principal del dashboard
+   ========================== */
 .dashboard-container {
-    background: linear-gradient(135deg, #000000 0%, #000000 100%);
-    min-height: 100vh;
-    padding: 20px 0;
+  background: linear-gradient(
+    135deg,
+    #000000 0%,
+    #000000 100%
+  ); /* Fondo negro degradado */
+  min-height: 100vh; /* Ocupa toda la altura de la ventana */
+  padding: 20px 0; /* Espaciado superior e inferior */
 }
 
-/* Header con animación */
+/* ==========================
+   Header del dashboard
+   ========================== */
 .dashboard-header {
-    animation: slideDown 1.5s ease-out;
+  animation: slideDown 1.5s ease-out; /* Animación de entrada desde arriba */
 }
 
+/* ==========================
+   Texto de bienvenida
+   ========================== */
 .welcome-title {
-    font-size: 3.5rem;
-    font-weight: 700;
-    background: var(--gradient-primary);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    margin-bottom: 0.5rem;
+  font-size: 3.5rem; /* Tamaño grande para título */
+  font-weight: 700; /* Negrita */
+  background: var(--gradient-primary); /* Degradado de marca */
+  -webkit-background-clip: text; /* Clip de fondo para el texto (Webkit) */
+  -webkit-text-fill-color: transparent; /* Hace el texto transparente para mostrar el degradado */
+  background-clip: text; /* Clip de fondo estándar */
+  margin-bottom: 0.5rem; /* Separación inferior */
 }
 
 .welcome-subtitle {
-    color: #e0e0e0;
-    letter-spacing: 0.5px;
+  color: #e0e0e0; /* Gris claro para subtítulo */
+  letter-spacing: 0.5px; /* Espaciado entre letras */
 }
 
 .user-name {
-    color: var(--green-color);
-    font-weight: 600;
+  color: var(--green-color); /* Nombre del usuario en verde brillante */
+  font-weight: 600; /* Semi-negrita */
 }
 
-/* Tarjetas de estadísticas */
+/* ======================================================
+   Tarjetas de estadísticas - stats-card
+   ====================================================== */
+
+/* ==========================
+   Contenedor principal de la tarjeta
+   ========================== */
 .stats-card {
-    position: relative;
-    padding: 2rem 1.75rem;
-    border-radius: var(--radius-lg);
-    background: linear-gradient(
-        145deg,
-        var(--brand-red-500),
-        var(--brand-red-700)
-    );
-    color: var(--neutral-0);
-    box-shadow: var(--shadow-sm);
-    transition: transform var(--transition-base),
-        box-shadow var(--transition-base);
+  position: relative; /* Permite posicionar elementos internos de manera absoluta */
+  padding: 2rem 1.75rem; /* Espaciado interno: vertical 2rem, horizontal 1.75rem */
+  border-radius: var(--radius-lg); /* Bordes redondeados grandes */
+  background: linear-gradient(
+    145deg,
+    var(--brand-red-500),
+    var(--brand-red-700)
+  ); /* Degradado de rojo */
+  color: var(--neutral-0); /* Texto blanco */
+  box-shadow: var(--shadow-sm); /* Sombra ligera */
+  transition: transform var(--transition-base),
+    box-shadow var(--transition-base); /* Transición suave al hover */
 }
 
+/* ==========================
+   Pseudo-elemento decorativo (animación de fondo)
+   ========================== */
 .stats-card::before {
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 150%;
-    height: 100%;
-    transition: left 0.5s;
-    pointer-events: none;
-    z-index: 0;
+  position: absolute;
+  top: 0;
+  left: -100%; /* Inicialmente fuera del contenedor */
+  width: 150%; /* Más ancho que la tarjeta para cubrir el efecto */
+  height: 100%;
+  transition: left 0.5s; /* Suaviza el desplazamiento */
+  pointer-events: none; /* No interfiere con clics */
+  z-index: 0; /* Debajo del contenido */
 }
 
 .stats-card:hover::before {
-    left: 100%;
+  left: 100%; /* Desplaza el pseudo-elemento al hover */
 }
 
+/* ==========================
+   Efecto hover de la tarjeta
+   ========================== */
 .stats-card:hover {
-    transform: translateY(-4px);
-    box-shadow: var(--shadow-md);
+  transform: translateY(-4px); /* Eleva la tarjeta ligeramente */
+  box-shadow: var(--shadow-md); /* Sombra más profunda */
 }
 
-.card-1 {
-    border-bottom: 4px solid #7f817e;
+/* ==========================
+   Estilos específicos por tarjeta
+   ========================== */
+.card-1,
+.card-2,
+.card-3 {
+  border-bottom: 4px solid #7f817e; /* Línea inferior decorativa */
 }
 
 .card-1::before,
 .card-2::before {
-    display: none;
+  display: none; /* Oculta pseudo-elemento para estas tarjetas */
 }
 
-.card-2 {
-    border-bottom: 4px solid #7f817e;
-}
-
-.card-3 {
-    border-bottom: 4px solid #7f817e;
-}
-
+/* ==========================
+   Contenedor del icono
+   ========================== */
 .card-icon-wrapper {
-    width: 60px;
-    height: 60px;
-    margin: 0 auto 1rem;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.15);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    z-index: 2;
+  width: 60px;
+  height: 60px;
+  margin: 0 auto 1rem; /* Centrado horizontal + margen inferior */
+  border-radius: 50%; /* Icono circular */
+  background: rgba(255, 255, 255, 0.15); /* Fondo semitransparente */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 2; /* Encima del pseudo-elemento */
 }
 
+/* ==========================
+   Icono dentro de la tarjeta
+   ========================== */
 .card-icon {
-    font-size: 1.8rem;
+  font-size: 1.8rem; /* Tamaño del icono */
 }
+
+/* ==========================
+   Valor de la métrica principal
+   ========================== */
 .metric-value {
-    font-size: 3.5rem;
-    font-weight: 900;
-    line-height: 1;
-    color: #ffffff;
-    position: relative;
-    z-index: 2;
+  font-size: 3.5rem; /* Tamaño grande para destacar */
+  font-weight: 900; /* Muy negrita */
+  line-height: 1;
+  color: #ffffff;
+  position: relative;
+  z-index: 2;
 }
 
+/* ==========================
+   Etiqueta de la métrica
+   ========================== */
 .metric-label {
-    font-size: 0.9rem;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    opacity: 0.8;
-    position: relative;
-    z-index: 2;
+  font-size: 0.9rem;
+  letter-spacing: 1px; /* Espaciado entre letras */
+  text-transform: uppercase; /* Letras mayúsculas */
+  opacity: 0.8;
+  position: relative;
+  z-index: 2;
 }
 
+/* ==========================
+   Número destacado
+   ========================== */
 .stats-number {
-    font-size: 2.5rem;
-    font-weight: 800;
-    margin: 1rem 0;
-    color: var(--dark-text);
-    background: linear-gradient(135deg, #f8f8f8, #fcfafa);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+  font-size: 2.5rem;
+  font-weight: 800;
+  margin: 1rem 0;
+  color: var(--dark-text);
+  background: linear-gradient(
+    135deg,
+    #f8f8f8,
+    #fcfafa
+  ); /* Degradado para texto */
+  -webkit-background-clip: text; /* Clip de fondo en texto (Webkit) */
+  -webkit-text-fill-color: transparent; /* Hace el texto transparente para mostrar el degradado */
+  background-clip: text; /* Clip de fondo estándar */
 }
 
+/* ==========================
+   Botón dentro de la tarjeta
+   ========================== */
 .card-btn {
-    background: var(--gradient-success);
-    border: none;
-    border-radius: 0px;
-    padding: 0rem 1.5rem;
-    font-weight: 600;
-    transition: all 0.3s ease;
+  background: var(--gradient-success); /* Gradiente de éxito */
+  border: none; /* Sin borde */
+  border-radius: 0px; /* Sin redondeo */
+  padding: 0rem 1.5rem; /* Espaciado horizontal */
+  font-weight: 600; /* Semi-negrita */
+  transition: all 0.3s ease; /* Transición suave */
 }
 
 .card-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(2, 2, 2, 0.4);
+  transform: translateY(-2px); /* Eleva el botón al pasar el mouse */
+  box-shadow: 0 5px 15px rgba(2, 2, 2, 0.4); /* Sombra intensa */
 }
 
-/* Sección de gráficas */
+/* ======================================================
+   Sección de gráficas - charts-section
+   ====================================================== */
+
+/* ==========================
+   Contenedor general de la sección de gráficas
+   ========================== */
 .charts-section {
-    margin-top: 3rem;
+  margin-top: 3rem; /* Separación superior desde secciones anteriores */
 }
 
+/* ==========================
+   Título de sección
+   ========================== */
 .section-title {
-    font-size: 2rem;
-    font-weight: 700;
-    color: var(--dark-text);
-    animation: fadeIn 1s ease-in;
+  font-size: 2rem; /* Tamaño grande para destacar */
+  font-weight: 700; /* Negrita */
+  color: var(--dark-text); /* Color principal del texto */
+  animation: fadeIn 1s ease-in; /* Animación de aparición */
 }
 
-/* Tarjetas de gráficas */
+/* ==========================
+   Tarjetas de gráficas
+   ========================== */
 .chart-card {
-    background: white;
-    border-radius: 20px;
-    padding: 2rem;
-    box-shadow: var(--card-shadow);
-    border: none;
-    transition: all 0.3s ease;
-    height: 100%;
+  background: white; /* Fondo blanco */
+  border-radius: 20px; /* Bordes redondeados */
+  padding: 2rem; /* Espaciado interno */
+  box-shadow: var(--card-shadow); /* Sombra de tarjeta definida por variable */
+  border: none; /* Sin borde adicional */
+  transition: all 0.3s ease; /* Transición suave al hover */
+  height: 100%; /* Ocupa altura completa del contenedor padre */
 }
 
 .chart-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+  transform: translateY(-5px); /* Eleva la tarjeta al pasar el mouse */
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1); /* Sombra más profunda */
 }
 
+/* ==========================
+   Encabezado de la gráfica dentro de la tarjeta
+   ========================== */
 .chart-header {
-    text-align: center;
-    margin-bottom: 1.5rem;
+  text-align: center; /* Centrado de texto */
+  margin-bottom: 1.5rem; /* Espacio inferior */
 }
 
 .chart-header h5 {
-    font-weight: 700;
-    color: var(--dark-text);
-    font-size: 1.2rem;
+  font-weight: 700; /* Negrita */
+  color: var(--dark-text); /* Color principal */
+  font-size: 1.2rem; /* Tamaño del texto */
 }
 
-/* Contenedor de gráfica circular */
+/* ==========================
+   Contenedor de gráfica circular (donut)
+   ========================== */
 .chart-wrapper {
-    position: relative;
-    width: 200px;
-    height: 200px;
-    margin: 0 auto 2rem;
+  position: relative; /* Para posicionar elementos absolutos dentro */
+  width: 200px; /* Ancho del contenedor */
+  height: 200px; /* Alto del contenedor */
+  margin: 0 auto 2rem; /* Centrado horizontal + margen inferior */
 }
 
 .donut-chart-container {
-    width: 100%;
-    height: 100%;
-    position: relative;
+  width: 100%; /* Ocupa todo el ancho del wrapper */
+  height: 100%; /* Ocupa toda la altura */
+  position: relative; /* Posicionamiento relativo */
 }
 
 .donut-svg {
-    transform: rotate(0deg); /* Adjust if needed, but dashes are offset */
+  transform: rotate(0deg); /* Rotación inicial, ajustar si es necesario */
 }
 
-/* SVG Elements */
+/* ==========================
+   Elementos SVG del donut
+   ========================== */
 .donut-hole {
-    fill: #ffffff; /* Bg color */
+  fill: #ffffff; /* Color de fondo del centro del donut */
 }
 
 .donut-ring {
-    stroke: #f3f3f3;
+  stroke: #f3f3f3; /* Color del borde externo del donut */
 }
 
 .donut-segment-svg {
-    fill: transparent;
-    transition: stroke-width 0.3s, filter 0.3s;
-    cursor: pointer;
-    transform-origin: center;
+  fill: transparent; /* Segmentos vacíos, solo borde visible */
+  transition: stroke-width 0.3s, filter 0.3s; /* Transición suave al interactuar */
+  cursor: pointer; /* Cursor en hover */
+  transform-origin: center; /* Centro para transformaciones */
 }
 
 .donut-segment-svg:hover {
-    stroke-width: 6 !important; /* Visual pop */
-    filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.2));
-    z-index: 100; /* SVG Paint order depends on DOM order, z-index doesn't work on child elements. But stroke-width helps. */
+  stroke-width: 6 !important; /* Engrosa el borde al pasar el mouse */
+  filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.2)); /* Sombra ligera */
+  z-index: 100; /* Nota: z-index no afecta SVG hijos, pero stroke-width ayuda visualmente */
 }
 
-/* Center */
+/* ==========================
+   Centro del donut (valor total)
+   ========================== */
 .donut-center {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 100px; /* Adjusted size */
-    height: 100px;
-    background: white;
-    border-radius: 50%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    z-index: 20;
-    pointer-events: none; /* Let clicks pass through if needed, though center covers hole */
+  position: absolute; /* Posicionamiento centrado dentro del wrapper */
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); /* Centrado exacto */
+  width: 100px; /* Tamaño del círculo central */
+  height: 100px;
+  background: white; /* Fondo blanco */
+  border-radius: 50%; /* Circular */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); /* Sombra ligera */
+  z-index: 20; /* Encima de segmentos */
+  pointer-events: none; /* Permite clics a través del centro */
 }
 
 .donut-total {
-    font-size: 1.5rem;
-    font-weight: 800;
-    color: var(--primary-color);
-    transition: color 0.3s;
+  font-size: 1.5rem; /* Tamaño del número central */
+  font-weight: 800; /* Negrita */
+  color: var(--primary-color); /* Color principal */
+  transition: color 0.3s; /* Transición al cambiar color si aplica */
 }
 
 .donut-center small {
-    font-size: 0.7rem;
-    color: #6c757d;
+  font-size: 0.7rem; /* Tamaño de texto secundario */
+  color: #6c757d; /* Gris para subtítulo */
 }
 
+/* ==========================
+   Animación de pulso del centro (opcional)
+   ========================== */
 @keyframes pulse {
-    0%,
-    100% {
-        transform: translate(-50%, -50%) scale(1);
-    }
-    50% {
-        transform: translate(-50%, -50%) scale(1.05);
-    }
+  0%,
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.05); /* Ligera expansión */
+  }
 }
 
-/* Leyenda de la gráfica */
+/* ==========================
+   Leyenda de la gráfica
+   ========================== */
 .chart-legend {
-    margin-top: 1.5rem;
+  margin-top: 1.5rem; /* Espacio superior desde la gráfica */
 }
 
+/* ======================================================
+   Leyenda de gráficas - legend
+   ====================================================== */
+
+/* Contenedor de cada ítem de leyenda */
 .legend-item {
-    display: flex;
-    align-items: center;
-    margin-bottom: 0.5rem;
-    padding: 0.5rem;
-    border-radius: 10px;
-    transition: background-color 0.3s ease;
+  display: flex; /* Flex para alinear color y texto horizontalmente */
+  align-items: center; /* Centrado vertical */
+  margin-bottom: 0.5rem; /* Separación inferior entre items */
+  padding: 0.5rem; /* Espaciado interno */
+  border-radius: 10px; /* Bordes redondeados */
+  transition: background-color 0.3s ease; /* Suaviza cambio de fondo al hover */
 }
 
+/* Hover de cada item de leyenda */
 .legend-item:hover {
-    background-color: #f8f9fa;
+  background-color: #f8f9fa; /* Cambio de fondo al pasar el mouse */
 }
 
+/* Circulo de color asociado a la categoría */
 .legend-color {
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    margin-right: 10px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  width: 20px; /* Tamaño del círculo */
+  height: 20px;
+  border-radius: 50%; /* Circular */
+  margin-right: 10px; /* Separación del texto */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Sombra ligera */
 }
 
+/* Texto principal de la leyenda */
 .legend-label {
-    flex: 1;
-    font-weight: 600;
-    color: var(--dark-text);
+  flex: 1; /* Ocupa el espacio disponible */
+  font-weight: 600; /* Semi-negrita */
+  color: var(--dark-text); /* Color principal del texto */
 }
 
+/* Número o cantidad asociada */
 .legend-count {
-    font-weight: 700;
-    color: var(--primary-color);
+  font-weight: 700; /* Negrita */
+  color: var(--primary-color); /* Color primario */
 }
 
-/* Botón de descarga */
+/* ======================================================
+   Botón de descarga
+   ====================================================== */
 .btn-download {
-    display: block;
-    width: 100%;
-    padding: 0.75rem;
-    background: var(--gradient-primary);
-    color: white;
-    text-align: center;
-    border-radius: 15px;
-    text-decoration: none;
-    font-weight: 600;
-    margin-top: 1.5rem;
-    transition: all 0.3s ease;
-    border: none;
+  display: block; /* Bloque para ocupar todo el ancho */
+  width: 100%;
+  padding: 0.75rem; /* Espaciado interno */
+  background: var(--gradient-primary); /* Degradado principal */
+  color: white; /* Texto blanco */
+  text-align: center; /* Centrado del texto */
+  border-radius: 15px; /* Bordes redondeados */
+  text-decoration: none; /* Sin subrayado */
+  font-weight: 600; /* Semi-negrita */
+  margin-top: 1.5rem; /* Espacio superior */
+  transition: all 0.3s ease; /* Transición suave de efectos */
+  border: none; /* Sin borde */
 }
 
+/* Hover del botón de descarga */
 .btn-download:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(67, 97, 238, 0.3);
-    color: white;
-    text-decoration: none;
+  transform: translateY(-2px); /* Pequeño levantamiento */
+  box-shadow: 0 8px 20px rgba(67, 97, 238, 0.3); /* Sombra proyectada */
+  color: white;
+  text-decoration: none;
 }
 
-/* Animaciones generales */
+/* ======================================================
+   Animaciones generales
+   ====================================================== */
+
+/* Clase para animar tarjetas */
 .animate-card {
-    animation: slideUp 0.8s ease-out forwards;
-    animation-play-state: paused;
+  animation: slideUp 0.8s ease-out forwards; /* Animación de aparición desde abajo */
+  animation-play-state: paused; /* Inicialmente pausada */
 }
 
+/* Ajustes de iconos dentro de tarjetas */
 .card-icon-wrapper svg {
-    width: 50px !important;
-    height: 50px !important;
+  width: 50px !important; /* Forzar tamaño */
+  height: 50px !important;
 }
 
+/* Acciones o enlaces dentro de las tarjetas de estadísticas */
 .stats-card__action {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    margin-top: 1.25rem;
+  display: inline-flex; /* Flex en línea */
+  align-items: center; /* Centrado vertical */
+  gap: 6px; /* Separación entre icono y texto */
+  margin-top: 1.25rem; /* Espacio superior */
 
-    font-size: 0.85rem;
-    font-weight: 600;
-    letter-spacing: 0.3px;
+  font-size: 0.85rem; /* Tamaño del texto */
+  font-weight: 600; /* Semi-negrita */
+  letter-spacing: 0.3px; /* Espaciado entre letras */
 
-    color: rgba(255, 255, 255, 0.85);
-    text-decoration: none;
+  color: rgba(255, 255, 255, 0.85); /* Color del texto con opacidad */
+  text-decoration: none; /* Sin subrayado */
 
-    padding: 6px 0;
-    position: relative;
-    z-index: 5;
+  padding: 6px 0; /* Espaciado vertical */
+  position: relative; /* Posicionamiento relativo */
+  z-index: 5; /* Por encima de otros elementos si es necesario */
 
-    transition: all 0.3s ease;
+  transition: all 0.3s ease; /* Suaviza transformaciones y colores */
 }
 
+/* ======================================================
+   Animaciones clave (Keyframes)
+   ====================================================== */
+
+/* Animación para deslizar hacia abajo (usada en headers y elementos al aparecer) */
 @keyframes slideDown {
-    from {
-        opacity: 0;
-        transform: translateY(-50px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+  from {
+    opacity: 0; /* Inicio invisible */
+    transform: translateY(-50px); /* Comienza 50px arriba */
+  }
+  to {
+    opacity: 1; /* Final visible */
+    transform: translateY(0); /* Posición original */
+  }
 }
 
+/* Animación para deslizar hacia arriba (usada en cards o elementos que emergen desde abajo) */
 @keyframes slideUp {
-    from {
-        opacity: 0;
-        transform: translateY(50px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+  from {
+    opacity: 0; /* Inicio invisible */
+    transform: translateY(50px); /* Comienza 50px abajo */
+  }
+  to {
+    opacity: 1; /* Final visible */
+    transform: translateY(0); /* Posición original */
+  }
 }
 
+/* Animación de desvanecimiento (fade in) */
 @keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
+  from {
+    opacity: 0; /* Invisible al inicio */
+  }
+  to {
+    opacity: 1; /* Visible al final */
+  }
 }
 
-/* Responsive Design */
+/* ======================================================
+   Responsive Design
+   Ajustes para diferentes tamaños de pantalla
+   ====================================================== */
+
+/* -------------------------------
+   Pantallas medianas: max-width 992px
+   ------------------------------- */
 @media (max-width: 992px) {
-    .welcome-title {
-        font-size: 2.5rem;
-    }
+  /* Ajuste de títulos de bienvenida */
+  .welcome-title {
+    font-size: 2.5rem;
+  }
 
-    .metric-value {
-        font-size: 2.8rem;
-    }
+  /* Ajuste de valores principales en estadísticas */
+  .metric-value {
+    font-size: 2.8rem;
+  }
 
-    .chart-wrapper {
-        width: 180px;
-        height: 180px;
-    }
+  /* Ajuste de tamaño de gráficas circulares */
+  .chart-wrapper {
+    width: 180px;
+    height: 180px;
+  }
 }
 
+/* -------------------------------
+   Pantallas pequeñas: max-width 768px
+   ------------------------------- */
 @media (max-width: 768px) {
-    .dashboard-container {
-        padding: 10px 0;
-    }
+  /* Ajuste del contenedor principal */
+  .dashboard-container {
+    padding: 10px 0;
+  }
 
-    .welcome-title {
-        font-size: 2rem;
-        margin-bottom: 0.25rem;
-    }
+  /* Ajuste de títulos y subtítulos */
+  .welcome-title {
+    font-size: 2rem;
+    margin-bottom: 0.25rem;
+  }
 
-    .welcome-subtitle {
-        font-size: 0.9rem;
-    }
+  .welcome-subtitle {
+    font-size: 0.9rem;
+  }
 
-    /* Ajustar tarjetas de estadísticas */
-    .stats-card {
-        padding: 1.5rem 1rem;
-        margin-bottom: 1rem;
-    }
+  /* Ajuste de tarjetas de estadísticas */
+  .stats-card {
+    padding: 1.5rem 1rem;
+    margin-bottom: 1rem;
+  }
 
-    .card-icon-wrapper {
-        width: 50px;
-        height: 50px;
-        margin-bottom: 0.75rem;
-    }
+  .card-icon-wrapper {
+    width: 50px;
+    height: 50px;
+    margin-bottom: 0.75rem;
+  }
 
-    .card-icon {
-        font-size: 1.4rem;
-    }
+  .card-icon {
+    font-size: 1.4rem;
+  }
 
-    .metric-value {
-        font-size: 2.5rem;
-    }
+  .metric-value {
+    font-size: 2.5rem;
+  }
 
-    .metric-label {
-        font-size: 0.8rem;
-    }
+  .metric-label {
+    font-size: 0.8rem;
+  }
 
-    /* Ajustar gráficas */
-    .section-title {
-        font-size: 1.5rem;
-        margin-bottom: 1.5rem !important;
-    }
+  /* Ajuste de secciones de gráficas */
+  .section-title {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem !important;
+  }
 
-    .chart-card {
-        padding: 1.5rem;
-    }
+  .chart-card {
+    padding: 1.5rem;
+  }
 
-    .chart-wrapper {
-        width: 160px;
-        height: 160px;
-        margin-bottom: 1.5rem;
-    }
+  .chart-wrapper {
+    width: 160px;
+    height: 160px;
+    margin-bottom: 1.5rem;
+  }
 
-    .donut-center {
-        width: 60px;
-        height: 60px;
-    }
+  .donut-center {
+    width: 60px;
+    height: 60px;
+  }
 
-    .donut-total {
-        font-size: 1.2rem;
-    }
+  .donut-total {
+    font-size: 1.2rem;
+  }
 }
 
+/* -------------------------------
+   Pantallas muy pequeñas: max-width 480px
+   ------------------------------- */
 @media (max-width: 480px) {
-    .welcome-title {
-        font-size: 1.75rem;
-    }
+  /* Ajuste de títulos de bienvenida */
+  .welcome-title {
+    font-size: 1.75rem;
+  }
 
-    .stats-card {
-        padding: 1.25rem;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-    }
+  /* Ajuste de tarjetas de estadísticas para centrar contenido */
+  .stats-card {
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
 
-    .chart-card {
-        padding: 1rem;
-    }
+  /* Ajuste de tarjetas de gráficas */
+  .chart-card {
+    padding: 1rem;
+  }
 
-    .chart-header h5 {
-        font-size: 1.1rem;
-    }
+  .chart-header h5 {
+    font-size: 1.1rem;
+  }
 
-    .chart-wrapper {
-        width: 140px;
-        height: 140px;
-    }
+  /* Ajuste de tamaño de gráficas circulares */
+  .chart-wrapper {
+    width: 140px;
+    height: 140px;
+  }
 
-    .donut-center {
-        width: 50px;
-        height: 50px;
-    }
+  .donut-center {
+    width: 50px;
+    height: 50px;
+  }
 
-    .donut-total {
-        font-size: 1rem;
-    }
+  .donut-total {
+    font-size: 1rem;
+  }
 
-    .donut-center small {
-        font-size: 0.6rem;
-    }
+  .donut-center small {
+    font-size: 0.6rem;
+  }
 
-    .legend-item {
-        font-size: 0.9rem;
-    }
+  /* Ajuste de la leyenda */
+  .legend-item {
+    font-size: 0.9rem;
+  }
 
-    .btn-download {
-        font-size: 0.9rem;
-        padding: 0.6rem;
-    }
+  /* Ajuste de botón de descarga */
+  .btn-download {
+    font-size: 0.9rem;
+    padding: 0.6rem;
+  }
 }
 
-/* Efectos de carga */
+/* ======================================================
+   Efectos de carga (Skeleton / shimmer)
+   ====================================================== */
+
+/* Clase base para elementos que mostrarán efecto de carga */
 .loading {
-    position: relative;
-    overflow: hidden;
+  position: relative; /* Necesario para posicionar el pseudo-elemento */
+  overflow: hidden; /* Evita que la animación sobresalga del contenedor */
 }
 
+/* Pseudo-elemento que genera el efecto de brillo deslizante */
 .loading::after {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(
-        90deg,
-        transparent,
-        rgba(255, 255, 255, 0.6),
-        transparent
-    );
-    animation: loading 1.5s infinite;
+  content: ""; /* Contenido vacío */
+  position: absolute; /* Posición absoluta dentro del contenedor .loading */
+  top: 0; /* Inicia desde la parte superior */
+  left: -100%; /* Comienza fuera del contenedor, a la izquierda */
+  width: 100%; /* Ancho igual al contenedor */
+  height: 100%; /* Altura igual al contenedor */
+
+  /* Degradado lineal que crea el brillo */
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.6),
+    transparent
+  );
+
+  animation: loading 1.5s infinite; /* Animación continua deslizante */
 }
 
+/* Keyframes de animación del brillo */
 @keyframes loading {
-    0% {
-        left: -100%;
-    }
-    100% {
-        left: 100%;
-    }
+  0% {
+    left: -100%; /* Comienza fuera a la izquierda */
+  }
+  100% {
+    left: 100%; /* Termina fuera a la derecha */
+  }
 }
