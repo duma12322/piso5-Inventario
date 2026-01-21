@@ -43,7 +43,7 @@ class EstadoFuncionalPdfController extends Controller
         }
 
         // Crear PDF
-        $pdf = new TCPDF('P', 'mm', 'A4', true, 'UTF-8', false);
+        $pdf = new TCPDF('L', 'mm', 'A4', true, 'UTF-8', false);
         $pdf->SetCreator('Laravel TCPDF');
         $pdf->SetAuthor('Sistema de Inventario');
         $pdf->SetTitle('Estado Funcional de Equipos Activos');
@@ -101,26 +101,33 @@ class EstadoFuncionalPdfController extends Controller
             $html .= '<h4 style="background-color:#eee; padding:5px; border-left: 5px solid #b91d47;">&nbsp;' . e($estado) . ' (' . e($count) . ' equipos)</h4>';
 
             // Tabla de detalle de equipos
-            $html .= '<table border="1" cellpadding="4" cellspacing="0">
-                <thead>
-                    <tr style="background-color:#555; color:#ffffff;">
-                        <th width="15%">Bien</th>
-                        <th width="20%">Marca</th>
-                        <th width="25%">Modelo</th>
-                        <th width="20%">Funcional</th>
-                        <th width="20%">Gabinete</th>
-                    </tr>
-                </thead>
-                <tbody>';
+            $html .= '<table border="1" cellpadding="3" cellspacing="0">
+    <thead>
+        <tr style="background-color:#555; color:#ffffff; font-size:9px;">
+            <th width="12.5%">Bien</th>
+            <th width="12.5%">Marca</th>
+            <th width="12.5%">Modelo</th>
+            <th width="12.5%">Funcional</th>
+            <th width="12.5%">Gabinete</th>
+            <th width="12.5%">Dirección</th>
+            <th width="12.5%">División</th>
+            <th width="12.5%">Coordinación</th>
+        </tr>
+    </thead>
+    <tbody>';
 
             foreach ($equiposPorEstado as $equipoItem) {
                 $html .= '<tr>
-                    <td>' . e($equipoItem->numero_bien ?? 'N/A') . '</td>
-                    <td>' . e($equipoItem->marca ?? 'N/A') . '</td>
-                    <td>' . e($equipoItem->modelo ?? 'N/A') . '</td>
-                    <td>' . e($equipoItem->estado_funcional ?? 'Desconocido') . '</td>
-                    <td>' . e($equipoItem->estado_gabinete ?? 'Desconocido') . '</td>
-                </tr>';
+        <td style="font-size:7px; text-align:center;">' . e($equipoItem->numero_bien ?? 'N/A') . '</td>
+        <td style="font-size:7px;">' . e($equipoItem->marca ?? 'N/A') . '</td>
+        <td style="font-size:8px;">' . e($equipoItem->modelo ?? 'N/A') . '</td>
+        <td style="font-size:8px;">' . e($equipoItem->estado_funcional ?? 'Desconocido') . '</td>
+        <td style="font-size:8px;">' . e($equipoItem->estado_gabinete ?? 'Desconocido') . '</td>
+        <td style="font-size:8px;">' . e($equipoItem->direccion->nombre_direccion ?? 'N/A') . '</td>
+        <td style="font-size:8px;">' . e($equipoItem->division->nombre_division ?? 'N/A') . '</td>
+        <td style="font-size:8px;">' . e($equipoItem->coordinacion->nombre_coordinacion ?? 'N/A') . '</td>
+
+    </tr>';
             }
 
             $html .= '</tbody></table><br>';
