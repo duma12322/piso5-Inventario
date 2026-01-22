@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Usuario;
 use Illuminate\Support\Facades\Auth;
+// Importa el modelo LogModel para guardar acciones de los usuarios en la base de datos
+use App\Models\Log as LogModel;
 
 /**
  * Controlador para manejar los usuarios del sistema.
@@ -70,9 +72,19 @@ class UsuarioController extends Controller
             'rol' => $request->rol,
         ]);
 
-        /** @var \App\Models\Usuario|null $usuario */
-        $usuario = Auth::user();
-        logAction($usuario->name ?? 'sistema', "Agregó usuario: " . $request->usuario);
+        $usuarioLog = Auth::check() ? Auth::user()->usuario : 'Sistema';
+
+        try {
+            LogModel::create([
+                'usuario' => $usuarioLog, // quien hizo la acción
+                'accion' => 'Agregó el usuario: ' . $usuarioNuevo->usuario, // usuario recién creado
+                'fecha' => now()
+            ]);
+        } catch (\Exception $e) {
+            \Illuminate\Support\Facades\Log::error(
+                'Error guardando log: ' . $e->getMessage()
+            );
+        }
 
         return redirect()->route('usuarios.index')->with('success', 'Usuario agregado correctamente.');
     }
@@ -122,9 +134,19 @@ class UsuarioController extends Controller
             'rol' => $request->rol,
         ]);
 
-        /** @var \App\Models\Usuario|null $usuarioAuth */
-        $usuarioAuth = Auth::user();
-        logAction($usuarioAuth->name ?? 'sistema', "Editó usuario ID: $id");
+        $usuarioLog = Auth::check() ? Auth::user()->usuario : 'Sistema';
+
+        try {
+            LogModel::create([
+                'usuario' => $usuarioLog,
+                'accion' => 'Actualizó el usuario: ' . $usuario->usuario,
+                'fecha' => now()
+            ]);
+        } catch (\Exception $e) {
+            \Illuminate\Support\Facades\Log::error(
+                'Error guardando log: ' . $e->getMessage()
+            );
+        }
 
         return redirect()->route('usuarios.index')->with('success', 'Usuario actualizado correctamente.');
     }
@@ -138,12 +160,30 @@ class UsuarioController extends Controller
      */
     public function destroy($id)
     {
+        // Obtener el usuario a eliminar
         $usuario = Usuario::findOrFail($id);
+
+        // Guardar el nombre antes de eliminar
+        $usuarioNombre = $usuario->usuario;
+
+        // Eliminar usuario
         $usuario->eliminarUsuario();
 
-        /** @var \App\Models\Usuario|null $usuarioAuth */
-        $usuarioAuth = Auth::user();
-        logAction($usuarioAuth->name ?? 'sistema', "Eliminó usuario ID: $id");
+        // Usuario que realizó la acción
+        $usuarioLog = Auth::check() ? Auth::user()->usuario : 'Sistema';
+
+        // Guardar log
+        try {
+            LogModel::create([
+                'usuario' => $usuarioLog,
+                'accion' => 'Eliminó el usuario: ' . $usuarioNombre,
+                'fecha' => now()
+            ]);
+        } catch (\Exception $e) {
+            \Illuminate\Support\Facades\Log::error(
+                'Error guardando log: ' . $e->getMessage()
+            );
+        }
 
         return redirect()->route('usuarios.index')->with('success', 'Usuario eliminado correctamente.');
     }
