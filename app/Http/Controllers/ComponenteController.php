@@ -829,7 +829,13 @@ class ComponenteController extends Controller
                 $data['marca'] = $data['marca_tarjeta_grafica'] ?? $data['marca'];
                 $data['modelo'] = $data['modelo_tarjeta_grafica'] ?? $data['modelo'];
                 $data['capacidad'] = $data['capacidad_tarjeta_grafica'] ?? $data['capacidad'];
-                if (isset($data['salidas_video']) && is_array($data['salidas_video'])) $data['salidas_video'] = implode(', ', $data['salidas_video']);
+
+                if (!empty($data['salidas_video'])) {
+                    $data['salidas_video'] = is_array($data['salidas_video']) ? implode(',', $data['salidas_video']) : $data['salidas_video'];
+                } else {
+                    $data['salidas_video'] = null;
+                }
+
                 $data['estado'] = $data['estado_tarjeta_grafica'] ?? $data['estado'];
                 $data['detalles'] = $data['detalles_tarjeta_grafica'] ?? $data['detalles'] ?? null;
                 break;
@@ -837,21 +843,37 @@ class ComponenteController extends Controller
             case 'Tarjeta Red':
                 $data['marca'] = $data['marca_tarjeta_red'] ?? $data['marca'];
                 $data['modelo'] = $data['modelo_tarjeta_red'] ?? $data['modelo'];
-                if (!empty($data['tipo_tarjeta_red'])) $data['tipo'] = is_array($data['tipo_tarjeta_red']) ? implode(', ', $data['tipo_tarjeta_red']) : (string)$data['tipo_tarjeta_red'];
-                else $data['tipo'] = null;
+
+                if (!empty($data['tipo_tarjeta_red'])) {
+                    $data['tipo'] = is_array($data['tipo_tarjeta_red'])
+                        ? implode(', ', $data['tipo_tarjeta_red'])
+                        : $data['tipo_tarjeta_red'];
+                } else {
+                    $data['tipo'] = null;
+                }
+
                 $data['velocidad_transferencia'] = $data['velocidad_transferencia'] ?? $data['velocidad_transferencia'];
                 $data['estado'] = $data['estado_tarjeta_red'] ?? $data['estado'];
                 $data['detalles'] = $data['detalles_tarjeta_red'] ?? $data['detalles'] ?? null;
                 break;
 
+
             case 'Unidad Optica':
                 $data['marca'] = $data['marca_unidad'] ?? $data['marca'];
                 $data['tipo'] = $data['tipo_unidad'] ?? $data['tipo'];
-                if (isset($data['tipos_discos']) && is_array($data['tipos_discos'])) $data['tipos_discos'] = implode(',', $data['tipos_discos']);
-                else $data['tipos_discos'] = null;
+
+                if (!empty($data['tipos_discos'])) {
+                    $data['tipos_discos'] = is_array($data['tipos_discos'])
+                        ? implode(', ', $data['tipos_discos'])
+                        : $data['tipos_discos'];
+                } else {
+                    $data['tipos_discos'] = null;
+                }
+
                 $data['estado'] = $data['estado_unidad'] ?? $data['estado'];
                 $data['detalles'] = $data['detalles_unidad'] ?? $data['detalles'] ?? null;
                 break;
+
 
             case 'Fan Cooler':
                 $data['marca'] = $data['marca_fan'] ?? $data['marca'];
