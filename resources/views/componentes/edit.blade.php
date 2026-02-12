@@ -279,6 +279,15 @@
                                 value="{{ old('slot_memoria', $componente->slot_memoria) }}">
                         </div>
                         <div class="form-group">
+                            <label class="form-label"><i class="fas fa-tachometer-alt"></i> Frecuencia</label>
+                            <input
+                                type="text"
+                                name="frecuencia_ram"
+                                class="form-input"
+                                placeholder="Ej: 3200MHz"
+                                value="{{ old('frecuencia_ram', $componente->frecuencia) }}">
+                        </div>
+                        <div class="form-group">
                             <label class="form-label">Estado</label>
                             <select name="estado_memoria" class="form-select">
                                 @foreach (['Buen Funcionamiento', 'Operativo', 'Sin Funcionar'] as $est)
@@ -616,6 +625,15 @@
                     </div>
                 </div>
             </div>
+        </div>
+        {{-- ============================================================
+         Botón de envío del formulario
+         ============================================================ --}}
+
+        <div class="form-actions mt-4">
+            <button type="submit" class="btn-submit">
+                <i class="fas fa-save"></i> Actualizar Componente
+            </button>
         </div>
     </form>
 </div>
